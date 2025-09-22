@@ -1,0 +1,56 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run CLI",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/bin.ts",
+      "args": [],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "tsx",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "name": "Run CLI with DevTools",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/bin.ts",
+      "args": [],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "tsx",
+      "env": {
+        "NODE_ENV": "development",
+        "EFFECT_DEV_TOOLS": "true"
+      }
+    },
+    {
+      "name": "Debug Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/vitest",
+      "args": ["run", "--reporter=verbose"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_ENV": "test"
+      }
+    },
+    {
+      "name": "Debug Current Test File",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/vitest",
+      "args": ["run", "${file}", "--reporter=verbose"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_ENV": "test"
+      }
+    }
+  ]
+}
