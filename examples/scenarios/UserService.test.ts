@@ -2,39 +2,39 @@
  * UserService 테스트 - 테스트 의존성 분석을 위한 샘플 파일
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'  // test-utility
-import { jest } from '@jest/globals'                                      // test-utility
-import axios from 'axios'                                                 // test-utility (mocked)
-import { UserService } from './UserService.js'                           // test-target
-import { Logger } from './utils/Logger.js'                               // test-target
-import { Database } from '@/database/Database.js'                        // test-target
-import { setupTestDatabase, cleanupTestDatabase } from '../test-utils/database-setup.js'  // test-setup
-import { createMockUser, createMockUserRequest } from '../__mocks__/user-mocks.js'       // test-setup
-import type { User, UserCreateRequest } from './types/User.js'           // test-target (types)
+import { Database } from "@/database/Database.js" // test-target
+import { jest as _jest } from "@jest/globals" // test-utility
+import axios from "axios" // test-utility (mocked)
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest" // test-utility
+import { createMockUser, createMockUserRequest } from "../__mocks__/user-mocks.js" // test-setup
+import { cleanupTestDatabase, setupTestDatabase } from "../test-utils/database-setup.js" // test-setup
+import type { User as _User, UserCreateRequest as _UserCreateRequest } from "./types/User.js" // test-target (types)
+import { UserService } from "./UserService.js" // test-target
+import { Logger } from "./utils/Logger.js" // test-target
 
 // 외부 라이브러리 모킹
-vi.mock('axios')                                                          // test-utility (mock setup)
-vi.mock('./utils/Logger.js')                                            // test-setup (mock)
-vi.mock('@/database/Database.js')                                       // test-setup (mock)
+vi.mock("axios") // test-utility (mock setup)
+vi.mock("./utils/Logger.js") // test-setup (mock)
+vi.mock("@/database/Database.js") // test-setup (mock)
 
 const mockedAxios = vi.mocked(axios)
 const MockedLogger = vi.mocked(Logger)
 const MockedDatabase = vi.mocked(Database)
 
-describe('UserService', () => {
+describe("UserService", () => {
   let userService: UserService
   let mockLogger: vi.Mocked<Logger>
   let mockDatabase: vi.Mocked<Database>
 
   const defaultOptions = {
-    apiBaseUrl: 'https://api.test.com',
+    apiBaseUrl: "https://api.test.com",
     timeout: 5000,
     retries: 3
   }
 
   beforeEach(async () => {
     // 테스트 환경 설정
-    await setupTestDatabase()                                             // test-setup
+    await setupTestDatabase() // test-setup
 
     // 목 객체 초기화
     mockLogger = new MockedLogger() as vi.Mocked<Logger>
@@ -55,27 +55,27 @@ describe('UserService', () => {
   })
 
   afterEach(async () => {
-    await cleanupTestDatabase()                                           // test-setup
+    await cleanupTestDatabase() // test-setup
     vi.clearAllMocks()
   })
 
-  describe('createUser', () => {
-    it('should create a new user successfully', async () => {
+  describe("createUser", () => {
+    it("should create a new user successfully", async () => {
       // Arrange
-      const userRequest = createMockUserRequest({                         // test-setup
-        name: 'John Doe',
-        email: 'john@example.com'
+      const userRequest = createMockUserRequest({ // test-setup
+        name: "John Doe",
+        email: "john@example.com"
       })
-      const expectedUser = createMockUser({                               // test-setup
-        id: '123',
-        name: 'John Doe',
-        email: 'john@example.com'
+      const expectedUser = createMockUser({ // test-setup
+        id: "123",
+        name: "John Doe",
+        email: "john@example.com"
       })
 
       mockedAxios.post.mockResolvedValue({
         data: expectedUser,
         status: 201,
-        statusText: 'Created',
+        statusText: "Created",
         headers: {},
         config: {} as any
       })
@@ -92,36 +92,36 @@ describe('UserService', () => {
         userRequest,
         expect.objectContaining({
           timeout: defaultOptions.timeout,
-          headers: { 'Content-Type': 'application/json' }
+          headers: { "Content-Type": "application/json" }
         })
       )
       expect(mockDatabase.saveUser).toHaveBeenCalledWith(expectedUser)
       expect(mockLogger.info).toHaveBeenCalledWith(
-        'User created successfully',
+        "User created successfully",
         { userId: expectedUser.id }
       )
     })
 
-    it('should handle API errors during user creation', async () => {
+    it("should handle API errors during user creation", async () => {
       // Arrange
       const userRequest = createMockUserRequest()
-      const apiError = new Error('API Error')
+      const apiError = new Error("API Error")
 
       mockedAxios.post.mockRejectedValue(apiError)
 
       // Act & Assert
-      await expect(userService.createUser(userRequest)).rejects.toThrow('사용자 생성 실패')
+      await expect(userService.createUser(userRequest)).rejects.toThrow("사용자 생성 실패")
       expect(mockLogger.error).toHaveBeenCalledWith(
-        'Failed to create user',
+        "Failed to create user",
         { error: apiError, userData: userRequest }
       )
     })
 
-    it('should handle database errors during user creation', async () => {
+    it("should handle database errors during user creation", async () => {
       // Arrange
       const userRequest = createMockUserRequest()
       const user = createMockUser()
-      const dbError = new Error('Database Error')
+      const dbError = new Error("Database Error")
 
       mockedAxios.post.mockResolvedValue({ data: user } as any)
       mockDatabase.saveUser.mockRejectedValue(dbError)
@@ -131,11 +131,11 @@ describe('UserService', () => {
     })
   })
 
-  describe('getUserById', () => {
-    const userId = 'user-123'
+  describe("getUserById", () => {
+    const userId = "user-123"
     const user = createMockUser({ id: userId })
 
-    it('should return user from local database if available', async () => {
+    it("should return user from local database if available", async () => {
       // Arrange
       mockDatabase.findUserById.mockResolvedValue(user)
 
@@ -148,7 +148,7 @@ describe('UserService', () => {
       expect(mockedAxios.get).not.toHaveBeenCalled()
     })
 
-    it('should fetch user from API if not in local database', async () => {
+    it("should fetch user from API if not in local database", async () => {
       // Arrange
       mockDatabase.findUserById.mockResolvedValue(null)
       mockedAxios.get.mockResolvedValue({ data: user } as any)
@@ -166,7 +166,7 @@ describe('UserService', () => {
       expect(mockDatabase.saveUser).toHaveBeenCalledWith(user)
     })
 
-    it('should return null for 404 errors', async () => {
+    it("should return null for 404 errors", async () => {
       // Arrange
       mockDatabase.findUserById.mockResolvedValue(null)
       const error = {
@@ -183,29 +183,29 @@ describe('UserService', () => {
       expect(result).toBeNull()
     })
 
-    it('should throw for other API errors', async () => {
+    it("should throw for other API errors", async () => {
       // Arrange
       mockDatabase.findUserById.mockResolvedValue(null)
-      const error = new Error('Network Error')
+      const error = new Error("Network Error")
       mockedAxios.get.mockRejectedValue(error)
       mockedAxios.isAxiosError.mockReturnValue(false)
 
       // Act & Assert
       await expect(userService.getUserById(userId)).rejects.toThrow(error)
       expect(mockLogger.error).toHaveBeenCalledWith(
-        'Failed to fetch user',
+        "Failed to fetch user",
         { error, userId }
       )
     })
   })
 
-  describe('updateUser', () => {
-    const userId = 'user-123'
+  describe("updateUser", () => {
+    const userId = "user-123"
     const existingUser = createMockUser({ id: userId })
-    const updateData = { name: 'Updated Name' }
+    const updateData = { name: "Updated Name" }
     const updatedUser = { ...existingUser, ...updateData }
 
-    it('should update user successfully', async () => {
+    it("should update user successfully", async () => {
       // Arrange
       mockDatabase.findUserById.mockResolvedValue(existingUser)
       mockedAxios.get.mockResolvedValue({ data: existingUser } as any)
@@ -225,7 +225,7 @@ describe('UserService', () => {
       expect(mockDatabase.updateUser).toHaveBeenCalledWith(userId, updatedUser)
     })
 
-    it('should throw error if user does not exist', async () => {
+    it("should throw error if user does not exist", async () => {
       // Arrange
       mockDatabase.findUserById.mockResolvedValue(null)
       mockedAxios.get.mockRejectedValue({ response: { status: 404 } })
@@ -237,10 +237,10 @@ describe('UserService', () => {
     })
   })
 
-  describe('deleteUser', () => {
-    const userId = 'user-123'
+  describe("deleteUser", () => {
+    const userId = "user-123"
 
-    it('should delete user successfully', async () => {
+    it("should delete user successfully", async () => {
       // Arrange
       mockedAxios.delete.mockResolvedValue({ status: 204 } as any)
       mockDatabase.deleteUser.mockResolvedValue(undefined)
@@ -255,32 +255,32 @@ describe('UserService', () => {
       )
       expect(mockDatabase.deleteUser).toHaveBeenCalledWith(userId)
       expect(mockLogger.info).toHaveBeenCalledWith(
-        'User deleted successfully',
+        "User deleted successfully",
         { userId }
       )
     })
 
-    it('should handle deletion errors', async () => {
+    it("should handle deletion errors", async () => {
       // Arrange
-      const error = new Error('Deletion failed')
+      const error = new Error("Deletion failed")
       mockedAxios.delete.mockRejectedValue(error)
 
       // Act & Assert
       await expect(userService.deleteUser(userId)).rejects.toThrow(error)
       expect(mockLogger.error).toHaveBeenCalledWith(
-        'Failed to delete user',
+        "Failed to delete user",
         { error, userId }
       )
     })
   })
 
-  describe('listUsers', () => {
+  describe("listUsers", () => {
     const users = [
-      createMockUser({ id: '1', name: 'User 1' }),
-      createMockUser({ id: '2', name: 'User 2' })
+      createMockUser({ id: "1", name: "User 1" }),
+      createMockUser({ id: "2", name: "User 2" })
     ]
 
-    it('should list users with default pagination', async () => {
+    it("should list users with default pagination", async () => {
       // Arrange
       mockedAxios.get.mockResolvedValue({ data: users } as any)
       mockDatabase.saveUser.mockResolvedValue(undefined)
@@ -300,7 +300,7 @@ describe('UserService', () => {
       expect(mockDatabase.saveUser).toHaveBeenCalledTimes(users.length)
     })
 
-    it('should list users with custom pagination', async () => {
+    it("should list users with custom pagination", async () => {
       // Arrange
       const limit = 10
       const offset = 20
@@ -322,14 +322,14 @@ describe('UserService', () => {
     })
   })
 
-  describe('getUserStats', () => {
+  describe("getUserStats", () => {
     const stats = {
       total: 100,
       active: 85,
       lastMonth: 15
     }
 
-    it('should return user statistics', async () => {
+    it("should return user statistics", async () => {
       // Arrange
       mockedAxios.get.mockResolvedValue({ data: stats } as any)
 
@@ -344,38 +344,38 @@ describe('UserService', () => {
       )
     })
 
-    it('should handle stats API errors', async () => {
+    it("should handle stats API errors", async () => {
       // Arrange
-      const error = new Error('Stats API Error')
+      const error = new Error("Stats API Error")
       mockedAxios.get.mockRejectedValue(error)
 
       // Act & Assert
       await expect(userService.getUserStats()).rejects.toThrow(error)
       expect(mockLogger.error).toHaveBeenCalledWith(
-        'Failed to get user stats',
+        "Failed to get user stats",
         { error }
       )
     })
   })
 
-  describe('edge cases and error handling', () => {
-    it('should handle network timeouts', async () => {
+  describe("edge cases and error handling", () => {
+    it("should handle network timeouts", async () => {
       // Arrange
-      const timeoutError = new Error('TIMEOUT')
+      const timeoutError = new Error("TIMEOUT")
       mockedAxios.post.mockRejectedValue(timeoutError)
 
       // Act & Assert
       await expect(userService.createUser(createMockUserRequest()))
-        .rejects.toThrow('사용자 생성 실패')
+        .rejects.toThrow("사용자 생성 실패")
     })
 
-    it('should handle malformed API responses', async () => {
+    it("should handle malformed API responses", async () => {
       // Arrange
       mockedAxios.get.mockResolvedValue({ data: null } as any)
       mockDatabase.findUserById.mockResolvedValue(null)
 
       // Act
-      const result = await userService.getUserById('invalid-id')
+      const result = await userService.getUserById("invalid-id")
 
       // Assert
       expect(result).toBeNull()

@@ -2,17 +2,17 @@
  * 참조 관계용 메타데이터 추출기
  */
 
-import * as path from 'node:path'
-import { IdGenerator } from '../utils/IdGenerator.js'
+import * as path from "node:path"
+import type { ClassifiedDependency, DependencyNode } from "../types/DependencyClassification.js"
 import type {
-  FileMetadata,
+  DependencyCategory,
   DependencyReference,
-  ProjectReferenceData,
+  FileMetadata,
   FileType,
-  DependencyCategory
-} from '../types/ReferenceMetadata.js'
-import type { UnifiedAnalysisResult } from './UnifiedDependencyAnalyzer.js'
-import type { DependencyNode, ClassifiedDependency } from '../types/DependencyClassification.js'
+  ProjectReferenceData
+} from "../types/ReferenceMetadata.js"
+import { IdGenerator } from "../utils/IdGenerator.js"
+import type { UnifiedAnalysisResult } from "./UnifiedDependencyAnalyzer.js"
 
 export class MetadataExtractor {
   private idGenerator: IdGenerator
@@ -24,8 +24,8 @@ export class MetadataExtractor {
     idGenerator?: IdGenerator
   ) {
     this.idGenerator = idGenerator || new IdGenerator({
-      strategy: 'path-based',
-      prefix: 'file'
+      strategy: "path-based",
+      prefix: "file"
     })
   }
 
@@ -50,7 +50,7 @@ export class MetadataExtractor {
         root: this.projectRoot,
         name: path.basename(this.projectRoot),
         analyzedAt: new Date(),
-        version: '1.0.0'
+        version: "1.0.0"
       },
       files,
       statistics,
@@ -67,7 +67,7 @@ export class MetadataExtractor {
 
     // 모든 노드에 대해 ID 생성
     for (const [filePath, node] of analysisResult.graph.nodes.entries()) {
-      if (node.nodeType !== 'library') { // 라이브러리 노드는 제외
+      if (node.nodeType !== "library") { // 라이브러리 노드는 제외
         const fileId = this.idGenerator.generateFileId(filePath, this.projectRoot)
         this.fileIdMap.set(filePath, fileId)
       }
@@ -77,11 +77,11 @@ export class MetadataExtractor {
   /**
    * 파일 메타데이터 추출
    */
-  private extractFileMetadata(analysisResult: UnifiedAnalysisResult): FileMetadata[] {
-    const files: FileMetadata[] = []
+  private extractFileMetadata(analysisResult: UnifiedAnalysisResult): Array<FileMetadata> {
+    const files: Array<FileMetadata> = []
 
     for (const [filePath, node] of analysisResult.graph.nodes.entries()) {
-      if (node.nodeType === 'library') continue // 라이브러리 노드는 제외
+      if (node.nodeType === "library") continue // 라이브러리 노드는 제외
 
       const fileMetadata = this.extractSingleFileMetadata(filePath, node)
       files.push(fileMetadata)
@@ -108,7 +108,7 @@ export class MetadataExtractor {
       complexity: this.extractComplexity(node),
       maintainability: this.extractMaintainability(node),
       dependencies,
-      dependents: node.dependents.map(dep => this.fileIdMap.get(dep)).filter(Boolean) as string[],
+      dependents: node.dependents.map((dep) => this.fileIdMap.get(dep)).filter(Boolean) as Array<string>,
       metadata: {
         framework: node.framework,
         testCoverage: this.extractTestCoverage(node),
@@ -122,8 +122,8 @@ export class MetadataExtractor {
   /**
    * 의존성을 카테고리별로 분류
    */
-  private categorizeDependencies(dependencies: ClassifiedDependency[]): FileMetadata['dependencies'] {
-    const categorized: FileMetadata['dependencies'] = {
+  private categorizeDependencies(dependencies: Array<ClassifiedDependency>): FileMetadata["dependencies"] {
+    const categorized: FileMetadata["dependencies"] = {
       internal: [],
       external: [],
       builtin: []
@@ -133,46 +133,46 @@ export class MetadataExtractor {
       const depRef = this.createDependencyReference(dep)
 
       switch (dep.type) {
-        case 'internal-module':
+        case "internal-module":
           categorized.internal.push(depRef)
           break
 
-        case 'external-library':
+        case "external-library":
           categorized.external.push(depRef)
           break
 
-        case 'builtin-module':
+        case "builtin-module":
           categorized.builtin.push(depRef)
           break
 
-        case 'test-target':
-        case 'test-utility':
-        case 'test-setup':
+        case "test-target":
+        case "test-utility":
+        case "test-setup":
           if (!categorized.test) {
             categorized.test = { targets: [], utilities: [], setup: [] }
           }
 
-          if (dep.type === 'test-target') {
+          if (dep.type === "test-target") {
             categorized.test.targets.push(depRef)
-          } else if (dep.type === 'test-utility') {
+          } else if (dep.type === "test-utility") {
             categorized.test.utilities.push(depRef)
-          } else if (dep.type === 'test-setup') {
+          } else if (dep.type === "test-setup") {
             categorized.test.setup.push(depRef)
           }
           break
 
-        case 'doc-reference':
-        case 'doc-link':
-        case 'doc-asset':
+        case "doc-reference":
+        case "doc-link":
+        case "doc-asset":
           if (!categorized.docs) {
             categorized.docs = { references: [], links: [], assets: [] }
           }
 
-          if (dep.type === 'doc-reference') {
+          if (dep.type === "doc-reference") {
             categorized.docs.references.push(depRef)
-          } else if (dep.type === 'doc-link') {
+          } else if (dep.type === "doc-link") {
             categorized.docs.links.push(depRef)
-          } else if (dep.type === 'doc-asset') {
+          } else if (dep.type === "doc-asset") {
             categorized.docs.assets.push(depRef)
           }
           break
@@ -199,7 +199,7 @@ export class MetadataExtractor {
       type: dep.type,
       line: dep.line ?? 0,
       confidence: dep.confidence,
-      isTypeOnly: 'isTypeOnly' in dep ? dep.isTypeOnly : false,
+      isTypeOnly: "isTypeOnly" in dep ? dep.isTypeOnly : false,
       targetFileId
     }
   }
@@ -207,8 +207,8 @@ export class MetadataExtractor {
   /**
    * 참조 관계 그래프 구성
    */
-  private buildReferenceGraph(files: FileMetadata[]): ProjectReferenceData['referenceGraph'] {
-    const edges: ProjectReferenceData['referenceGraph']['edges'] = []
+  private buildReferenceGraph(files: Array<FileMetadata>): ProjectReferenceData["referenceGraph"] {
+    const edges: ProjectReferenceData["referenceGraph"]["edges"] = []
 
     for (const file of files) {
       // internal 의존성에 대해서만 엣지 생성
@@ -258,7 +258,7 @@ export class MetadataExtractor {
   /**
    * 통계 정보 계산
    */
-  private calculateStatistics(files: FileMetadata[]): ProjectReferenceData['statistics'] {
+  private calculateStatistics(files: Array<FileMetadata>): ProjectReferenceData["statistics"] {
     const filesByType: Record<FileType, number> = {
       code: 0,
       test: 0,
@@ -269,11 +269,11 @@ export class MetadataExtractor {
       internal: 0,
       external: 0,
       builtin: 0,
-      'test-utility': 0,
-      'test-setup': 0,
-      'doc-reference': 0,
-      'doc-link': 0,
-      'doc-asset': 0
+      "test-utility": 0,
+      "test-setup": 0,
+      "doc-reference": 0,
+      "doc-link": 0,
+      "doc-asset": 0
     }
 
     let totalDependencies = 0
@@ -292,23 +292,23 @@ export class MetadataExtractor {
 
       if (file.dependencies.test) {
         const testDeps = file.dependencies.test.targets.length +
-                        file.dependencies.test.utilities.length +
-                        file.dependencies.test.setup.length
+          file.dependencies.test.utilities.length +
+          file.dependencies.test.setup.length
         totalDependencies += testDeps
 
-        dependenciesByCategory['test-utility'] += file.dependencies.test.utilities.length
-        dependenciesByCategory['test-setup'] += file.dependencies.test.setup.length
+        dependenciesByCategory["test-utility"] += file.dependencies.test.utilities.length
+        dependenciesByCategory["test-setup"] += file.dependencies.test.setup.length
       }
 
       if (file.dependencies.docs) {
         const docDeps = file.dependencies.docs.references.length +
-                       file.dependencies.docs.links.length +
-                       file.dependencies.docs.assets.length
+          file.dependencies.docs.links.length +
+          file.dependencies.docs.assets.length
         totalDependencies += docDeps
 
-        dependenciesByCategory['doc-reference'] += file.dependencies.docs.references.length
-        dependenciesByCategory['doc-link'] += file.dependencies.docs.links.length
-        dependenciesByCategory['doc-asset'] += file.dependencies.docs.assets.length
+        dependenciesByCategory["doc-reference"] += file.dependencies.docs.references.length
+        dependenciesByCategory["doc-link"] += file.dependencies.docs.links.length
+        dependenciesByCategory["doc-asset"] += file.dependencies.docs.assets.length
       }
     }
 
@@ -319,49 +319,63 @@ export class MetadataExtractor {
       dependenciesByCategory,
       averageDependenciesPerFile: totalDependencies / files.length,
       circularDependencies: 0, // TODO: 구현 필요
-      orphanedFiles: files.filter(f => f.dependents.length === 0 &&
-                                      f.dependencies.internal.length === 0).length
+      orphanedFiles: files.filter((f) =>
+        f.dependents.length === 0 &&
+        f.dependencies.internal.length === 0
+      ).length
     }
   }
 
   // Helper methods
   private mapNodeTypeToFileType(nodeType: string): FileType {
     switch (nodeType) {
-      case 'test': return 'test'
-      case 'docs': return 'docs'
-      case 'code':
-      default: return 'code'
+      case "test":
+        return "test"
+      case "docs":
+        return "docs"
+      case "code":
+      default:
+        return "code"
     }
   }
 
   private mapTypeToCategory(type: string): DependencyCategory {
     switch (type) {
-      case 'internal-module': return 'internal'
-      case 'external-library': return 'external'
-      case 'builtin-module': return 'builtin'
-      case 'test-target':
-      case 'test-utility': return 'test-utility'
-      case 'test-setup': return 'test-setup'
-      case 'doc-reference': return 'doc-reference'
-      case 'doc-link': return 'doc-link'
-      case 'doc-asset': return 'doc-asset'
-      default: return 'external'
+      case "internal-module":
+        return "internal"
+      case "external-library":
+        return "external"
+      case "builtin-module":
+        return "builtin"
+      case "test-target":
+      case "test-utility":
+        return "test-utility"
+      case "test-setup":
+        return "test-setup"
+      case "doc-reference":
+        return "doc-reference"
+      case "doc-link":
+        return "doc-link"
+      case "doc-asset":
+        return "doc-asset"
+      default:
+        return "external"
     }
   }
 
   private extractComplexity(node: DependencyNode): number {
-    return typeof node.metadata.complexity === 'number' ? node.metadata.complexity : 1
+    return typeof node.metadata.complexity === "number" ? node.metadata.complexity : 1
   }
 
   private extractMaintainability(node: DependencyNode): number {
-    return typeof node.metadata.maintainability === 'number' ? node.metadata.maintainability : 0.5
+    return typeof node.metadata.maintainability === "number" ? node.metadata.maintainability : 0.5
   }
 
   private extractTestCoverage(node: DependencyNode): number | undefined {
-    return typeof node.metadata.testCoverage === 'number' ? node.metadata.testCoverage : undefined
+    return typeof node.metadata.testCoverage === "number" ? node.metadata.testCoverage : undefined
   }
 
   private extractDocumentation(node: DependencyNode): number | undefined {
-    return typeof node.metadata.documentation === 'number' ? node.metadata.documentation : undefined
+    return typeof node.metadata.documentation === "number" ? node.metadata.documentation : undefined
   }
 }

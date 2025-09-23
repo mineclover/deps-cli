@@ -2,9 +2,9 @@
  * 파일 고유 식별자 생성 유틸리티
  */
 
-import * as crypto from 'node:crypto'
-import * as path from 'node:path'
-import type { IdGenerationConfig } from '../types/ReferenceMetadata.js'
+import * as crypto from "node:crypto"
+import * as path from "node:path"
+import type { IdGenerationConfig } from "../types/ReferenceMetadata.js"
 
 export class IdGenerator {
   private counter = 0
@@ -19,13 +19,13 @@ export class IdGenerator {
     const relativePath = path.relative(projectRoot, filePath)
 
     switch (this.config.strategy) {
-      case 'hash':
+      case "hash":
         return this.generateHashId(relativePath)
 
-      case 'path-based':
+      case "path-based":
         return this.generatePathBasedId(relativePath)
 
-      case 'sequential':
+      case "sequential":
         return this.generateSequentialId(relativePath)
 
       default:
@@ -38,12 +38,12 @@ export class IdGenerator {
    */
   private generateHashId(relativePath: string): string {
     const hash = crypto
-      .createHash('sha256')
+      .createHash("sha256")
       .update(relativePath)
-      .digest('hex')
+      .digest("hex")
       .substring(0, this.config.hashLength || 8)
 
-    const prefix = this.config.prefix || 'file'
+    const prefix = this.config.prefix || "file"
     return `${prefix}_${hash}`
   }
 
@@ -53,12 +53,12 @@ export class IdGenerator {
   private generatePathBasedId(relativePath: string): string {
     // 경로를 안전한 식별자로 변환
     const safeId = relativePath
-      .replace(/[^a-zA-Z0-9]/g, '_')  // 특수문자를 언더스코어로
-      .replace(/_+/g, '_')           // 연속된 언더스코어 제거
-      .replace(/^_|_$/g, '')         // 시작/끝 언더스코어 제거
+      .replace(/[^a-zA-Z0-9]/g, "_") // 특수문자를 언더스코어로
+      .replace(/_+/g, "_") // 연속된 언더스코어 제거
+      .replace(/^_|_$/g, "") // 시작/끝 언더스코어 제거
       .toLowerCase()
 
-    const prefix = this.config.prefix || 'file'
+    const prefix = this.config.prefix || "file"
     let id = `${prefix}_${safeId}`
 
     // 중복 방지
@@ -77,9 +77,9 @@ export class IdGenerator {
   /**
    * 순차적 ID 생성
    */
-  private generateSequentialId(relativePath: string): string {
-    const prefix = this.config.prefix || 'file'
-    const id = `${prefix}_${String(this.counter).padStart(4, '0')}`
+  private generateSequentialId(_relativePath: string): string {
+    const prefix = this.config.prefix || "file"
+    const id = `${prefix}_${String(this.counter).padStart(4, "0")}`
     this.counter++
     return id
   }
@@ -105,8 +105,8 @@ export class IdGenerator {
  */
 export function createDefaultIdGenerator(): IdGenerator {
   return new IdGenerator({
-    strategy: 'path-based',
-    prefix: 'file'
+    strategy: "path-based",
+    prefix: "file"
   })
 }
 
@@ -115,8 +115,8 @@ export function createDefaultIdGenerator(): IdGenerator {
  */
 export function createHashIdGenerator(hashLength = 8): IdGenerator {
   return new IdGenerator({
-    strategy: 'hash',
-    prefix: 'f',
+    strategy: "hash",
+    prefix: "f",
     hashLength
   })
 }
@@ -126,7 +126,7 @@ export function createHashIdGenerator(hashLength = 8): IdGenerator {
  */
 export function createSequentialIdGenerator(): IdGenerator {
   return new IdGenerator({
-    strategy: 'sequential',
-    prefix: 'file'
+    strategy: "sequential",
+    prefix: "file"
   })
 }

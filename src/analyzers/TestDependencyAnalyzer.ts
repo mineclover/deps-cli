@@ -2,17 +2,17 @@
  * 테스트 파일의 의존성을 분석하여 테스트 대상과 유틸리티를 구분하는 분석기
  */
 
-import * as path from 'node:path'
-import * as fs from 'node:fs'
-import type { TestDependency } from '../types/DependencyClassification.js'
+import * as fs from "node:fs"
+import * as path from "node:path"
+import type { TestDependency } from "../types/DependencyClassification.js"
 
 export interface TestAnalysisResult {
-  testTargets: TestDependency[]        // 테스트 대상 코드
-  testUtilities: TestDependency[]      // 테스트 유틸리티
-  testSetup: TestDependency[]          // 테스트 설정/목업
+  testTargets: Array<TestDependency> // 테스트 대상 코드
+  testUtilities: Array<TestDependency> // 테스트 유틸리티
+  testSetup: Array<TestDependency> // 테스트 설정/목업
   testMetadata: {
-    framework: string                  // jest, vitest, mocha 등
-    testType: 'unit' | 'integration' | 'e2e' | 'component'
+    framework: string // jest, vitest, mocha 등
+    testType: "unit" | "integration" | "e2e" | "component"
     asyncTests: number
     mockCount: number
     assertionCount: number
@@ -21,34 +21,34 @@ export interface TestAnalysisResult {
 
 export class TestDependencyAnalyzer {
   private testFrameworkPatterns = {
-    jest: ['@jest', 'jest'],
-    vitest: ['vitest', '@vitest'],
-    mocha: ['mocha', 'chai'],
-    cypress: ['cypress', '@cypress'],
-    playwright: ['@playwright', 'playwright']
+    jest: ["@jest", "jest"],
+    vitest: ["vitest", "@vitest"],
+    mocha: ["mocha", "chai"],
+    cypress: ["cypress", "@cypress"],
+    playwright: ["@playwright", "playwright"]
   }
 
   private testUtilityPatterns = [
-    '@testing-library',
-    'enzyme',
-    'sinon',
-    'nock',
-    'supertest',
-    'msw'
+    "@testing-library",
+    "enzyme",
+    "sinon",
+    "nock",
+    "supertest",
+    "msw"
   ]
 
   private mockPatterns = [
-    'jest.mock',
-    'vi.mock',
-    'sinon.stub',
-    'sinon.spy',
-    'cy.intercept'
+    "jest.mock",
+    "vi.mock",
+    "sinon.stub",
+    "sinon.spy",
+    "cy.intercept"
   ]
 
   constructor() {}
 
   async analyzeTestFile(filePath: string): Promise<TestAnalysisResult> {
-    const content = await fs.promises.readFile(filePath, 'utf-8')
+    const content = await fs.promises.readFile(filePath, "utf-8")
     const dependencies = await this.extractDependencies(content, filePath)
 
     return {
@@ -59,8 +59,8 @@ export class TestDependencyAnalyzer {
     }
   }
 
-  private async extractDependencies(content: string, filePath: string): Promise<any[]> {
-    const dependencies: any[] = []
+  private async extractDependencies(content: string, _filePath: string): Promise<Array<any>> {
+    const dependencies: Array<any> = []
 
     // Import/require 문 파싱
     const importRegex = /(?:import|from)\s+['"`]([^'"`]+)['"`]|require\(['"`]([^'"`]+)['"`]\)/g
@@ -72,7 +72,7 @@ export class TestDependencyAnalyzer {
         dependencies.push({
           source,
           line: this.getLineNumber(content, match.index),
-          importType: match[0].startsWith('import') ? 'import' : 'require'
+          importType: match[0].startsWith("import") ? "import" : "require"
         })
       }
     }
@@ -83,15 +83,15 @@ export class TestDependencyAnalyzer {
       dependencies.push({
         source: match[1],
         line: this.getLineNumber(content, match.index),
-        importType: 'dynamic'
+        importType: "dynamic"
       })
     }
 
     return dependencies
   }
 
-  private classifyTestTargets(dependencies: any[], content: string): TestDependency[] {
-    const testTargets: TestDependency[] = []
+  private classifyTestTargets(dependencies: Array<any>, content: string): Array<TestDependency> {
+    const testTargets: Array<TestDependency> = []
 
     for (const dep of dependencies) {
       // 상대 경로이면서 테스트 유틸리티가 아닌 경우 테스트 대상으로 분류
@@ -104,7 +104,7 @@ export class TestDependencyAnalyzer {
           exists: this.checkFileExists(dep.source),
           line: dep.line,
           confidence: this.calculateTargetConfidence(dep, content),
-          type: 'test-target',
+          type: "test-target",
           testType: this.inferTestType(content),
           targetFunction: targetInfo.function,
           targetClass: targetInfo.class,
@@ -117,8 +117,8 @@ export class TestDependencyAnalyzer {
     return testTargets
   }
 
-  private classifyTestUtilities(dependencies: any[], content: string): TestDependency[] {
-    const testUtilities: TestDependency[] = []
+  private classifyTestUtilities(dependencies: Array<any>, content: string): Array<TestDependency> {
+    const testUtilities: Array<TestDependency> = []
 
     for (const dep of dependencies) {
       if (this.isTestUtility(dep.source) || this.isTestFramework(dep.source)) {
@@ -128,7 +128,7 @@ export class TestDependencyAnalyzer {
           exists: true,
           line: dep.line,
           confidence: 0.9,
-          type: 'test-utility',
+          type: "test-utility",
           testType: this.inferTestType(content),
           mockType: this.detectMockType(dep, content),
           isAsync: this.isAsyncTest(dep, content)
@@ -139,27 +139,27 @@ export class TestDependencyAnalyzer {
     return testUtilities
   }
 
-  private classifyTestSetup(dependencies: any[], content: string): TestDependency[] {
-    const testSetup: TestDependency[] = []
+  private classifyTestSetup(dependencies: Array<any>, content: string): Array<TestDependency> {
+    const testSetup: Array<TestDependency> = []
 
     // 설정 파일들을 찾기
     const setupPatterns = [
-      'setupTests',
-      'test-utils',
-      'test-setup',
-      '__mocks__',
-      'fixtures'
+      "setupTests",
+      "test-utils",
+      "test-setup",
+      "__mocks__",
+      "fixtures"
     ]
 
     for (const dep of dependencies) {
-      if (setupPatterns.some(pattern => dep.source.includes(pattern))) {
+      if (setupPatterns.some((pattern) => dep.source.includes(pattern))) {
         testSetup.push({
           source: dep.source,
           resolvedPath: this.resolvePath(dep.source),
           exists: this.checkFileExists(dep.source),
           line: dep.line,
           confidence: 0.8,
-          type: 'test-setup',
+          type: "test-setup",
           testType: this.inferTestType(content),
           mockType: this.detectMockType(dep, content),
           isAsync: false
@@ -185,7 +185,7 @@ export class TestDependencyAnalyzer {
     while ((match = testRegex.exec(content)) !== null) {
       const testName = match[1]
       // 함수명 추출 시도
-      const functionMatch = testName.match(/(\w+)\s*\(/);
+      const functionMatch = testName.match(/(\w+)\s*\(/)
       if (functionMatch) {
         result.function = functionMatch[1]
       }
@@ -194,7 +194,7 @@ export class TestDependencyAnalyzer {
     return result
   }
 
-  private analyzeTestMetadata(content: string, dependencies: any[]) {
+  private analyzeTestMetadata(content: string, dependencies: Array<any>) {
     return {
       framework: this.detectTestFramework(dependencies),
       testType: this.inferTestType(content),
@@ -204,45 +204,45 @@ export class TestDependencyAnalyzer {
     }
   }
 
-  private detectTestFramework(dependencies: any[]): string {
+  private detectTestFramework(dependencies: Array<any>): string {
     for (const [framework, patterns] of Object.entries(this.testFrameworkPatterns)) {
-      if (dependencies.some(dep => patterns.some(pattern => dep.source.includes(pattern)))) {
+      if (dependencies.some((dep) => patterns.some((pattern) => dep.source.includes(pattern)))) {
         return framework
       }
     }
-    return 'unknown'
+    return "unknown"
   }
 
-  private inferTestType(content: string): 'unit' | 'integration' | 'e2e' | 'component' {
-    if (content.includes('cy.') || content.includes('playwright')) return 'e2e'
-    if (content.includes('render') || content.includes('mount')) return 'component'
-    if (content.includes('request') || content.includes('supertest')) return 'integration'
-    return 'unit'
+  private inferTestType(content: string): "unit" | "integration" | "e2e" | "component" {
+    if (content.includes("cy.") || content.includes("playwright")) return "e2e"
+    if (content.includes("render") || content.includes("mount")) return "component"
+    if (content.includes("request") || content.includes("supertest")) return "integration"
+    return "unit"
   }
 
   private isTestUtility(source: string): boolean {
-    return this.testUtilityPatterns.some(pattern => source.includes(pattern))
+    return this.testUtilityPatterns.some((pattern) => source.includes(pattern))
   }
 
   private isTestFramework(source: string): boolean {
     return Object.values(this.testFrameworkPatterns)
       .flat()
-      .some(pattern => source.includes(pattern))
+      .some((pattern) => source.includes(pattern))
   }
 
   private isRelativePath(source: string): boolean {
-    return source.startsWith('./') || source.startsWith('../')
+    return source.startsWith("./") || source.startsWith("../")
   }
 
-  private detectMockType(dep: any, content: string): 'jest' | 'sinon' | 'manual' | 'none' {
-    if (content.includes('jest.mock')) return 'jest'
-    if (content.includes('sinon.')) return 'sinon'
-    if (content.includes('__mocks__')) return 'manual'
-    return 'none'
+  private detectMockType(dep: any, content: string): "jest" | "sinon" | "manual" | "none" {
+    if (content.includes("jest.mock")) return "jest"
+    if (content.includes("sinon.")) return "sinon"
+    if (content.includes("__mocks__")) return "manual"
+    return "none"
   }
 
   private isAsyncTest(dep: any, content: string): boolean {
-    return content.includes('async ') || content.includes('await ') || content.includes('.then(')
+    return content.includes("async ") || content.includes("await ") || content.includes(".then(")
   }
 
   private calculateTargetConfidence(dep: any, content: string): number {
@@ -265,18 +265,18 @@ export class TestDependencyAnalyzer {
 
   private countMocks(content: string): number {
     let count = 0
-    this.mockPatterns.forEach(pattern => {
-      const regex = new RegExp(pattern, 'g')
+    this.mockPatterns.forEach((pattern) => {
+      const regex = new RegExp(pattern, "g")
       count += (content.match(regex) || []).length
     })
     return count
   }
 
   private countAssertions(content: string): number {
-    const assertionPatterns = ['expect\\(', 'assert\\.', 'should\\.', 'chai\\.']
+    const assertionPatterns = ["expect\\(", "assert\\.", "should\\.", "chai\\."]
     let count = 0
-    assertionPatterns.forEach(pattern => {
-      const regex = new RegExp(pattern, 'g')
+    assertionPatterns.forEach((pattern) => {
+      const regex = new RegExp(pattern, "g")
       count += (content.match(regex) || []).length
     })
     return count
@@ -300,7 +300,7 @@ export class TestDependencyAnalyzer {
   }
 
   private getLineNumber(content: string, index: number): number {
-    return content.substring(0, index).split('\n').length
+    return content.substring(0, index).split("\n").length
   }
 }
 
@@ -308,31 +308,31 @@ export class TestDependencyAnalyzer {
 export class TestDependencyVisualizer {
   static generateTestGraph(testResults: Map<string, TestAnalysisResult>): any {
     const graph = {
-      nodes: [] as any[],
-      edges: [] as any[]
+      nodes: [] as Array<any>,
+      edges: [] as Array<any>
     }
 
     for (const [testFile, result] of testResults.entries()) {
       // 테스트 파일 노드
       graph.nodes.push({
         id: testFile,
-        type: 'test',
+        type: "test",
         label: path.basename(testFile),
         metadata: result.testMetadata
       })
 
       // 테스트 대상 연결
-      result.testTargets.forEach(target => {
+      result.testTargets.forEach((target) => {
         graph.nodes.push({
           id: target.source,
-          type: 'code',
+          type: "code",
           label: path.basename(target.source)
         })
 
         graph.edges.push({
           from: testFile,
           to: target.source,
-          type: 'tests',
+          type: "tests",
           confidence: target.confidence
         })
       })
@@ -341,28 +341,28 @@ export class TestDependencyVisualizer {
     return graph
   }
 
-  static generateCoverageReport(testResults: Map<string, TestAnalysisResult>, allFiles: string[]): any {
+  static generateCoverageReport(testResults: Map<string, TestAnalysisResult>, allFiles: Array<string>): any {
     const testedFiles = new Set<string>()
 
     for (const result of testResults.values()) {
-      result.testTargets.forEach(target => {
+      result.testTargets.forEach((target) => {
         if (target.exists) {
           testedFiles.add(target.resolvedPath || target.source)
         }
       })
     }
 
-    const codeFiles = allFiles.filter(file =>
-      !file.includes('.test.') &&
-      !file.includes('.spec.') &&
-      (file.endsWith('.ts') || file.endsWith('.tsx') || file.endsWith('.js') || file.endsWith('.jsx'))
+    const codeFiles = allFiles.filter((file) =>
+      !file.includes(".test.") &&
+      !file.includes(".spec.") &&
+      (file.endsWith(".ts") || file.endsWith(".tsx") || file.endsWith(".js") || file.endsWith(".jsx"))
     )
 
     return {
       totalFiles: codeFiles.length,
       testedFiles: testedFiles.size,
       coverage: testedFiles.size / codeFiles.length,
-      uncoveredFiles: codeFiles.filter(file => !testedFiles.has(file))
+      uncoveredFiles: codeFiles.filter((file) => !testedFiles.has(file))
     }
   }
 }

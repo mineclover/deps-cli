@@ -2,8 +2,16 @@
  * 참조 관계 구성을 위한 메타데이터 타입 정의
  */
 
-export type FileType = 'code' | 'test' | 'docs'
-export type DependencyCategory = 'internal' | 'external' | 'builtin' | 'test-utility' | 'test-setup' | 'doc-reference' | 'doc-link' | 'doc-asset'
+export type FileType = "code" | "test" | "docs"
+export type DependencyCategory =
+  | "internal"
+  | "external"
+  | "builtin"
+  | "test-utility"
+  | "test-setup"
+  | "doc-reference"
+  | "doc-link"
+  | "doc-asset"
 
 /**
  * 의존성 참조 정보
@@ -53,27 +61,27 @@ export interface FileMetadata {
   /** 의존성 리스트 - 카테고리별 분류 */
   dependencies: {
     /** 내부 모듈 의존성 */
-    internal: DependencyReference[]
+    internal: Array<DependencyReference>
     /** 외부 라이브러리 의존성 */
-    external: DependencyReference[]
+    external: Array<DependencyReference>
     /** 내장 모듈 의존성 */
-    builtin: DependencyReference[]
+    builtin: Array<DependencyReference>
     /** 테스트 관련 의존성 (test 파일인 경우) */
     test?: {
-      targets: DependencyReference[]      // 테스트 대상
-      utilities: DependencyReference[]    // 테스트 유틸리티
-      setup: DependencyReference[]        // 테스트 설정
+      targets: Array<DependencyReference> // 테스트 대상
+      utilities: Array<DependencyReference> // 테스트 유틸리티
+      setup: Array<DependencyReference> // 테스트 설정
     }
     /** 문서 관련 의존성 (docs 파일인 경우) */
     docs?: {
-      references: DependencyReference[]   // 문서 참조
-      links: DependencyReference[]        // 외부 링크
-      assets: DependencyReference[]       // 자산 파일
+      references: Array<DependencyReference> // 문서 참조
+      links: Array<DependencyReference> // 외부 링크
+      assets: Array<DependencyReference> // 자산 파일
     }
   }
 
   /** 이 파일을 참조하는 파일들의 ID 리스트 */
-  dependents: string[]
+  dependents: Array<string>
 
   /** 추가 메타데이터 */
   metadata: {
@@ -84,9 +92,9 @@ export interface FileMetadata {
     /** 문서화 점수 (docs 파일인 경우) */
     documentation?: number
     /** 위험 요소들 */
-    riskFactors: string[]
+    riskFactors: Array<string>
     /** 클러스터 정보 */
-    clusters: string[]
+    clusters: Array<string>
   }
 }
 
@@ -107,7 +115,7 @@ export interface ProjectReferenceData {
   }
 
   /** 파일 메타데이터 배열 */
-  files: FileMetadata[]
+  files: Array<FileMetadata>
 
   /** 통계 정보 */
   statistics: {
@@ -131,10 +139,10 @@ export interface ProjectReferenceData {
   referenceGraph: {
     /** 엣지 리스트 (파일 간 참조 관계) */
     edges: Array<{
-      from: string        // 소스 파일 ID
-      to: string          // 타겟 파일 ID
+      from: string // 소스 파일 ID
+      to: string // 타겟 파일 ID
       dependency: DependencyReference
-      weight: number      // 참조 강도
+      weight: number // 참조 강도
     }>
   }
 }
@@ -144,7 +152,7 @@ export interface ProjectReferenceData {
  */
 export interface IdGenerationConfig {
   /** ID 생성 방식 */
-  strategy: 'hash' | 'path-based' | 'sequential'
+  strategy: "hash" | "path-based" | "sequential"
   /** 프리픽스 */
   prefix?: string
   /** 해시 길이 (hash 방식인 경우) */

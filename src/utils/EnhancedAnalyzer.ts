@@ -3,15 +3,11 @@
  * 프로젝트 루트 감지, 데이터 분류, 포매팅 기능 통합
  */
 
-import * as path from 'node:path'
-import * as fs from 'node:fs'
-import {
-  analyzeTypeScriptFile,
-  analyzeMarkdownFile,
-  PathResolverInterpreter
-} from '@context-action/dependency-linker'
-import type { AnalysisResult } from '@context-action/dependency-linker'
-import { findProjectRoot, analyzeProjectRoot, type ProjectRootInfo } from './ProjectRootDetector.js'
+import { analyzeMarkdownFile, analyzeTypeScriptFile, PathResolverInterpreter } from "@context-action/dependency-linker"
+import type { AnalysisResult } from "@context-action/dependency-linker"
+import * as fs from "node:fs"
+import * as path from "node:path"
+import { analyzeProjectRoot, findProjectRoot, type ProjectRootInfo } from "./ProjectRootDetector.js"
 
 export interface EnhancedAnalysisResult extends AnalysisResult {
   projectInfo: ProjectRootInfo
@@ -19,7 +15,7 @@ export interface EnhancedAnalysisResult extends AnalysisResult {
     resolvedDependencies: Array<{
       originalSource: string
       resolvedPath: string | null
-      resolutionType: 'relative' | 'absolute' | 'alias' | 'nodeModules' | 'builtin' | 'unresolved'
+      resolutionType: "relative" | "absolute" | "alias" | "nodeModules" | "builtin" | "unresolved"
       exists: boolean
       isInternal: boolean
       projectRelativePath?: string
@@ -51,17 +47,17 @@ export interface AnalysisOptions {
  * TypeScript 컴일러 옵션에서 경로 매핑 로드
  */
 async function loadTsconfigPaths(projectRoot: string): Promise<Record<string, string>> {
-  const tsconfigPath = path.join(projectRoot, 'tsconfig.json')
+  const tsconfigPath = path.join(projectRoot, "tsconfig.json")
 
   if (!fs.existsSync(tsconfigPath)) {
     return {}
   }
 
   try {
-    const tsconfigContent = fs.readFileSync(tsconfigPath, 'utf-8')
+    const tsconfigContent = fs.readFileSync(tsconfigPath, "utf-8")
     const tsconfig = JSON.parse(tsconfigContent)
 
-    const baseUrl = tsconfig.compilerOptions?.baseUrl || './'
+    const baseUrl = tsconfig.compilerOptions?.baseUrl || "./"
     const paths = tsconfig.compilerOptions?.paths || {}
 
     const pathMappings: Record<string, string> = {}
@@ -69,8 +65,8 @@ async function loadTsconfigPaths(projectRoot: string): Promise<Record<string, st
     for (const [alias, targets] of Object.entries(paths)) {
       if (Array.isArray(targets) && targets.length > 0) {
         // 첫 번째 타겟 사용하고 /*를 제거
-        const target = targets[0].replace('/*', '')
-        const aliasKey = alias.replace('/*', '')
+        const target = targets[0].replace("/*", "")
+        const aliasKey = alias.replace("/*", "")
         pathMappings[aliasKey] = path.resolve(projectRoot, baseUrl, target)
       }
     }
@@ -87,7 +83,12 @@ async function loadTsconfigPaths(projectRoot: string): Promise<Record<string, st
  */
 export async function analyzeFileWithPathResolution(
   filePath: string,
-  options: AnalysisOptions = { enablePathResolution: true, resolveNodeModules: true, includePackageInfo: true, validateFileExists: true }
+  options: AnalysisOptions = {
+    enablePathResolution: true,
+    resolveNodeModules: true,
+    includePackageInfo: true,
+    validateFileExists: true
+  }
 ): Promise<EnhancedAnalysisResult> {
   // 1. 프로젝트 루트 감지
   const projectRoot = findProjectRoot(filePath)
@@ -102,22 +103,22 @@ export async function analyzeFileWithPathResolution(
   let baseResult: AnalysisResult
   const fileExtension = path.extname(filePath).toLowerCase()
 
-  if (fileExtension === '.md' || fileExtension === '.markdown') {
+  if (fileExtension === ".md" || fileExtension === ".markdown") {
     baseResult = await analyzeMarkdownFile(filePath, {
-      format: 'json',
+      format: "json",
       includeSources: true,
       classifyDependencies: true
     })
   } else {
     baseResult = await analyzeTypeScriptFile(filePath, {
-      format: 'json',
+      format: "json",
       includeSources: true,
       classifyDependencies: true
     })
   }
 
   // 3. PathResolver 설정 및 분석
-  let pathResolution = {
+  let pathResolution: EnhancedAnalysisResult["pathResolution"] = {
     resolvedDependencies: [],
     summary: {
       totalDependencies: 0,
@@ -136,10 +137,10 @@ export async function analyzeFileWithPathResolution(
 
     // 사용자 정의 별칭과 tsconfig 경로 매핑 결합
     const allAliases = {
-      '@': 'src',
-      '@components': 'src/components',
-      '@utils': 'src/utils',
-      '@types': 'src/types',
+      "@": "src",
+      "@components": "src/components",
+      "@utils": "src/utils",
+      "@types": "src/types",
       ...pathMappings,
       ...options.customAliases
     }
@@ -156,7 +157,7 @@ export async function analyzeFileWithPathResolution(
     // 인터프리터 컨텍스트 구성
     const context = {
       filePath,
-      language: fileExtension === '.md' ? 'markdown' : 'typescript',
+      language: fileExtension === ".md" ? "markdown" : "typescript",
       metadata: { hasTypeScript: projectInfo.hasTypeScript },
       timestamp: new Date(),
       projectContext: {
@@ -169,10 +170,10 @@ export async function analyzeFileWithPathResolution(
     const pathResult = pathResolver.interpret(baseResult.extractedData.dependency, context)
 
     // 결과 변환 및 보강
-    const resolvedDependencies = pathResult.resolvedDependencies.map(dep => ({
+    const resolvedDependencies = pathResult.resolvedDependencies.map((dep) => ({
       originalSource: dep.originalSource,
       resolvedPath: dep.resolvedPath,
-      resolutionType: dep.resolutionType,
+      resolutionType: (dep.resolutionType === "node_modules" ? "nodeModules" : dep.resolutionType) as "relative" | "absolute" | "alias" | "nodeModules" | "builtin" | "unresolved",
       exists: dep.exists || false,
       isInternal: dep.resolvedPath ? isFileWithinProject(dep.resolvedPath, projectRoot) : false,
       projectRelativePath: dep.resolvedPath ? path.relative(projectRoot, dep.resolvedPath) : undefined,
@@ -185,8 +186,8 @@ export async function analyzeFileWithPathResolution(
         totalDependencies: pathResult.summary.totalDependencies,
         resolvedCount: pathResult.summary.resolvedCount,
         unresolvedCount: pathResult.summary.unresolvedCount,
-        internalCount: resolvedDependencies.filter(d => d.isInternal).length,
-        externalCount: resolvedDependencies.filter(d => !d.isInternal && d.resolvedPath).length,
+        internalCount: resolvedDependencies.filter((d) => d.isInternal).length,
+        externalCount: resolvedDependencies.filter((d) => !d.isInternal && d.resolvedPath).length,
         aliasCount: pathResult.summary.aliasCount || 0,
         relativeCount: pathResult.summary.relativeCount || 0
       },
@@ -206,7 +207,7 @@ export async function analyzeFileWithPathResolution(
  */
 function isFileWithinProject(filePath: string, projectRoot: string): boolean {
   const relative = path.relative(projectRoot, filePath)
-  return !relative.startsWith('..') && !path.isAbsolute(relative)
+  return !relative.startsWith("..") && !path.isAbsolute(relative)
 }
 
 /**
@@ -215,15 +216,15 @@ function isFileWithinProject(filePath: string, projectRoot: string): boolean {
 export async function analyzeDirectoryWithPathResolution(
   dirPath: string,
   options: AnalysisOptions & {
-    extensions?: string[]
-    exclude?: string[]
+    extensions?: Array<string>
+    exclude?: Array<string>
     maxDepth?: number
     parallel?: boolean
     concurrency?: number
   } = { enablePathResolution: true, resolveNodeModules: true, includePackageInfo: true, validateFileExists: true }
-): Promise<EnhancedAnalysisResult[]> {
-  const extensions = options.extensions || ['.ts', '.tsx', '.js', '.jsx', '.md', '.markdown']
-  const exclude = options.exclude || ['node_modules', '.git', 'dist', 'build']
+): Promise<Array<EnhancedAnalysisResult>> {
+  const extensions = options.extensions || [".ts", ".tsx", ".js", ".jsx", ".md", ".markdown"]
+  const exclude = options.exclude || ["node_modules", ".git", "dist", "build"]
   const maxDepth = options.maxDepth || 10
 
   // 분석할 파일들 수집
@@ -237,23 +238,23 @@ export async function analyzeDirectoryWithPathResolution(
   if (options.parallel) {
     const concurrency = options.concurrency || 4
     const chunks = chunkArray(filesToAnalyze, concurrency)
-    const results: EnhancedAnalysisResult[] = []
+    const results: Array<EnhancedAnalysisResult> = []
 
     for (const chunk of chunks) {
       const chunkResults = await Promise.all(
-        chunk.map(file =>
-          analyzeFileWithPathResolution(file, options).catch(error => {
+        chunk.map((file) =>
+          analyzeFileWithPathResolution(file, options).catch((error) => {
             console.error(`분석 실패 ${file}:`, error)
             return null
           })
         )
       )
-      results.push(...chunkResults.filter(Boolean) as EnhancedAnalysisResult[])
+      results.push.apply(results, chunkResults.filter(Boolean) as Array<EnhancedAnalysisResult>)
     }
 
     return results
   } else {
-    const results: EnhancedAnalysisResult[] = []
+    const results: Array<EnhancedAnalysisResult> = []
 
     for (const file of filesToAnalyze) {
       try {
@@ -271,23 +272,29 @@ export async function analyzeDirectoryWithPathResolution(
 /**
  * 파일 수집 유틸리티
  */
-function collectFiles(dirPath: string, extensions: string[], exclude: string[], maxDepth: number, currentDepth = 0): string[] {
+function collectFiles(
+  dirPath: string,
+  extensions: Array<string>,
+  exclude: Array<string>,
+  maxDepth: number,
+  currentDepth = 0
+): Array<string> {
   if (currentDepth >= maxDepth) return []
 
-  const files: string[] = []
+  const files: Array<string> = []
 
   try {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true })
 
     for (const entry of entries) {
-      if (exclude.some(pattern => entry.name.includes(pattern))) {
+      if (exclude.some((pattern) => entry.name.includes(pattern))) {
         continue
       }
 
       const fullPath = path.join(dirPath, entry.name)
 
       if (entry.isDirectory()) {
-        files.push(...collectFiles(fullPath, extensions, exclude, maxDepth, currentDepth + 1))
+        files.push.apply(files, collectFiles(fullPath, extensions, exclude, maxDepth, currentDepth + 1))
       } else if (entry.isFile()) {
         const ext = path.extname(entry.name)
         if (extensions.includes(ext)) {
@@ -305,8 +312,8 @@ function collectFiles(dirPath: string, extensions: string[], exclude: string[], 
 /**
  * 배열을 청크로 나누는 유틸리티
  */
-function chunkArray<T>(array: T[], size: number): T[][] {
-  const chunks: T[][] = []
+function chunkArray<T>(array: Array<T>, size: number): Array<Array<T>> {
+  const chunks: Array<Array<T>> = []
   for (let i = 0; i < array.length; i += size) {
     chunks.push(array.slice(i, i + size))
   }
@@ -316,8 +323,11 @@ function chunkArray<T>(array: T[], size: number): T[][] {
 /**
  * 분석 결과 포매팅
  */
-export function formatAnalysisResults(results: EnhancedAnalysisResult[], format: 'summary' | 'detailed' | 'json' = 'summary'): string {
-  if (format === 'json') {
+export function formatAnalysisResults(
+  results: Array<EnhancedAnalysisResult>,
+  format: "summary" | "detailed" | "json" = "summary"
+): string {
+  if (format === "json") {
     return JSON.stringify(results, null, 2)
   }
 
@@ -334,7 +344,7 @@ export function formatAnalysisResults(results: EnhancedAnalysisResult[], format:
   output += `🏠 내부 파일: ${totalInternal}개\n`
   output += `📦 외부 패키지: ${totalResolved - totalInternal}개\n\n`
 
-  if (format === 'detailed') {
+  if (format === "detailed") {
     // 프로젝트별 정보
     const projectInfo = results[0]?.projectInfo
     if (projectInfo) {
@@ -343,7 +353,7 @@ export function formatAnalysisResults(results: EnhancedAnalysisResult[], format:
       output += `루트: ${projectInfo.rootPath}\n`
       output += `타입: ${projectInfo.projectType}\n`
       output += `패키지 매니저: ${projectInfo.packageManager}\n`
-      output += `TypeScript: ${projectInfo.hasTypeScript ? '✅' : '❌'}\n\n`
+      output += `TypeScript: ${projectInfo.hasTypeScript ? "✅" : "❌"}\n\n`
     }
 
     // 파일별 상세 정보

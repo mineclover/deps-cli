@@ -2,8 +2,8 @@
  * 메모리 효율적인 스트리밍 분석기
  */
 
-import * as fs from 'node:fs'
-import * as readline from 'node:readline'
+import * as fs from "node:fs"
+import * as readline from "node:readline"
 
 export class StreamingAnalyzer {
   private maxFileSize = 10 * 1024 * 1024 // 10MB
@@ -27,7 +27,7 @@ export class StreamingAnalyzer {
     })
 
     let lineCount = 0
-    for await (const line of rl) {
+    for await (const _line of rl) {
       lineCount++
       // 라인별 처리 로직
       if (lineCount > 10000) {

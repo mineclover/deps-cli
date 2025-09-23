@@ -2,41 +2,31 @@
  * 통합 의존성 분석기 - 모든 파일 타입의 의존성을 분류하여 통합된 데이터 포맷으로 저장
  */
 
-import * as path from 'node:path'
-import * as fs from 'node:fs'
-import {
-  TestDependencyAnalyzer,
-  type TestAnalysisResult
-} from './TestDependencyAnalyzer.js'
-import {
-  DocumentDependencyAnalyzer,
-  type DocumentAnalysisResult
-} from './DocumentDependencyAnalyzer.js'
-import {
-  CodeDependencyAnalyzer,
-  type CodeAnalysisResult
-} from './CodeDependencyAnalyzer.js'
+import * as fs from "node:fs"
+import * as path from "node:path"
 import type {
+  ClassifiedDependency,
   DependencyGraph,
   DependencyNode,
   DependencyReport,
-  AnalysisConfig,
-  ClassifiedDependency,
   NodeType,
   StorageOptions
-} from '../types/DependencyClassification.js'
+} from "../types/DependencyClassification.js"
+import { type CodeAnalysisResult, CodeDependencyAnalyzer } from "./CodeDependencyAnalyzer.js"
+import { type DocumentAnalysisResult, DocumentDependencyAnalyzer } from "./DocumentDependencyAnalyzer.js"
+import { type TestAnalysisResult, TestDependencyAnalyzer } from "./TestDependencyAnalyzer.js"
 
 export interface UnifiedAnalysisResult {
   graph: DependencyGraph
   report: DependencyReport
-  nodesByType: Map<NodeType, DependencyNode[]>
+  nodesByType: Map<NodeType, Array<DependencyNode>>
   analysisMetadata: {
     startTime: Date
     endTime: Date
     duration: number
     filesProcessed: number
     errorsCount: number
-    warnings: string[]
+    warnings: Array<string>
   }
 }
 
@@ -51,10 +41,10 @@ export class UnifiedDependencyAnalyzer {
     this.codeAnalyzer = new CodeDependencyAnalyzer(projectRoot)
   }
 
-  async analyzeProject(files: string[]): Promise<UnifiedAnalysisResult> {
+  async analyzeProject(files: Array<string>): Promise<UnifiedAnalysisResult> {
     const startTime = new Date()
-    const warnings: string[] = []
-    let errorsCount = 0
+    const warnings: Array<string> = []
+    const errorsCount = 0
 
     // 파일 타입별 그룹화
     const fileGroups = this.groupFilesByType(files)
@@ -98,32 +88,32 @@ export class UnifiedDependencyAnalyzer {
     }
   }
 
-  private groupFilesByType(files: string[]): {
-    test: string[]
-    docs: string[]
-    code: string[]
-    library: string[]
+  private groupFilesByType(files: Array<string>): {
+    test: Array<string>
+    docs: Array<string>
+    code: Array<string>
+    library: Array<string>
   } {
     const groups = {
-      test: [] as string[],
-      docs: [] as string[],
-      code: [] as string[],
-      library: [] as string[]
+      test: [] as Array<string>,
+      docs: [] as Array<string>,
+      code: [] as Array<string>,
+      library: [] as Array<string>
     }
 
     for (const file of files) {
       const nodeType = this.getNodeType(file)
       switch (nodeType) {
-        case 'test':
+        case "test":
           groups.test.push(file)
           break
-        case 'docs':
+        case "docs":
           groups.docs.push(file)
           break
-        case 'code':
+        case "code":
           groups.code.push(file)
           break
-        case 'library':
+        case "library":
           groups.library.push(file)
           break
       }
@@ -137,49 +127,49 @@ export class UnifiedDependencyAnalyzer {
 
     // 테스트 파일
     if (
-      normalizedPath.includes('.test.') ||
-      normalizedPath.includes('.spec.') ||
-      normalizedPath.includes('/__tests__/') ||
-      normalizedPath.includes('/test/') ||
-      normalizedPath.includes('/tests/')
+      normalizedPath.includes(".test.") ||
+      normalizedPath.includes(".spec.") ||
+      normalizedPath.includes("/__tests__/") ||
+      normalizedPath.includes("/test/") ||
+      normalizedPath.includes("/tests/")
     ) {
-      return 'test'
+      return "test"
     }
 
     // 문서 파일
     if (
-      normalizedPath.endsWith('.md') ||
-      normalizedPath.endsWith('.markdown') ||
-      normalizedPath.endsWith('.rst') ||
-      normalizedPath.endsWith('.txt')
+      normalizedPath.endsWith(".md") ||
+      normalizedPath.endsWith(".markdown") ||
+      normalizedPath.endsWith(".rst") ||
+      normalizedPath.endsWith(".txt")
     ) {
-      return 'docs'
+      return "docs"
     }
 
     // 라이브러리 파일 (node_modules)
-    if (normalizedPath.includes('node_modules')) {
-      return 'library'
+    if (normalizedPath.includes("node_modules")) {
+      return "library"
     }
 
     // 코드 파일
     if (
-      normalizedPath.endsWith('.ts') ||
-      normalizedPath.endsWith('.tsx') ||
-      normalizedPath.endsWith('.js') ||
-      normalizedPath.endsWith('.jsx') ||
-      normalizedPath.endsWith('.vue') ||
-      normalizedPath.endsWith('.svelte')
+      normalizedPath.endsWith(".ts") ||
+      normalizedPath.endsWith(".tsx") ||
+      normalizedPath.endsWith(".js") ||
+      normalizedPath.endsWith(".jsx") ||
+      normalizedPath.endsWith(".vue") ||
+      normalizedPath.endsWith(".svelte")
     ) {
-      return 'code'
+      return "code"
     }
 
-    return 'code' // 기본값
+    return "code" // 기본값
   }
 
   private async analyzeTestFiles(
-    testFiles: string[],
+    testFiles: Array<string>,
     nodes: Map<string, DependencyNode>,
-    warnings: string[]
+    warnings: Array<string>
   ): Promise<Map<string, TestAnalysisResult>> {
     const testResults = new Map<string, TestAnalysisResult>()
 
@@ -200,9 +190,9 @@ export class UnifiedDependencyAnalyzer {
   }
 
   private async analyzeDocumentFiles(
-    docFiles: string[],
+    docFiles: Array<string>,
     nodes: Map<string, DependencyNode>,
-    warnings: string[]
+    warnings: Array<string>
   ): Promise<Map<string, DocumentAnalysisResult>> {
     const docResults = new Map<string, DocumentAnalysisResult>()
 
@@ -223,9 +213,9 @@ export class UnifiedDependencyAnalyzer {
   }
 
   private async analyzeCodeFiles(
-    codeFiles: string[],
+    codeFiles: Array<string>,
     nodes: Map<string, DependencyNode>,
-    warnings: string[]
+    warnings: Array<string>
   ): Promise<Map<string, CodeAnalysisResult>> {
     const codeResults = new Map<string, CodeAnalysisResult>()
 
@@ -262,7 +252,7 @@ export class UnifiedDependencyAnalyzer {
     // 테스트에서 사용된 유틸리티
     for (const result of testResults.values()) {
       for (const util of result.testUtilities) {
-        if (!util.source.startsWith('./') && !util.source.startsWith('../')) {
+        if (!util.source.startsWith("./") && !util.source.startsWith("../")) {
           libraryNodes.add(util.source)
         }
       }
@@ -278,7 +268,7 @@ export class UnifiedDependencyAnalyzer {
   }
 
   private createTestNode(filePath: string, result: TestAnalysisResult): DependencyNode {
-    const allDependencies: ClassifiedDependency[] = [
+    const allDependencies: Array<ClassifiedDependency> = [
       ...result.testTargets,
       ...result.testUtilities,
       ...result.testSetup
@@ -286,18 +276,18 @@ export class UnifiedDependencyAnalyzer {
 
     return {
       filePath,
-      nodeType: 'test',
+      nodeType: "test",
       relativePath: path.relative(this.projectRoot, filePath),
       size: this.getFileSize(filePath),
       lastModified: this.getLastModified(filePath),
-      language: 'typescript',
+      language: "typescript",
       framework: result.testMetadata.framework,
       metadata: {
         testCoverage: 1.0 // 테스트 파일 자체는 100% 커버리지
       },
       dependencies: allDependencies,
       dependents: [],
-      clusters: this.assignClusters(filePath, 'test'),
+      clusters: this.assignClusters(filePath, "test"),
       analysis: {
         totalDependencies: allDependencies.length,
         internalDependencies: result.testTargets.length,
@@ -309,7 +299,7 @@ export class UnifiedDependencyAnalyzer {
   }
 
   private createDocumentNode(filePath: string, result: DocumentAnalysisResult): DependencyNode {
-    const allDependencies: ClassifiedDependency[] = [
+    const allDependencies: Array<ClassifiedDependency> = [
       ...result.documentReferences,
       ...result.externalLinks,
       ...result.assetReferences
@@ -317,7 +307,7 @@ export class UnifiedDependencyAnalyzer {
 
     return {
       filePath,
-      nodeType: 'docs',
+      nodeType: "docs",
       relativePath: path.relative(this.projectRoot, filePath),
       size: this.getFileSize(filePath),
       lastModified: this.getLastModified(filePath),
@@ -327,7 +317,7 @@ export class UnifiedDependencyAnalyzer {
       },
       dependencies: allDependencies,
       dependents: [],
-      clusters: this.assignClusters(filePath, 'docs'),
+      clusters: this.assignClusters(filePath, "docs"),
       analysis: {
         totalDependencies: allDependencies.length,
         internalDependencies: result.documentReferences.length,
@@ -339,7 +329,7 @@ export class UnifiedDependencyAnalyzer {
   }
 
   private createCodeNode(filePath: string, result: CodeAnalysisResult): DependencyNode {
-    const allDependencies: ClassifiedDependency[] = [
+    const allDependencies: Array<ClassifiedDependency> = [
       ...result.internalModules,
       ...result.externalLibraries,
       ...result.builtinModules
@@ -347,7 +337,7 @@ export class UnifiedDependencyAnalyzer {
 
     return {
       filePath,
-      nodeType: 'code',
+      nodeType: "code",
       relativePath: path.relative(this.projectRoot, filePath),
       size: this.getFileSize(filePath),
       lastModified: this.getLastModified(filePath),
@@ -359,7 +349,7 @@ export class UnifiedDependencyAnalyzer {
       },
       dependencies: allDependencies,
       dependents: [],
-      clusters: this.assignClusters(filePath, 'code'),
+      clusters: this.assignClusters(filePath, "code"),
       analysis: {
         totalDependencies: allDependencies.length,
         internalDependencies: result.internalModules.length,
@@ -373,15 +363,15 @@ export class UnifiedDependencyAnalyzer {
   private createLibraryNode(libName: string): DependencyNode {
     return {
       filePath: libName,
-      nodeType: 'library',
+      nodeType: "library",
       relativePath: libName,
       size: 0,
       lastModified: new Date(),
-      language: 'unknown',
+      language: "unknown",
       metadata: {},
       dependencies: [],
       dependents: [],
-      clusters: ['external'],
+      clusters: ["external"],
       analysis: {
         totalDependencies: 0,
         internalDependencies: 0,
@@ -393,7 +383,7 @@ export class UnifiedDependencyAnalyzer {
   }
 
   private buildDependencyGraph(nodes: Map<string, DependencyNode>): DependencyGraph {
-    const edges: DependencyGraph['edges'] = []
+    const edges: DependencyGraph["edges"] = []
 
     // 의존성 관계를 엣지로 변환
     for (const [filePath, node] of nodes.entries()) {
@@ -423,7 +413,7 @@ export class UnifiedDependencyAnalyzer {
     return {
       projectRoot: this.projectRoot,
       timestamp: new Date(),
-      version: '1.0.0',
+      version: "1.0.0",
       nodes,
       edges,
       metrics: this.calculateGraphMetrics(nodes, edges),
@@ -431,31 +421,31 @@ export class UnifiedDependencyAnalyzer {
     }
   }
 
-  private generateClusters(nodes: Map<string, DependencyNode>): DependencyGraph['clusters'] {
-    const clusters = new Map<string, DependencyGraph['clusters'][string]>()
+  private generateClusters(nodes: Map<string, DependencyNode>): DependencyGraph["clusters"] {
+    const clusters: Record<string, DependencyGraph["clusters"][string]> = {}
 
     // 디렉토리 기반 클러스터링
     for (const [filePath, node] of nodes.entries()) {
-      if (node.nodeType !== 'library') {
+      if (node.nodeType !== "library") {
         const dirPath = path.dirname(node.relativePath)
-        const clusterName = dirPath.split('/')[0] || 'root'
+        const clusterName = dirPath.split("/")[0] || "root"
 
-        if (!clusters.has(clusterName)) {
-          clusters.set(clusterName, {
+        if (!clusters[clusterName]) {
+          clusters[clusterName] = {
             name: clusterName,
             files: [],
             type: this.inferClusterType(clusterName),
             cohesion: 0,
             coupling: 0
-          })
+          }
         }
 
-        clusters.get(clusterName)!.files.push(filePath)
+        clusters[clusterName].files.push(filePath)
       }
     }
 
     // 응집도/결합도 계산
-    for (const cluster of clusters.values()) {
+    for (const cluster of Object.values(clusters)) {
       const metrics = this.calculateClusterMetrics(cluster, nodes)
       cluster.cohesion = metrics.cohesion
       cluster.coupling = metrics.coupling
@@ -464,22 +454,22 @@ export class UnifiedDependencyAnalyzer {
     return clusters
   }
 
-  private inferClusterType(clusterName: string): 'feature' | 'layer' | 'domain' | 'infrastructure' {
-    const featurePatterns = ['components', 'pages', 'features']
-    const layerPatterns = ['services', 'utils', 'helpers', 'config']
-    const domainPatterns = ['models', 'entities', 'domain']
-    const infraPatterns = ['infrastructure', 'adapters', 'providers']
+  private inferClusterType(clusterName: string): "feature" | "layer" | "domain" | "infrastructure" {
+    const featurePatterns = ["components", "pages", "features"]
+    const layerPatterns = ["services", "utils", "helpers", "config"]
+    const domainPatterns = ["models", "entities", "domain"]
+    const infraPatterns = ["infrastructure", "adapters", "providers"]
 
-    if (featurePatterns.some(p => clusterName.includes(p))) return 'feature'
-    if (layerPatterns.some(p => clusterName.includes(p))) return 'layer'
-    if (domainPatterns.some(p => clusterName.includes(p))) return 'domain'
-    if (infraPatterns.some(p => clusterName.includes(p))) return 'infrastructure'
+    if (featurePatterns.some((p) => clusterName.includes(p))) return "feature"
+    if (layerPatterns.some((p) => clusterName.includes(p))) return "layer"
+    if (domainPatterns.some((p) => clusterName.includes(p))) return "domain"
+    if (infraPatterns.some((p) => clusterName.includes(p))) return "infrastructure"
 
-    return 'feature'
+    return "feature"
   }
 
   private calculateClusterMetrics(
-    cluster: DependencyGraph['clusters'][string],
+    cluster: DependencyGraph["clusters"][string],
     nodes: Map<string, DependencyNode>
   ): { cohesion: number; coupling: number } {
     const clusterFiles = new Set(cluster.files)
@@ -509,13 +499,15 @@ export class UnifiedDependencyAnalyzer {
 
   private calculateGraphMetrics(
     nodes: Map<string, DependencyNode>,
-    edges: DependencyGraph['edges']
-  ): DependencyGraph['metrics'] {
+    _edges: DependencyGraph["edges"]
+  ): DependencyGraph["metrics"] {
     const totalDeps = Array.from(nodes.values()).reduce((sum, node) => sum + node.analysis.totalDependencies, 0)
-    const cyclicDepCount = Array.from(nodes.values()).reduce((sum, node) => sum + node.analysis.cyclicDependencies.length, 0)
-    const isolatedFiles = Array.from(nodes.values()).filter(node =>
-      node.dependencies.length === 0 && node.dependents.length === 0
-    ).length
+    const cyclicDepCount = Array.from(nodes.values()).reduce(
+      (sum, node) => sum + node.analysis.cyclicDependencies.length,
+      0
+    )
+    const isolatedFiles =
+      Array.from(nodes.values()).filter((node) => node.dependencies.length === 0 && node.dependents.length === 0).length
 
     return {
       totalFiles: nodes.size,
@@ -585,7 +577,7 @@ export class UnifiedDependencyAnalyzer {
           test: testResults.size,
           code: codeResults.size,
           docs: docResults.size,
-          library: Array.from(graph.nodes.values()).filter(n => n.nodeType === 'library').length
+          library: Array.from(graph.nodes.values()).filter((n) => n.nodeType === "library").length
         },
         dependencyTypes: this.calculateDependencyTypeCounts(graph)
       },
@@ -597,30 +589,30 @@ export class UnifiedDependencyAnalyzer {
   }
 
   // Helper methods...
-  private assignClusters(filePath: string, nodeType: NodeType): string[] {
+  private assignClusters(filePath: string, nodeType: NodeType): Array<string> {
     const relativePath = path.relative(this.projectRoot, filePath)
     const parts = relativePath.split(path.sep)
-    return [parts[0] || 'root', nodeType]
+    return [parts[0] || "root", nodeType]
   }
 
-  private calculateTestRiskFactors(result: TestAnalysisResult): string[] {
-    const risks: string[] = []
-    if (result.testMetadata.mockCount > 5) risks.push('heavy-mocking')
-    if (result.testMetadata.assertionCount < 3) risks.push('insufficient-assertions')
+  private calculateTestRiskFactors(result: TestAnalysisResult): Array<string> {
+    const risks: Array<string> = []
+    if (result.testMetadata.mockCount > 5) risks.push("heavy-mocking")
+    if (result.testMetadata.assertionCount < 3) risks.push("insufficient-assertions")
     return risks
   }
 
-  private calculateDocumentRiskFactors(result: DocumentAnalysisResult): string[] {
-    const risks: string[] = []
-    if (result.documentMetadata.brokenLinks > 0) risks.push('broken-links')
-    if (result.documentMetadata.wordCount < 50) risks.push('insufficient-documentation')
+  private calculateDocumentRiskFactors(result: DocumentAnalysisResult): Array<string> {
+    const risks: Array<string> = []
+    if (result.documentMetadata.brokenLinks > 0) risks.push("broken-links")
+    if (result.documentMetadata.wordCount < 50) risks.push("insufficient-documentation")
     return risks
   }
 
-  private calculateCodeRiskFactors(result: CodeAnalysisResult): string[] {
-    const risks: string[] = []
-    if (result.codeMetadata.complexity > 10) risks.push('high-complexity')
-    if (result.codeMetadata.circularDependencies.length > 0) risks.push('circular-dependencies')
+  private calculateCodeRiskFactors(result: CodeAnalysisResult): Array<string> {
+    const risks: Array<string> = []
+    if (result.codeMetadata.complexity > 10) risks.push("high-complexity")
+    if (result.codeMetadata.circularDependencies.length > 0) risks.push("circular-dependencies")
     return risks
   }
 
@@ -634,12 +626,15 @@ export class UnifiedDependencyAnalyzer {
   }
 
   // 더 많은 helper methods 필요...
-  private generateTestAnalysis(testResults: Map<string, TestAnalysisResult>, codeResults: Map<string, CodeAnalysisResult>) {
+  private generateTestAnalysis(
+    testResults: Map<string, TestAnalysisResult>,
+    codeResults: Map<string, CodeAnalysisResult>
+  ) {
     // 테스트 분석 로직...
     const testedFiles = new Set<string>()
 
     for (const result of testResults.values()) {
-      result.testTargets.forEach(target => {
+      result.testTargets.forEach((target) => {
         if (target.resolvedPath) {
           testedFiles.add(target.resolvedPath)
         }
@@ -647,7 +642,7 @@ export class UnifiedDependencyAnalyzer {
     }
 
     const codeFiles = Array.from(codeResults.keys())
-    const uncoveredFiles = codeFiles.filter(file => !testedFiles.has(file))
+    const uncoveredFiles = codeFiles.filter((file) => !testedFiles.has(file))
 
     return {
       testFiles: testResults.size,
@@ -682,21 +677,21 @@ export class UnifiedDependencyAnalyzer {
     }
   }
 
-  private generateRecommendations(testAnalysis: any, codeAnalysis: any, documentationAnalysis: any) {
+  private generateRecommendations(_testAnalysis: any, _codeAnalysis: any, _documentationAnalysis: any) {
     // 추천사항 생성 로직...
     return []
   }
 
-  private calculateDependencyTypeCounts(graph: DependencyGraph) {
+  private calculateDependencyTypeCounts(_graph: DependencyGraph) {
     // 의존성 타입별 개수 계산...
     return {} as any
   }
 
-  private groupNodesByType(nodes: Map<string, DependencyNode>): Map<NodeType, DependencyNode[]> {
-    const nodesByType = new Map<NodeType, DependencyNode[]>()
+  private groupNodesByType(nodes: Map<string, DependencyNode>): Map<NodeType, Array<DependencyNode>> {
+    const nodesByType = new Map<NodeType, Array<DependencyNode>>()
 
     // 각 노드 타입별로 빈 배열 초기화
-    const nodeTypes: NodeType[] = ['test', 'code', 'docs', 'library']
+    const nodeTypes: Array<NodeType> = ["test", "code", "docs", "library"]
     for (const nodeType of nodeTypes) {
       nodesByType.set(nodeType, [])
     }
@@ -741,35 +736,35 @@ class DependencyStorageManager {
 
   async save(result: UnifiedAnalysisResult, options: StorageOptions): Promise<void> {
     switch (options.format) {
-      case 'json':
+      case "json":
         await this.saveAsJSON(result, options)
         break
-      case 'sqlite':
+      case "sqlite":
         await this.saveAsSQLite(result, options)
         break
-      case 'neo4j':
+      case "neo4j":
         await this.saveAsNeo4j(result, options)
         break
-      case 'graphml':
+      case "graphml":
         await this.saveAsGraphML(result, options)
         break
     }
   }
 
   private async saveAsJSON(result: UnifiedAnalysisResult, options: StorageOptions): Promise<void> {
-    const outputDir = path.join(this.projectRoot, '.deps-analysis')
+    const outputDir = path.join(this.projectRoot, ".deps-analysis")
     await fs.promises.mkdir(outputDir, { recursive: true })
 
     // 그래프 저장
     const graphData = this.serializeGraph(result.graph, options)
     await fs.promises.writeFile(
-      path.join(outputDir, 'dependency-graph.json'),
+      path.join(outputDir, "dependency-graph.json"),
       JSON.stringify(graphData, null, 2)
     )
 
     // 보고서 저장
     await fs.promises.writeFile(
-      path.join(outputDir, 'analysis-report.json'),
+      path.join(outputDir, "analysis-report.json"),
       JSON.stringify(result.report, null, 2)
     )
 
@@ -788,7 +783,7 @@ class DependencyStorageManager {
       timestamp: graph.timestamp,
       version: graph.version,
       metrics: graph.metrics,
-      clusters: Object.fromEntries(graph.clusters),
+      clusters: graph.clusters,
       nodes: {},
       edges: graph.edges
     }
@@ -797,8 +792,8 @@ class DependencyStorageManager {
     for (const [key, node] of graph.nodes.entries()) {
       serialized.nodes[key] = {
         ...node,
-        dependencies: options.includeSourceCode ? node.dependencies : node.dependencies.map(dep => ({
-          ...dep,
+        dependencies: options.includeSourceCode ? node.dependencies : node.dependencies.map((dep) => ({
+          ...dep
           // 소스 코드 제외하고 메타데이터만 포함
         }))
       }
@@ -807,18 +802,18 @@ class DependencyStorageManager {
     return serialized
   }
 
-  private async saveAsSQLite(result: UnifiedAnalysisResult, options: StorageOptions): Promise<void> {
+  private async saveAsSQLite(_result: UnifiedAnalysisResult, _options: StorageOptions): Promise<void> {
     // SQLite 저장 로직 (추후 구현)
-    throw new Error('SQLite storage not implemented yet')
+    throw new Error("SQLite storage not implemented yet")
   }
 
-  private async saveAsNeo4j(result: UnifiedAnalysisResult, options: StorageOptions): Promise<void> {
+  private async saveAsNeo4j(_result: UnifiedAnalysisResult, _options: StorageOptions): Promise<void> {
     // Neo4j 저장 로직 (추후 구현)
-    throw new Error('Neo4j storage not implemented yet')
+    throw new Error("Neo4j storage not implemented yet")
   }
 
-  private async saveAsGraphML(result: UnifiedAnalysisResult, options: StorageOptions): Promise<void> {
+  private async saveAsGraphML(_result: UnifiedAnalysisResult, _options: StorageOptions): Promise<void> {
     // GraphML 저장 로직 (추후 구현)
-    throw new Error('GraphML storage not implemented yet')
+    throw new Error("GraphML storage not implemented yet")
   }
 }

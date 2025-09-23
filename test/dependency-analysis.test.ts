@@ -1,0 +1,542 @@
+/**
+ * 의존성 분석 기능 전용 테스트
+ */
+
+import { describe, test, expect, beforeAll, afterAll, beforeEach } from "vitest"
+import { execSync } from "node:child_process"
+import * as fs from "node:fs/promises"
+import * as path from "node:path"
+import { fileURLToPath } from "node:url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const PROJECT_ROOT = path.resolve(__dirname, "..")
+const CLI_PATH = path.join(PROJECT_ROOT, "dist", "bin.js")
+const TEST_FIXTURES_DIR = path.join(__dirname, "fixtures", "dependency-tests")
+
+describe("의존성 분석 기능 테스트", () => {
+  beforeAll(async () => {
+    await fs.mkdir(TEST_FIXTURES_DIR, { recursive: true })
+  })
+
+  afterAll(async () => {
+    await fs.rm(TEST_FIXTURES_DIR, { recursive: true, force: true })
+  })
+
+  beforeEach(async () => {
+    await fs.rm(TEST_FIXTURES_DIR, { recursive: true, force: true })
+    await fs.mkdir(TEST_FIXTURES_DIR, { recursive: true })
+  })
+
+  describe("TypeScript 의존성 분석", () => {
+    test("ES6 import 구문 분석", async () => {
+      const testFile = path.join(TEST_FIXTURES_DIR, "es6-imports.ts")
+      await fs.writeFile(testFile, `
+// Named imports
+import { useState, useEffect } from "react"
+import { join, dirname } from "node:path"
+
+// Default imports
+import React from "react"
+import axios from "axios"
+
+// Namespace imports
+import * as fs from "node:fs"
+import * as lodash from "lodash"
+
+// Mixed imports
+import Component, { Props } from "./Component"
+
+// Type-only imports
+import type { User } from "./types"
+import type { Config } from "../config"
+
+// Relative imports
+import { utils } from "./utils"
+import { helpers } from "../helpers"
+
+export function TestComponent() {
+  const [state, setState] = useState(0)
+
+  useEffect(() => {
+    fs.readFileSync("test")
+    axios.get("/api")
+  }, [])
+
+  return React.createElement("div")
+}
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" analyze "${testFile}" --format json`, {
+        encoding: "utf-8"
+      })
+
+      const analysis = JSON.parse(result)
+
+      expect(analysis).toHaveProperty("graph")
+      expect(analysis.analysisMetadata.filesProcessed).toBe(1)
+
+      // 의존성이 감지되었는지 확인
+      const dependencies = Object.keys(analysis.graph)
+      expect(dependencies.length).toBeGreaterThan(0)
+    })
+
+    test("CommonJS require 구문 분석", async () => {
+      const testFile = path.join(TEST_FIXTURES_DIR, "commonjs-requires.js")
+      await fs.writeFile(testFile, `
+// Basic require
+const fs = require("fs")
+const path = require("path")
+
+// Destructuring require
+const { join, dirname } = require("node:path")
+const { readFile, writeFile } = require("node:fs/promises")
+
+// Relative requires
+const utils = require("./utils")
+const config = require("../config/app")
+
+// Dynamic require
+const handler = require(\`./handlers/\${type}\`)
+
+// Conditional require
+if (process.env.NODE_ENV === "development") {
+  const debug = require("debug")
+  debug.enabled = true
+}
+
+function processData() {
+  const data = fs.readFileSync("input.txt")
+  return utils.transform(data)
+}
+
+module.exports = { processData }
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" analyze "${testFile}" --format json`, {
+        encoding: "utf-8"
+      })
+
+      const analysis = JSON.parse(result)
+
+      expect(analysis).toHaveProperty("graph")
+      expect(analysis.analysisMetadata.filesProcessed).toBe(1)
+    })
+
+    test("Dynamic import 구문 분석", async () => {
+      const testFile = path.join(TEST_FIXTURES_DIR, "dynamic-imports.ts")
+      await fs.writeFile(testFile, `
+export async function loadModule() {
+  // Dynamic import
+  const { default: moment } = await import("moment")
+
+  // Conditional dynamic import
+  if (typeof window !== "undefined") {
+    const { default: Chart } = await import("chart.js")
+    return Chart
+  }
+
+  // Dynamic import with variable
+  const moduleName = "lodash"
+  const lodash = await import(moduleName)
+
+  // Dynamic import for lazy loading
+  const Component = lazy(() => import("./components/LazyComponent"))
+
+  return moment()
+}
+
+// Top-level await with dynamic import
+const config = await import("./config.json")
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" analyze "${testFile}" --format json`, {
+        encoding: "utf-8"
+      })
+
+      const analysis = JSON.parse(result)
+
+      expect(analysis).toHaveProperty("graph")
+      expect(analysis.analysisMetadata.filesProcessed).toBe(1)
+    })
+  })
+
+  describe("의존성 유형 분류", () => {
+    test("내부/외부/내장 모듈 분류", async () => {
+      // 프로젝트 구조 생성
+      const srcDir = path.join(TEST_FIXTURES_DIR, "src")
+      await fs.mkdir(srcDir, { recursive: true })
+
+      // 내부 모듈들
+      await fs.writeFile(path.join(srcDir, "utils.ts"), `
+export function formatDate(date: Date): string {
+  return date.toISOString()
+}
+      `)
+
+      await fs.writeFile(path.join(srcDir, "config.ts"), `
+export const API_URL = "https://api.example.com"
+      `)
+
+      // 메인 파일 - 다양한 의존성 유형
+      await fs.writeFile(path.join(srcDir, "main.ts"), `
+// 내장 모듈
+import * as fs from "node:fs"
+import * as path from "node:path"
+import { EventEmitter } from "node:events"
+
+// 외부 라이브러리
+import axios from "axios"
+import { format } from "date-fns"
+import React from "react"
+
+// 내부 모듈
+import { formatDate } from "./utils"
+import { API_URL } from "./config"
+
+// 타입 전용 import
+import type { AxiosResponse } from "axios"
+
+export class ApiClient extends EventEmitter {
+  async fetchData(): Promise<AxiosResponse> {
+    const configPath = path.join(__dirname, "config.json")
+    const configData = fs.readFileSync(configPath, "utf-8")
+
+    return axios.get(\`\${API_URL}/data\`)
+  }
+
+  formatTimestamp(date: Date): string {
+    return formatDate(date)
+  }
+}
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
+        encoding: "utf-8"
+      })
+
+      expect(result).toContain("📂 발견된 파일 분류 시작...")
+      expect(result).toContain("📊 의존성 분류 분석 결과")
+      expect(result).toContain("📁 총 파일:")
+      expect(result).toContain("🔗 총 의존성:")
+      expect(result).toContain("📋 노드 타입별 분포:")
+
+      // 여러 파일이 분석되었는지 확인
+      const filesMatch = result.match(/📁 총 파일: (\d+)개/)
+      expect(filesMatch).toBeTruthy()
+      expect(parseInt(filesMatch![1])).toBeGreaterThanOrEqual(3)
+    })
+
+    test("테스트 파일 감지", async () => {
+      const testsDir = path.join(TEST_FIXTURES_DIR, "tests")
+      await fs.mkdir(testsDir, { recursive: true })
+
+      // 테스트 파일들
+      await fs.writeFile(path.join(testsDir, "utils.test.ts"), `
+import { describe, test, expect } from "vitest"
+import { formatDate } from "../src/utils"
+
+describe("utils", () => {
+  test("formatDate", () => {
+    const date = new Date("2024-01-01")
+    expect(formatDate(date)).toBe("2024-01-01T00:00:00.000Z")
+  })
+})
+      `)
+
+      await fs.writeFile(path.join(testsDir, "api.spec.ts"), `
+import { beforeEach, afterEach, jest } from "@jest/globals"
+import { ApiClient } from "../src/main"
+
+describe("ApiClient", () => {
+  let apiClient: ApiClient
+
+  beforeEach(() => {
+    apiClient = new ApiClient()
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+})
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" classify "${TEST_FIXTURES_DIR}" --include-tests --verbose`, {
+        encoding: "utf-8"
+      })
+
+      expect(result).toContain("📋 노드 타입별 분포:")
+      expect(result).toContain("🧪 test:") // 테스트 파일이 감지되었는지 확인
+    })
+  })
+
+  describe("복잡한 의존성 구조", () => {
+    test("순환 의존성 감지", async () => {
+      const srcDir = path.join(TEST_FIXTURES_DIR, "circular")
+      await fs.mkdir(srcDir, { recursive: true })
+
+      // 순환 의존성 구조 생성
+      await fs.writeFile(path.join(srcDir, "moduleA.ts"), `
+import { functionB } from "./moduleB"
+
+export function functionA() {
+  return "A: " + functionB()
+}
+      `)
+
+      await fs.writeFile(path.join(srcDir, "moduleB.ts"), `
+import { functionA } from "./moduleA"
+
+export function functionB() {
+  return "B: " + functionA()
+}
+      `)
+
+      await fs.writeFile(path.join(srcDir, "index.ts"), `
+import { functionA } from "./moduleA"
+import { functionB } from "./moduleB"
+
+export { functionA, functionB }
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" analyze "${srcDir}" --verbose --format json`, {
+        encoding: "utf-8"
+      })
+
+      const lines = result.split("\n")
+      const jsonStart = lines.findIndex(line => line.trim().startsWith("{"))
+      const jsonContent = lines.slice(jsonStart).join("\n")
+      const analysis = JSON.parse(jsonContent)
+
+      expect(analysis).toHaveProperty("graph")
+      expect(analysis.analysisMetadata.filesProcessed).toBe(3)
+    })
+
+    test("깊은 의존성 체인", async () => {
+      const srcDir = path.join(TEST_FIXTURES_DIR, "deep-deps")
+      await fs.mkdir(srcDir, { recursive: true })
+
+      // 깊은 의존성 체인 생성 (A -> B -> C -> D -> E)
+      await fs.writeFile(path.join(srcDir, "moduleA.ts"), `
+import { functionB } from "./moduleB"
+export const functionA = () => "A" + functionB()
+      `)
+
+      await fs.writeFile(path.join(srcDir, "moduleB.ts"), `
+import { functionC } from "./moduleC"
+export const functionB = () => "B" + functionC()
+      `)
+
+      await fs.writeFile(path.join(srcDir, "moduleC.ts"), `
+import { functionD } from "./moduleD"
+export const functionC = () => "C" + functionD()
+      `)
+
+      await fs.writeFile(path.join(srcDir, "moduleD.ts"), `
+import { functionE } from "./moduleE"
+export const functionD = () => "D" + functionE()
+      `)
+
+      await fs.writeFile(path.join(srcDir, "moduleE.ts"), `
+export const functionE = () => "E"
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" analyze "${srcDir}" --verbose`, {
+        encoding: "utf-8"
+      })
+
+      expect(result).toContain("🔍 Starting analysis of:")
+      expect(result).toContain("📁 Found 5 files to analyze")
+      expect(result).toContain("📊 Analysis completed:")
+    })
+  })
+
+  describe("특수한 import 패턴", () => {
+    test("Alias 경로 분석", async () => {
+      // tsconfig.json 생성
+      await fs.writeFile(path.join(TEST_FIXTURES_DIR, "tsconfig.json"), `
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"],
+      "@types/*": ["src/types/*"]
+    }
+  }
+}
+      `)
+
+      const srcDir = path.join(TEST_FIXTURES_DIR, "src")
+      await fs.mkdir(srcDir, { recursive: true })
+      await fs.mkdir(path.join(srcDir, "components"), { recursive: true })
+      await fs.mkdir(path.join(srcDir, "utils"), { recursive: true })
+
+      await fs.writeFile(path.join(srcDir, "utils", "helpers.ts"), `
+export function helper() {
+  return "helper"
+}
+      `)
+
+      await fs.writeFile(path.join(srcDir, "components", "Button.tsx"), `
+import React from "react"
+import { helper } from "@utils/helpers"
+
+export function Button() {
+  return <button>{helper()}</button>
+}
+      `)
+
+      await fs.writeFile(path.join(srcDir, "App.tsx"), `
+import React from "react"
+import { Button } from "@components/Button"
+import { helper } from "@/utils/helpers"
+
+export function App() {
+  return (
+    <div>
+      <Button />
+      {helper()}
+    </div>
+  )
+}
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" analyze "${TEST_FIXTURES_DIR}" --path-resolution true --verbose`, {
+        encoding: "utf-8"
+      })
+
+      expect(result).toContain("🔍 Starting analysis of:")
+      expect(result).toContain("📊 Analysis completed:")
+    })
+
+    test("Re-export 패턴 분석", async () => {
+      const srcDir = path.join(TEST_FIXTURES_DIR, "reexports")
+      await fs.mkdir(srcDir, { recursive: true })
+
+      // 개별 모듈들
+      await fs.writeFile(path.join(srcDir, "moduleA.ts"), `
+export const valueA = "A"
+export function functionA() { return "funcA" }
+      `)
+
+      await fs.writeFile(path.join(srcDir, "moduleB.ts"), `
+export const valueB = "B"
+export function functionB() { return "funcB" }
+      `)
+
+      // Re-export 인덱스 파일
+      await fs.writeFile(path.join(srcDir, "index.ts"), `
+// Re-exports
+export { valueA, functionA } from "./moduleA"
+export { valueB, functionB } from "./moduleB"
+
+// Re-export with alias
+export { functionA as helperA } from "./moduleA"
+
+// Re-export all
+export * from "./moduleB"
+
+// Default re-export
+export { default as Module } from "./moduleA"
+      `)
+
+      const result = execSync(`node "${CLI_PATH}" analyze "${srcDir}" --enhanced --verbose`, {
+        encoding: "utf-8"
+      })
+
+      expect(result).toContain("📁 Found 3 files to analyze")
+      expect(result).toContain("📊 Analysis completed:")
+    })
+  })
+
+  describe("성능 및 최적화", () => {
+    test("병렬 처리 성능", async () => {
+      const srcDir = path.join(TEST_FIXTURES_DIR, "parallel-test")
+      await fs.mkdir(srcDir, { recursive: true })
+
+      // 20개의 파일 생성 (의존성이 있는)
+      for (let i = 0; i < 20; i++) {
+        await fs.writeFile(path.join(srcDir, `file${i}.ts`), `
+import { utility } from "./utils"
+import * as fs from "node:fs"
+import axios from "axios"
+
+export function process${i}() {
+  return utility() + ${i}
+}
+
+export const config${i} = {
+  id: ${i},
+  data: fs.readFileSync("config.json", "utf-8")
+}
+        `)
+      }
+
+      await fs.writeFile(path.join(srcDir, "utils.ts"), `
+export function utility() {
+  return "util"
+}
+      `)
+
+      const startTime = Date.now()
+      const result = execSync(`node "${CLI_PATH}" analyze "${srcDir}" --parallel --verbose`, {
+        encoding: "utf-8"
+      })
+      const endTime = Date.now()
+
+      expect(result).toContain("📁 Found 21 files to analyze")
+      expect(result).toContain("📊 Analysis completed:")
+
+      // 병렬 처리로 성능이 개선되었는지 확인 (15초 이내)
+      expect(endTime - startTime).toBeLessThan(15000)
+    })
+
+    test("큰 파일 처리", async () => {
+      const largeFile = path.join(TEST_FIXTURES_DIR, "large-file.ts")
+
+      // 큰 파일 생성 (많은 import와 export)
+      let content = `
+// Many imports
+import * as fs from "node:fs"
+import * as path from "node:path"
+import * as os from "node:os"
+import * as crypto from "node:crypto"
+import * as util from "node:util"
+import axios from "axios"
+import lodash from "lodash"
+import moment from "moment"
+import React from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
+
+`
+
+      // 100개의 함수 생성
+      for (let i = 0; i < 100; i++) {
+        content += `
+export function function${i}() {
+  const data = fs.readFileSync("file${i}.txt", "utf-8")
+  const hash = crypto.createHash("sha256").update(data).digest("hex")
+  return \`function${i}: \${hash}\`
+}
+`
+      }
+
+      await fs.writeFile(largeFile, content)
+
+      const startTime = Date.now()
+      const result = execSync(`node "${CLI_PATH}" analyze "${largeFile}" --verbose`, {
+        encoding: "utf-8"
+      })
+      const endTime = Date.now()
+
+      expect(result).toContain("📁 Found 1 files to analyze")
+      expect(result).toContain("📊 Analysis completed:")
+
+      // 큰 파일도 적절한 시간 내에 처리되는지 확인 (10초 이내)
+      expect(endTime - startTime).toBeLessThan(10000)
+    })
+  })
+})
