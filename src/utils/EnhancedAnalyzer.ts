@@ -8,8 +8,6 @@ import * as fs from 'node:fs'
 import {
   analyzeTypeScriptFile,
   analyzeMarkdownFile,
-  AnalysisEngine,
-  AnalysisEngineFactory,
   PathResolverInterpreter
 } from '@context-action/dependency-linker'
 import type { AnalysisResult } from '@context-action/dependency-linker'

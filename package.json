@@ -6,7 +6,7 @@
   "license": "MIT",
   "description": "A basic Effect CLI application",
   "bin": {
-    "effect-cli": "./bin.cjs"
+    "effect-cli": "./bin.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,10 @@
     "start": "node dist/bin.js",
     "build": "tsup && pnpm copy-package-json",
     "build:ts": "tsup",
+    "build:prod": "NODE_ENV=production tsup && pnpm copy-package-json",
+    "build:tsc": "tsc -p tsconfig.build.json && pnpm copy-package-json",
     "clean": "rimraf dist/*",
+    "benchmark": "node dist/bin.cjs classify . --analysis-depth comprehensive --verbose",
     "check": "tsc -b tsconfig.json",
     "lint": "eslint \"**/{src,test,examples,scripts,dtslint}/**/*.{ts,mjs}\"",
     "lint-fix": "pnpm lint --fix",

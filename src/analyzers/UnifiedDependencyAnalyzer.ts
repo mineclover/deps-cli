@@ -45,13 +45,10 @@ export class UnifiedDependencyAnalyzer {
   private documentAnalyzer: DocumentDependencyAnalyzer
   private codeAnalyzer: CodeDependencyAnalyzer
 
-  constructor(
-    private projectRoot: string,
-    private config: AnalysisConfig
-  ) {
-    this.testAnalyzer = new TestDependencyAnalyzer(config)
-    this.documentAnalyzer = new DocumentDependencyAnalyzer(config)
-    this.codeAnalyzer = new CodeDependencyAnalyzer(config, projectRoot)
+  constructor(private projectRoot: string) {
+    this.testAnalyzer = new TestDependencyAnalyzer()
+    this.documentAnalyzer = new DocumentDependencyAnalyzer()
+    this.codeAnalyzer = new CodeDependencyAnalyzer(projectRoot)
   }
 
   async analyzeProject(files: string[]): Promise<UnifiedAnalysisResult> {
@@ -65,10 +62,12 @@ export class UnifiedDependencyAnalyzer {
     // 노드 맵 초기화
     const nodes = new Map<string, DependencyNode>()
 
-    // 각 파일 타입별 분석
-    const testResults = await this.analyzeTestFiles(fileGroups.test, nodes, warnings)
-    const docResults = await this.analyzeDocumentFiles(fileGroups.docs, nodes, warnings)
-    const codeResults = await this.analyzeCodeFiles(fileGroups.code, nodes, warnings)
+    // 각 파일 타입별 병렬 분석
+    const [testResults, docResults, codeResults] = await Promise.all([
+      this.analyzeTestFiles(fileGroups.test, nodes, warnings),
+      this.analyzeDocumentFiles(fileGroups.docs, nodes, warnings),
+      this.analyzeCodeFiles(fileGroups.code, nodes, warnings)
+    ])
 
     // 라이브러리 노드들 추가 (외부 의존성)
     this.addLibraryNodes(nodes, codeResults, testResults)

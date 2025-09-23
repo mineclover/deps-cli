@@ -197,7 +197,7 @@ const program = queueStatusAction({ format: "table", session: none() }).pipe(
 export { program as QueueStatusProgram }
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (typeof import.meta !== 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
   Effect.runPromise(program.pipe(Effect.provide(BasicQueueSystemLayer)))
     .then(() => {
       process.exit(0)

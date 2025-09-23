@@ -37,9 +37,17 @@ export const createFullCommand = async () => {
 }
 
 // Full command runner (lazy loaded)
-export const runFull = async (argv: Array<string>) => {
-  const fullRunner = await createFullCommand()
-  return fullRunner(argv)
+export const runFull = async () => {
+  const { queueCommand, queueStatusCommand, simpleQueueCommand } = await import("./commands/index.js")
+
+  const fullCommand = mainCommand.pipe(
+    Command.withSubcommands([analyzeCommand, classifyCommand, queueCommand, queueStatusCommand, simpleQueueCommand])
+  )
+
+  return Command.run(fullCommand, {
+    name: "Effect CLI Application",
+    version: "1.0.0"
+  })
 }
 
 // Default export for backward compatibility

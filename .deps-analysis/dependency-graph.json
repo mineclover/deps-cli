@@ -1,16 +1,65 @@
 {
   "projectRoot": "/Users/junwoobang/project/deps-cli",
-  "timestamp": "2025-09-23T11:25:05.291Z",
+  "timestamp": "2025-09-23T12:25:12.412Z",
   "version": "1.0.0",
   "metrics": {
-    "totalFiles": 73,
-    "totalDependencies": 214,
-    "averageDependenciesPerFile": 2.9315068493150687,
+    "totalFiles": 109,
+    "totalDependencies": 342,
+    "averageDependenciesPerFile": 3.1376146788990824,
     "cyclicDependencyCount": 0,
-    "isolatedFileCount": 5,
+    "isolatedFileCount": 6,
     "maxDepth": 1
   },
   "clusters": {
+    "examples": {
+      "name": "examples",
+      "files": [
+        "examples/UserProfile.tsx",
+        "examples/UserService.ts",
+        "examples/scenarios/UserService.ts"
+      ],
+      "type": "feature",
+      "cohesion": 0,
+      "coupling": 1
+    },
+    "samples": {
+      "name": "samples",
+      "files": [
+        "samples/commands/CatCommand.ts",
+        "samples/commands/EnhancedListCommand.ts",
+        "samples/commands/FindCommand.ts",
+        "samples/commands/ListCommand.ts",
+        "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+        "samples/commands/QueueDemo.ts",
+        "samples/commands/SampleCommand.ts",
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "samples/commands/UXDemoCommand.ts",
+        "samples/commands/config.ts",
+        "samples/commands/index.ts"
+      ],
+      "type": "feature",
+      "cohesion": 0,
+      "coupling": 1
+    },
+    "scripts": {
+      "name": "scripts",
+      "files": [
+        "scripts/copy-package-json.ts"
+      ],
+      "type": "feature",
+      "cohesion": 0,
+      "coupling": 1
+    },
+    "specs": {
+      "name": "specs",
+      "files": [
+        "specs/001-treesitter/contracts/ICodeParser.ts"
+      ],
+      "type": "feature",
+      "cohesion": 0,
+      "coupling": 1
+    },
     "src": {
       "name": "src",
       "files": [
@@ -28,6 +77,7 @@
         "src/commands/SimpleQueueCommand.ts",
         "src/commands/index.ts",
         "src/commands/simple.ts",
+        "src/errors/AnalysisErrors.ts",
         "src/layers/index.ts",
         "src/services/CodeParser/CodeParser.ts",
         "src/services/CodeParser/ICodeParser.ts",
@@ -37,6 +87,7 @@
         "src/services/FileSystem.ts",
         "src/services/FileSystemLive.ts",
         "src/services/FileSystemTest.ts",
+        "src/services/MetadataService.ts",
         "src/services/Queue/AdaptiveThrottlerLive.ts",
         "src/services/Queue/AdvancedCache.ts",
         "src/services/Queue/CircuitBreakerLive.ts",
@@ -58,7 +109,30 @@
         "src/types/ReferenceMetadata.ts",
         "src/utils/EnhancedAnalyzer.ts",
         "src/utils/IdGenerator.ts",
-        "src/utils/ProjectRootDetector.ts"
+        "src/utils/ProjectRootDetector.ts",
+        "src/utils/StreamingAnalyzer.ts"
+      ],
+      "type": "feature",
+      "cohesion": 0,
+      "coupling": 1
+    },
+    "test": {
+      "name": "test",
+      "files": [
+        "test/templates/CommandTestTemplate.ts",
+        "test/templates/ServiceTestTemplate.ts",
+        "test/utils/effectTestUtils.ts",
+        "test/utils/testHelpers.ts"
+      ],
+      "type": "feature",
+      "cohesion": 0,
+      "coupling": 1
+    },
+    ".": {
+      "name": ".",
+      "files": [
+        "tsup.config.ts",
+        "vitest.config.ts"
       ],
       "type": "feature",
       "cohesion": 0,
@@ -66,6 +140,1563 @@
     }
   },
   "nodes": {
+    "examples/UserProfile.tsx": {
+      "filePath": "examples/UserProfile.tsx",
+      "nodeType": "code",
+      "relativePath": "examples/UserProfile.tsx",
+      "size": 2603,
+      "lastModified": "2025-09-23T03:59:37.460Z",
+      "language": "typescript-jsx",
+      "framework": "react",
+      "metadata": {
+        "complexity": 1.3,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "../services/UserService",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/services/UserService",
+          "exists": false,
+          "line": 2,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "useState",
+            "useEffect"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../utils/Logger",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/utils/Logger",
+          "exists": false,
+          "line": 3,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "useState",
+            "useEffect"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "./UserProfile.css",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/UserProfile.css",
+          "exists": false,
+          "line": 4,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "useState",
+            "useEffect"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "react",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "examples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 4,
+        "internalDependencies": 3,
+        "externalDependencies": 1,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "examples/UserService.ts": {
+      "filePath": "examples/UserService.ts",
+      "nodeType": "code",
+      "relativePath": "examples/UserService.ts",
+      "size": 4143,
+      "lastModified": "2025-09-23T03:59:53.277Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 2.6,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "../config/app.config",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/config/app.config",
+          "exists": false,
+          "line": 2,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "AxiosResponse"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../utils/Logger",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/utils/Logger",
+          "exists": false,
+          "line": 3,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "AxiosResponse"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../errors/ApiError",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/errors/ApiError",
+          "exists": false,
+          "line": 4,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "AxiosResponse"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "axios",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "examples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 4,
+        "internalDependencies": 3,
+        "externalDependencies": 1,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "examples/scenarios/UserService.ts": {
+      "filePath": "examples/scenarios/UserService.ts",
+      "nodeType": "code",
+      "relativePath": "examples/scenarios/UserService.ts",
+      "size": 5271,
+      "lastModified": "2025-09-23T08:16:26.694Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 2,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "./utils/Logger.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/scenarios/utils/Logger.js",
+          "exists": false,
+          "line": 8,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "./config/Config.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/scenarios/config/Config.js",
+          "exists": false,
+          "line": 9,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@/database/Database.js",
+          "resolvedPath": null,
+          "exists": false,
+          "line": 10,
+          "confidence": 0.5,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "./types/User.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/scenarios/types/User.js",
+          "exists": false,
+          "line": 11,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": true,
+          "exportedMembers": [],
+          "usage": "buildtime"
+        },
+        {
+          "source": "axios",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 7,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "node:path",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 1,
+          "type": "builtin-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "node:fs",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 6,
+          "confidence": 1,
+          "type": "builtin-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "examples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 7,
+        "internalDependencies": 4,
+        "externalDependencies": 3,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "samples/commands/CatCommand.ts": {
+      "filePath": "samples/commands/CatCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/CatCommand.ts",
+      "size": 2108,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.7,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 2,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 3,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 4,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 5,
+        "internalDependencies": 0,
+        "externalDependencies": 5,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "samples/commands/EnhancedListCommand.ts": {
+      "filePath": "samples/commands/EnhancedListCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/EnhancedListCommand.ts",
+      "size": 6475,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 3.3,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "../services/Queue/TransparentQueueAdapter.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/Queue/TransparentQueueAdapter.js",
+          "exists": false,
+          "line": 21,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 14,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 15,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 16,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Array",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 17,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 18,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 19,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 7,
+        "internalDependencies": 1,
+        "externalDependencies": 6,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "samples/commands/FindCommand.ts": {
+      "filePath": "samples/commands/FindCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/FindCommand.ts",
+      "size": 2270,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 1.2,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 2,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 3,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 4,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 5,
+        "internalDependencies": 0,
+        "externalDependencies": 5,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "samples/commands/ListCommand.ts": {
+      "filePath": "samples/commands/ListCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/ListCommand.ts",
+      "size": 2426,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.9,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "../services/FileSystem.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/FileSystem.js",
+          "exists": false,
+          "line": 7,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 2,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 3,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Array",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 4,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 6,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 7,
+        "internalDependencies": 1,
+        "externalDependencies": 6,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "samples/commands/Phase3_5_RuntimeIntegrationExample.ts": {
+      "filePath": "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+      "size": 6445,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.8,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "../services/Queue/index.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/Queue/index.js",
+          "exists": false,
+          "line": 17,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 14,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 15,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 3,
+        "internalDependencies": 1,
+        "externalDependencies": 2,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "samples/commands/QueueDemo.ts": {
+      "filePath": "samples/commands/QueueDemo.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/QueueDemo.ts",
+      "size": 6474,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 1.2,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "../services/Queue/index.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/Queue/index.js",
+          "exists": false,
+          "line": 14,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "log"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 11,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Duration",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 12,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "log"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 13,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "log"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 4,
+        "internalDependencies": 1,
+        "externalDependencies": 3,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "samples/commands/SampleCommand.ts": {
+      "filePath": "samples/commands/SampleCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/SampleCommand.ts",
+      "size": 8139,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 2.3,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "../services/FileSystem.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/FileSystem.js",
+          "exists": false,
+          "line": 7,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 2,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 3,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 4,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Option",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 6,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 7,
+        "internalDependencies": 1,
+        "externalDependencies": 6,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "samples/commands/SimpleListCommand.ts": {
+      "filePath": "samples/commands/SimpleListCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/SimpleListCommand.ts",
+      "size": 1781,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.9,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 7,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 8,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 9,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 10,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 11,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/platform/FileSystem",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 12,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/platform/Path",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 13,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 7,
+        "internalDependencies": 0,
+        "externalDependencies": 7,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "samples/commands/SimpleSampleCommand.ts": {
+      "filePath": "samples/commands/SimpleSampleCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/SimpleSampleCommand.ts",
+      "size": 7290,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 2.1,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 7,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 8,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 9,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 10,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 11,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Option",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 12,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/platform/FileSystem",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 13,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/platform/Path",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 14,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 8,
+        "internalDependencies": 0,
+        "externalDependencies": 8,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "samples/commands/UXDemoCommand.ts": {
+      "filePath": "samples/commands/UXDemoCommand.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/UXDemoCommand.ts",
+      "size": 9781,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 2.3,
+        "maintainability": 0.7
+      },
+      "dependencies": [
+        {
+          "source": "../services/UserExperience/index.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/UserExperience/index.js",
+          "exists": false,
+          "line": 20,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "../services/UserExperience/utils.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/UserExperience/utils.js",
+          "exists": false,
+          "line": 21,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Args",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 13,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Command",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 14,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/cli/Options",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 15,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Console",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 16,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Duration",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 17,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 18,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 8,
+        "internalDependencies": 2,
+        "externalDependencies": 6,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "samples/commands/config.ts": {
+      "filePath": "samples/commands/config.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/config.ts",
+      "size": 742,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.3,
+        "maintainability": 1
+      },
+      "dependencies": [],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "samples/commands/index.ts": {
+      "filePath": "samples/commands/index.ts",
+      "nodeType": "code",
+      "relativePath": "samples/commands/index.ts",
+      "size": 1955,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.9,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "./CatCommand.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/CatCommand.js",
+          "exists": false,
+          "line": 8,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "./config.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/config.js",
+          "exists": false,
+          "line": 9,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "catCommand"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "./FindCommand.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/FindCommand.js",
+          "exists": false,
+          "line": 10,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "catCommand"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "./ListCommand.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/ListCommand.js",
+          "exists": false,
+          "line": 11,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "catCommand"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "./SampleCommand.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/SampleCommand.js",
+          "exists": false,
+          "line": 12,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "catCommand"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "./examples/index.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/examples/index.js",
+          "exists": false,
+          "line": 52,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "catCommand"
+          ],
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "samples",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 6,
+        "internalDependencies": 6,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "scripts/copy-package-json.ts": {
+      "filePath": "scripts/copy-package-json.ts",
+      "nodeType": "code",
+      "relativePath": "scripts/copy-package-json.ts",
+      "size": 1877,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.4,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "@effect/platform",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "@effect/platform-node",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 2,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "FileSystem",
+            "Path"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 3,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "FileSystem",
+            "Path"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "scripts",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 3,
+        "internalDependencies": 0,
+        "externalDependencies": 3,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "specs/001-treesitter/contracts/ICodeParser.ts": {
+      "filePath": "specs/001-treesitter/contracts/ICodeParser.ts",
+      "nodeType": "code",
+      "relativePath": "specs/001-treesitter/contracts/ICodeParser.ts",
+      "size": 1117,
+      "lastModified": "2025-09-22T18:41:13.340Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.5,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "tree-sitter",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^0.21.1",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "specs",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 1,
+        "internalDependencies": 0,
+        "externalDependencies": 1,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
     "src/Cli.ts": {
       "filePath": "src/Cli.ts",
       "nodeType": "code",
@@ -132,8 +1763,8 @@
       "filePath": "src/analyzers/CodeDependencyAnalyzer.ts",
       "nodeType": "code",
       "relativePath": "src/analyzers/CodeDependencyAnalyzer.ts",
-      "size": 20526,
-      "lastModified": "2025-09-23T09:12:03.500Z",
+      "size": 20408,
+      "lastModified": "2025-09-23T11:59:59.124Z",
       "language": "typescript",
       "metadata": {
         "complexity": 8.6,
@@ -196,8 +1827,8 @@
       "filePath": "src/analyzers/DocumentDependencyAnalyzer.ts",
       "nodeType": "code",
       "relativePath": "src/analyzers/DocumentDependencyAnalyzer.ts",
-      "size": 16351,
-      "lastModified": "2025-09-23T08:11:19.138Z",
+      "size": 16295,
+      "lastModified": "2025-09-23T12:00:04.354Z",
       "language": "typescript",
       "metadata": {
         "complexity": 6,
@@ -260,11 +1891,11 @@
       "filePath": "src/analyzers/MetadataExtractor.ts",
       "nodeType": "code",
       "relativePath": "src/analyzers/MetadataExtractor.ts",
-      "size": 11298,
-      "lastModified": "2025-09-23T10:02:44.703Z",
+      "size": 11360,
+      "lastModified": "2025-09-23T12:01:56.428Z",
       "language": "typescript",
       "metadata": {
-        "complexity": 6.1,
+        "complexity": 6.2,
         "maintainability": 0.49999999999999994
       },
       "dependencies": [
@@ -272,7 +1903,7 @@
           "source": "../utils/IdGenerator.js",
           "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/IdGenerator.js",
           "exists": false,
-          "line": 7,
+          "line": 6,
           "confidence": 0.6,
           "type": "internal-module",
           "importType": "import",
@@ -284,7 +1915,7 @@
           "source": "../types/ReferenceMetadata.js",
           "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/ReferenceMetadata.js",
           "exists": false,
-          "line": 8,
+          "line": 7,
           "confidence": 0.6,
           "type": "internal-module",
           "importType": "import",
@@ -296,7 +1927,7 @@
           "source": "./UnifiedDependencyAnalyzer.js",
           "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/UnifiedDependencyAnalyzer.js",
           "exists": false,
-          "line": 15,
+          "line": 14,
           "confidence": 0.6,
           "type": "internal-module",
           "importType": "import",
@@ -308,7 +1939,7 @@
           "source": "../types/DependencyClassification.js",
           "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/DependencyClassification.js",
           "exists": false,
-          "line": 16,
+          "line": 15,
           "confidence": 0.6,
           "type": "internal-module",
           "importType": "import",
@@ -327,18 +1958,6 @@
           "isTypeOnly": false,
           "exportedMembers": [],
           "usage": "runtime"
-        },
-        {
-          "source": "node:fs",
-          "resolvedPath": null,
-          "exists": true,
-          "line": 6,
-          "confidence": 1,
-          "type": "builtin-module",
-          "importType": "import",
-          "isTypeOnly": false,
-          "exportedMembers": [],
-          "usage": "runtime"
         }
       ],
       "dependents": [],
@@ -347,9 +1966,9 @@
         "code"
       ],
       "analysis": {
-        "totalDependencies": 6,
+        "totalDependencies": 5,
         "internalDependencies": 4,
-        "externalDependencies": 2,
+        "externalDependencies": 1,
         "cyclicDependencies": [],
         "riskFactors": [
           "high-complexity"
@@ -360,8 +1979,8 @@
       "filePath": "src/analyzers/TestDependencyAnalyzer.ts",
       "nodeType": "code",
       "relativePath": "src/analyzers/TestDependencyAnalyzer.ts",
-      "size": 11265,
-      "lastModified": "2025-09-23T08:22:16.503Z",
+      "size": 11209,
+      "lastModified": "2025-09-23T12:00:08.708Z",
       "language": "typescript",
       "metadata": {
         "complexity": 3.8,
@@ -424,8 +2043,8 @@
       "filePath": "src/analyzers/UnifiedDependencyAnalyzer.ts",
       "nodeType": "code",
       "relativePath": "src/analyzers/UnifiedDependencyAnalyzer.ts",
-      "size": 25080,
-      "lastModified": "2025-09-23T08:20:05.714Z",
+      "size": 25032,
+      "lastModified": "2025-09-23T12:02:13.534Z",
       "language": "typescript",
       "metadata": {
         "complexity": 7.9,
@@ -693,11 +2312,11 @@
       "filePath": "src/commands/AnalyzeCommand.ts",
       "nodeType": "code",
       "relativePath": "src/commands/AnalyzeCommand.ts",
-      "size": 59155,
-      "lastModified": "2025-09-23T07:46:17.365Z",
+      "size": 59035,
+      "lastModified": "2025-09-23T12:01:46.277Z",
       "language": "typescript",
       "metadata": {
-        "complexity": 30.7,
+        "complexity": 30.8,
         "maintainability": 0.49999999999999994
       },
       "dependencies": [
@@ -705,7 +2324,7 @@
           "source": "../utils/EnhancedAnalyzer.js",
           "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/EnhancedAnalyzer.js",
           "exists": false,
-          "line": 17,
+          "line": 15,
           "confidence": 0.6,
           "type": "internal-module",
           "importType": "import",
@@ -719,7 +2338,7 @@
           "source": "../utils/ProjectRootDetector.js",
           "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/ProjectRootDetector.js",
           "exists": false,
-          "line": 24,
+          "line": 22,
           "confidence": 0.6,
           "type": "internal-module",
           "importType": "import",
@@ -745,7 +2364,7 @@
           "source": "@effect/cli/Args",
           "resolvedPath": null,
           "exists": true,
-          "line": 25,
+          "line": 23,
           "confidence": 0.9,
           "type": "external-library",
           "importType": "import",
@@ -759,7 +2378,7 @@
           "source": "@effect/cli/Command",
           "resolvedPath": null,
           "exists": true,
-          "line": 26,
+          "line": 24,
           "confidence": 0.9,
           "type": "external-library",
           "importType": "import",
@@ -773,7 +2392,7 @@
           "source": "@effect/cli/Options",
           "resolvedPath": null,
           "exists": true,
-          "line": 27,
+          "line": 25,
           "confidence": 0.9,
           "type": "external-library",
           "importType": "import",
@@ -787,7 +2406,7 @@
           "source": "effect/Console",
           "resolvedPath": null,
           "exists": true,
-          "line": 28,
+          "line": 26,
           "confidence": 0.9,
           "type": "external-library",
           "importType": "import",
@@ -802,7 +2421,7 @@
           "source": "effect/Effect",
           "resolvedPath": null,
           "exists": true,
-          "line": 29,
+          "line": 27,
           "confidence": 0.9,
           "type": "external-library",
           "importType": "import",
@@ -817,7 +2436,7 @@
           "source": "effect/Option",
           "resolvedPath": null,
           "exists": true,
-          "line": 30,
+          "line": 28,
           "confidence": 0.9,
           "type": "external-library",
           "importType": "import",
@@ -832,7 +2451,7 @@
           "source": "glob",
           "resolvedPath": null,
           "exists": true,
-          "line": 305,
+          "line": 304,
           "confidence": 0.9,
           "type": "external-library",
           "importType": "dynamic",
@@ -841,10 +2460,24 @@
           "usage": "runtime"
         },
         {
+          "source": "node:path",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 29,
+          "confidence": 1,
+          "type": "builtin-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "AnalysisResult"
+          ],
+          "usage": "runtime"
+        },
+        {
           "source": "path",
           "resolvedPath": null,
           "exists": true,
-          "line": 797,
+          "line": 795,
           "confidence": 1,
           "type": "builtin-module",
           "importType": "dynamic",
@@ -859,9 +2492,9 @@
         "code"
       ],
       "analysis": {
-        "totalDependencies": 11,
+        "totalDependencies": 12,
         "internalDependencies": 2,
-        "externalDependencies": 9,
+        "externalDependencies": 10,
         "cyclicDependencies": [],
         "riskFactors": [
           "high-complexity"
@@ -872,8 +2505,8 @@
       "filePath": "src/commands/ClassifyCommand.ts",
       "nodeType": "code",
       "relativePath": "src/commands/ClassifyCommand.ts",
-      "size": 31775,
-      "lastModified": "2025-09-23T11:23:59.431Z",
+      "size": 31759,
+      "lastModified": "2025-09-23T12:01:23.046Z",
       "language": "typescript",
       "metadata": {
         "complexity": 9.5,
@@ -1498,6 +3131,45 @@
         "totalDependencies": 2,
         "internalDependencies": 2,
         "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "src/errors/AnalysisErrors.ts": {
+      "filePath": "src/errors/AnalysisErrors.ts",
+      "nodeType": "code",
+      "relativePath": "src/errors/AnalysisErrors.ts",
+      "size": 1684,
+      "lastModified": "2025-09-23T12:02:51.031Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.6,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "effect/Data",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "src",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 1,
+        "internalDependencies": 0,
+        "externalDependencies": 1,
         "cyclicDependencies": [],
         "riskFactors": []
       }
@@ -2177,6 +3849,107 @@
       "analysis": {
         "totalDependencies": 4,
         "internalDependencies": 1,
+        "externalDependencies": 3,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "src/services/MetadataService.ts": {
+      "filePath": "src/services/MetadataService.ts",
+      "nodeType": "code",
+      "relativePath": "src/services/MetadataService.ts",
+      "size": 1392,
+      "lastModified": "2025-09-23T12:02:40.468Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.2,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "../analyzers/MetadataExtractor.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/MetadataExtractor.js",
+          "exists": false,
+          "line": 8,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "../types/ReferenceMetadata.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/ReferenceMetadata.js",
+          "exists": false,
+          "line": 9,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": true,
+          "exportedMembers": [],
+          "usage": "buildtime"
+        },
+        {
+          "source": "../analyzers/UnifiedDependencyAnalyzer.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/UnifiedDependencyAnalyzer.js",
+          "exists": false,
+          "line": 10,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": true,
+          "exportedMembers": [],
+          "usage": "buildtime"
+        },
+        {
+          "source": "effect/Context",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 6,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Layer",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 7,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "src",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 6,
+        "internalDependencies": 3,
         "externalDependencies": 3,
         "cyclicDependencies": [],
         "riskFactors": []
@@ -4091,8 +5864,8 @@
       "filePath": "src/utils/EnhancedAnalyzer.ts",
       "nodeType": "code",
       "relativePath": "src/utils/EnhancedAnalyzer.ts",
-      "size": 12138,
-      "lastModified": "2025-09-23T07:43:18.946Z",
+      "size": 12095,
+      "lastModified": "2025-09-23T11:59:33.821Z",
       "language": "typescript",
       "metadata": {
         "complexity": 5.2,
@@ -4103,7 +5876,7 @@
           "source": "./ProjectRootDetector.js",
           "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/ProjectRootDetector.js",
           "exists": false,
-          "line": 16,
+          "line": 14,
           "confidence": 0.6,
           "type": "internal-module",
           "importType": "import",
@@ -4277,16 +6050,774 @@
         ]
       }
     },
+    "src/utils/StreamingAnalyzer.ts": {
+      "filePath": "src/utils/StreamingAnalyzer.ts",
+      "nodeType": "code",
+      "relativePath": "src/utils/StreamingAnalyzer.ts",
+      "size": 1030,
+      "lastModified": "2025-09-23T12:02:22.152Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.4,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "node:fs",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 5,
+          "confidence": 1,
+          "type": "builtin-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "node:readline",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 6,
+          "confidence": 1,
+          "type": "builtin-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "src",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 2,
+        "internalDependencies": 0,
+        "externalDependencies": 2,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "test/templates/CommandTestTemplate.ts": {
+      "filePath": "test/templates/CommandTestTemplate.ts",
+      "nodeType": "code",
+      "relativePath": "test/templates/CommandTestTemplate.ts",
+      "size": 16296,
+      "lastModified": "2025-09-22T18:41:13.347Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 1.7,
+        "maintainability": 0.49999999999999994
+      },
+      "dependencies": [
+        {
+          "source": "../utils/effectTestUtils.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/test/utils/effectTestUtils.js",
+          "exists": false,
+          "line": 16,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/commands/MyCommand.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/MyCommand.js",
+          "exists": false,
+          "line": 25,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/FileSystem.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/FileSystem.js",
+          "exists": false,
+          "line": 28,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/Queue/index.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+          "exists": false,
+          "line": 29,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 11,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Layer",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 12,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "vitest",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 13,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.2.4",
+          "usage": "devtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "test",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 7,
+        "internalDependencies": 4,
+        "externalDependencies": 3,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "test/templates/ServiceTestTemplate.ts": {
+      "filePath": "test/templates/ServiceTestTemplate.ts",
+      "nodeType": "code",
+      "relativePath": "test/templates/ServiceTestTemplate.ts",
+      "size": 19538,
+      "lastModified": "2025-09-22T18:41:13.347Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 1.7,
+        "maintainability": 0.49999999999999994
+      },
+      "dependencies": [
+        {
+          "source": "../utils/effectTestUtils.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/test/utils/effectTestUtils.js",
+          "exists": false,
+          "line": 17,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "millis"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/MyService.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/MyService.js",
+          "exists": false,
+          "line": 26,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "millis"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/FileSystem.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/FileSystem.js",
+          "exists": false,
+          "line": 29,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "millis"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/NetworkClient.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/NetworkClient.js",
+          "exists": false,
+          "line": 30,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "millis"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Duration",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 11,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 12,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "millis"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Layer",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 13,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "millis"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "vitest",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 14,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "millis"
+          ],
+          "packageVersion": "^3.2.4",
+          "usage": "devtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "test",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 8,
+        "internalDependencies": 4,
+        "externalDependencies": 4,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "test/utils/effectTestUtils.ts": {
+      "filePath": "test/utils/effectTestUtils.ts",
+      "nodeType": "code",
+      "relativePath": "test/utils/effectTestUtils.ts",
+      "size": 12857,
+      "lastModified": "2025-09-22T18:41:13.348Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 5.4,
+        "maintainability": 0.49999999999999994
+      },
+      "dependencies": [
+        {
+          "source": "effect/Duration",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 12,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "type"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 14,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "type"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Exit",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 16,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "type"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Layer",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 17,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "type"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "vitest",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 20,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "type"
+          ],
+          "packageVersion": "^3.2.4",
+          "usage": "devtime"
+        },
+        {
+          "source": "effect/Either",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 15,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": true,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "buildtime"
+        },
+        {
+          "source": "effect/Schedule",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 19,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": true,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "buildtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "test",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 7,
+        "internalDependencies": 0,
+        "externalDependencies": 7,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "test/utils/testHelpers.ts": {
+      "filePath": "test/utils/testHelpers.ts",
+      "nodeType": "code",
+      "relativePath": "test/utils/testHelpers.ts",
+      "size": 12321,
+      "lastModified": "2025-09-22T18:41:13.348Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 2.3,
+        "maintainability": 0.49999999999999994
+      },
+      "dependencies": [
+        {
+          "source": "../../src/services/Queue/index.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+          "exists": false,
+          "line": 26,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "GenericTag"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/Queue/TransparentQueueAdapter.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/TransparentQueueAdapter.js",
+          "exists": false,
+          "line": 27,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "GenericTag"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/UserExperience/index.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/UserExperience/index.js",
+          "exists": false,
+          "line": 28,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "GenericTag"
+          ],
+          "usage": "runtime"
+        },
+        {
+          "source": "../../src/services/Queue/types.js",
+          "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+          "exists": false,
+          "line": 23,
+          "confidence": 0.6,
+          "type": "internal-module",
+          "importType": "import",
+          "isTypeOnly": true,
+          "exportedMembers": [],
+          "usage": "buildtime"
+        },
+        {
+          "source": "effect/Context",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 14,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Duration",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 15,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "GenericTag"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Effect",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 17,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "GenericTag"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Layer",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 18,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "GenericTag"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        },
+        {
+          "source": "effect/Option",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 20,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [
+            "GenericTag"
+          ],
+          "packageVersion": "^3.17.13",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "test",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 9,
+        "internalDependencies": 4,
+        "externalDependencies": 5,
+        "cyclicDependencies": [],
+        "riskFactors": [
+          "high-complexity"
+        ]
+      }
+    },
+    "tsup.config.ts": {
+      "filePath": "tsup.config.ts",
+      "nodeType": "code",
+      "relativePath": "tsup.config.ts",
+      "size": 261,
+      "lastModified": "2025-09-23T12:03:32.892Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.1,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "tsup",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^8.5.0",
+          "usage": "runtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "tsup.config.ts",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 1,
+        "internalDependencies": 0,
+        "externalDependencies": 1,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "vitest.config.ts": {
+      "filePath": "vitest.config.ts",
+      "nodeType": "code",
+      "relativePath": "vitest.config.ts",
+      "size": 804,
+      "lastModified": "2025-09-22T18:41:13.348Z",
+      "language": "typescript",
+      "metadata": {
+        "complexity": 0.1,
+        "maintainability": 1
+      },
+      "dependencies": [
+        {
+          "source": "vitest/config",
+          "resolvedPath": null,
+          "exists": true,
+          "line": 1,
+          "confidence": 0.9,
+          "type": "external-library",
+          "importType": "import",
+          "isTypeOnly": false,
+          "exportedMembers": [],
+          "packageVersion": "^3.2.4",
+          "usage": "devtime"
+        }
+      ],
+      "dependents": [],
+      "clusters": [
+        "vitest.config.ts",
+        "code"
+      ],
+      "analysis": {
+        "totalDependencies": 1,
+        "internalDependencies": 0,
+        "externalDependencies": 1,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "react": {
+      "filePath": "react",
+      "nodeType": "library",
+      "relativePath": "react",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "examples/UserProfile.tsx",
+        "src/services/CodeParser/ICodeParser.ts",
+        "src/services/CodeParser/RegexNamedImportExtractor.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "axios": {
+      "filePath": "axios",
+      "nodeType": "library",
+      "relativePath": "axios",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "examples/UserService.ts",
+        "examples/scenarios/UserService.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "@effect/cli/Args": {
+      "filePath": "@effect/cli/Args",
+      "nodeType": "library",
+      "relativePath": "@effect/cli/Args",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/CatCommand.ts",
+        "samples/commands/EnhancedListCommand.ts",
+        "samples/commands/FindCommand.ts",
+        "samples/commands/ListCommand.ts",
+        "samples/commands/SampleCommand.ts",
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "samples/commands/UXDemoCommand.ts",
+        "src/commands/AnalyzeCommand.ts",
+        "src/commands/ClassifyCommand.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
     "@effect/cli/Command": {
       "filePath": "@effect/cli/Command",
       "nodeType": "library",
       "relativePath": "@effect/cli/Command",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
       "dependents": [
+        "samples/commands/CatCommand.ts",
+        "samples/commands/EnhancedListCommand.ts",
+        "samples/commands/FindCommand.ts",
+        "samples/commands/ListCommand.ts",
+        "samples/commands/SampleCommand.ts",
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "samples/commands/UXDemoCommand.ts",
         "src/Cli.ts",
         "src/commands/AnalyzeCommand.ts",
         "src/commands/ClassifyCommand.ts",
@@ -4305,12 +6836,389 @@
         "riskFactors": []
       }
     },
+    "@effect/cli/Options": {
+      "filePath": "@effect/cli/Options",
+      "nodeType": "library",
+      "relativePath": "@effect/cli/Options",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/CatCommand.ts",
+        "samples/commands/EnhancedListCommand.ts",
+        "samples/commands/FindCommand.ts",
+        "samples/commands/ListCommand.ts",
+        "samples/commands/SampleCommand.ts",
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "samples/commands/UXDemoCommand.ts",
+        "src/commands/AnalyzeCommand.ts",
+        "src/commands/ClassifyCommand.ts",
+        "src/commands/QueueCommand.ts",
+        "src/commands/QueueStatusCommand.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect/Console": {
+      "filePath": "effect/Console",
+      "nodeType": "library",
+      "relativePath": "effect/Console",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/CatCommand.ts",
+        "samples/commands/EnhancedListCommand.ts",
+        "samples/commands/FindCommand.ts",
+        "samples/commands/ListCommand.ts",
+        "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+        "samples/commands/QueueDemo.ts",
+        "samples/commands/SampleCommand.ts",
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "samples/commands/UXDemoCommand.ts",
+        "src/commands/AnalyzeCommand.ts",
+        "src/commands/ClassifyCommand.ts",
+        "src/commands/QueueCommand.ts",
+        "src/commands/QueueStatusCommand.ts",
+        "src/commands/SimpleQueueCommand.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect/Effect": {
+      "filePath": "effect/Effect",
+      "nodeType": "library",
+      "relativePath": "effect/Effect",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/CatCommand.ts",
+        "samples/commands/EnhancedListCommand.ts",
+        "samples/commands/FindCommand.ts",
+        "samples/commands/ListCommand.ts",
+        "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+        "samples/commands/QueueDemo.ts",
+        "samples/commands/SampleCommand.ts",
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "samples/commands/UXDemoCommand.ts",
+        "src/bin.ts",
+        "src/commands/AnalyzeCommand.ts",
+        "src/commands/ClassifyCommand.ts",
+        "src/commands/QueueCommand.ts",
+        "src/commands/QueueStatusCommand.ts",
+        "src/commands/SimpleQueueCommand.ts",
+        "src/services/FileSystemLive.ts",
+        "src/services/FileSystemTest.ts",
+        "src/services/MetadataService.ts",
+        "src/services/Queue/AdaptiveThrottlerLive.ts",
+        "src/services/Queue/AdvancedCache.ts",
+        "src/services/Queue/CircuitBreakerLive.ts",
+        "src/services/Queue/InternalQueueLive.ts",
+        "src/services/Queue/MemoryOptimizer.ts",
+        "src/services/Queue/PerformanceProfiler.ts",
+        "src/services/Queue/QueueMonitorLive.ts",
+        "src/services/Queue/QueuePersistenceLive.ts",
+        "src/services/Queue/SchemaManager.ts",
+        "src/services/Queue/StabilityMonitorLive.ts",
+        "src/services/Queue/TransparentQueueAdapter.ts",
+        "src/services/Queue/index.ts",
+        "src/services/UserExperience/UserExperienceEnhancer.ts",
+        "src/services/UserExperience/utils.ts",
+        "test/templates/CommandTestTemplate.ts",
+        "test/templates/ServiceTestTemplate.ts",
+        "test/utils/effectTestUtils.ts",
+        "test/utils/testHelpers.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect/Array": {
+      "filePath": "effect/Array",
+      "nodeType": "library",
+      "relativePath": "effect/Array",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/EnhancedListCommand.ts",
+        "samples/commands/ListCommand.ts",
+        "src/services/FileSystemLive.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect/Duration": {
+      "filePath": "effect/Duration",
+      "nodeType": "library",
+      "relativePath": "effect/Duration",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/QueueDemo.ts",
+        "samples/commands/UXDemoCommand.ts",
+        "src/commands/QueueCommand.ts",
+        "src/commands/SimpleQueueCommand.ts",
+        "src/services/Queue/AdaptiveThrottlerLive.ts",
+        "src/services/Queue/AdvancedCache.ts",
+        "src/services/Queue/InternalQueueLive.ts",
+        "src/services/Queue/MemoryOptimizer.ts",
+        "src/services/Queue/PerformanceProfiler.ts",
+        "src/services/Queue/StabilityMonitorLive.ts",
+        "src/services/Queue/TransparentQueueAdapter.ts",
+        "src/services/Queue/index.ts",
+        "src/services/Queue/types.ts",
+        "src/services/UserExperience/UserExperienceEnhancer.ts",
+        "src/services/UserExperience/utils.ts",
+        "test/templates/ServiceTestTemplate.ts",
+        "test/utils/effectTestUtils.ts",
+        "test/utils/testHelpers.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect/Option": {
+      "filePath": "effect/Option",
+      "nodeType": "library",
+      "relativePath": "effect/Option",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/SampleCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "src/commands/AnalyzeCommand.ts",
+        "src/commands/ClassifyCommand.ts",
+        "src/commands/QueueStatusCommand.ts",
+        "src/services/Queue/AdvancedCache.ts",
+        "src/services/Queue/CircuitBreakerLive.ts",
+        "src/services/Queue/InternalQueueLive.ts",
+        "src/services/Queue/QueueMonitorLive.ts",
+        "src/services/Queue/QueuePersistenceLive.ts",
+        "src/services/Queue/SchemaManager.ts",
+        "src/services/Queue/StabilityMonitorLive.ts",
+        "src/services/Queue/index.ts",
+        "test/utils/testHelpers.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "@effect/platform/FileSystem": {
+      "filePath": "@effect/platform/FileSystem",
+      "nodeType": "library",
+      "relativePath": "@effect/platform/FileSystem",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "src/services/FileSystemLive.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "@effect/platform/Path": {
+      "filePath": "@effect/platform/Path",
+      "nodeType": "library",
+      "relativePath": "@effect/platform/Path",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "samples/commands/SimpleListCommand.ts",
+        "samples/commands/SimpleSampleCommand.ts",
+        "src/services/FileSystemLive.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "@effect/platform": {
+      "filePath": "@effect/platform",
+      "nodeType": "library",
+      "relativePath": "@effect/platform",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "scripts/copy-package-json.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "@effect/platform-node": {
+      "filePath": "@effect/platform-node",
+      "nodeType": "library",
+      "relativePath": "@effect/platform-node",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "scripts/copy-package-json.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect": {
+      "filePath": "effect",
+      "nodeType": "library",
+      "relativePath": "effect",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "scripts/copy-package-json.ts",
+        "src/services/CodeParser/CodeParser.ts",
+        "src/services/CodeParser/ICodeParser.ts",
+        "src/services/CodeParser/NamedImportExtractor.ts",
+        "src/services/CodeParser/RegexNamedImportExtractor.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "tree-sitter": {
+      "filePath": "tree-sitter",
+      "nodeType": "library",
+      "relativePath": "tree-sitter",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "specs/001-treesitter/contracts/ICodeParser.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
     "@effect/experimental": {
       "filePath": "@effect/experimental",
       "nodeType": "library",
       "relativePath": "@effect/experimental",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4333,7 +7241,7 @@
       "nodeType": "library",
       "relativePath": "@effect/platform-node/NodeContext",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4357,7 +7265,7 @@
       "nodeType": "library",
       "relativePath": "@effect/platform-node/NodeFileSystem",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4381,7 +7289,7 @@
       "nodeType": "library",
       "relativePath": "@effect/platform-node/NodePath",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4405,7 +7313,7 @@
       "nodeType": "library",
       "relativePath": "@effect/platform-node/NodeRuntime",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4423,24 +7331,21 @@
         "riskFactors": []
       }
     },
-    "effect/Effect": {
-      "filePath": "effect/Effect",
+    "effect/Layer": {
+      "filePath": "effect/Layer",
       "nodeType": "library",
-      "relativePath": "effect/Effect",
+      "relativePath": "effect/Layer",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
       "dependents": [
         "src/bin.ts",
-        "src/commands/AnalyzeCommand.ts",
-        "src/commands/ClassifyCommand.ts",
-        "src/commands/QueueCommand.ts",
-        "src/commands/QueueStatusCommand.ts",
-        "src/commands/SimpleQueueCommand.ts",
+        "src/layers/index.ts",
         "src/services/FileSystemLive.ts",
         "src/services/FileSystemTest.ts",
+        "src/services/MetadataService.ts",
         "src/services/Queue/AdaptiveThrottlerLive.ts",
         "src/services/Queue/AdvancedCache.ts",
         "src/services/Queue/CircuitBreakerLive.ts",
@@ -4454,46 +7359,10 @@
         "src/services/Queue/TransparentQueueAdapter.ts",
         "src/services/Queue/index.ts",
         "src/services/UserExperience/UserExperienceEnhancer.ts",
-        "src/services/UserExperience/utils.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "effect/Layer": {
-      "filePath": "effect/Layer",
-      "nodeType": "library",
-      "relativePath": "effect/Layer",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/bin.ts",
-        "src/layers/index.ts",
-        "src/services/FileSystemLive.ts",
-        "src/services/FileSystemTest.ts",
-        "src/services/Queue/AdaptiveThrottlerLive.ts",
-        "src/services/Queue/AdvancedCache.ts",
-        "src/services/Queue/CircuitBreakerLive.ts",
-        "src/services/Queue/InternalQueueLive.ts",
-        "src/services/Queue/MemoryOptimizer.ts",
-        "src/services/Queue/PerformanceProfiler.ts",
-        "src/services/Queue/QueueMonitorLive.ts",
-        "src/services/Queue/QueuePersistenceLive.ts",
-        "src/services/Queue/SchemaManager.ts",
-        "src/services/Queue/StabilityMonitorLive.ts",
-        "src/services/Queue/TransparentQueueAdapter.ts",
-        "src/services/Queue/index.ts",
-        "src/services/UserExperience/UserExperienceEnhancer.ts"
+        "test/templates/CommandTestTemplate.ts",
+        "test/templates/ServiceTestTemplate.ts",
+        "test/utils/effectTestUtils.ts",
+        "test/utils/testHelpers.ts"
       ],
       "clusters": [
         "external"
@@ -4511,7 +7380,7 @@
       "nodeType": "library",
       "relativePath": "effect/Logger",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4534,7 +7403,7 @@
       "nodeType": "library",
       "relativePath": "@context-action/dependency-linker",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4553,122 +7422,12 @@
         "riskFactors": []
       }
     },
-    "@effect/cli/Args": {
-      "filePath": "@effect/cli/Args",
-      "nodeType": "library",
-      "relativePath": "@effect/cli/Args",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/commands/AnalyzeCommand.ts",
-        "src/commands/ClassifyCommand.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "@effect/cli/Options": {
-      "filePath": "@effect/cli/Options",
-      "nodeType": "library",
-      "relativePath": "@effect/cli/Options",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/commands/AnalyzeCommand.ts",
-        "src/commands/ClassifyCommand.ts",
-        "src/commands/QueueCommand.ts",
-        "src/commands/QueueStatusCommand.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "effect/Console": {
-      "filePath": "effect/Console",
-      "nodeType": "library",
-      "relativePath": "effect/Console",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/commands/AnalyzeCommand.ts",
-        "src/commands/ClassifyCommand.ts",
-        "src/commands/QueueCommand.ts",
-        "src/commands/QueueStatusCommand.ts",
-        "src/commands/SimpleQueueCommand.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "effect/Option": {
-      "filePath": "effect/Option",
-      "nodeType": "library",
-      "relativePath": "effect/Option",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/commands/AnalyzeCommand.ts",
-        "src/commands/ClassifyCommand.ts",
-        "src/commands/QueueStatusCommand.ts",
-        "src/services/Queue/AdvancedCache.ts",
-        "src/services/Queue/CircuitBreakerLive.ts",
-        "src/services/Queue/InternalQueueLive.ts",
-        "src/services/Queue/QueueMonitorLive.ts",
-        "src/services/Queue/QueuePersistenceLive.ts",
-        "src/services/Queue/SchemaManager.ts",
-        "src/services/Queue/StabilityMonitorLive.ts",
-        "src/services/Queue/index.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
     "glob": {
       "filePath": "glob",
       "nodeType": "library",
       "relativePath": "glob",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4686,79 +7445,17 @@
         "riskFactors": []
       }
     },
-    "effect/Duration": {
-      "filePath": "effect/Duration",
+    "effect/Data": {
+      "filePath": "effect/Data",
       "nodeType": "library",
-      "relativePath": "effect/Duration",
+      "relativePath": "effect/Data",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
       "dependents": [
-        "src/commands/QueueCommand.ts",
-        "src/commands/SimpleQueueCommand.ts",
-        "src/services/Queue/AdaptiveThrottlerLive.ts",
-        "src/services/Queue/AdvancedCache.ts",
-        "src/services/Queue/InternalQueueLive.ts",
-        "src/services/Queue/MemoryOptimizer.ts",
-        "src/services/Queue/PerformanceProfiler.ts",
-        "src/services/Queue/StabilityMonitorLive.ts",
-        "src/services/Queue/TransparentQueueAdapter.ts",
-        "src/services/Queue/index.ts",
-        "src/services/Queue/types.ts",
-        "src/services/UserExperience/UserExperienceEnhancer.ts",
-        "src/services/UserExperience/utils.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "effect": {
-      "filePath": "effect",
-      "nodeType": "library",
-      "relativePath": "effect",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/services/CodeParser/CodeParser.ts",
-        "src/services/CodeParser/ICodeParser.ts",
-        "src/services/CodeParser/NamedImportExtractor.ts",
-        "src/services/CodeParser/RegexNamedImportExtractor.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "react": {
-      "filePath": "react",
-      "nodeType": "library",
-      "relativePath": "react",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/services/CodeParser/ICodeParser.ts",
-        "src/services/CodeParser/RegexNamedImportExtractor.ts"
+        "src/errors/AnalysisErrors.ts"
       ],
       "clusters": [
         "external"
@@ -4776,19 +7473,21 @@
       "nodeType": "library",
       "relativePath": "effect/Context",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
       "dependents": [
         "src/services/FileSystem.ts",
+        "src/services/MetadataService.ts",
         "src/services/Queue/AdvancedCache.ts",
         "src/services/Queue/MemoryOptimizer.ts",
         "src/services/Queue/PerformanceProfiler.ts",
         "src/services/Queue/SchemaManager.ts",
         "src/services/Queue/TransparentQueueAdapter.ts",
         "src/services/Queue/types.ts",
-        "src/services/UserExperience/UserExperienceEnhancer.ts"
+        "src/services/UserExperience/UserExperienceEnhancer.ts",
+        "test/utils/testHelpers.ts"
       ],
       "clusters": [
         "external"
@@ -4806,7 +7505,7 @@
       "nodeType": "library",
       "relativePath": "@effect/platform/Error",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4824,81 +7523,12 @@
         "riskFactors": []
       }
     },
-    "@effect/platform/FileSystem": {
-      "filePath": "@effect/platform/FileSystem",
-      "nodeType": "library",
-      "relativePath": "@effect/platform/FileSystem",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/services/FileSystemLive.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "@effect/platform/Path": {
-      "filePath": "@effect/platform/Path",
-      "nodeType": "library",
-      "relativePath": "@effect/platform/Path",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/services/FileSystemLive.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
-    "effect/Array": {
-      "filePath": "effect/Array",
-      "nodeType": "library",
-      "relativePath": "effect/Array",
-      "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
-      "language": "unknown",
-      "metadata": {},
-      "dependencies": [],
-      "dependents": [
-        "src/services/FileSystemLive.ts"
-      ],
-      "clusters": [
-        "external"
-      ],
-      "analysis": {
-        "totalDependencies": 0,
-        "internalDependencies": 0,
-        "externalDependencies": 0,
-        "cyclicDependencies": [],
-        "riskFactors": []
-      }
-    },
     "effect/Order": {
       "filePath": "effect/Order",
       "nodeType": "library",
       "relativePath": "effect/Order",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4921,7 +7551,7 @@
       "nodeType": "library",
       "relativePath": "effect/Ref",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4950,7 +7580,7 @@
       "nodeType": "library",
       "relativePath": "effect/Fiber",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4975,7 +7605,7 @@
       "nodeType": "library",
       "relativePath": "effect/Queue",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
@@ -4998,13 +7628,131 @@
       "nodeType": "library",
       "relativePath": "effect/Schedule",
       "size": 0,
-      "lastModified": "2025-09-23T11:25:05.291Z",
+      "lastModified": "2025-09-23T12:25:12.412Z",
       "language": "unknown",
       "metadata": {},
       "dependencies": [],
       "dependents": [
         "src/services/Queue/InternalQueueLive.ts",
-        "src/services/UserExperience/UserExperienceEnhancer.ts"
+        "src/services/UserExperience/UserExperienceEnhancer.ts",
+        "test/utils/effectTestUtils.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "vitest": {
+      "filePath": "vitest",
+      "nodeType": "library",
+      "relativePath": "vitest",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "test/templates/CommandTestTemplate.ts",
+        "test/templates/ServiceTestTemplate.ts",
+        "test/utils/effectTestUtils.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect/Exit": {
+      "filePath": "effect/Exit",
+      "nodeType": "library",
+      "relativePath": "effect/Exit",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "test/utils/effectTestUtils.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "effect/Either": {
+      "filePath": "effect/Either",
+      "nodeType": "library",
+      "relativePath": "effect/Either",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "test/utils/effectTestUtils.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "tsup": {
+      "filePath": "tsup",
+      "nodeType": "library",
+      "relativePath": "tsup",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "tsup.config.ts"
+      ],
+      "clusters": [
+        "external"
+      ],
+      "analysis": {
+        "totalDependencies": 0,
+        "internalDependencies": 0,
+        "externalDependencies": 0,
+        "cyclicDependencies": [],
+        "riskFactors": []
+      }
+    },
+    "vitest/config": {
+      "filePath": "vitest/config",
+      "nodeType": "library",
+      "relativePath": "vitest/config",
+      "size": 0,
+      "lastModified": "2025-09-23T12:25:12.412Z",
+      "language": "unknown",
+      "metadata": {},
+      "dependencies": [],
+      "dependents": [
+        "vitest.config.ts"
       ],
       "clusters": [
         "external"
@@ -5019,6 +7767,1081 @@
     }
   },
   "edges": [
+    {
+      "from": "examples/UserProfile.tsx",
+      "to": "react",
+      "dependency": {
+        "source": "react",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "examples/UserService.ts",
+      "to": "axios",
+      "dependency": {
+        "source": "axios",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "examples/scenarios/UserService.ts",
+      "to": "axios",
+      "dependency": {
+        "source": "axios",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 7,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/CatCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/CatCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 2,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/CatCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 3,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/CatCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 4,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/CatCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 5,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/EnhancedListCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 14,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/EnhancedListCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 15,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/EnhancedListCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 16,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/EnhancedListCommand.ts",
+      "to": "effect/Array",
+      "dependency": {
+        "source": "effect/Array",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 17,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/EnhancedListCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 18,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/EnhancedListCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 19,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/FindCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/FindCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 2,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/FindCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 3,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/FindCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 4,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/FindCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 5,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/ListCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/ListCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 2,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/ListCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 3,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/ListCommand.ts",
+      "to": "effect/Array",
+      "dependency": {
+        "source": "effect/Array",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 4,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/ListCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 5,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/ListCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 6,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 14,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 15,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/QueueDemo.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 11,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/QueueDemo.ts",
+      "to": "effect/Duration",
+      "dependency": {
+        "source": "effect/Duration",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 12,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "log"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/QueueDemo.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 13,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "log"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SampleCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SampleCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 2,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SampleCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 3,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SampleCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 4,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SampleCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 5,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SampleCommand.ts",
+      "to": "effect/Option",
+      "dependency": {
+        "source": "effect/Option",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 6,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleListCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 7,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleListCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 8,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleListCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 9,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleListCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 10,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleListCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 11,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleListCommand.ts",
+      "to": "@effect/platform/FileSystem",
+      "dependency": {
+        "source": "@effect/platform/FileSystem",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 12,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleListCommand.ts",
+      "to": "@effect/platform/Path",
+      "dependency": {
+        "source": "@effect/platform/Path",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 13,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 7,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 8,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 9,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 10,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 11,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "effect/Option",
+      "dependency": {
+        "source": "effect/Option",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 12,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "@effect/platform/FileSystem",
+      "dependency": {
+        "source": "@effect/platform/FileSystem",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 13,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/SimpleSampleCommand.ts",
+      "to": "@effect/platform/Path",
+      "dependency": {
+        "source": "@effect/platform/Path",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 14,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/UXDemoCommand.ts",
+      "to": "@effect/cli/Args",
+      "dependency": {
+        "source": "@effect/cli/Args",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 13,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/UXDemoCommand.ts",
+      "to": "@effect/cli/Command",
+      "dependency": {
+        "source": "@effect/cli/Command",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 14,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/UXDemoCommand.ts",
+      "to": "@effect/cli/Options",
+      "dependency": {
+        "source": "@effect/cli/Options",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 15,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/UXDemoCommand.ts",
+      "to": "effect/Console",
+      "dependency": {
+        "source": "effect/Console",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 16,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/UXDemoCommand.ts",
+      "to": "effect/Duration",
+      "dependency": {
+        "source": "effect/Duration",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 17,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "samples/commands/UXDemoCommand.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 18,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "scripts/copy-package-json.ts",
+      "to": "@effect/platform",
+      "dependency": {
+        "source": "@effect/platform",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "scripts/copy-package-json.ts",
+      "to": "@effect/platform-node",
+      "dependency": {
+        "source": "@effect/platform-node",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 2,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "FileSystem",
+          "Path"
+        ],
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "scripts/copy-package-json.ts",
+      "to": "effect",
+      "dependency": {
+        "source": "effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 3,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "FileSystem",
+          "Path"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "specs/001-treesitter/contracts/ICodeParser.ts",
+      "to": "tree-sitter",
+      "dependency": {
+        "source": "tree-sitter",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 5,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^0.21.1",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
     {
       "from": "src/Cli.ts",
       "to": "@effect/cli/Command",
@@ -5213,7 +9036,7 @@
         "source": "@effect/cli/Args",
         "resolvedPath": null,
         "exists": true,
-        "line": 25,
+        "line": 23,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -5232,7 +9055,7 @@
         "source": "@effect/cli/Command",
         "resolvedPath": null,
         "exists": true,
-        "line": 26,
+        "line": 24,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -5251,7 +9074,7 @@
         "source": "@effect/cli/Options",
         "resolvedPath": null,
         "exists": true,
-        "line": 27,
+        "line": 25,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -5270,7 +9093,7 @@
         "source": "effect/Console",
         "resolvedPath": null,
         "exists": true,
-        "line": 28,
+        "line": 26,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -5290,7 +9113,7 @@
         "source": "effect/Effect",
         "resolvedPath": null,
         "exists": true,
-        "line": 29,
+        "line": 27,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -5310,7 +9133,7 @@
         "source": "effect/Option",
         "resolvedPath": null,
         "exists": true,
-        "line": 30,
+        "line": 28,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -5330,7 +9153,7 @@
         "source": "glob",
         "resolvedPath": null,
         "exists": true,
-        "line": 305,
+        "line": 304,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "dynamic",
@@ -5698,6 +9521,24 @@
         "resolvedPath": null,
         "exists": true,
         "line": 10,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "src/errors/AnalysisErrors.ts",
+      "to": "effect/Data",
+      "dependency": {
+        "source": "effect/Data",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 5,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -6084,6 +9925,60 @@
         "resolvedPath": null,
         "exists": true,
         "line": 3,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "src/services/MetadataService.ts",
+      "to": "effect/Context",
+      "dependency": {
+        "source": "effect/Context",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 5,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "src/services/MetadataService.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 6,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "src/services/MetadataService.ts",
+      "to": "effect/Layer",
+      "dependency": {
+        "source": "effect/Layer",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 7,
         "confidence": 0.9,
         "type": "external-library",
         "importType": "import",
@@ -7431,6 +11326,408 @@
         "isTypeOnly": false,
         "exportedMembers": [],
         "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/templates/CommandTestTemplate.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 11,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/templates/CommandTestTemplate.ts",
+      "to": "effect/Layer",
+      "dependency": {
+        "source": "effect/Layer",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 12,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/templates/CommandTestTemplate.ts",
+      "to": "vitest",
+      "dependency": {
+        "source": "vitest",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 13,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.2.4",
+        "usage": "devtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/templates/ServiceTestTemplate.ts",
+      "to": "effect/Duration",
+      "dependency": {
+        "source": "effect/Duration",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 11,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/templates/ServiceTestTemplate.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 12,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "millis"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/templates/ServiceTestTemplate.ts",
+      "to": "effect/Layer",
+      "dependency": {
+        "source": "effect/Layer",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 13,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "millis"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/templates/ServiceTestTemplate.ts",
+      "to": "vitest",
+      "dependency": {
+        "source": "vitest",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 14,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "millis"
+        ],
+        "packageVersion": "^3.2.4",
+        "usage": "devtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/effectTestUtils.ts",
+      "to": "effect/Duration",
+      "dependency": {
+        "source": "effect/Duration",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 12,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "type"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/effectTestUtils.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 14,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "type"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/effectTestUtils.ts",
+      "to": "effect/Exit",
+      "dependency": {
+        "source": "effect/Exit",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 16,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "type"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/effectTestUtils.ts",
+      "to": "effect/Layer",
+      "dependency": {
+        "source": "effect/Layer",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 17,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "type"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/effectTestUtils.ts",
+      "to": "vitest",
+      "dependency": {
+        "source": "vitest",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 20,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "type"
+        ],
+        "packageVersion": "^3.2.4",
+        "usage": "devtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/effectTestUtils.ts",
+      "to": "effect/Either",
+      "dependency": {
+        "source": "effect/Either",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 15,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": true,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "buildtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/effectTestUtils.ts",
+      "to": "effect/Schedule",
+      "dependency": {
+        "source": "effect/Schedule",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 19,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": true,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "buildtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/testHelpers.ts",
+      "to": "effect/Context",
+      "dependency": {
+        "source": "effect/Context",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 14,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/testHelpers.ts",
+      "to": "effect/Duration",
+      "dependency": {
+        "source": "effect/Duration",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 15,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "GenericTag"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/testHelpers.ts",
+      "to": "effect/Effect",
+      "dependency": {
+        "source": "effect/Effect",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 17,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "GenericTag"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/testHelpers.ts",
+      "to": "effect/Layer",
+      "dependency": {
+        "source": "effect/Layer",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 18,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "GenericTag"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "test/utils/testHelpers.ts",
+      "to": "effect/Option",
+      "dependency": {
+        "source": "effect/Option",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 20,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [
+          "GenericTag"
+        ],
+        "packageVersion": "^3.17.13",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "tsup.config.ts",
+      "to": "tsup",
+      "dependency": {
+        "source": "tsup",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^8.5.0",
+        "usage": "runtime"
+      },
+      "weight": 0.9
+    },
+    {
+      "from": "vitest.config.ts",
+      "to": "vitest/config",
+      "dependency": {
+        "source": "vitest/config",
+        "resolvedPath": null,
+        "exists": true,
+        "line": 1,
+        "confidence": 0.9,
+        "type": "external-library",
+        "importType": "import",
+        "isTypeOnly": false,
+        "exportedMembers": [],
+        "packageVersion": "^3.2.4",
+        "usage": "devtime"
       },
       "weight": 0.9
     }

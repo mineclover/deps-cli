@@ -8,8 +8,8 @@ import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
 import * as Effect from "effect/Effect"
 import { mergeAll } from "effect/Layer"
 import * as Logger from "effect/Logger"
-import { runFull, runSimple } from "./Cli.js"
-import { BasicQueueSystemLayer } from "./services/Queue/index.js"
+import { simpleCommand } from "./Cli.js"
+import * as Command from "@effect/cli/Command"
 
 /**
  * Phase 3.3: CLI Layer Integration
@@ -32,49 +32,21 @@ const LoggerLayer = Logger.replace(
     : Logger.stringLogger // Default logging for development
 )
 
-// Absolute minimal layer - just platform services without complex queue dependencies
-const AppLayer = mergeAll(
+// Simple layer for analyze/classify commands
+const SimpleAppLayer = mergeAll(
   NodeContext.layer,
   NodeFileSystem.layer,
   NodePath.layer,
   LoggerLayer
 )
 
-// Check if command needs queue system
-const needsQueueSystem = (argv: Array<string>) => {
-  const commandKeywords = ["queue", "queue-status", "queue-demo"]
-  return commandKeywords.some((keyword) => argv.includes(keyword))
-}
+// Execute the CLI using correct Effect CLI pattern
+const program = Command.run(simpleCommand, {
+  name: "Effect CLI Application",
+  version: "1.0.0"
+})
 
-// Simple layer for non-queue commands
-const SimpleAppLayer = mergeAll(
-  AppLayer
-  // No DevTools or Queue system for simple commands
+program.pipe(
+  Effect.provide(SimpleAppLayer),
+  NodeRuntime.runMain
 )
-
-// Complete application layer with queue integration
-const FullAppLayer = mergeAll(
-  AppLayer,
-  BasicQueueSystemLayer,
-  DevToolsLive
-)
-
-// Choose layer and runner based on command
-const needsQueue = needsQueueSystem(process.argv)
-const selectedLayer = needsQueue ? FullAppLayer : SimpleAppLayer
-
-if (needsQueue) {
-  // Use full command with queue system
-  runFull(process.argv).then((effect) =>
-    effect.pipe(
-      Effect.provide(selectedLayer) as any,
-      NodeRuntime.runMain
-    )
-  ).catch(console.error)
-} else {
-  // Use simple command without queue system
-  runSimple(process.argv).pipe(
-    Effect.provide(selectedLayer) as any,
-    NodeRuntime.runMain
-  )
-}

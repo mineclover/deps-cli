@@ -4,7 +4,7 @@
 
 import * as path from 'node:path'
 import * as fs from 'node:fs'
-import type { TestDependency, FileNode, AnalysisConfig } from '../types/DependencyClassification.js'
+import type { TestDependency } from '../types/DependencyClassification.js'
 
 export interface TestAnalysisResult {
   testTargets: TestDependency[]        // 테스트 대상 코드
@@ -45,7 +45,7 @@ export class TestDependencyAnalyzer {
     'cy.intercept'
   ]
 
-  constructor(private config: AnalysisConfig) {}
+  constructor() {}
 
   async analyzeTestFile(filePath: string): Promise<TestAnalysisResult> {
     const content = await fs.promises.readFile(filePath, 'utf-8')

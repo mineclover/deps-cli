@@ -1,12 +1,12 @@
 {
   "summary": {
     "projectName": "deps-cli",
-    "analysisDate": "2025-09-23T11:25:05.291Z",
+    "analysisDate": "2025-09-23T12:25:12.412Z",
     "fileTypes": {
       "test": 0,
-      "code": 45,
+      "code": 71,
       "docs": 0,
-      "library": 28
+      "library": 38
     },
     "dependencyTypes": {}
   },
@@ -15,6 +15,23 @@
     "testedFiles": 0,
     "testCoverage": 0,
     "uncoveredFiles": [
+      "examples/UserProfile.tsx",
+      "examples/UserService.ts",
+      "examples/scenarios/UserService.ts",
+      "samples/commands/CatCommand.ts",
+      "samples/commands/EnhancedListCommand.ts",
+      "samples/commands/FindCommand.ts",
+      "samples/commands/ListCommand.ts",
+      "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+      "samples/commands/QueueDemo.ts",
+      "samples/commands/SampleCommand.ts",
+      "samples/commands/SimpleListCommand.ts",
+      "samples/commands/SimpleSampleCommand.ts",
+      "samples/commands/UXDemoCommand.ts",
+      "samples/commands/config.ts",
+      "samples/commands/index.ts",
+      "scripts/copy-package-json.ts",
+      "specs/001-treesitter/contracts/ICodeParser.ts",
       "src/Cli.ts",
       "src/analyzers/CodeDependencyAnalyzer.ts",
       "src/analyzers/DocumentDependencyAnalyzer.ts",
@@ -29,6 +46,7 @@
       "src/commands/SimpleQueueCommand.ts",
       "src/commands/index.ts",
       "src/commands/simple.ts",
+      "src/errors/AnalysisErrors.ts",
       "src/layers/index.ts",
       "src/services/CodeParser/CodeParser.ts",
       "src/services/CodeParser/ICodeParser.ts",
@@ -38,6 +56,7 @@
       "src/services/FileSystem.ts",
       "src/services/FileSystemLive.ts",
       "src/services/FileSystemTest.ts",
+      "src/services/MetadataService.ts",
       "src/services/Queue/AdaptiveThrottlerLive.ts",
       "src/services/Queue/AdvancedCache.ts",
       "src/services/Queue/CircuitBreakerLive.ts",
@@ -59,13 +78,20 @@
       "src/types/ReferenceMetadata.ts",
       "src/utils/EnhancedAnalyzer.ts",
       "src/utils/IdGenerator.ts",
-      "src/utils/ProjectRootDetector.ts"
+      "src/utils/ProjectRootDetector.ts",
+      "src/utils/StreamingAnalyzer.ts",
+      "test/templates/CommandTestTemplate.ts",
+      "test/templates/ServiceTestTemplate.ts",
+      "test/utils/effectTestUtils.ts",
+      "test/utils/testHelpers.ts",
+      "tsup.config.ts",
+      "vitest.config.ts"
     ],
     "testDependencyGraph": {}
   },
   "codeAnalysis": {
-    "internalModules": 65,
-    "externalLibraries": 124,
+    "internalModules": 103,
+    "externalLibraries": 210,
     "circularDependencies": [],
     "heaviestDependencies": [],
     "isolatedFiles": []

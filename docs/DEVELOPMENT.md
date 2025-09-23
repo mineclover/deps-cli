@@ -1,844 +1,705 @@
-# Effect CLI Development Guide
+# 개발자 가이드
 
-Complete guide for developing and extending the Effect CLI application with intelligent performance optimization.
+deps-cli 프로젝트 개발 및 확장을 위한 완전한 가이드입니다.
 
-## Development Setup
+## 🛠️ 개발 환경 설정
 
-### Prerequisites
+### 시스템 요구사항
 
-- Node.js 18+
-- pnpm package manager
-- TypeScript knowledge
-- Basic understanding of Effect.js
+- **Node.js**: 18.0.0 이상
+- **npm**: 8.0.0 이상
+- **TypeScript**: 5.0.0 이상
+- **Git**: 2.30.0 이상
 
-### Initial Setup
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd effect-cli
-
-# Install dependencies
-pnpm install
-
-# Verify setup
-pnpm test
-pnpm check
-pnpm build
-```
-
-### Development Workflow
+### 초기 설정
 
 ```bash
-# Development with intelligent layer loading (optimized)
-pnpm dev greet "Test"         # Fast execution, minimal logging
-pnpm dev queue status         # Full system initialization when needed
+# 저장소 클론
+git clone https://github.com/username/deps-cli.git
+cd deps-cli
 
-# Type checking
-pnpm check
+# 의존성 설치
+npm install
 
-# Run tests
-pnpm test
+# 개발 빌드
+npm run build
 
-# Format code
-pnpm format
-
-# Lint code
-pnpm lint
-
-# Build for production (optimized bundle)
-pnpm build
+# 테스트 실행
+npm test
 ```
 
-## Adding New Commands
+### 개발 워크플로우
 
-### 1. Create Command File
+```bash
+# 개발 모드로 빌드 및 실행
+npm run build:watch  # TypeScript 변경사항 자동 빌드
 
-Create a new command file in `src/commands/`:
+# CLI 테스트
+node dist/bin.cjs classify .  # 현재 프로젝트 분석
+
+# 타입 검사
+npm run typecheck
+
+# 테스트 실행
+npm test
+
+# 코드 포맷팅
+npm run format
+
+# 린팅
+npm run lint
+
+# 프로덕션 빌드
+npm run build
+```
+
+### 개발 도구 설정
+
+#### VS Code 설정
+
+`.vscode/settings.json`:
+```json
+{
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.suggest.autoImports": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "files.associations": {
+    "*.cjs": "javascript"
+  }
+}
+```
+
+#### 권장 VS Code 확장
+
+- TypeScript Importer
+- ESLint
+- Prettier
+- Effect Snippets
+- Auto Import - ES6, TS, JSX, TSX
+
+## 📂 프로젝트 구조
+
+```
+deps-cli/
+├── src/                          # 소스 코드
+│   ├── analyzers/               # 의존성 분석기들
+│   │   ├── CodeDependencyAnalyzer.ts
+│   │   ├── TestDependencyAnalyzer.ts
+│   │   ├── DocumentDependencyAnalyzer.ts
+│   │   ├── UnifiedDependencyAnalyzer.ts
+│   │   └── MetadataExtractor.ts
+│   ├── commands/                # CLI 명령어
+│   │   ├── ClassifyCommand.ts
+│   │   └── AnalyzeCommand.ts
+│   ├── types/                   # 타입 정의
+│   │   ├── DependencyClassification.ts
+│   │   ├── ReferenceMetadata.ts
+│   │   └── index.ts
+│   ├── utils/                   # 유틸리티
+│   │   ├── ProjectRootDetector.ts
+│   │   ├── IdGenerator.ts
+│   │   └── index.ts
+│   ├── layers/                  # Effect 레이어
+│   │   └── index.ts
+│   └── bin.ts                   # CLI 진입점
+├── test/                        # 테스트
+│   ├── unit/                    # 단위 테스트
+│   ├── integration/             # 통합 테스트
+│   ├── fixtures/                # 테스트 데이터
+│   └── helpers/                 # 테스트 유틸리티
+├── docs/                        # 문서
+│   ├── API.md
+│   ├── EXAMPLES.md
+│   ├── ARCHITECTURE.md
+│   └── guides/
+├── examples/                    # 예시 파일들
+│   ├── typescript/
+│   ├── test-files/
+│   └── markdown/
+├── .deps-analysis/             # 분석 결과 (gitignore)
+├── dist/                       # 빌드 결과 (gitignore)
+└── coverage/                   # 테스트 커버리지 (gitignore)
+```
+
+## 🔧 빌드 시스템
+
+### 빌드 스크립트
+
+```json
+{
+  "scripts": {
+    "build": "tsc && chmod +x dist/bin.cjs",
+    "build:watch": "tsc --watch",
+    "build:clean": "rm -rf dist && npm run build",
+    "dev": "npm run build:watch",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write src/**/*.ts",
+    "clean": "rm -rf dist coverage .deps-analysis"
+  }
+}
+```
+
+### TypeScript 설정
+
+`tsconfig.json`:
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
+}
+```
+
+## 🧩 핵심 아키텍처 패턴
+
+### Effect.js 패턴
+
+deps-cli는 Effect.js를 사용하여 함수형 프로그래밍 패러다임을 구현합니다.
+
+#### 기본 Effect 패턴
 
 ```typescript
-// src/commands/MyCommand.ts
-import * as Command from "@effect/cli/Command"
-import * as Args from "@effect/cli/Args"
-import * as Options from "@effect/cli/Options"
-import * as Effect from "effect/Effect"
-import * as Console from "effect/Console"
+import { Effect, pipe } from 'effect'
 
-// Define arguments
-const nameArg = Args.text("name").pipe(
-  Args.withDescription("Name to greet")
+// 에러 타입 정의
+class FileNotFoundError {
+  readonly _tag = 'FileNotFoundError'
+  constructor(readonly path: string) {}
+}
+
+class ParseError {
+  readonly _tag = 'ParseError'
+  constructor(readonly message: string) {}
+}
+
+// Effect를 사용한 안전한 파일 읽기
+const readFileEffect = (path: string) =>
+  Effect.tryPromise({
+    try: () => fs.readFile(path, 'utf-8'),
+    catch: () => new FileNotFoundError(path)
+  })
+
+// 파이프라인을 통한 데이터 변환
+const processFile = (path: string) => pipe(
+  readFileEffect(path),
+  Effect.flatMap(content => parseContent(content)),
+  Effect.map(parsed => analyzeContent(parsed)),
+  Effect.catchTag('FileNotFoundError', error =>
+    Effect.succeed({ error: `File not found: ${error.path}` })
+  )
+)
+```
+
+#### CLI 명령어 패턴
+
+```typescript
+import { Command, Options, Args } from '@effect/cli'
+
+// 옵션 정의
+const outputDirOption = Options.directory('output-dir').pipe(
+  Options.withDefault('.deps-analysis')
 )
 
-// Define options
-const verboseOption = Options.boolean("verbose").pipe(
-  Options.withAlias("v"),
-  Options.withDescription("Enable verbose output")
+const verboseOption = Options.boolean('verbose').pipe(
+  Options.withDefault(false)
 )
 
-// Create command
-export const myCommand = Command.make("my-command", {
-  name: nameArg,
+// 인수 정의
+const targetPathArg = Args.directory('target')
+
+// 명령어 정의
+const classifyCommand = Command.make('classify', {
+  outputDir: outputDirOption,
   verbose: verboseOption
-}).pipe(
-  Command.withDescription("My custom command"),
-  Command.withHandler(({ name, verbose }) =>
-    Effect.gen(function* () {
-      if (verbose) {
-        yield* Console.log(`Processing command for: ${name}`)
+}, targetPathArg).pipe(
+  Command.withHandler(({ outputDir, verbose }, targetPath) =>
+    pipe(
+      Effect.logInfo(`Analyzing ${targetPath}`),
+      Effect.flatMap(() => analyzeProject(targetPath, { outputDir, verbose }))
+    )
+  )
+)
+```
+
+## 🔍 분석기 개발
+
+### 새로운 분석기 추가
+
+1. **분석기 인터페이스 구현**
+
+```typescript
+// src/analyzers/CustomAnalyzer.ts
+import { FileAnalyzer, FileAnalysisResult } from '../types/index.js'
+
+export class CustomAnalyzer implements FileAnalyzer {
+  constructor(private projectRoot: string) {}
+
+  async analyze(filePath: string): Promise<FileAnalysisResult> {
+    // 파일 내용 읽기
+    const content = await fs.readFile(filePath, 'utf-8')
+
+    // 커스텀 분석 로직
+    const dependencies = this.extractDependencies(content)
+
+    return {
+      filePath,
+      fileType: this.determineFileType(filePath),
+      dependencies,
+      metadata: {
+        confidence: this.calculateConfidence(dependencies),
+        analysisTimestamp: new Date().toISOString()
       }
-      yield* Console.log(`Hello, ${name}!`)
-    })
-  )
-)
+    }
+  }
+
+  supportsFileType(filePath: string): boolean {
+    return filePath.endsWith('.custom')
+  }
+
+  private extractDependencies(content: string): FileDependencies {
+    // 구현...
+  }
+}
 ```
 
-### 2. Register Command
-
-Add your command to the CLI configuration:
+2. **통합 분석기에 등록**
 
 ```typescript
-// src/Cli.ts
-import { myCommand } from "./commands/MyCommand.js"
+// src/analyzers/UnifiedDependencyAnalyzer.ts
+import { CustomAnalyzer } from './CustomAnalyzer.js'
 
-export const cli = Command.make("effect-cli", {}, {
-  // ... existing commands
-  myCommand,
-}).pipe(
-  // ... rest of configuration
-)
+export class UnifiedDependencyAnalyzer {
+  private analyzers: Map<string, FileAnalyzer> = new Map()
+
+  constructor(projectRoot: string) {
+    // 기존 분석기들 등록
+    this.registerAnalyzer('code', new CodeDependencyAnalyzer(projectRoot))
+    this.registerAnalyzer('test', new TestDependencyAnalyzer(projectRoot))
+    this.registerAnalyzer('docs', new DocumentDependencyAnalyzer(projectRoot))
+
+    // 새 분석기 등록
+    this.registerAnalyzer('custom', new CustomAnalyzer(projectRoot))
+  }
+
+  registerAnalyzer(name: string, analyzer: FileAnalyzer): void {
+    this.analyzers.set(name, analyzer)
+  }
+}
 ```
 
-### 3. Add Tests
-
-Create tests for your command:
+### 분석기 테스트
 
 ```typescript
-// test/commands/MyCommand.test.ts
-import { describe, expect, it } from "vitest"
-import { Effect, TestContext } from "effect"
-import { myCommand } from "../../src/commands/MyCommand.js"
+// test/unit/analyzers/CustomAnalyzer.test.ts
+import { describe, it, expect, beforeEach } from 'vitest'
+import { CustomAnalyzer } from '../../../src/analyzers/CustomAnalyzer.js'
 
-describe("MyCommand", () => {
-  it("should greet with name", () =>
-    Effect.gen(function* () {
-      const result = yield* myCommand.handler({
-        name: "World",
-        verbose: false
-      })
-      // Add assertions
-    }).pipe(Effect.provide(TestContext.TestContext))
-  )
+describe('CustomAnalyzer', () => {
+  let analyzer: CustomAnalyzer
+
+  beforeEach(() => {
+    analyzer = new CustomAnalyzer('/test/project')
+  })
+
+  it('should support .custom files', () => {
+    expect(analyzer.supportsFileType('example.custom')).toBe(true)
+    expect(analyzer.supportsFileType('example.ts')).toBe(false)
+  })
+
+  it('should extract dependencies correctly', async () => {
+    // 테스트 구현...
+  })
 })
 ```
 
-## Project Architecture
+## 🎯 타입 시스템 확장
 
-### Core Structure
-
-```
-src/
-├── commands/              # CLI command implementations
-│   ├── GreetCommand.ts       # Basic greeting (optimized execution)
-│   ├── QueueCommand.ts       # Queue management (full system)
-│   └── QueueStatusCommand.ts # Queue monitoring (full system)
-├── services/              # Business logic services
-│   ├── Queue/                # Queue system (conditional loading)
-│   ├── UserExperience/       # UX enhancements
-│   ├── FileSystem.ts         # File operations interface
-│   └── FileSystemLive.ts     # File operations implementation
-├── examples/              # Example commands (toggleable)
-│   ├── ListCommand.ts        # File listing example
-│   ├── SampleCommand.ts      # Comprehensive example
-│   └── config.ts            # Example configuration
-├── Cli.ts                # Main CLI configuration (clean routing)
-└── bin.ts                # Application entry point (intelligent layer loading)
-```
-
-### Service Layer Pattern
-
-The CLI uses Effect's service layer pattern for dependency injection:
+### 새로운 의존성 타입 추가
 
 ```typescript
-// Define service interface
-export interface MyService {
-  readonly doSomething: (input: string) => Effect.Effect<string, MyError>
+// src/types/DependencyClassification.ts
+export type DependencyType =
+  | 'internal-module'
+  | 'external-library'
+  | 'builtin-module'
+  | 'test-target'
+  | 'test-utility'
+  | 'test-setup'
+  | 'doc-reference'
+  | 'doc-link'
+  | 'doc-asset'
+  | 'custom-type'        // 새로운 타입 추가
+
+// 타입별 분류 로직 확장
+export function classifyDependency(
+  source: string,
+  resolved: string,
+  context: AnalysisContext
+): DependencyType {
+  // 기존 분류 로직...
+
+  // 새로운 타입 분류 로직
+  if (isCustomType(source, resolved, context)) {
+    return 'custom-type'
+  }
+
+  return 'external-library'
+}
+```
+
+### 메타데이터 구조 확장
+
+```typescript
+// src/types/ReferenceMetadata.ts
+export interface ExtendedFileMetadata extends FileMetadata {
+  customFields?: {
+    complexity: number
+    maintainability: number
+    riskFactors: string[]
+    tags: string[]
+  }
 }
 
-// Create service tag
-export const MyService = Context.GenericTag<MyService>("MyService")
+// 확장된 메타데이터 추출
+export class EnhancedMetadataExtractor extends MetadataExtractor {
+  protected enrichFileMetadata(file: FileMetadata): ExtendedFileMetadata {
+    const baseMetadata = super.extractFileMetadata(file)
 
-// Implement service
-export const MyServiceLive = Layer.effect(
-  MyService,
-  Effect.gen(function* () {
     return {
-      doSomething: (input: string) =>
-        Effect.gen(function* () {
-          // Implementation
-          return `Processed: ${input}`
-        })
+      ...baseMetadata,
+      customFields: {
+        complexity: this.calculateComplexity(file),
+        maintainability: this.calculateMaintainability(file),
+        riskFactors: this.identifyRiskFactors(file),
+        tags: this.extractTags(file)
+      }
     }
-  })
-)
-
-// Use in command
-export const myCommand = Command.make("my-command", { input: Args.text("input") }).pipe(
-  Command.withHandler(({ input }) =>
-    Effect.gen(function* () {
-      const service = yield* MyService
-      const result = yield* service.doSomething(input)
-      yield* Console.log(result)
-    })
-  )
-)
+  }
+}
 ```
 
-## Queue System Integration
+## 🧪 테스트 전략
 
-### Using the Queue System
-
-The CLI includes a sophisticated queue system for task management:
-
-```typescript
-import { InternalQueue } from "../services/Queue/index.js"
-
-export const queueCommand = Command.make("queue-demo", {}).pipe(
-  Command.withHandler(() =>
-    Effect.gen(function* () {
-      const queue = yield* InternalQueue
-
-      // Add task to queue
-      yield* queue.enqueue({
-        id: "task-1",
-        name: "Sample Task",
-        resourceGroup: "computation",
-        priority: 1,
-        task: Effect.succeed("Task completed")
-      })
-
-      // Process tasks
-      yield* queue.processNext("computation")
-    })
-  )
-)
-```
-
-### Queue Resource Groups
-
-The queue system supports four resource groups:
-
-1. **filesystem**: File I/O operations
-2. **network**: Network requests
-3. **computation**: CPU-intensive tasks
-4. **memory-intensive**: High memory usage tasks
-
-## Testing
-
-### Test Structure
+### 테스트 계층 구조
 
 ```
 test/
-├── commands/              # Command tests
-├── services/              # Service tests
-└── integration/           # Integration tests
+├── unit/                    # 단위 테스트 (빠름, 격리됨)
+├── integration/            # 통합 테스트 (중간, 실제 파일 시스템)
+├── e2e/                   # End-to-End 테스트 (느림, 전체 워크플로우)
+└── performance/           # 성능 테스트
 ```
 
-### Writing Tests
-
-Use Vitest with Effect's testing utilities:
+### 단위 테스트 패턴
 
 ```typescript
-import { describe, expect, it } from "vitest"
-import { Effect, TestContext } from "effect"
+// 테스트 픽스처 생성
+const createTestFile = (content: string, extension = '.ts') => {
+  const filePath = `test-${Date.now()}${extension}`
+  return { filePath, content }
+}
 
-describe("MyCommand", () => {
-  it("should handle success case", () =>
-    Effect.gen(function* () {
-      // Test implementation
-      const result = yield* myCommand.handler({ input: "test" })
-      expect(result).toBe("expected")
-    }).pipe(
-      Effect.provide(TestContext.TestContext),
-      Effect.runPromise
-    )
-  )
+// 모킹 패턴
+vi.mock('fs/promises', () => ({
+  readFile: vi.fn().mockResolvedValue('mocked content'),
+  writeFile: vi.fn().mockResolvedValue(undefined),
+  mkdir: vi.fn().mockResolvedValue(undefined)
+}))
 
-  it("should handle error case", () =>
-    Effect.gen(function* () {
-      // Test error scenarios
-      const result = yield* Effect.either(
-        myCommand.handler({ input: "invalid" })
-      )
-      expect(result._tag).toBe("Left")
-    }).pipe(
-      Effect.provide(TestContext.TestContext),
-      Effect.runPromise
-    )
-  )
+// 스냅샷 테스트
+it('should generate expected metadata structure', async () => {
+  const result = await extractor.extractMetadata(sampleResult)
+  expect(result).toMatchSnapshot()
 })
 ```
 
-### Test Commands
-
-```bash
-# Run all tests
-pnpm test
-
-# Run specific test file
-pnpm test MyCommand.test.ts
-
-# Run tests with coverage
-pnpm coverage
-
-# Watch mode for development
-pnpm test --watch
-```
-
-## Build and Distribution
-
-### Build Process
-
-```bash
-# Build TypeScript to CommonJS
-pnpm build
-
-# Check build output
-ls -la dist/
-```
-
-The build process:
-1. Compiles TypeScript to CommonJS (`dist/bin.cjs`)
-2. Copies `package.json` with correct configuration
-3. Copies SQL schema files for queue system
-
-### Global Installation
-
-```bash
-# Build and install globally
-pnpm build
-cd dist
-npm link
-
-# Verify installation
-effect-cli --help
-```
-
-### Distribution
-
-```bash
-# Prepare for publishing
-pnpm changeset
-
-# Version bump
-pnpm changeset-version
-
-# Publish
-pnpm changeset-publish
-```
-
-## Configuration
-
-### Example Commands
-
-Control example command visibility:
+### 통합 테스트 패턴
 
 ```typescript
-// src/examples/config.ts
-export const ENABLE_EXAMPLES = true
+// 임시 프로젝트 생성
+const createTempProject = async (structure: ProjectStructure) => {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'deps-cli-test-'))
 
-export const ExampleConfig = {
-  LIST_COMMAND: true,
-  SAMPLE_COMMAND: true,
-  // ... other examples
+  for (const [filePath, content] of Object.entries(structure)) {
+    const fullPath = path.join(tempDir, filePath)
+    await fs.mkdir(path.dirname(fullPath), { recursive: true })
+    await fs.writeFile(fullPath, content)
+  }
+
+  return tempDir
+}
+
+// 정리 함수
+const cleanup = async (tempDir: string) => {
+  await fs.rm(tempDir, { recursive: true, force: true })
 }
 ```
 
-### Environment Variables
+## 🚀 성능 최적화
 
-The CLI respects these environment variables:
-
-- `LOG_LEVEL`: Set logging level (debug, info, warning, error)
-- `QUEUE_DB_PATH`: Custom path for queue database
-- `MAX_QUEUE_SIZE`: Maximum queue size
-
-## Debugging
-
-### Development Debugging
-
-```bash
-# Enable debug logging
-effect-cli --log-level debug greet "Test"
-
-# Use TypeScript directly
-tsx src/bin.ts greet "Test"
-```
-
-### VS Code Integration
-
-Use the included VS Code configuration:
-
-1. Install Effect VS Code extension
-2. Set breakpoints in TypeScript files
-3. Run debugger with F5
-
-### Queue System Debugging
-
-```bash
-# Monitor queue status
-effect-cli queue status --watch
-
-# Export queue metrics
-effect-cli queue export --format json -o debug-metrics.json
-
-# View detailed queue information
-effect-cli queue status --detailed
-```
-
-## Performance Optimization
-
-### Intelligent Layer Loading
-
-The CLI implements intelligent layer loading for optimal performance:
+### 병렬 처리 패턴
 
 ```typescript
-// bin.ts - Key optimization patterns
-const needsQueueSystem = (argv: string[]) => {
-  const commandKeywords = ['queue', 'queue-status', 'queue-demo']
-  return commandKeywords.some(keyword => argv.includes(keyword))
+// 배치 처리
+async function analyzeBatch<T>(
+  items: T[],
+  processor: (item: T) => Promise<ProcessedResult>,
+  batchSize = 10
+): Promise<ProcessedResult[]> {
+  const results: ProcessedResult[] = []
+
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize)
+    const batchResults = await Promise.all(
+      batch.map(item => processor(item))
+    )
+    results.push(...batchResults)
+  }
+
+  return results
+}
+```
+
+### 캐싱 전략
+
+```typescript
+// 메모리 캐시
+class AnalysisCache {
+  private cache = new Map<string, CacheEntry>()
+
+  async get(key: string): Promise<AnalysisResult | null> {
+    const entry = this.cache.get(key)
+    if (!entry || this.isExpired(entry)) {
+      return null
+    }
+    return entry.result
+  }
+
+  async set(key: string, result: AnalysisResult): Promise<void> {
+    this.cache.set(key, {
+      result,
+      timestamp: Date.now(),
+      ttl: 1000 * 60 * 10 // 10분
+    })
+  }
 }
 
-// Simple layer for basic commands (greet, help)
-const SimpleAppLayer = mergeAll(
-  NodeContext.layer,
-  NodeFileSystem.layer,
-  NodePath.layer,
-  LoggerLayer
-)
+// 파일 시스템 캐시
+class PersistentCache {
+  private cacheDir = '.deps-cache'
 
-// Full layer for queue commands
-const FullAppLayer = mergeAll(
-  AppLayer,
-  BasicQueueSystemLayer,
-  DevToolsLive
-)
-
-// Dynamic layer selection
-const selectedLayer = needsQueueSystem(process.argv) ? FullAppLayer : SimpleAppLayer
+  async getCacheKey(filePath: string): Promise<string> {
+    const stats = await fs.stat(filePath)
+    return crypto
+      .createHash('sha1')
+      .update(`${filePath}:${stats.mtime.getTime()}`)
+      .digest('hex')
+  }
+}
 ```
 
-### Code Splitting
+## 📊 로깅 및 모니터링
 
-Commands are automatically code-split. Heavy operations should be lazy-loaded:
+### 구조화된 로깅
 
 ```typescript
-const heavyOperation = Effect.suspend(() => import("./heavy-module.js"))
+import { Effect } from 'effect'
+
+// 로그 레벨 정의
+type LogLevel = 'debug' | 'info' | 'warn' | 'error'
+
+// 구조화된 로그 데이터
+interface LogData {
+  timestamp: string
+  level: LogLevel
+  message: string
+  context?: Record<string, unknown>
+  duration?: number
+}
+
+// Effect 로깅 패턴
+const analyzeWithLogging = (filePath: string) => pipe(
+  Effect.logInfo(`Starting analysis for ${filePath}`),
+  Effect.flatMap(() => Effect.sync(() => performance.now())),
+  Effect.flatMap(startTime => pipe(
+    analyzeFile(filePath),
+    Effect.tap(result => Effect.logInfo(`Analysis completed`, {
+      filePath,
+      dependencyCount: result.dependencies.length,
+      duration: performance.now() - startTime
+    }))
+  ))
+)
 ```
 
-### Memory Management
+### 성능 메트릭
 
-- Use streaming for large files
-- Implement proper cleanup in Effect cleanup functions
-- Monitor queue size and implement backpressure
-- Conditional service initialization saves 40-60% startup time
+```typescript
+// 메트릭 수집
+class PerformanceMetrics {
+  private metrics = new Map<string, number[]>()
 
-### Bundle Analysis
+  recordDuration(operation: string, duration: number): void {
+    if (!this.metrics.has(operation)) {
+      this.metrics.set(operation, [])
+    }
+    this.metrics.get(operation)!.push(duration)
+  }
 
-```bash
-# Analyze bundle size
-npx tsup --analyze
-
-# Check dependencies
-pnpm why <package-name>
-
-# Performance testing
-effect-cli greet "Test"     # Should be fast, minimal output
-effect-cli queue status     # Full initialization when needed
+  getStats(operation: string) {
+    const durations = this.metrics.get(operation) || []
+    return {
+      count: durations.length,
+      avg: durations.reduce((a, b) => a + b, 0) / durations.length,
+      min: Math.min(...durations),
+      max: Math.max(...durations)
+    }
+  }
+}
 ```
 
-## Development Best Practices
+## 🔄 CI/CD 통합
 
-### Code Change Methodology
+### GitHub Actions 워크플로우
 
-**🎯 Always Follow This Process:**
+```yaml
+# .github/workflows/ci.yml
+name: CI
+on: [push, pull_request]
 
-1. **Understand Before Changing**
-   - Read existing code patterns and conventions
-   - Check how similar features are implemented
-   - Review related tests and documentation
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
 
-2. **Test-Driven Development**
-   - Write tests first when adding new features
-   - Run existing tests before making changes
-   - Ensure all tests pass after changes
+    steps:
+      - uses: actions/checkout@v3
 
-3. **Incremental Changes**
-   - Make small, focused commits
-   - Test each change independently
-   - Document the reasoning behind changes
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-4. **Quality Gates (MANDATORY)**
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test -- --coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Integration test
+        run: npm run test:integration
+```
+
+## 🛠️ 개발 워크플로우
+
+### 일반적인 개발 사이클
+
+1. **기능 브랜치 생성**
    ```bash
-   # Before every commit
-   pnpm check    # TypeScript type checking
-   pnpm lint     # ESLint code quality
-   pnpm build    # Production build verification
-   pnpm test     # All tests must pass
+   git checkout -b feature/new-analyzer
    ```
 
-### Code Modification Guidelines
+2. **개발 모드 시작**
+   ```bash
+   npm run dev  # 타입스크립트 watch 모드
+   ```
 
-#### ✅ **Appropriate Code Changes**
+3. **테스트 주도 개발**
+   ```bash
+   npm run test:watch  # 테스트 watch 모드
+   ```
 
-**Adding New Commands:**
-```typescript
-// 1. Create command file following existing patterns
-// src/commands/NewCommand.ts
-import * as Command from "@effect/cli/Command"
-import * as Args from "@effect/cli/Args"
-import * as Effect from "effect/Effect"
-import * as Console from "effect/Console"
+4. **코드 검증**
+   ```bash
+   npm run lint
+   npm run typecheck
+   npm test
+   ```
 
-const inputArg = Args.text("input").pipe(
-  Args.withDescription("Input parameter")
-)
+5. **빌드 및 통합 테스트**
+   ```bash
+   npm run build
+   npm run test:integration
+   ```
 
-export const newCommand = Command.make("new-command", { input: inputArg }).pipe(
-  Command.withDescription("New command description"),
-  Command.withHandler(({ input }) =>
-    Effect.gen(function* () {
-      yield* Console.log(`Processing: ${input}`)
-    })
-  )
-)
-
-// 2. Register in src/Cli.ts
-import { newCommand } from "./commands/NewCommand.js"
-
-const command = mainCommand.pipe(
-  Command.withSubcommands([
-    greetCommand,
-    queueCommand,
-    queueStatusCommand,
-    simpleQueueCommand,
-    newCommand  // Add here
-  ])
-)
-
-// 3. Update bin.ts if needed (for layer requirements)
-const needsQueueSystem = (argv: Array<string>) => {
-  const commandKeywords = ["queue", "queue-status", "queue-demo", "new-command"]
-  return commandKeywords.some((keyword) => argv.includes(keyword))
-}
-```
-
-**Modifying Existing Features:**
-```typescript
-// ✅ Good: Extend existing patterns
-export const enhancedGreetCommand = greetCommand.pipe(
-  Command.withOptions({ verbose: Options.boolean("verbose") }),
-  Command.withHandler(({ name, verbose }) =>
-    Effect.gen(function* () {
-      if (verbose) {
-        yield* Console.log(`Preparing to greet: ${name}`)
-      }
-      yield* Console.log(`Hello, ${name}!`)
-    })
-  )
-)
-
-// ✅ Good: Use Effect service pattern for complex logic
-export const DatabaseServiceLive = Layer.effect(
-  DatabaseService,
-  Effect.gen(function* () {
-    return {
-      query: (sql: string) =>
-        Effect.gen(function* () {
-          // Implementation with proper error handling
-        })
-    }
-  })
-)
-```
-
-**Performance-Conscious Changes:**
-```typescript
-// ✅ Good: Conditional loading for heavy dependencies
-const needsAdvancedFeatures = (argv: Array<string>) => {
-  return argv.some(arg => ["advanced", "complex"].includes(arg))
-}
-
-// ✅ Good: Lazy loading for optional features
-const OptionalServiceLive = Layer.effect(
-  OptionalService,
-  Effect.suspend(() => import("./heavy-service.js")).pipe(
-    Effect.map(mod => mod.createService())
-  )
-)
-```
-
-#### ❌ **Avoid These Patterns**
-
-**Don't Break Layer Architecture:**
-```typescript
-// ❌ Bad: Direct imports without service pattern
-import * as fs from "fs"  // Use FileSystem service instead
-
-// ❌ Bad: Ignoring intelligent layer loading
-// Always consider if new command needs queue system
-
-// ❌ Bad: Hardcoded dependencies
-const result = database.query("SELECT * FROM users")  // Use service injection
-```
-
-**Don't Ignore Performance:**
-```typescript
-// ❌ Bad: Always loading heavy dependencies
-import { HeavyAnalytics } from "./heavy-analytics.js"  // Load conditionally
-
-// ❌ Bad: Synchronous operations without Effect
-const data = fs.readFileSync("file.txt")  // Use Effect and FileSystem service
-```
-
-### Feature Addition Methodology
-
-#### 🚀 **Step-by-Step Feature Addition**
-
-**Phase 1: Planning & Design**
-```bash
-# 1. Analyze requirements
-# - Does this need queue system integration?
-# - Should this be a simple or complex command?
-# - What services does this require?
-
-# 2. Check existing patterns
-grep -r "similar-feature" src/
-```
-
-**Phase 2: Implementation**
-```typescript
-// 1. Create feature interface (if needed)
-export interface NewFeatureService {
-  readonly processData: (input: string) => Effect.Effect<string, FeatureError>
-}
-
-// 2. Implement service
-export const NewFeatureServiceLive = Layer.effect(
-  NewFeatureService,
-  Effect.gen(function* () {
-    // Service implementation with dependencies
-    const fileSystem = yield* FileSystem
-
-    return {
-      processData: (input: string) =>
-        Effect.gen(function* () {
-          // Feature logic with proper error handling
-          return `Processed: ${input}`
-        })
-    }
-  })
-)
-
-// 3. Create command
-export const newFeatureCommand = Command.make("feature", { input: inputArg }).pipe(
-  Command.withDescription("New feature command"),
-  Command.withHandler(({ input }) =>
-    Effect.gen(function* () {
-      const service = yield* NewFeatureService
-      const result = yield* service.processData(input)
-      yield* Console.log(result)
-    })
-  )
-)
-```
-
-**Phase 3: Integration**
-```typescript
-// 1. Update CLI configuration
-// 2. Add to layer loading logic if needed
-// 3. Update documentation
-// 4. Add tests
-```
-
-**Phase 4: Testing & Validation**
-```bash
-# 1. Unit tests
-pnpm test
-
-# 2. Integration testing
-pnpm dev feature "test-input"
-
-# 3. Build verification
-pnpm build
-
-# 4. Type and lint checking
-pnpm check && pnpm lint
-```
-
-### Service Development Patterns
-
-#### **Creating New Services**
+### 디버깅 도구
 
 ```typescript
-// 1. Define service interface
-export interface EmailService {
-  readonly send: (to: string, message: string) => Effect.Effect<void, EmailError>
-  readonly validate: (email: string) => Effect.Effect<boolean, ValidationError>
-}
+// 디버그 로깅
+import debug from 'debug'
+const log = debug('deps-cli:analyzer')
 
-// 2. Create service tag
-export const EmailService = Context.GenericTag<EmailService>("EmailService")
-
-// 3. Implement live service
-export const EmailServiceLive = Layer.effect(
-  EmailService,
-  Effect.gen(function* () {
-    // Dependencies
-    const config = yield* Config.string("EMAIL_PROVIDER")
-
-    return {
-      send: (to: string, message: string) =>
-        Effect.gen(function* () {
-          // Implementation with proper error handling
-          yield* Effect.logInfo(`Sending email to ${to}`)
-        }),
-
-      validate: (email: string) =>
-        Effect.succeed(email.includes("@"))
-    }
-  })
-)
-
-// 4. Create test implementation
-export const EmailServiceTest = Layer.succeed(
-  EmailService,
-  {
-    send: () => Effect.succeed(void 0),
-    validate: () => Effect.succeed(true)
+// VS Code 디버깅 설정 (.vscode/launch.json)
+{
+  "type": "node",
+  "request": "launch",
+  "name": "Debug CLI",
+  "program": "${workspaceFolder}/dist/bin.cjs",
+  "args": ["classify", "test-project"],
+  "console": "integratedTerminal",
+  "env": {
+    "DEBUG": "deps-cli:*"
   }
-)
-```
-
-#### **Service Composition**
-
-```typescript
-// Compose multiple services
-export const AppServiceLayer = Layer.mergeAll(
-  FileSystemLive,
-  EmailServiceLive,
-  DatabaseServiceLive
-)
-
-// Conditional service loading
-const getServiceLayer = (features: Array<string>) => {
-  let layer = CoreServiceLayer
-
-  if (features.includes("email")) {
-    layer = Layer.merge(layer, EmailServiceLive)
-  }
-
-  if (features.includes("analytics")) {
-    layer = Layer.merge(layer, AnalyticsServiceLive)
-  }
-
-  return layer
 }
 ```
 
-### Error Handling Standards
+## 📋 체크리스트
 
-#### **Proper Error Management**
+### Pull Request 체크리스트
 
-```typescript
-// 1. Define domain errors
-export class FeatureError extends Data.TaggedError("FeatureError")<{
-  readonly reason: string
-  readonly context?: Record<string, unknown>
-}> {}
+- [ ] 모든 테스트 통과
+- [ ] 타입 검사 통과
+- [ ] 린팅 규칙 준수
+- [ ] 적절한 테스트 추가
+- [ ] 문서 업데이트
+- [ ] 커밋 메시지 컨벤션 준수
+- [ ] 기능/버그 설명 명확
+- [ ] 브레이킹 체인지 여부 표시
 
-// 2. Use in service implementation
-export const processWithErrorHandling = (input: string) =>
-  Effect.gen(function* () {
-    // Validate input
-    if (!input.trim()) {
-      return yield* new FeatureError({
-        reason: "Input cannot be empty",
-        context: { providedInput: input }
-      })
-    }
+### 릴리스 체크리스트
 
-    // Process with error recovery
-    const result = yield* dangerousOperation(input).pipe(
-      Effect.catchAll(error =>
-        Effect.gen(function* () {
-          yield* Effect.logWarning(`Operation failed: ${error}`)
-          return defaultValue
-        })
-      )
-    )
+- [ ] 모든 CI 검사 통과
+- [ ] 버전 번호 업데이트
+- [ ] CHANGELOG.md 업데이트
+- [ ] 릴리스 노트 작성
+- [ ] 태그 생성
+- [ ] npm 배포
+- [ ] GitHub 릴리스 생성
 
-    return result
-  })
+---
 
-// 3. Handle in command
-export const safeCommand = Command.make("safe", { input: inputArg }).pipe(
-  Command.withHandler(({ input }) =>
-    Effect.gen(function* () {
-      const result = yield* processWithErrorHandling(input).pipe(
-        Effect.catchTag("FeatureError", error =>
-          Effect.gen(function* () {
-            yield* Console.error(`Error: ${error.reason}`)
-            yield* Effect.fail(new Error("Command failed"))
-          })
-        )
-      )
-
-      yield* Console.log(`Success: ${result}`)
-    })
-  )
-)
-```
-
-## Contributing
-
-### Code Style
-
-- Follow TypeScript strict mode
-- Use Effect.js patterns consistently
-- Write comprehensive tests
-- Document public APIs with JSDoc
-- Always run quality gates before committing
-
-### Commit Messages
-
-Use conventional commits:
-
-```
-feat: add new queue export command
-fix: resolve memory leak in file processing
-docs: update CLI usage guide
-test: add integration tests for queue system
-```
-
-### Pull Requests
-
-1. Create feature branch
-2. Write tests
-3. Update documentation
-4. Ensure all checks pass
-5. Request review
-
-## Troubleshooting
-
-### Common Issues
-
-1. **TypeScript Errors**: Run `pnpm check` to identify issues
-2. **Test Failures**: Check Effect service dependencies
-3. **Build Issues**: Clear dist folder and rebuild
-4. **Queue Database**: Delete queue database to reset state
-
-### Getting Help
-
-- Check documentation in `docs/` directory
-- Review test files for usage examples
-- Examine existing commands for patterns
-- Use Effect.js documentation for framework questions
+이 가이드는 deps-cli 프로젝트의 개발에 필요한 모든 정보를 제공합니다. 추가 질문이나 개선 제안이 있으면 언제든지 이슈를 생성해 주세요!

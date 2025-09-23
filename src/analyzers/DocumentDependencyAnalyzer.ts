@@ -4,7 +4,7 @@
 
 import * as path from 'node:path'
 import * as fs from 'node:fs'
-import type { DocumentDependency, FileNode, AnalysisConfig } from '../types/DependencyClassification.js'
+import type { DocumentDependency } from '../types/DependencyClassification.js'
 
 export interface DocumentAnalysisResult {
   documentReferences: DocumentDependency[]  // 다른 문서 참조
@@ -35,7 +35,7 @@ export class DocumentDependencyAnalyzer {
     '.zip', '.tar', '.gz', '.json', '.xml', '.csv'
   ]
 
-  constructor(private config: AnalysisConfig) {}
+  constructor() {}
 
   async analyzeDocumentFile(filePath: string): Promise<DocumentAnalysisResult> {
     const content = await fs.promises.readFile(filePath, 'utf-8')

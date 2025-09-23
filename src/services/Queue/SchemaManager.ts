@@ -58,7 +58,9 @@ export const SchemaManager = GenericTag<SchemaManager>("@app/SchemaManager")
 // ============================================================================
 
 const CURRENT_SCHEMA_VERSION = "1.0.0"
-const SCHEMA_DIR = join(dirname(fileURLToPath(import.meta.url)), "schemas")
+const SCHEMA_DIR = typeof import.meta !== 'undefined' ?
+  join(dirname(fileURLToPath(import.meta.url)), "schemas") :
+  join(__dirname, "schemas")
 const MAIN_SCHEMA_FILE = join(SCHEMA_DIR, "schema.sql")
 // const MIGRATIONS_FILE = join(SCHEMA_DIR, "migrations.sql") // Unused
 

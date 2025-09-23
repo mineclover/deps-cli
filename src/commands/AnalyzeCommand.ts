@@ -7,10 +7,8 @@
 
 import {
   analyzeTypeScriptFile,
-  getBatchAnalysis,
   analyzeMarkdownFile,
   AnalysisEngine,
-  AnalysisEngineFactory,
   PathResolverInterpreter
 } from "@context-action/dependency-linker"
 import type { AnalysisResult } from "@context-action/dependency-linker"
@@ -28,6 +26,7 @@ import * as Options from "@effect/cli/Options"
 import * as Console from "effect/Console"
 import * as Effect from "effect/Effect"
 import * as Option from "effect/Option"
+import * as path from "node:path"
 
 // Filter options interface
 interface FilterOptions {
@@ -388,9 +387,8 @@ const analyzeEnhancedSingleFile = (
       yield* Console.log(`🚀 Enhanced analysis of single file: ${filePath}`)
     }
 
-    // Create enhanced AnalysisEngine with all interpreters
-    const config = AnalysisEngineFactory.PRESETS.comprehensive()
-    const engine = new AnalysisEngine(config)
+    // Create enhanced AnalysisEngine with default configuration
+    const engine = new AnalysisEngine()
 
     // Register PathResolverInterpreter
     const pathInterpreter = new PathResolverInterpreter()
@@ -1204,8 +1202,7 @@ const analyzeDirectoryByType = (
             (file) =>
               Effect.tryPromise({
                 try: async () => {
-                  const config = AnalysisEngineFactory.PRESETS.comprehensive()
-                  const engine = new AnalysisEngine(config)
+                  const engine = new AnalysisEngine()
                   const pathInterpreter = new PathResolverInterpreter()
                   engine.registerInterpreter('path-resolver', pathInterpreter)
                   return engine.analyzeFile(file)
@@ -1324,8 +1321,8 @@ const outputOverallSummary = (
     yield* Console.log(`\n📈 Results by Type:`)
     Object.entries(resultsByType).forEach(([type, results]) => {
       const icon = getGroupIcon(type)
-      const successCount = results.filter(r => !r.error && (r.errors?.length ?? 0) === 0).length
-      const totalDeps = results.reduce((sum, r) => {
+      const successCount = (results as any[]).filter((r: any) => !r.error && (r.errors?.length ?? 0) === 0).length
+      const totalDeps = (results as any[]).reduce((sum: number, r: any) => {
         const deps = r.extractedData?.dependency?.dependencies ?? []
         return sum + deps.length
       }, 0)

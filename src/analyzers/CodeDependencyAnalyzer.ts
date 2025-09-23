@@ -4,7 +4,7 @@
 
 import * as path from 'node:path'
 import * as fs from 'node:fs'
-import type { CodeDependency, FileNode, AnalysisConfig } from '../types/DependencyClassification.js'
+import type { CodeDependency } from '../types/DependencyClassification.js'
 
 export interface CodeAnalysisResult {
   internalModules: CodeDependency[]    // 프로젝트 내부 모듈
@@ -40,7 +40,7 @@ export class CodeDependencyAnalyzer {
     gatsby: ['gatsby', '@gatsby']
   }
 
-  constructor(private config: AnalysisConfig, private projectRoot: string) {
+  constructor(private projectRoot: string) {
     // tsconfig.json에서 alias 정보 로드
     this.loadTsConfigAliases()
   }
@@ -129,7 +129,6 @@ export class CodeDependencyAnalyzer {
       if (!processedSources.has(dep.source) && this.isInternalModule(dep.source, filePath)) {
         processedSources.add(dep.source) // 처리됨으로 표시
         const resolvedPath = this.resolveInternalPath(dep.source, filePath)
-        const packageInfo = this.getPackageInfo(dep.source)
 
         internalModules.push({
           source: dep.source,

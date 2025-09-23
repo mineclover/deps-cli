@@ -306,7 +306,7 @@ export const classifyCommand = Command.make(
       }
 
       // 통합 분석기 생성
-      const analyzer = new UnifiedDependencyAnalyzer(projectRoot, analysisConfig)
+      const analyzer = new UnifiedDependencyAnalyzer(projectRoot)
 
       // 분석 실행
       yield* Console.log(`🚀 의존성 분류 분석 시작...`)

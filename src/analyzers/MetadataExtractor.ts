@@ -3,7 +3,6 @@
  */
 
 import * as path from 'node:path'
-import * as fs from 'node:fs'
 import { IdGenerator } from '../utils/IdGenerator.js'
 import type {
   FileMetadata,
@@ -18,6 +17,7 @@ import type { DependencyNode, ClassifiedDependency } from '../types/DependencyCl
 export class MetadataExtractor {
   private idGenerator: IdGenerator
   private fileIdMap = new Map<string, string>() // filePath -> fileId 매핑
+  private metadataCache = new Map<string, FileMetadata>() // fileId -> metadata 캐싱
 
   constructor(
     private projectRoot: string,
@@ -197,7 +197,7 @@ export class MetadataExtractor {
       resolvedPath: dep.resolvedPath,
       category: this.mapTypeToCategory(dep.type),
       type: dep.type,
-      line: dep.line,
+      line: dep.line ?? 0,
       confidence: dep.confidence,
       isTypeOnly: 'isTypeOnly' in dep ? dep.isTypeOnly : false,
       targetFileId
