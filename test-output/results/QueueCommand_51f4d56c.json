@@ -1,0 +1,933 @@
+{
+  "filePath": "/Users/junwoobang/project/deps-cli/src/commands/QueueCommand.ts",
+  "pathInfo": {
+    "input": "/Users/junwoobang/project/deps-cli/src/commands/QueueCommand.ts",
+    "absolute": "/Users/junwoobang/project/deps-cli/src/commands/QueueCommand.ts",
+    "relative": "src/commands/QueueCommand.ts",
+    "directory": "/Users/junwoobang/project/deps-cli/src/commands",
+    "relativeDirectory": "src/commands",
+    "fileName": "QueueCommand.ts",
+    "baseName": "QueueCommand",
+    "extension": ".ts",
+    "projectRoot": "/Users/junwoobang/project/deps-cli",
+    "isWithinProject": true,
+    "depth": 2,
+    "separator": "/",
+    "wasAbsolute": true
+  },
+  "language": "typescript",
+  "extractedData": {
+    "dependency": {
+      "dependencies": [
+        {
+          "source": "effect/Console",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 1,
+            "column": 0,
+            "endLine": 1,
+            "endColumn": 36
+          }
+        },
+        {
+          "source": "@effect/cli/Command",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 14,
+            "column": 0,
+            "endLine": 14,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "@effect/cli/Options",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 15,
+            "column": 0,
+            "endLine": 15,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "effect/Duration",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 17,
+            "column": 0,
+            "endLine": 17,
+            "endColumn": 41
+          }
+        },
+        {
+          "source": "effect/Effect",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 18,
+            "column": 0,
+            "endLine": 18,
+            "endColumn": 39
+          }
+        },
+        {
+          "source": "../services/Queue/index.js",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 20,
+            "column": 0,
+            "endLine": 20,
+            "endColumn": 94
+          }
+        },
+        {
+          "source": "node:fs/promises",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 84,
+            "column": 12,
+            "endLine": 84,
+            "endColumn": 38
+          }
+        }
+      ],
+      "totalCount": 7,
+      "importCount": 6,
+      "exportCount": 0,
+      "dynamicImportCount": 1,
+      "typeOnlyImportCount": 0
+    },
+    "identifier": {
+      "identifiers": [
+        {
+          "name": "formatUptime",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 29,
+            "column": 6,
+            "endLine": 42,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "uptimeMs",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 30,
+            "column": 8,
+            "endLine": 30,
+            "endColumn": 51
+          }
+        },
+        {
+          "name": "uptimeHours",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 31,
+            "column": 8,
+            "endLine": 31,
+            "endColumn": 61
+          }
+        },
+        {
+          "name": "uptimeMinutes",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 32,
+            "column": 8,
+            "endLine": 32,
+            "endColumn": 79
+          }
+        },
+        {
+          "name": "uptimeSeconds",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 33,
+            "column": 8,
+            "endLine": 33,
+            "endColumn": 67
+          }
+        },
+        {
+          "name": "formatTime",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 47,
+            "column": 6,
+            "endLine": 49,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "formatMemory",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 54,
+            "column": 6,
+            "endLine": 65,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "units",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 55,
+            "column": 8,
+            "endLine": 55,
+            "endColumn": 39
+          }
+        },
+        {
+          "name": "size",
+          "type": "variable",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 56,
+            "column": 6,
+            "endLine": 56,
+            "endColumn": 18
+          }
+        },
+        {
+          "name": "unitIndex",
+          "type": "variable",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 57,
+            "column": 6,
+            "endLine": 57,
+            "endColumn": 19
+          }
+        },
+        {
+          "name": "getHealthDisplay",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 70,
+            "column": 6,
+            "endLine": 74,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "writeToFile",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 79,
+            "column": 6,
+            "endLine": 86,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "statusCommand",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 95,
+            "column": 6,
+            "endLine": 264,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "displayStatus",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 112,
+            "column": 12,
+            "endLine": 249,
+            "endColumn": 8
+          }
+        },
+        {
+          "name": "[queueStatus, systemHealth]",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 114,
+            "column": 14,
+            "endLine": 117,
+            "endColumn": 10
+          }
+        },
+        {
+          "name": "queue",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 119,
+            "column": 14,
+            "endLine": 119,
+            "endColumn": 39
+          }
+        },
+        {
+          "name": "metrics",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 120,
+            "column": 14,
+            "endLine": 120,
+            "endColumn": 43
+          }
+        },
+        {
+          "name": "heartbeat",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 121,
+            "column": 14,
+            "endLine": 121,
+            "endColumn": 48
+          }
+        },
+        {
+          "name": "healthMetrics",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 122,
+            "column": 14,
+            "endLine": 122,
+            "endColumn": 50
+          }
+        },
+        {
+          "name": "jsonOutput",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 126,
+            "column": 16,
+            "endLine": 149,
+            "endColumn": 11
+          }
+        },
+        {
+          "name": "health",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 171,
+            "column": 14,
+            "endLine": 171,
+            "endColumn": 60
+          }
+        },
+        {
+          "name": "dbHealth",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 205,
+            "column": 16,
+            "endLine": 205,
+            "endColumn": 49
+          }
+        },
+        {
+          "name": "dbStatus",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 206,
+            "column": 16,
+            "endLine": 206,
+            "endColumn": 80
+          }
+        },
+        {
+          "name": "breakerStatus",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 216,
+            "column": 16,
+            "endLine": 216,
+            "endColumn": 60
+          }
+        },
+        {
+          "name": "breakerIcon",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 217,
+            "column": 16,
+            "endLine": 217,
+            "endColumn": 102
+          }
+        },
+        {
+          "name": "memory",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 221,
+            "column": 16,
+            "endLine": 221,
+            "endColumn": 45
+          }
+        },
+        {
+          "name": "resourceGroups",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 234,
+            "column": 14,
+            "endLine": 234,
+            "endColumn": 100
+          }
+        },
+        {
+          "name": "totalRunning",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 235,
+            "column": 14,
+            "endLine": 235,
+            "endColumn": 58
+          }
+        },
+        {
+          "name": "icon",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 239,
+            "column": 16,
+            "endLine": 239,
+            "endColumn": 53
+          }
+        },
+        {
+          "name": "clearCommand",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 273,
+            "column": 6,
+            "endLine": 363,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "persistence",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 286,
+            "column": 12,
+            "endLine": 286,
+            "endColumn": 49
+          }
+        },
+        {
+          "name": "status",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 289,
+            "column": 12,
+            "endLine": 289,
+            "endColumn": 44
+          }
+        },
+        {
+          "name": "metrics",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 290,
+            "column": 12,
+            "endLine": 290,
+            "endColumn": 36
+          }
+        },
+        {
+          "name": "tasksToRemove",
+          "type": "variable",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 293,
+            "column": 10,
+            "endLine": 293,
+            "endColumn": 27
+          }
+        },
+        {
+          "name": "clearDescription",
+          "type": "variable",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 294,
+            "column": 10,
+            "endLine": 294,
+            "endColumn": 31
+          }
+        },
+        {
+          "name": "sessionId",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 329,
+            "column": 14,
+            "endLine": 329,
+            "endColumn": 64
+          }
+        },
+        {
+          "name": "updatedStatus",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 353,
+            "column": 14,
+            "endLine": 353,
+            "endColumn": 53
+          }
+        },
+        {
+          "name": "updatedMetrics",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 354,
+            "column": 14,
+            "endLine": 354,
+            "endColumn": 52
+          }
+        },
+        {
+          "name": "exportCommand",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 372,
+            "column": 6,
+            "endLine": 498,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "{ format, include, output }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 389,
+            "column": 12,
+            "endLine": 389,
+            "endColumn": 49
+          }
+        },
+        {
+          "name": "[queueStatus, systemHealth]",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 393,
+            "column": 12,
+            "endLine": 396,
+            "endColumn": 8
+          }
+        },
+        {
+          "name": "timestamp",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 398,
+            "column": 12,
+            "endLine": 398,
+            "endColumn": 48
+          }
+        },
+        {
+          "name": "metrics",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 399,
+            "column": 12,
+            "endLine": 399,
+            "endColumn": 41
+          }
+        },
+        {
+          "name": "heartbeat",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 400,
+            "column": 12,
+            "endLine": 400,
+            "endColumn": 46
+          }
+        },
+        {
+          "name": "healthMetrics",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 401,
+            "column": 12,
+            "endLine": 401,
+            "endColumn": 48
+          }
+        },
+        {
+          "name": "exportData",
+          "type": "variable",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 403,
+            "column": 10,
+            "endLine": 403,
+            "endColumn": 50
+          }
+        },
+        {
+          "name": "formattedData",
+          "type": "variable",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 460,
+            "column": 10,
+            "endLine": 460,
+            "endColumn": 31
+          }
+        },
+        {
+          "name": "flattenObject",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 466,
+            "column": 14,
+            "endLine": 477,
+            "endColumn": 9
+          }
+        },
+        {
+          "name": "flattened",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 467,
+            "column": 16,
+            "endLine": 467,
+            "endColumn": 55
+          }
+        },
+        {
+          "name": "newKey",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 469,
+            "column": 18,
+            "endLine": 469,
+            "endColumn": 60
+          }
+        },
+        {
+          "name": "flattened",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 479,
+            "column": 14,
+            "endLine": 479,
+            "endColumn": 51
+          }
+        },
+        {
+          "name": "headers",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 480,
+            "column": 14,
+            "endLine": 480,
+            "endColumn": 56
+          }
+        },
+        {
+          "name": "values",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 481,
+            "column": 14,
+            "endLine": 481,
+            "endColumn": 106
+          }
+        },
+        {
+          "name": "queueCommand",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 507,
+            "column": 13,
+            "endLine": 532,
+            "endColumn": 1
+          }
+        }
+      ],
+      "totalCount": 54,
+      "functionCount": 0,
+      "classCount": 0,
+      "interfaceCount": 0,
+      "variableCount": 6,
+      "constantCount": 48,
+      "enumCount": 0,
+      "typeCount": 0,
+      "exportedCount": 1
+    }
+  },
+  "interpretedData": {
+    "dependency-analysis": {
+      "summary": {
+        "totalDependencies": 0,
+        "externalDependencies": 0,
+        "internalDependencies": 0,
+        "devDependencies": 0,
+        "typeOnlyImports": 0,
+        "circularDependencies": [],
+        "unusedImports": [],
+        "missingDependencies": []
+      },
+      "dependencyGraph": {
+        "nodes": [],
+        "edges": []
+      },
+      "insights": {
+        "riskFactors": [],
+        "recommendations": [],
+        "metrics": {
+          "dependencyCoupling": 0,
+          "modularity": 1,
+          "stability": 1
+        }
+      }
+    },
+    "identifier-analysis": {
+      "summary": {
+        "codebaseStructure": {
+          "publicApi": 0,
+          "privateImplementation": null,
+          "exportRatio": null
+        },
+        "complexity": {
+          "averageParametersPerFunction": 0,
+          "functionsWithManyParameters": 0,
+          "largeClasses": 0,
+          "deepInheritance": 0
+        },
+        "patterns": {
+          "namingConventions": {
+            "camelCase": 0,
+            "pascalCase": 0,
+            "snakeCase": 0,
+            "kebabCase": 0,
+            "inconsistencies": [],
+            "conventionScore": 1
+          },
+          "designPatterns": [],
+          "antiPatterns": []
+        }
+      },
+      "recommendations": {
+        "codeQuality": [],
+        "refactoring": [],
+        "architecture": []
+      },
+      "metrics": {
+        "cohesion": 1,
+        "abstraction": 0,
+        "encapsulation": 0,
+        "apiStability": null
+      }
+    }
+  },
+  "performanceMetrics": {
+    "parseTime": 32,
+    "extractionTime": 14,
+    "interpretationTime": 0,
+    "totalTime": 47,
+    "memoryUsage": 56006760,
+    "breakdown": {
+      "extractors": {},
+      "interpreters": {},
+      "parser": {
+        "languageDetectionTime": 0,
+        "grammarLoadTime": 0,
+        "parseTime": 62,
+        "validationTime": 0,
+        "nodeCount": 1,
+        "maxDepth": 0,
+        "astMemoryUsage": 6465072
+      }
+    },
+    "resources": {
+      "cpuUsage": 131.37021276595743,
+      "memoryUsage": 48.95537567138672,
+      "fileHandles": 0,
+      "threadCount": 1,
+      "gc": {
+        "collections": 0,
+        "gcTime": 0,
+        "memoryReclaimed": 0
+      }
+    }
+  },
+  "errors": [],
+  "metadata": {
+    "timestamp": "2025-09-23T02:20:52.152Z",
+    "version": "2.0.0",
+    "config": {
+      "depth": 3,
+      "useCache": true,
+      "maxCacheSize": 1000,
+      "maxCacheMemory": 104857600,
+      "cacheTtl": 3600000,
+      "timeout": 30000,
+      "maxFileSize": 10485760,
+      "performance": {
+        "enableParallelProcessing": true,
+        "maxConcurrency": 4,
+        "monitorMemory": true,
+        "memoryLimit": 536870912,
+        "enableAstReuse": true,
+        "enableIncrementalAnalysis": true
+      },
+      "output": {
+        "format": "json",
+        "includeMetrics": true,
+        "includeErrors": true,
+        "includeInterpretedData": true,
+        "formatting": {
+          "pretty": true,
+          "indent": 2
+        }
+      },
+      "plugins": {
+        "autoLoad": true,
+        "allowNative": false,
+        "security": {
+          "sandboxed": true
+        }
+      },
+      "extractorOptions": {
+        "dependency": {
+          "options": {
+            "includeSources": false
+          }
+        }
+      },
+      "extractors": [
+        "dependency",
+        "identifier"
+      ],
+      "interpreterOptions": {}
+    },
+    "extractorsUsed": [
+      "dependency",
+      "identifier"
+    ],
+    "interpretersUsed": [
+      "dependency-analysis",
+      "identifier-analysis"
+    ],
+    "fromCache": false,
+    "fileSize": 0,
+    "lastModified": "2025-09-23T02:20:52.106Z"
+  }
+}

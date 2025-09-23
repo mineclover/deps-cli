@@ -1,0 +1,4868 @@
+{
+  "project": {
+    "root": "/Users/junwoobang/project/deps-cli",
+    "name": "deps-cli",
+    "analyzedAt": "2025-09-23T11:16:24.022Z",
+    "version": "1.0.0"
+  },
+  "files": [
+    {
+      "fileId": "file_examples_userprofile_tsx",
+      "filePath": "examples/UserProfile.tsx",
+      "relativePath": "examples/UserProfile.tsx",
+      "fileType": "code",
+      "language": "typescript-jsx",
+      "size": 2603,
+      "lastModified": "2025-09-23T03:59:37.460Z",
+      "complexity": 1.3,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/UserService",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/services/UserService",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 2,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../utils/Logger",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/utils/Logger",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 3,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./UserProfile.css",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/UserProfile.css",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 4,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "react",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "framework": "react",
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "examples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_examples_userservice_ts",
+      "filePath": "examples/UserService.ts",
+      "relativePath": "examples/UserService.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 4143,
+      "lastModified": "2025-09-23T03:59:53.277Z",
+      "complexity": 2.6,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../config/app.config",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/config/app.config",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 2,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../utils/Logger",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/utils/Logger",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 3,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../errors/ApiError",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/errors/ApiError",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 4,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "axios",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "examples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_examples_scenarios_userservice_ts",
+      "filePath": "examples/scenarios/UserService.ts",
+      "relativePath": "examples/scenarios/UserService.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 5271,
+      "lastModified": "2025-09-23T08:16:26.694Z",
+      "complexity": 2,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./utils/Logger.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/scenarios/utils/Logger.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 8,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./config/Config.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/scenarios/config/Config.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 9,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@/database/Database.js",
+            "resolvedPath": null,
+            "category": "internal",
+            "type": "internal-module",
+            "line": 10,
+            "confidence": 0.5,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./types/User.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/examples/scenarios/types/User.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 11,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "axios",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 5,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "examples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_catcommand_ts",
+      "filePath": "samples/commands/CatCommand.ts",
+      "relativePath": "samples/commands/CatCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2108,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "complexity": 0.7,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 4,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_enhancedlistcommand_ts",
+      "filePath": "samples/commands/EnhancedListCommand.ts",
+      "relativePath": "samples/commands/EnhancedListCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 6475,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "complexity": 3.3,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/Queue/TransparentQueueAdapter.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/Queue/TransparentQueueAdapter.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 21,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Array",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 19,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_findcommand_ts",
+      "filePath": "samples/commands/FindCommand.ts",
+      "relativePath": "samples/commands/FindCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2270,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "complexity": 1.2,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 4,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_listcommand_ts",
+      "filePath": "samples/commands/ListCommand.ts",
+      "relativePath": "samples/commands/ListCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2426,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "complexity": 0.9,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/FileSystem.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/FileSystem.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Array",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 4,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 6,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_phase3_5_runtimeintegrationexample_ts",
+      "filePath": "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+      "relativePath": "samples/commands/Phase3_5_RuntimeIntegrationExample.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 6445,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "complexity": 0.8,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 17,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_queuedemo_ts",
+      "filePath": "samples/commands/QueueDemo.ts",
+      "relativePath": "samples/commands/QueueDemo.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 6474,
+      "lastModified": "2025-09-22T18:41:13.338Z",
+      "complexity": 1.2,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 14,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 11,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_samplecommand_ts",
+      "filePath": "samples/commands/SampleCommand.ts",
+      "relativePath": "samples/commands/SampleCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 8139,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "complexity": 2.3,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/FileSystem.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/FileSystem.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 4,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 6,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_simplelistcommand_ts",
+      "filePath": "samples/commands/SimpleListCommand.ts",
+      "relativePath": "samples/commands/SimpleListCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 1781,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "complexity": 0.9,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 8,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 9,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 10,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 11,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform/FileSystem",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform/Path",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_simplesamplecommand_ts",
+      "filePath": "samples/commands/SimpleSampleCommand.ts",
+      "relativePath": "samples/commands/SimpleSampleCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 7290,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "complexity": 2.1,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 8,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 9,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 10,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 11,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform/FileSystem",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform/Path",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_uxdemocommand_ts",
+      "filePath": "samples/commands/UXDemoCommand.ts",
+      "relativePath": "samples/commands/UXDemoCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 9781,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "complexity": 2.3,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/UserExperience/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/UserExperience/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 20,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../services/UserExperience/utils.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/services/UserExperience/utils.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 21,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_config_ts",
+      "filePath": "samples/commands/config.ts",
+      "relativePath": "samples/commands/config.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 742,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "complexity": 0.3,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_samples_commands_index_ts",
+      "filePath": "samples/commands/index.ts",
+      "relativePath": "samples/commands/index.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 1955,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "complexity": 0.9,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./CatCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/CatCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 8,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./config.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/config.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 9,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./FindCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/FindCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 10,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./ListCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/ListCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 11,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./SampleCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/SampleCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 12,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./examples/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/samples/commands/examples/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 52,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "samples",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_scripts_copy_package_json_ts",
+      "filePath": "scripts/copy-package-json.ts",
+      "relativePath": "scripts/copy-package-json.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 1877,
+      "lastModified": "2025-09-22T18:41:13.339Z",
+      "complexity": 0.4,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "@effect/platform",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform-node",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "scripts",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_specs_001_treesitter_contracts_icodeparser_ts",
+      "filePath": "specs/001-treesitter/contracts/ICodeParser.ts",
+      "relativePath": "specs/001-treesitter/contracts/ICodeParser.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 1117,
+      "lastModified": "2025-09-22T18:41:13.340Z",
+      "complexity": 0.5,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "tree-sitter",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "specs",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_cli_ts",
+      "filePath": "src/Cli.ts",
+      "relativePath": "src/Cli.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 1391,
+      "lastModified": "2025-09-23T08:15:41.049Z",
+      "complexity": 0.4,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./commands/simple.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/simple.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 9,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./commands/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 27,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 6,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_analyzers_codedependencyanalyzer_ts",
+      "filePath": "src/analyzers/CodeDependencyAnalyzer.ts",
+      "relativePath": "src/analyzers/CodeDependencyAnalyzer.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 20526,
+      "lastModified": "2025-09-23T09:12:03.500Z",
+      "complexity": 8.6,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../types/DependencyClassification.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/DependencyClassification.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 5,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_analyzers_documentdependencyanalyzer_ts",
+      "filePath": "src/analyzers/DocumentDependencyAnalyzer.ts",
+      "relativePath": "src/analyzers/DocumentDependencyAnalyzer.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 16351,
+      "lastModified": "2025-09-23T08:11:19.138Z",
+      "complexity": 6,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../types/DependencyClassification.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/DependencyClassification.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 5,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_analyzers_metadataextractor_ts",
+      "filePath": "src/analyzers/MetadataExtractor.ts",
+      "relativePath": "src/analyzers/MetadataExtractor.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 11298,
+      "lastModified": "2025-09-23T10:02:44.703Z",
+      "complexity": 6.1,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../utils/IdGenerator.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/IdGenerator.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../types/ReferenceMetadata.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/ReferenceMetadata.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 8,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          },
+          {
+            "source": "./UnifiedDependencyAnalyzer.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/UnifiedDependencyAnalyzer.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 15,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          },
+          {
+            "source": "../types/DependencyClassification.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/DependencyClassification.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 16,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 5,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_analyzers_testdependencyanalyzer_ts",
+      "filePath": "src/analyzers/TestDependencyAnalyzer.ts",
+      "relativePath": "src/analyzers/TestDependencyAnalyzer.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 11265,
+      "lastModified": "2025-09-23T08:22:16.503Z",
+      "complexity": 3.8,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../types/DependencyClassification.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/DependencyClassification.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 5,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_analyzers_unifieddependencyanalyzer_ts",
+      "filePath": "src/analyzers/UnifiedDependencyAnalyzer.ts",
+      "relativePath": "src/analyzers/UnifiedDependencyAnalyzer.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 25080,
+      "lastModified": "2025-09-23T08:20:05.714Z",
+      "complexity": 7.9,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./TestDependencyAnalyzer.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/TestDependencyAnalyzer.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./DocumentDependencyAnalyzer.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/DocumentDependencyAnalyzer.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 11,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./CodeDependencyAnalyzer.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/CodeDependencyAnalyzer.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 15,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../types/DependencyClassification.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/DependencyClassification.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 19,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 5,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_bin_ts",
+      "filePath": "src/bin.ts",
+      "relativePath": "src/bin.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2478,
+      "lastModified": "2025-09-23T02:51:28.915Z",
+      "complexity": 1.2,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./Cli.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/Cli.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 11,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 12,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/experimental",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform-node/NodeContext",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 4,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform-node/NodeFileSystem",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform-node/NodePath",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 6,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform-node/NodeRuntime",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 8,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 9,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Logger",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 10,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_commands_analyzecommand_ts",
+      "filePath": "src/commands/AnalyzeCommand.ts",
+      "relativePath": "src/commands/AnalyzeCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 59155,
+      "lastModified": "2025-09-23T07:46:17.365Z",
+      "complexity": 30.7,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../utils/EnhancedAnalyzer.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/EnhancedAnalyzer.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 17,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../utils/ProjectRootDetector.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/ProjectRootDetector.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 24,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@context-action/dependency-linker",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 8,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 25,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 26,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 27,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 28,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 29,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 30,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "glob",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 305,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": [
+          {
+            "source": "path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 797,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_commands_classifycommand_ts",
+      "filePath": "src/commands/ClassifyCommand.ts",
+      "relativePath": "src/commands/ClassifyCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 20690,
+      "lastModified": "2025-09-23T11:04:24.756Z",
+      "complexity": 7.2,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../analyzers/UnifiedDependencyAnalyzer.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/UnifiedDependencyAnalyzer.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 14,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../analyzers/MetadataExtractor.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/analyzers/MetadataExtractor.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 15,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../types/DependencyClassification.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/DependencyClassification.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 16,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 6,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Args",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 8,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 9,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 10,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 11,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 12,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_commands_queuecommand_ts",
+      "filePath": "src/commands/QueueCommand.ts",
+      "relativePath": "src/commands/QueueCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 18671,
+      "lastModified": "2025-09-22T18:41:13.341Z",
+      "complexity": 5.5,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 20,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": [
+          {
+            "source": "node:fs/promises",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 84,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_commands_queuestatuscommand_ts",
+      "filePath": "src/commands/QueueStatusCommand.ts",
+      "relativePath": "src/commands/QueueStatusCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 6830,
+      "lastModified": "2025-09-22T18:41:13.341Z",
+      "complexity": 1.4,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 19,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../services/Queue/types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 20,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/cli/Options",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_commands_simplequeuecommand_ts",
+      "filePath": "src/commands/SimpleQueueCommand.ts",
+      "relativePath": "src/commands/SimpleQueueCommand.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2200,
+      "lastModified": "2025-09-22T18:41:13.341Z",
+      "complexity": 0.2,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 11,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/cli/Command",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Console",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 8,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 9,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 10,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_commands_index_ts",
+      "filePath": "src/commands/index.ts",
+      "relativePath": "src/commands/index.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 885,
+      "lastModified": "2025-09-23T02:49:43.180Z",
+      "complexity": 0.2,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./AnalyzeCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/AnalyzeCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 9,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./QueueCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/QueueCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 12,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./QueueStatusCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/QueueStatusCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 13,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./SimpleQueueCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/SimpleQueueCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 14,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_commands_simple_ts",
+      "filePath": "src/commands/simple.ts",
+      "relativePath": "src/commands/simple.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 471,
+      "lastModified": "2025-09-23T08:15:24.866Z",
+      "complexity": 0.1,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./AnalyzeCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/AnalyzeCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 8,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./ClassifyCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/ClassifyCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 9,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_layers_index_ts",
+      "filePath": "src/layers/index.ts",
+      "relativePath": "src/layers/index.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 6924,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 2.4,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 19,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../services/Queue/TransparentQueueAdapter.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/TransparentQueueAdapter.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 22,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../services/UserExperience/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/UserExperience/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 25,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../services/FileSystemLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/FileSystemLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 28,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/platform-node/NodeContext",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform-node/NodeFileSystem",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform-node/NodePath",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_codeparser_codeparser_ts",
+      "filePath": "src/services/CodeParser/CodeParser.ts",
+      "relativePath": "src/services/CodeParser/CodeParser.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2898,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 1.1,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./NamedImportExtractor.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/CodeParser/NamedImportExtractor.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 4,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./ICodeParser.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/CodeParser/ICodeParser.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 3,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": [
+          {
+            "source": "node:fs/promises",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 2,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_codeparser_icodeparser_ts",
+      "filePath": "src/services/CodeParser/ICodeParser.ts",
+      "relativePath": "src/services/CodeParser/ICodeParser.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2756,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 1.7,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "react",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": true
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "framework": "react",
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_codeparser_namedimportextractor_ts",
+      "filePath": "src/services/CodeParser/NamedImportExtractor.ts",
+      "relativePath": "src/services/CodeParser/NamedImportExtractor.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 1181,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 0.4,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./RegexNamedImportExtractor.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/CodeParser/RegexNamedImportExtractor.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 3,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./ICodeParser.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/CodeParser/ICodeParser.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 2,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": true
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_codeparser_regexnamedimportextractor_ts",
+      "filePath": "src/services/CodeParser/RegexNamedImportExtractor.ts",
+      "relativePath": "src/services/CodeParser/RegexNamedImportExtractor.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 2709,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 1.7,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./ICodeParser.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/CodeParser/ICodeParser.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 2,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "react",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 25,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "framework": "react",
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_codeparser_index_ts",
+      "filePath": "src/services/CodeParser/index.ts",
+      "relativePath": "src/services/CodeParser/index.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 154,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 0.1,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_filesystem_ts",
+      "filePath": "src/services/FileSystem.ts",
+      "relativePath": "src/services/FileSystem.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 663,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 0.1,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform/Error",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": true
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_filesystemlive_ts",
+      "filePath": "src/services/FileSystemLive.ts",
+      "relativePath": "src/services/FileSystemLive.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 3177,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 0.8,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./FileSystem.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/FileSystem.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 9,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@effect/platform/FileSystem",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "@effect/platform/Path",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Array",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 4,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 6,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Order",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_filesystemtest_ts",
+      "filePath": "src/services/FileSystemTest.ts",
+      "relativePath": "src/services/FileSystemTest.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 672,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 0.1,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./FileSystem.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/FileSystem.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 4,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 2,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Ref",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_adaptivethrottlerlive_ts",
+      "filePath": "src/services/Queue/AdaptiveThrottlerLive.ts",
+      "relativePath": "src/services/Queue/AdaptiveThrottlerLive.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 9668,
+      "lastModified": "2025-09-22T18:41:13.342Z",
+      "complexity": 0.8,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 19,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Fiber",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Ref",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_advancedcache_ts",
+      "filePath": "src/services/Queue/AdvancedCache.ts",
+      "relativePath": "src/services/Queue/AdvancedCache.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 25014,
+      "lastModified": "2025-09-22T18:41:13.343Z",
+      "complexity": 10.2,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 19,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 20,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_circuitbreakerlive_ts",
+      "filePath": "src/services/Queue/CircuitBreakerLive.ts",
+      "relativePath": "src/services/Queue/CircuitBreakerLive.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 10339,
+      "lastModified": "2025-09-22T18:41:13.343Z",
+      "complexity": 2.6,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 20,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Ref",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_internalqueuelive_ts",
+      "filePath": "src/services/Queue/InternalQueueLive.ts",
+      "relativePath": "src/services/Queue/InternalQueueLive.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 16125,
+      "lastModified": "2025-09-22T18:41:13.343Z",
+      "complexity": 3.3,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 28,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Queue",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 5,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Schedule",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 7,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 19,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Fiber",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 21,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 23,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Ref",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 25,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_memoryoptimizer_ts",
+      "filePath": "src/services/Queue/MemoryOptimizer.ts",
+      "relativePath": "src/services/Queue/MemoryOptimizer.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 19332,
+      "lastModified": "2025-09-22T18:41:13.343Z",
+      "complexity": 4.1,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 23,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_performanceprofiler_ts",
+      "filePath": "src/services/Queue/PerformanceProfiler.ts",
+      "relativePath": "src/services/Queue/PerformanceProfiler.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 17292,
+      "lastModified": "2025-09-22T18:41:13.344Z",
+      "complexity": 3.7,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 22,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_queuemonitorlive_ts",
+      "filePath": "src/services/Queue/QueueMonitorLive.ts",
+      "relativePath": "src/services/Queue/QueueMonitorLive.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 17768,
+      "lastModified": "2025-09-22T18:41:13.344Z",
+      "complexity": 3.2,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 17,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Ref",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_queuepersistencelive_ts",
+      "filePath": "src/services/Queue/QueuePersistenceLive.ts",
+      "relativePath": "src/services/Queue/QueuePersistenceLive.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 15793,
+      "lastModified": "2025-09-22T18:41:13.344Z",
+      "complexity": 3.9,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 18,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Ref",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_schemamanager_ts",
+      "filePath": "src/services/Queue/SchemaManager.ts",
+      "relativePath": "src/services/Queue/SchemaManager.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 11592,
+      "lastModified": "2025-09-22T18:41:13.344Z",
+      "complexity": 2.5,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 11,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": [
+          {
+            "source": "crypto",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 10,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 15,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 16,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "url",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 17,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_stabilitymonitorlive_ts",
+      "filePath": "src/services/Queue/StabilityMonitorLive.ts",
+      "relativePath": "src/services/Queue/StabilityMonitorLive.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 14742,
+      "lastModified": "2025-09-22T18:41:13.345Z",
+      "complexity": 4.1,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 34,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Fiber",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Ref",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 19,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_transparentqueueadapter_ts",
+      "filePath": "src/services/Queue/TransparentQueueAdapter.ts",
+      "relativePath": "src/services/Queue/TransparentQueueAdapter.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 21817,
+      "lastModified": "2025-09-22T18:41:13.345Z",
+      "complexity": 4.5,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./InternalQueueLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/InternalQueueLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 24,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 25,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 19,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_index_ts",
+      "filePath": "src/services/Queue/index.ts",
+      "relativePath": "src/services/Queue/index.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 12844,
+      "lastModified": "2025-09-22T18:41:13.345Z",
+      "complexity": 4.2,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./AdaptiveThrottlerLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/AdaptiveThrottlerLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 22,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./CircuitBreakerLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/CircuitBreakerLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 23,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./InternalQueueLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/InternalQueueLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 24,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./QueueMonitorLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/QueueMonitorLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 25,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./QueuePersistenceLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/QueuePersistenceLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 26,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./SchemaManager.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/SchemaManager.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 27,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./StabilityMonitorLive.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/StabilityMonitorLive.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 28,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./TransparentQueueAdapter.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/TransparentQueueAdapter.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 29,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "./types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 36,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_queue_types_ts",
+      "filePath": "src/services/Queue/types.ts",
+      "relativePath": "src/services/Queue/types.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 19925,
+      "lastModified": "2025-09-22T18:41:13.345Z",
+      "complexity": 4.1,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_userexperience_userexperienceenhancer_ts",
+      "filePath": "src/services/UserExperience/UserExperienceEnhancer.ts",
+      "relativePath": "src/services/UserExperience/UserExperienceEnhancer.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 15403,
+      "lastModified": "2025-09-22T18:41:13.345Z",
+      "complexity": 4.9,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 23,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../Queue/types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 24,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Schedule",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 3,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 19,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 20,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_userexperience_index_ts",
+      "filePath": "src/services/UserExperience/index.ts",
+      "relativePath": "src/services/UserExperience/index.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 741,
+      "lastModified": "2025-09-22T18:41:13.345Z",
+      "complexity": 0.2,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_services_userexperience_utils_ts",
+      "filePath": "src/services/UserExperience/utils.ts",
+      "relativePath": "src/services/UserExperience/utils.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 8946,
+      "lastModified": "2025-09-22T18:41:13.346Z",
+      "complexity": 5.7,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./UserExperienceEnhancer.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/UserExperience/UserExperienceEnhancer.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 26,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_types_analysistypes_ts",
+      "filePath": "src/types/AnalysisTypes.ts",
+      "relativePath": "src/types/AnalysisTypes.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 1211,
+      "lastModified": "2025-09-23T02:34:20.225Z",
+      "complexity": 1,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_types_dependencyclassification_ts",
+      "filePath": "src/types/DependencyClassification.ts",
+      "relativePath": "src/types/DependencyClassification.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 6528,
+      "lastModified": "2025-09-23T08:09:14.575Z",
+      "complexity": 1.6,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_types_referencemetadata_ts",
+      "filePath": "src/types/ReferenceMetadata.ts",
+      "relativePath": "src/types/ReferenceMetadata.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 4239,
+      "lastModified": "2025-09-23T10:01:47.205Z",
+      "complexity": 0.9,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_utils_enhancedanalyzer_ts",
+      "filePath": "src/utils/EnhancedAnalyzer.ts",
+      "relativePath": "src/utils/EnhancedAnalyzer.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 12138,
+      "lastModified": "2025-09-23T07:43:18.946Z",
+      "complexity": 5.2,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "./ProjectRootDetector.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/utils/ProjectRootDetector.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 16,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "@context-action/dependency-linker",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 8,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 7,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_utils_idgenerator_ts",
+      "filePath": "src/utils/IdGenerator.ts",
+      "relativePath": "src/utils/IdGenerator.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 3070,
+      "lastModified": "2025-09-23T10:02:02.708Z",
+      "complexity": 0.7,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../types/ReferenceMetadata.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/types/ReferenceMetadata.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 7,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [],
+        "builtin": [
+          {
+            "source": "node:crypto",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 5,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_src_utils_projectrootdetector_ts",
+      "filePath": "src/utils/ProjectRootDetector.ts",
+      "relativePath": "src/utils/ProjectRootDetector.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 5146,
+      "lastModified": "2025-09-23T07:42:24.367Z",
+      "complexity": 2.9,
+      "maintainability": 0.7,
+      "dependencies": {
+        "internal": [],
+        "external": [],
+        "builtin": [
+          {
+            "source": "node:path",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 6,
+            "confidence": 1,
+            "isTypeOnly": false
+          },
+          {
+            "source": "node:fs",
+            "resolvedPath": null,
+            "category": "builtin",
+            "type": "builtin-module",
+            "line": 7,
+            "confidence": 1,
+            "isTypeOnly": false
+          }
+        ]
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "src",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_test_templates_commandtesttemplate_ts",
+      "filePath": "test/templates/CommandTestTemplate.ts",
+      "relativePath": "test/templates/CommandTestTemplate.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 16296,
+      "lastModified": "2025-09-22T18:41:13.347Z",
+      "complexity": 1.7,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../utils/effectTestUtils.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/test/utils/effectTestUtils.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 16,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/commands/MyCommand.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/commands/MyCommand.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 25,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/FileSystem.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/FileSystem.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 28,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 29,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 11,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "vitest",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "test",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_test_templates_servicetesttemplate_ts",
+      "filePath": "test/templates/ServiceTestTemplate.ts",
+      "relativePath": "test/templates/ServiceTestTemplate.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 19538,
+      "lastModified": "2025-09-22T18:41:13.347Z",
+      "complexity": 1.7,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../utils/effectTestUtils.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/test/utils/effectTestUtils.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 17,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/MyService.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/MyService.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 26,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/FileSystem.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/FileSystem.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 29,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/NetworkClient.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/NetworkClient.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 30,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 11,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 13,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "vitest",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "test",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_test_utils_effecttestutils_ts",
+      "filePath": "test/utils/effectTestUtils.ts",
+      "relativePath": "test/utils/effectTestUtils.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 12857,
+      "lastModified": "2025-09-22T18:41:13.348Z",
+      "complexity": 5.4,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 12,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Exit",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 16,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "vitest",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 20,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Either",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": true
+          },
+          {
+            "source": "effect/Schedule",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 19,
+            "confidence": 0.9,
+            "isTypeOnly": true
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "test",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_test_utils_testhelpers_ts",
+      "filePath": "test/utils/testHelpers.ts",
+      "relativePath": "test/utils/testHelpers.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 12321,
+      "lastModified": "2025-09-22T18:41:13.348Z",
+      "complexity": 2.3,
+      "maintainability": 0.49999999999999994,
+      "dependencies": {
+        "internal": [
+          {
+            "source": "../../src/services/Queue/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 26,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/Queue/TransparentQueueAdapter.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/TransparentQueueAdapter.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 27,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/UserExperience/index.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/UserExperience/index.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 28,
+            "confidence": 0.6,
+            "isTypeOnly": false
+          },
+          {
+            "source": "../../src/services/Queue/types.js",
+            "resolvedPath": "/Users/junwoobang/project/deps-cli/src/services/Queue/types.js",
+            "category": "internal",
+            "type": "internal-module",
+            "line": 23,
+            "confidence": 0.6,
+            "isTypeOnly": true
+          }
+        ],
+        "external": [
+          {
+            "source": "effect/Context",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 14,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Duration",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 15,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Effect",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 17,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Layer",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 18,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          },
+          {
+            "source": "effect/Option",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 20,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [
+          "high-complexity"
+        ],
+        "clusters": [
+          "test",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_tsup_config_ts",
+      "filePath": "tsup.config.ts",
+      "relativePath": "tsup.config.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 186,
+      "lastModified": "2025-09-22T18:41:13.348Z",
+      "complexity": 0.1,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "tsup",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "tsup.config.ts",
+          "code"
+        ]
+      }
+    },
+    {
+      "fileId": "file_vitest_config_ts",
+      "filePath": "vitest.config.ts",
+      "relativePath": "vitest.config.ts",
+      "fileType": "code",
+      "language": "typescript",
+      "size": 804,
+      "lastModified": "2025-09-22T18:41:13.348Z",
+      "complexity": 0.1,
+      "maintainability": 1,
+      "dependencies": {
+        "internal": [],
+        "external": [
+          {
+            "source": "vitest/config",
+            "resolvedPath": null,
+            "category": "external",
+            "type": "external-library",
+            "line": 1,
+            "confidence": 0.9,
+            "isTypeOnly": false
+          }
+        ],
+        "builtin": []
+      },
+      "dependents": [],
+      "metadata": {
+        "riskFactors": [],
+        "clusters": [
+          "vitest.config.ts",
+          "code"
+        ]
+      }
+    }
+  ],
+  "statistics": {
+    "totalFiles": 68,
+    "filesByType": {
+      "code": 68,
+      "test": 0,
+      "docs": 0
+    },
+    "totalDependencies": 333,
+    "dependenciesByCategory": {
+      "internal": 100,
+      "external": 206,
+      "builtin": 27,
+      "test-utility": 0,
+      "test-setup": 0,
+      "doc-reference": 0,
+      "doc-link": 0,
+      "doc-asset": 0
+    },
+    "averageDependenciesPerFile": 4.897058823529412,
+    "circularDependencies": 0,
+    "orphanedFiles": 21
+  },
+  "referenceGraph": {
+    "edges": []
+  }
+}

@@ -71,6 +71,67 @@ const incrementalOption = Options.boolean("incremental").pipe(
   Options.withDescription("증분 분석 모드")
 )
 
+// 고급 분석 옵션들
+const analysisDepthOption = Options.choice("analysis-depth", ["minimal", "standard", "comprehensive", "deep"]).pipe(
+  Options.withDefault("standard" as const),
+  Options.withDescription("분석 깊이 레벨 (minimal: 기본만, standard: 표준, comprehensive: 포괄적, deep: 심화)")
+)
+
+const excludePatternsOption = Options.text("exclude").pipe(
+  Options.optional,
+  Options.withDescription("제외할 파일/디렉토리 패턴 (쉼표로 구분)")
+)
+
+const includePatternsOption = Options.text("include").pipe(
+  Options.optional,
+  Options.withDescription("포함할 파일 패턴 (쉼표로 구분)")
+)
+
+const minFileSizeOption = Options.integer("min-file-size").pipe(
+  Options.withDefault(0),
+  Options.withDescription("분석할 최소 파일 크기 (bytes)")
+)
+
+const maxFileSizeOption = Options.integer("max-file-size").pipe(
+  Options.withDefault(1024 * 1024 * 10), // 10MB
+  Options.withDescription("분석할 최대 파일 크기 (bytes)")
+)
+
+const outputNameOption = Options.text("output-name").pipe(
+  Options.optional,
+  Options.withDescription("출력 파일명 (확장자 제외)")
+)
+
+const generateReportOption = Options.boolean("generate-report").pipe(
+  Options.withDefault(true),
+  Options.withDescription("분석 리포트 생성 여부")
+)
+
+const generateVisualizationOption = Options.boolean("generate-viz").pipe(
+  Options.withDefault(false),
+  Options.withDescription("시각화 다이어그램 생성 여부")
+)
+
+const confidenceThresholdOption = Options.integer("confidence-threshold").pipe(
+  Options.withDefault(50),
+  Options.withDescription("의존성 신뢰도 임계값 (0-100%)")
+)
+
+const enableCachingOption = Options.boolean("enable-cache").pipe(
+  Options.withDefault(true),
+  Options.withDescription("분석 결과 캐싱 활성화")
+)
+
+const parallelProcessingOption = Options.boolean("parallel").pipe(
+  Options.withDefault(true),
+  Options.withDescription("병렬 처리 활성화")
+)
+
+const outputMetadataOption = Options.boolean("output-metadata").pipe(
+  Options.withDefault(true),
+  Options.withDescription("참조 메타데이터 출력 여부")
+)
+
 // 메인 명령어
 export const classifyCommand = Command.make(
   "classify",
@@ -85,7 +146,20 @@ export const classifyCommand = Command.make(
     verbose: verboseOption,
     nodeType: nodeTypeFilterOption,
     compression: compressionOption,
-    incremental: incrementalOption
+    incremental: incrementalOption,
+    // 고급 옵션들
+    analysisDepth: analysisDepthOption,
+    excludePatterns: excludePatternsOption,
+    includePatterns: includePatternsOption,
+    minFileSize: minFileSizeOption,
+    maxFileSize: maxFileSizeOption,
+    outputName: outputNameOption,
+    generateReport: generateReportOption,
+    generateVisualization: generateVisualizationOption,
+    confidenceThreshold: confidenceThresholdOption,
+    enableCaching: enableCachingOption,
+    parallelProcessing: parallelProcessingOption,
+    outputMetadata: outputMetadataOption
   }
 ).pipe(
   Command.withDescription("파일 타입별 의존성을 분류하여 저장"),
@@ -102,14 +176,38 @@ export const classifyCommand = Command.make(
         verbose,
         nodeType,
         compression,
-        incremental
+        incremental,
+        // 고급 옵션들
+        analysisDepth,
+        excludePatterns,
+        includePatterns,
+        minFileSize,
+        maxFileSize,
+        outputName,
+        generateReport,
+        generateVisualization,
+        confidenceThreshold,
+        enableCaching,
+        parallelProcessing,
+        outputMetadata
       } = args
 
       if (verbose) {
         yield* Console.log(`🔍 의존성 분류 분석 시작: ${filePath}`)
-        yield* Console.log(`📊 형식: ${format}, 노드 타입: ${nodeType}`)
-        yield* Console.log(`📁 출력 디렉토리: ${Option.getOrElse(outputDir, () => "기본값 사용")}`)
-        yield* Console.log(`⚙️ 설정: 테스트=${includeTests}, 문서=${includeDocs}, 깊이=${maxDepth}`)
+        yield* Console.log(`📊 형식: ${format}, 노드 타입: ${nodeType}, 깊이: ${analysisDepth}`)
+        yield* Console.log(`📁 출력: ${Option.getOrElse(outputDir, () => "기본값 사용")}${Option.isSome(outputName) ? `, 파일명: ${Option.getOrElse(outputName, () => "")}` : ""}`)
+        yield* Console.log(`⚙️ 설정: 테스트=${includeTests}, 문서=${includeDocs}, 최대깊이=${maxDepth}`)
+        yield* Console.log(`🎯 필터: 신뢰도>=${confidenceThreshold}%, 파일크기=${minFileSize}-${maxFileSize}bytes`)
+
+        if (Option.isSome(excludePatterns)) {
+          yield* Console.log(`🚫 제외 패턴: ${Option.getOrElse(excludePatterns, () => "")}`)
+        }
+        if (Option.isSome(includePatterns)) {
+          yield* Console.log(`✅ 포함 패턴: ${Option.getOrElse(includePatterns, () => "")}`)
+        }
+
+        yield* Console.log(`🔧 고급: 캐시=${enableCaching}, 병렬=${parallelProcessing}, 메타데이터=${outputMetadata}`)
+        yield* Console.log(`📈 생성: 리포트=${generateReport}, 시각화=${generateVisualization}`)
       }
 
       // 파일 시스템 체크
@@ -127,7 +225,13 @@ export const classifyCommand = Command.make(
             includeDocs,
             includeNodeModules,
             maxDepth,
-            nodeType: nodeType as NodeType | 'all'
+            nodeType: nodeType as NodeType | 'all',
+            // 새로운 옵션들
+            excludePatterns: Option.getOrElse(excludePatterns, () => ""),
+            includePatterns: Option.getOrElse(includePatterns, () => ""),
+            minFileSize,
+            maxFileSize,
+            confidenceThreshold
           })
         } else {
           return [filePath]
@@ -227,8 +331,14 @@ export const classifyCommand = Command.make(
       // 참조 관계 요약 출력
       yield* outputReferenceMetadata(referenceData, verbose)
 
-      // 결과 저장
+      // 출력 디렉토리 설정
       const outputDirectory = Option.getOrElse(outputDir, () => path.join(projectRoot, '.deps-analysis'))
+      const baseFileName = Option.getOrElse(outputName, () => 'analysis-result')
+
+      // 디렉토리 생성
+      yield* Effect.tryPromise(async () => {
+        await fs.promises.mkdir(outputDirectory, { recursive: true })
+      })
 
       yield* Effect.tryPromise(async () => {
         await analyzer.save(result, {
@@ -237,8 +347,25 @@ export const classifyCommand = Command.make(
         })
 
         // 메타데이터 별도 저장
-        await saveReferenceMetadata(referenceData, outputDirectory, format)
+        if (outputMetadata) {
+          await saveReferenceMetadata(referenceData, outputDirectory, format, baseFileName)
+        }
       })
+
+      // 추가 리포트 생성
+      if (generateReport) {
+        yield* Console.log(`📄 분석 리포트 생성 중...`)
+        yield* Effect.tryPromise(async () => {
+          await generateAnalysisReport(referenceData, result, outputDirectory, baseFileName)
+        })
+      }
+
+      if (generateVisualization) {
+        yield* Console.log(`📊 시각화 다이어그램 생성 중...`)
+        yield* Effect.tryPromise(async () => {
+          await generateVisualizationFiles(referenceData, result, outputDirectory, baseFileName)
+        })
+      }
 
       yield* Console.log(`✅ 분석 완료! (${duration}ms)`)
       yield* Console.log(`💾 결과 저장됨: ${outputDirectory}`)
@@ -258,6 +385,11 @@ async function collectFiles(
     includeNodeModules: boolean
     maxDepth: number
     nodeType: NodeType | 'all'
+    excludePatterns: string
+    includePatterns: string
+    minFileSize: number
+    maxFileSize: number
+    confidenceThreshold: number
   }
 ): Promise<string[]> {
   const files: string[] = []
@@ -265,6 +397,28 @@ async function collectFiles(
   const extensions = ['.ts', '.tsx', '.js', '.jsx', '.vue', '.svelte']
   if (options.includeDocs) {
     extensions.push('.md', '.markdown', '.rst', '.txt')
+  }
+
+  // 패턴 처리
+  const excludePatterns = options.excludePatterns ?
+    options.excludePatterns.split(',').map(p => p.trim()).filter(Boolean) : []
+  const includePatterns = options.includePatterns ?
+    options.includePatterns.split(',').map(p => p.trim()).filter(Boolean) : []
+
+  const shouldExcludeFile = (filePath: string): boolean => {
+    if (excludePatterns.length === 0) return false
+    return excludePatterns.some(pattern => {
+      const regex = new RegExp(pattern.replace(/\*/g, '.*').replace(/\?/g, '.'))
+      return regex.test(filePath)
+    })
+  }
+
+  const shouldIncludeFile = (filePath: string): boolean => {
+    if (includePatterns.length === 0) return true
+    return includePatterns.some(pattern => {
+      const regex = new RegExp(pattern.replace(/\*/g, '.*').replace(/\?/g, '.'))
+      return regex.test(filePath)
+    })
   }
 
   const walk = async (currentPath: string, depth: number) => {
@@ -286,6 +440,19 @@ async function collectFiles(
           const ext = path.extname(entry.name)
 
           if (extensions.includes(ext)) {
+            // 패턴 필터링
+            if (shouldExcludeFile(fullPath)) continue
+            if (!shouldIncludeFile(fullPath)) continue
+
+            // 파일 크기 필터링
+            try {
+              const stat = await fs.promises.stat(fullPath)
+              if (stat.size < options.minFileSize || stat.size > options.maxFileSize) continue
+            } catch (error) {
+              console.warn(`파일 크기 확인 실패: ${fullPath}`, error)
+              continue
+            }
+
             const nodeType = getFileNodeType(fullPath)
 
             // 노드 타입 필터링
@@ -568,8 +735,8 @@ const outputReferenceMetadata = (referenceData: any, verbose: boolean) =>
   })
 
 // 참조 메타데이터 저장
-async function saveReferenceMetadata(referenceData: any, outputDir: string, format: string): Promise<void> {
-  const fileName = `reference-metadata.${format === 'json' ? 'json' : 'json'}`
+async function saveReferenceMetadata(referenceData: any, outputDir: string, format: string, baseFileName: string = 'reference-metadata'): Promise<void> {
+  const fileName = `${baseFileName}-metadata.${format === 'json' ? 'json' : 'json'}`
   const filePath = path.join(outputDir, fileName)
 
   // 출력 디렉토리 생성
@@ -583,6 +750,123 @@ async function saveReferenceMetadata(referenceData: any, outputDir: string, form
   }
 
   console.log(`🔗 참조 메타데이터 저장됨: ${filePath}`)
+}
+
+// 분석 리포트 생성
+async function generateAnalysisReport(referenceData: any, analysisResult: any, outputDir: string, baseFileName: string): Promise<void> {
+  const reportPath = path.join(outputDir, `${baseFileName}-report.md`)
+
+  const report = `# 의존성 분석 리포트
+
+## 📊 분석 개요
+- **분석 일시**: ${referenceData.project.analyzedAt}
+- **프로젝트**: ${referenceData.project.name}
+- **루트 경로**: ${referenceData.project.root}
+
+## 📈 통계 정보
+- **총 파일**: ${referenceData.statistics.totalFiles}개
+- **총 의존성**: ${referenceData.statistics.totalDependencies}개
+- **평균 의존성**: ${referenceData.statistics.averageDependenciesPerFile.toFixed(1)}개/파일
+- **고립된 파일**: ${referenceData.statistics.orphanedFiles}개
+
+## 🏗️ 파일 타입별 분포
+${Object.entries(referenceData.statistics.filesByType).map(([type, count]) =>
+  `- **${type}**: ${count}개`
+).join('\n')}
+
+## 🔗 의존성 카테고리별 분포
+${Object.entries(referenceData.statistics.dependenciesByCategory).map(([category, count]) =>
+  `- **${category}**: ${count}개`
+).join('\n')}
+
+## 📄 파일별 상세 정보
+
+${referenceData.files.slice(0, 10).map((file: any) => {
+  const totalDeps = file.dependencies.internal.length + file.dependencies.external.length + file.dependencies.builtin.length
+  return `### ${file.relativePath}
+- **파일 ID**: ${file.fileId}
+- **타입**: ${file.fileType}
+- **언어**: ${file.language}
+- **크기**: ${file.size} bytes
+- **복잡도**: ${file.complexity}
+- **의존성**: ${totalDeps}개
+- **참조당함**: ${file.dependents.length}개 파일`
+}).join('\n\n')}
+
+${referenceData.files.length > 10 ? `\n... 그리고 ${referenceData.files.length - 10}개 파일 더` : ''}
+
+---
+*이 리포트는 deps-cli 도구로 자동 생성되었습니다.*
+`
+
+  await fs.promises.writeFile(reportPath, report, 'utf-8')
+  console.log(`📄 분석 리포트 생성됨: ${reportPath}`)
+}
+
+// 시각화 파일 생성
+async function generateVisualizationFiles(referenceData: any, analysisResult: any, outputDir: string, baseFileName: string): Promise<void> {
+  // Mermaid 다이어그램 생성
+  const mermaidPath = path.join(outputDir, `${baseFileName}-diagram.mmd`)
+
+  const topFiles = referenceData.files
+    .sort((a: any, b: any) => {
+      const aTotalDeps = a.dependencies.internal.length + a.dependencies.external.length
+      const bTotalDeps = b.dependencies.internal.length + b.dependencies.external.length
+      return bTotalDeps - aTotalDeps
+    })
+    .slice(0, 15)
+
+  const mermaidContent = `graph TD
+    %% 상위 의존성 파일들
+${topFiles.map((file: any) => {
+  const shortName = file.relativePath.split('/').pop()?.replace(/\.\w+$/, '') || 'unknown'
+  const nodeId = file.fileId.replace(/[^a-zA-Z0-9]/g, '_')
+  const totalDeps = file.dependencies.internal.length + file.dependencies.external.length
+  return `    ${nodeId}["${shortName}<br/>deps: ${totalDeps}"]`
+}).join('\n')}
+
+    %% 내부 의존성 연결
+${topFiles.flatMap((file: any) =>
+  file.dependencies.internal.slice(0, 3).map((dep: any) => {
+    const fromId = file.fileId.replace(/[^a-zA-Z0-9]/g, '_')
+    const toName = dep.source.split('/').pop()?.replace(/\.\w+$/, '').replace(/[^a-zA-Z0-9]/g, '_') || 'unknown'
+    return `    ${fromId} --> ${toName}`
+  })
+).join('\n')}
+
+    %% 스타일
+    classDef codeFile fill:#e1f5fe
+    classDef testFile fill:#f3e5f5
+    classDef docsFile fill:#e8f5e8
+`
+
+  await fs.promises.writeFile(mermaidPath, mermaidContent, 'utf-8')
+  console.log(`📊 Mermaid 다이어그램 생성됨: ${mermaidPath}`)
+
+  // DOT 파일 생성 (Graphviz용)
+  const dotPath = path.join(outputDir, `${baseFileName}-graph.dot`)
+  const dotContent = `digraph Dependencies {
+    rankdir=TB;
+    node [shape=box, style=filled];
+
+${topFiles.map((file: any) => {
+  const nodeId = file.fileId.replace(/[^a-zA-Z0-9]/g, '_')
+  const shortName = file.relativePath.split('/').pop()?.replace(/\.\w+$/, '') || 'unknown'
+  const color = file.fileType === 'test' ? 'lightblue' : file.fileType === 'docs' ? 'lightgreen' : 'lightgray'
+  return `    ${nodeId} [label="${shortName}", fillcolor="${color}"];`
+}).join('\n')}
+
+${topFiles.flatMap((file: any) =>
+  file.dependencies.internal.slice(0, 3).map((dep: any) => {
+    const fromId = file.fileId.replace(/[^a-zA-Z0-9]/g, '_')
+    const toName = dep.source.split('/').pop()?.replace(/\.\w+$/, '').replace(/[^a-zA-Z0-9]/g, '_') || 'unknown'
+    return `    ${fromId} -> ${toName};`
+  })
+).join('\n')}
+}`
+
+  await fs.promises.writeFile(dotPath, dotContent, 'utf-8')
+  console.log(`📊 DOT 그래프 생성됨: ${dotPath}`)
 }
 
 // 파일 타입 아이콘

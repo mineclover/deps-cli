@@ -1,0 +1,742 @@
+[
+  {
+    "filePath": "@effect/cli/Command",
+    "nodeType": "library",
+    "relativePath": "@effect/cli/Command",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/Cli.ts",
+      "src/commands/AnalyzeCommand.ts",
+      "src/commands/ClassifyCommand.ts",
+      "src/commands/QueueCommand.ts",
+      "src/commands/QueueStatusCommand.ts",
+      "src/commands/SimpleQueueCommand.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/experimental",
+    "nodeType": "library",
+    "relativePath": "@effect/experimental",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/platform-node/NodeContext",
+    "nodeType": "library",
+    "relativePath": "@effect/platform-node/NodeContext",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts",
+      "src/layers/index.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/platform-node/NodeFileSystem",
+    "nodeType": "library",
+    "relativePath": "@effect/platform-node/NodeFileSystem",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts",
+      "src/layers/index.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/platform-node/NodePath",
+    "nodeType": "library",
+    "relativePath": "@effect/platform-node/NodePath",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts",
+      "src/layers/index.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/platform-node/NodeRuntime",
+    "nodeType": "library",
+    "relativePath": "@effect/platform-node/NodeRuntime",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Effect",
+    "nodeType": "library",
+    "relativePath": "effect/Effect",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts",
+      "src/commands/AnalyzeCommand.ts",
+      "src/commands/ClassifyCommand.ts",
+      "src/commands/QueueCommand.ts",
+      "src/commands/QueueStatusCommand.ts",
+      "src/commands/SimpleQueueCommand.ts",
+      "src/services/FileSystemLive.ts",
+      "src/services/FileSystemTest.ts",
+      "src/services/Queue/AdaptiveThrottlerLive.ts",
+      "src/services/Queue/AdvancedCache.ts",
+      "src/services/Queue/CircuitBreakerLive.ts",
+      "src/services/Queue/InternalQueueLive.ts",
+      "src/services/Queue/MemoryOptimizer.ts",
+      "src/services/Queue/PerformanceProfiler.ts",
+      "src/services/Queue/QueueMonitorLive.ts",
+      "src/services/Queue/QueuePersistenceLive.ts",
+      "src/services/Queue/SchemaManager.ts",
+      "src/services/Queue/StabilityMonitorLive.ts",
+      "src/services/Queue/TransparentQueueAdapter.ts",
+      "src/services/Queue/index.ts",
+      "src/services/UserExperience/UserExperienceEnhancer.ts",
+      "src/services/UserExperience/utils.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Layer",
+    "nodeType": "library",
+    "relativePath": "effect/Layer",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts",
+      "src/layers/index.ts",
+      "src/services/FileSystemLive.ts",
+      "src/services/FileSystemTest.ts",
+      "src/services/Queue/AdaptiveThrottlerLive.ts",
+      "src/services/Queue/AdvancedCache.ts",
+      "src/services/Queue/CircuitBreakerLive.ts",
+      "src/services/Queue/InternalQueueLive.ts",
+      "src/services/Queue/MemoryOptimizer.ts",
+      "src/services/Queue/PerformanceProfiler.ts",
+      "src/services/Queue/QueueMonitorLive.ts",
+      "src/services/Queue/QueuePersistenceLive.ts",
+      "src/services/Queue/SchemaManager.ts",
+      "src/services/Queue/StabilityMonitorLive.ts",
+      "src/services/Queue/TransparentQueueAdapter.ts",
+      "src/services/Queue/index.ts",
+      "src/services/UserExperience/UserExperienceEnhancer.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Logger",
+    "nodeType": "library",
+    "relativePath": "effect/Logger",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/bin.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@context-action/dependency-linker",
+    "nodeType": "library",
+    "relativePath": "@context-action/dependency-linker",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/commands/AnalyzeCommand.ts",
+      "src/utils/EnhancedAnalyzer.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/cli/Args",
+    "nodeType": "library",
+    "relativePath": "@effect/cli/Args",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/commands/AnalyzeCommand.ts",
+      "src/commands/ClassifyCommand.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/cli/Options",
+    "nodeType": "library",
+    "relativePath": "@effect/cli/Options",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/commands/AnalyzeCommand.ts",
+      "src/commands/ClassifyCommand.ts",
+      "src/commands/QueueCommand.ts",
+      "src/commands/QueueStatusCommand.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Console",
+    "nodeType": "library",
+    "relativePath": "effect/Console",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/commands/AnalyzeCommand.ts",
+      "src/commands/ClassifyCommand.ts",
+      "src/commands/QueueCommand.ts",
+      "src/commands/QueueStatusCommand.ts",
+      "src/commands/SimpleQueueCommand.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Option",
+    "nodeType": "library",
+    "relativePath": "effect/Option",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/commands/AnalyzeCommand.ts",
+      "src/commands/ClassifyCommand.ts",
+      "src/commands/QueueStatusCommand.ts",
+      "src/services/Queue/AdvancedCache.ts",
+      "src/services/Queue/CircuitBreakerLive.ts",
+      "src/services/Queue/InternalQueueLive.ts",
+      "src/services/Queue/QueueMonitorLive.ts",
+      "src/services/Queue/QueuePersistenceLive.ts",
+      "src/services/Queue/SchemaManager.ts",
+      "src/services/Queue/StabilityMonitorLive.ts",
+      "src/services/Queue/index.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "glob",
+    "nodeType": "library",
+    "relativePath": "glob",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/commands/AnalyzeCommand.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Duration",
+    "nodeType": "library",
+    "relativePath": "effect/Duration",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/commands/QueueCommand.ts",
+      "src/commands/SimpleQueueCommand.ts",
+      "src/services/Queue/AdaptiveThrottlerLive.ts",
+      "src/services/Queue/AdvancedCache.ts",
+      "src/services/Queue/InternalQueueLive.ts",
+      "src/services/Queue/MemoryOptimizer.ts",
+      "src/services/Queue/PerformanceProfiler.ts",
+      "src/services/Queue/StabilityMonitorLive.ts",
+      "src/services/Queue/TransparentQueueAdapter.ts",
+      "src/services/Queue/index.ts",
+      "src/services/Queue/types.ts",
+      "src/services/UserExperience/UserExperienceEnhancer.ts",
+      "src/services/UserExperience/utils.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect",
+    "nodeType": "library",
+    "relativePath": "effect",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/CodeParser/CodeParser.ts",
+      "src/services/CodeParser/ICodeParser.ts",
+      "src/services/CodeParser/NamedImportExtractor.ts",
+      "src/services/CodeParser/RegexNamedImportExtractor.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "react",
+    "nodeType": "library",
+    "relativePath": "react",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/CodeParser/ICodeParser.ts",
+      "src/services/CodeParser/RegexNamedImportExtractor.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Context",
+    "nodeType": "library",
+    "relativePath": "effect/Context",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/FileSystem.ts",
+      "src/services/Queue/AdvancedCache.ts",
+      "src/services/Queue/MemoryOptimizer.ts",
+      "src/services/Queue/PerformanceProfiler.ts",
+      "src/services/Queue/SchemaManager.ts",
+      "src/services/Queue/TransparentQueueAdapter.ts",
+      "src/services/Queue/types.ts",
+      "src/services/UserExperience/UserExperienceEnhancer.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/platform/Error",
+    "nodeType": "library",
+    "relativePath": "@effect/platform/Error",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/FileSystem.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/platform/FileSystem",
+    "nodeType": "library",
+    "relativePath": "@effect/platform/FileSystem",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/FileSystemLive.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "@effect/platform/Path",
+    "nodeType": "library",
+    "relativePath": "@effect/platform/Path",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/FileSystemLive.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Array",
+    "nodeType": "library",
+    "relativePath": "effect/Array",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/FileSystemLive.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Order",
+    "nodeType": "library",
+    "relativePath": "effect/Order",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/FileSystemLive.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Ref",
+    "nodeType": "library",
+    "relativePath": "effect/Ref",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/FileSystemTest.ts",
+      "src/services/Queue/AdaptiveThrottlerLive.ts",
+      "src/services/Queue/CircuitBreakerLive.ts",
+      "src/services/Queue/InternalQueueLive.ts",
+      "src/services/Queue/QueueMonitorLive.ts",
+      "src/services/Queue/QueuePersistenceLive.ts",
+      "src/services/Queue/StabilityMonitorLive.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Fiber",
+    "nodeType": "library",
+    "relativePath": "effect/Fiber",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/Queue/AdaptiveThrottlerLive.ts",
+      "src/services/Queue/InternalQueueLive.ts",
+      "src/services/Queue/StabilityMonitorLive.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Queue",
+    "nodeType": "library",
+    "relativePath": "effect/Queue",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/Queue/InternalQueueLive.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  },
+  {
+    "filePath": "effect/Schedule",
+    "nodeType": "library",
+    "relativePath": "effect/Schedule",
+    "size": 0,
+    "lastModified": "2025-09-23T11:25:05.291Z",
+    "language": "unknown",
+    "metadata": {},
+    "dependencies": [],
+    "dependents": [
+      "src/services/Queue/InternalQueueLive.ts",
+      "src/services/UserExperience/UserExperienceEnhancer.ts"
+    ],
+    "clusters": [
+      "external"
+    ],
+    "analysis": {
+      "totalDependencies": 0,
+      "internalDependencies": 0,
+      "externalDependencies": 0,
+      "cyclicDependencies": [],
+      "riskFactors": []
+    }
+  }
+]

@@ -1,0 +1,1689 @@
+{
+  "filePath": "/Users/junwoobang/project/deps-cli/src/commands/AnalyzeCommand.ts",
+  "pathInfo": {
+    "input": "/Users/junwoobang/project/deps-cli/src/commands/AnalyzeCommand.ts",
+    "absolute": "/Users/junwoobang/project/deps-cli/src/commands/AnalyzeCommand.ts",
+    "relative": "src/commands/AnalyzeCommand.ts",
+    "directory": "/Users/junwoobang/project/deps-cli/src/commands",
+    "relativeDirectory": "src/commands",
+    "fileName": "AnalyzeCommand.ts",
+    "baseName": "AnalyzeCommand",
+    "extension": ".ts",
+    "projectRoot": "/Users/junwoobang/project/deps-cli",
+    "isWithinProject": true,
+    "depth": 2,
+    "separator": "/",
+    "wasAbsolute": true
+  },
+  "language": "typescript",
+  "extractedData": {
+    "dependency": {
+      "dependencies": [
+        {
+          "source": "@context-action/dependency-linker",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 8,
+            "column": 0,
+            "endLine": 8,
+            "endColumn": 91
+          }
+        },
+        {
+          "source": "@effect/cli/Args",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 9,
+            "column": 0,
+            "endLine": 9,
+            "endColumn": 40
+          }
+        },
+        {
+          "source": "@effect/cli/Command",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 10,
+            "column": 0,
+            "endLine": 10,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "@effect/cli/Options",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 11,
+            "column": 0,
+            "endLine": 11,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "effect/Console",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 12,
+            "column": 0,
+            "endLine": 12,
+            "endColumn": 41
+          }
+        },
+        {
+          "source": "effect/Effect",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 13,
+            "column": 0,
+            "endLine": 13,
+            "endColumn": 39
+          }
+        },
+        {
+          "source": "effect/Option",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 14,
+            "column": 0,
+            "endLine": 14,
+            "endColumn": 39
+          }
+        },
+        {
+          "source": "fs/promises",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 146,
+            "column": 27,
+            "endLine": 146,
+            "endColumn": 48
+          }
+        },
+        {
+          "source": "glob",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 217,
+            "column": 31,
+            "endLine": 217,
+            "endColumn": 45
+          }
+        },
+        {
+          "source": "fs/promises",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 594,
+            "column": 25,
+            "endLine": 594,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "path",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 595,
+            "column": 27,
+            "endLine": 595,
+            "endColumn": 41
+          }
+        },
+        {
+          "source": "path",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 620,
+            "column": 27,
+            "endLine": 620,
+            "endColumn": 41
+          }
+        },
+        {
+          "source": "fs/promises",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 632,
+            "column": 25,
+            "endLine": 632,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "path",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 659,
+            "column": 27,
+            "endLine": 659,
+            "endColumn": 41
+          }
+        },
+        {
+          "source": "fs/promises",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 667,
+            "column": 25,
+            "endLine": 667,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "path",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 676,
+            "column": 27,
+            "endLine": 676,
+            "endColumn": 41
+          }
+        },
+        {
+          "source": "fs/promises",
+          "specifiers": [],
+          "type": "dynamic",
+          "isTypeOnly": false,
+          "location": {
+            "line": 691,
+            "column": 25,
+            "endLine": 691,
+            "endColumn": 46
+          }
+        }
+      ],
+      "totalCount": 17,
+      "importCount": 7,
+      "exportCount": 0,
+      "dynamicImportCount": 10,
+      "typeOnlyImportCount": 0
+    },
+    "identifier": {
+      "identifiers": [
+        {
+          "name": "filePathArg",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 17,
+            "column": 6,
+            "endLine": 19,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "formatOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 22,
+            "column": 6,
+            "endLine": 25,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "parallelOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 27,
+            "column": 6,
+            "endLine": 30,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "presetOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 32,
+            "column": 6,
+            "endLine": 35,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "verboseOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 37,
+            "column": 6,
+            "endLine": 40,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "includeOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 43,
+            "column": 6,
+            "endLine": 46,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "excludeOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 48,
+            "column": 6,
+            "endLine": 51,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "maxDepthOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 53,
+            "column": 6,
+            "endLine": 56,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "extensionsOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 58,
+            "column": 6,
+            "endLine": 61,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "concurrencyOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 64,
+            "column": 6,
+            "endLine": 67,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "outputDirOption",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 69,
+            "column": 6,
+            "endLine": 72,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "analyzeCommand",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 75,
+            "column": 13,
+            "endLine": 166,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "{\n        concurrency,\n        exclude,\n        extensions,\n        filePath,\n        format,\n        include,\n        maxDepth,\n        outputDir,\n        parallel,\n        preset,\n        verbose\n      }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 94,
+            "column": 12,
+            "endLine": 106,
+            "endColumn": 14
+          }
+        },
+        {
+          "name": "filterOptions",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 108,
+            "column": 12,
+            "endLine": 116,
+            "endColumn": 7
+          }
+        },
+        {
+          "name": "includeValue",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 119,
+            "column": 12,
+            "endLine": 119,
+            "endColumn": 57
+          }
+        },
+        {
+          "name": "excludeValue",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 120,
+            "column": 12,
+            "endLine": 120,
+            "endColumn": 57
+          }
+        },
+        {
+          "name": "maxDepthValue",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 121,
+            "column": 12,
+            "endLine": 121,
+            "endColumn": 59
+          }
+        },
+        {
+          "name": "extensionsValue",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 122,
+            "column": 12,
+            "endLine": 122,
+            "endColumn": 63
+          }
+        },
+        {
+          "name": "outputDirValue",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 123,
+            "column": 12,
+            "endLine": 123,
+            "endColumn": 61
+          }
+        },
+        {
+          "name": "isDirectory",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 144,
+            "column": 12,
+            "endLine": 151,
+            "endColumn": 8
+          }
+        },
+        {
+          "name": "fs",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 146,
+            "column": 16,
+            "endLine": 146,
+            "endColumn": 48
+          }
+        },
+        {
+          "name": "stat",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 147,
+            "column": 16,
+            "endLine": 147,
+            "endColumn": 46
+          }
+        },
+        {
+          "name": "dirOptions",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 155,
+            "column": 14,
+            "endLine": 155,
+            "endColumn": 76
+          }
+        },
+        {
+          "name": "fileOptions",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 160,
+            "column": 14,
+            "endLine": 160,
+            "endColumn": 52
+          }
+        },
+        {
+          "name": "findMatchingFiles",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 171,
+            "column": 6,
+            "endLine": 235,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "{ exclude, extensions, include, maxDepth }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 183,
+            "column": 10,
+            "endLine": 183,
+            "endColumn": 68
+          }
+        },
+        {
+          "name": "defaultExtensions",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 186,
+            "column": 10,
+            "endLine": 186,
+            "endColumn": 70
+          }
+        },
+        {
+          "name": "defaultInclude",
+          "type": "variable",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 189,
+            "column": 8,
+            "endLine": 189,
+            "endColumn": 30
+          }
+        },
+        {
+          "name": "defaultExclude",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 198,
+            "column": 10,
+            "endLine": 206,
+            "endColumn": 5
+          }
+        },
+        {
+          "name": "globPattern",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 214,
+            "column": 10,
+            "endLine": 214,
+            "endColumn": 105
+          }
+        },
+        {
+          "name": "allFiles",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 215,
+            "column": 10,
+            "endLine": 228,
+            "endColumn": 6
+          }
+        },
+        {
+          "name": "{ glob }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 217,
+            "column": 14,
+            "endLine": 217,
+            "endColumn": 45
+          }
+        },
+        {
+          "name": "globOptions",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 218,
+            "column": 14,
+            "endLine": 221,
+            "endColumn": 9
+          }
+        },
+        {
+          "name": "analyzeSingleFile",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 241,
+            "column": 6,
+            "endLine": 269,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "{ format, outputDir, verbose }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 246,
+            "column": 10,
+            "endLine": 246,
+            "endColumn": 50
+          }
+        },
+        {
+          "name": "result",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 252,
+            "column": 10,
+            "endLine": 260,
+            "endColumn": 6
+          }
+        },
+        {
+          "name": "analyzeDirectory",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 274,
+            "column": 6,
+            "endLine": 368,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "{ filterOptions, format, outputDir, parallel, verbose }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 293,
+            "column": 10,
+            "endLine": 293,
+            "endColumn": 75
+          }
+        },
+        {
+          "name": "files",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 300,
+            "column": 10,
+            "endLine": 300,
+            "endColumn": 75
+          }
+        },
+        {
+          "name": "concurrency",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 316,
+            "column": 10,
+            "endLine": 316,
+            "endColumn": 49
+          }
+        },
+        {
+          "name": "results",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 320,
+            "column": 12,
+            "endLine": 334,
+            "endColumn": 8
+          }
+        },
+        {
+          "name": "results",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 343,
+            "column": 12,
+            "endLine": 360,
+            "endColumn": 7
+          }
+        },
+        {
+          "name": "outputResult",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 373,
+            "column": 6,
+            "endLine": 395,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "outputBatchResults",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 400,
+            "column": 6,
+            "endLine": 422,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "outputSummary",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 427,
+            "column": 6,
+            "endLine": 473,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "{ errors, extractedData, filePath, performanceMetrics }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 429,
+            "column": 10,
+            "endLine": 429,
+            "endColumn": 74
+          }
+        },
+        {
+          "name": "dependencies",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 430,
+            "column": 10,
+            "endLine": 430,
+            "endColumn": 70
+          }
+        },
+        {
+          "name": "success",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 431,
+            "column": 10,
+            "endLine": 431,
+            "endColumn": 39
+          }
+        },
+        {
+          "name": "external",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 439,
+            "column": 12,
+            "endLine": 441,
+            "endColumn": 14
+          }
+        },
+        {
+          "name": "internal",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 442,
+            "column": 12,
+            "endLine": 442,
+            "endColumn": 53
+          }
+        },
+        {
+          "name": "isExternal",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 449,
+            "column": 16,
+            "endLine": 450,
+            "endColumn": 39
+          }
+        },
+        {
+          "name": "outputBatchSummary",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 478,
+            "column": 6,
+            "endLine": 503,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "successful",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 480,
+            "column": 10,
+            "endLine": 480,
+            "endColumn": 75
+          }
+        },
+        {
+          "name": "failed",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 481,
+            "column": 10,
+            "endLine": 481,
+            "endColumn": 69
+          }
+        },
+        {
+          "name": "totalDeps",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 489,
+            "column": 12,
+            "endLine": 492,
+            "endColumn": 11
+          }
+        },
+        {
+          "name": "deps",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 490,
+            "column": 14,
+            "endLine": 490,
+            "endColumn": 68
+          }
+        },
+        {
+          "name": "errorMsg",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 499,
+            "column": 14,
+            "endLine": 499,
+            "endColumn": 89
+          }
+        },
+        {
+          "name": "outputTable",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 508,
+            "column": 6,
+            "endLine": 538,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "{ extractedData }",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 510,
+            "column": 10,
+            "endLine": 510,
+            "endColumn": 36
+          }
+        },
+        {
+          "name": "dependencies",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 511,
+            "column": 10,
+            "endLine": 511,
+            "endColumn": 70
+          }
+        },
+        {
+          "name": "name",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 524,
+            "column": 12,
+            "endLine": 524,
+            "endColumn": 57
+          }
+        },
+        {
+          "name": "isExternal",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 525,
+            "column": 12,
+            "endLine": 525,
+            "endColumn": 117
+          }
+        },
+        {
+          "name": "type",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 526,
+            "column": 12,
+            "endLine": 526,
+            "endColumn": 83
+          }
+        },
+        {
+          "name": "loc",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 527,
+            "column": 12,
+            "endLine": 527,
+            "endColumn": 68
+          }
+        },
+        {
+          "name": "location",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 528,
+            "column": 12,
+            "endLine": 528,
+            "endColumn": 54
+          }
+        },
+        {
+          "name": "outputBatchTable",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 543,
+            "column": 6,
+            "endLine": 561,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "file",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 551,
+            "column": 12,
+            "endLine": 551,
+            "endColumn": 97
+          }
+        },
+        {
+          "name": "fileName",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 552,
+            "column": 12,
+            "endLine": 552,
+            "endColumn": 55
+          }
+        },
+        {
+          "name": "status",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 553,
+            "column": 12,
+            "endLine": 553,
+            "endColumn": 87
+          }
+        },
+        {
+          "name": "deps",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 554,
+            "column": 12,
+            "endLine": 554,
+            "endColumn": 73
+          }
+        },
+        {
+          "name": "depCount",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 555,
+            "column": 12,
+            "endLine": 555,
+            "endColumn": 58
+          }
+        },
+        {
+          "name": "outputCSV",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 566,
+            "column": 6,
+            "endLine": 582,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "filePath",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 571,
+            "column": 12,
+            "endLine": 571,
+            "endColumn": 51
+          }
+        },
+        {
+          "name": "success",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 572,
+            "column": 12,
+            "endLine": 572,
+            "endColumn": 79
+          }
+        },
+        {
+          "name": "dependencies",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 573,
+            "column": 12,
+            "endLine": 573,
+            "endColumn": 79
+          }
+        },
+        {
+          "name": "external",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 574,
+            "column": 12,
+            "endLine": 576,
+            "endColumn": 14
+          }
+        },
+        {
+          "name": "internal",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 577,
+            "column": 12,
+            "endLine": 577,
+            "endColumn": 53
+          }
+        },
+        {
+          "name": "analysisTime",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 578,
+            "column": 12,
+            "endLine": 578,
+            "endColumn": 108
+          }
+        },
+        {
+          "name": "createOutputDirectory",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 586,
+            "column": 6,
+            "endLine": 610,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "fs",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 594,
+            "column": 14,
+            "endLine": 594,
+            "endColumn": 46
+          }
+        },
+        {
+          "name": "path",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 595,
+            "column": 14,
+            "endLine": 595,
+            "endColumn": 41
+          }
+        },
+        {
+          "name": "saveIndividualResult",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 615,
+            "column": 6,
+            "endLine": 637,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "fileName",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 617,
+            "column": 10,
+            "endLine": 617,
+            "endColumn": 54
+          }
+        },
+        {
+          "name": "outputPath",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 618,
+            "column": 10,
+            "endLine": 624,
+            "endColumn": 6
+          }
+        },
+        {
+          "name": "path",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 620,
+            "column": 14,
+            "endLine": 620,
+            "endColumn": 41
+          }
+        },
+        {
+          "name": "fs",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 632,
+            "column": 14,
+            "endLine": 632,
+            "endColumn": 46
+          }
+        },
+        {
+          "name": "saveBatchResults",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 642,
+            "column": 6,
+            "endLine": 714,
+            "endColumn": 4
+          }
+        },
+        {
+          "name": "summary",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 656,
+            "column": 10,
+            "endLine": 656,
+            "endColumn": 49
+          }
+        },
+        {
+          "name": "summaryPath",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 657,
+            "column": 10,
+            "endLine": 663,
+            "endColumn": 6
+          }
+        },
+        {
+          "name": "path",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 659,
+            "column": 14,
+            "endLine": 659,
+            "endColumn": 41
+          }
+        },
+        {
+          "name": "fs",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 667,
+            "column": 14,
+            "endLine": 667,
+            "endColumn": 46
+          }
+        },
+        {
+          "name": "indexPath",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 674,
+            "column": 10,
+            "endLine": 680,
+            "endColumn": 6
+          }
+        },
+        {
+          "name": "path",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 676,
+            "column": 14,
+            "endLine": 676,
+            "endColumn": 41
+          }
+        },
+        {
+          "name": "index",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 682,
+            "column": 10,
+            "endLine": 687,
+            "endColumn": 7
+          }
+        },
+        {
+          "name": "fs",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 691,
+            "column": 14,
+            "endLine": 691,
+            "endColumn": 46
+          }
+        },
+        {
+          "name": "generateFileName",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 719,
+            "column": 6,
+            "endLine": 731,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "baseName",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 721,
+            "column": 8,
+            "endLine": 721,
+            "endColumn": 57
+          }
+        },
+        {
+          "name": "nameWithoutExt",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 722,
+            "column": 8,
+            "endLine": 722,
+            "endColumn": 58
+          }
+        },
+        {
+          "name": "hash",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 723,
+            "column": 8,
+            "endLine": 728,
+            "endColumn": 32
+          }
+        },
+        {
+          "name": "generateBatchSummary",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 736,
+            "column": 6,
+            "endLine": 768,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "successful",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 737,
+            "column": 8,
+            "endLine": 737,
+            "endColumn": 73
+          }
+        },
+        {
+          "name": "failed",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 738,
+            "column": 8,
+            "endLine": 738,
+            "endColumn": 67
+          }
+        },
+        {
+          "name": "totalDeps",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 740,
+            "column": 8,
+            "endLine": 743,
+            "endColumn": 7
+          }
+        },
+        {
+          "name": "deps",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 741,
+            "column": 10,
+            "endLine": 741,
+            "endColumn": 64
+          }
+        },
+        {
+          "name": "totalExternal",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 745,
+            "column": 8,
+            "endLine": 751,
+            "endColumn": 7
+          }
+        },
+        {
+          "name": "deps",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 746,
+            "column": 10,
+            "endLine": 746,
+            "endColumn": 64
+          }
+        },
+        {
+          "name": "external",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": false,
+          "location": {
+            "line": 747,
+            "column": 10,
+            "endLine": 749,
+            "endColumn": 12
+          }
+        }
+      ],
+      "totalCount": 107,
+      "functionCount": 0,
+      "classCount": 0,
+      "interfaceCount": 0,
+      "variableCount": 1,
+      "constantCount": 106,
+      "enumCount": 0,
+      "typeCount": 0,
+      "exportedCount": 13
+    }
+  },
+  "interpretedData": {
+    "dependency-analysis": {
+      "summary": {
+        "totalDependencies": 0,
+        "externalDependencies": 0,
+        "internalDependencies": 0,
+        "devDependencies": 0,
+        "typeOnlyImports": 0,
+        "circularDependencies": [],
+        "unusedImports": [],
+        "missingDependencies": []
+      },
+      "dependencyGraph": {
+        "nodes": [],
+        "edges": []
+      },
+      "insights": {
+        "riskFactors": [],
+        "recommendations": [],
+        "metrics": {
+          "dependencyCoupling": 0,
+          "modularity": 1,
+          "stability": 1
+        }
+      }
+    },
+    "identifier-analysis": {
+      "summary": {
+        "codebaseStructure": {
+          "publicApi": 0,
+          "privateImplementation": null,
+          "exportRatio": null
+        },
+        "complexity": {
+          "averageParametersPerFunction": 0,
+          "functionsWithManyParameters": 0,
+          "largeClasses": 0,
+          "deepInheritance": 0
+        },
+        "patterns": {
+          "namingConventions": {
+            "camelCase": 0,
+            "pascalCase": 0,
+            "snakeCase": 0,
+            "kebabCase": 0,
+            "inconsistencies": [],
+            "conventionScore": 1
+          },
+          "designPatterns": [],
+          "antiPatterns": []
+        }
+      },
+      "recommendations": {
+        "codeQuality": [],
+        "refactoring": [],
+        "architecture": []
+      },
+      "metrics": {
+        "cohesion": 1,
+        "abstraction": 0,
+        "encapsulation": 0,
+        "apiStability": null
+      }
+    }
+  },
+  "performanceMetrics": {
+    "parseTime": 62,
+    "extractionTime": 22,
+    "interpretationTime": 0,
+    "totalTime": 85,
+    "memoryUsage": 59887288,
+    "breakdown": {
+      "extractors": {},
+      "interpreters": {},
+      "parser": {
+        "languageDetectionTime": 0,
+        "grammarLoadTime": 0,
+        "parseTime": 62,
+        "validationTime": 0,
+        "nodeCount": 1,
+        "maxDepth": 0,
+        "astMemoryUsage": 6465072
+      }
+    },
+    "resources": {
+      "cpuUsage": 122.23529411764706,
+      "memoryUsage": 48.95537567138672,
+      "fileHandles": 0,
+      "threadCount": 1,
+      "gc": {
+        "collections": 0,
+        "gcTime": 0,
+        "memoryReclaimed": 0
+      }
+    }
+  },
+  "errors": [],
+  "metadata": {
+    "timestamp": "2025-09-23T02:20:52.190Z",
+    "version": "2.0.0",
+    "config": {
+      "depth": 3,
+      "useCache": true,
+      "maxCacheSize": 1000,
+      "maxCacheMemory": 104857600,
+      "cacheTtl": 3600000,
+      "timeout": 30000,
+      "maxFileSize": 10485760,
+      "performance": {
+        "enableParallelProcessing": true,
+        "maxConcurrency": 4,
+        "monitorMemory": true,
+        "memoryLimit": 536870912,
+        "enableAstReuse": true,
+        "enableIncrementalAnalysis": true
+      },
+      "output": {
+        "format": "json",
+        "includeMetrics": true,
+        "includeErrors": true,
+        "includeInterpretedData": true,
+        "formatting": {
+          "pretty": true,
+          "indent": 2
+        }
+      },
+      "plugins": {
+        "autoLoad": true,
+        "allowNative": false,
+        "security": {
+          "sandboxed": true
+        }
+      },
+      "extractorOptions": {
+        "dependency": {
+          "options": {
+            "includeSources": false
+          }
+        }
+      },
+      "extractors": [
+        "dependency",
+        "identifier"
+      ],
+      "interpreterOptions": {}
+    },
+    "extractorsUsed": [
+      "dependency",
+      "identifier"
+    ],
+    "interpretersUsed": [
+      "dependency-analysis",
+      "identifier-analysis"
+    ],
+    "fromCache": false,
+    "fileSize": 0,
+    "lastModified": "2025-09-23T02:20:52.106Z"
+  }
+}

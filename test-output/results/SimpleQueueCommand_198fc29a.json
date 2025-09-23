@@ -1,0 +1,357 @@
+{
+  "filePath": "/Users/junwoobang/project/deps-cli/src/commands/SimpleQueueCommand.ts",
+  "pathInfo": {
+    "input": "/Users/junwoobang/project/deps-cli/src/commands/SimpleQueueCommand.ts",
+    "absolute": "/Users/junwoobang/project/deps-cli/src/commands/SimpleQueueCommand.ts",
+    "relative": "src/commands/SimpleQueueCommand.ts",
+    "directory": "/Users/junwoobang/project/deps-cli/src/commands",
+    "relativeDirectory": "src/commands",
+    "fileName": "SimpleQueueCommand.ts",
+    "baseName": "SimpleQueueCommand",
+    "extension": ".ts",
+    "projectRoot": "/Users/junwoobang/project/deps-cli",
+    "isWithinProject": true,
+    "depth": 2,
+    "separator": "/",
+    "wasAbsolute": true
+  },
+  "language": "typescript",
+  "extractedData": {
+    "dependency": {
+      "dependencies": [
+        {
+          "source": "@effect/cli/Command",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 7,
+            "column": 0,
+            "endLine": 7,
+            "endColumn": 46
+          }
+        },
+        {
+          "source": "effect/Console",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 8,
+            "column": 0,
+            "endLine": 8,
+            "endColumn": 36
+          }
+        },
+        {
+          "source": "effect/Duration",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 9,
+            "column": 0,
+            "endLine": 9,
+            "endColumn": 40
+          }
+        },
+        {
+          "source": "effect/Effect",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 10,
+            "column": 0,
+            "endLine": 10,
+            "endColumn": 39
+          }
+        },
+        {
+          "source": "../services/Queue/index.js",
+          "specifiers": [],
+          "type": "import",
+          "isTypeOnly": false,
+          "location": {
+            "line": 11,
+            "column": 0,
+            "endLine": 16,
+            "endColumn": 35
+          }
+        }
+      ],
+      "totalCount": 5,
+      "importCount": 5,
+      "exportCount": 0,
+      "dynamicImportCount": 0,
+      "typeOnlyImportCount": 0
+    },
+    "identifier": {
+      "identifiers": [
+        {
+          "name": "simpleQueueCommand",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 18,
+            "column": 13,
+            "endLine": 75,
+            "endColumn": 1
+          }
+        },
+        {
+          "name": "sessionId",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 26,
+            "column": 12,
+            "endLine": 26,
+            "endColumn": 54
+          }
+        },
+        {
+          "name": "task1",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 32,
+            "column": 12,
+            "endLine": 39,
+            "endColumn": 7
+          }
+        },
+        {
+          "name": "task2",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 41,
+            "column": 12,
+            "endLine": 48,
+            "endColumn": 7
+          }
+        },
+        {
+          "name": "taskId1",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 50,
+            "column": 12,
+            "endLine": 50,
+            "endColumn": 34
+          }
+        },
+        {
+          "name": "taskId2",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 51,
+            "column": 12,
+            "endLine": 51,
+            "endColumn": 34
+          }
+        },
+        {
+          "name": "status",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 57,
+            "column": 12,
+            "endLine": 57,
+            "endColumn": 44
+          }
+        },
+        {
+          "name": "finalStatus",
+          "type": "constant",
+          "visibility": "default",
+          "isExported": true,
+          "location": {
+            "line": 65,
+            "column": 12,
+            "endLine": 65,
+            "endColumn": 49
+          }
+        }
+      ],
+      "totalCount": 8,
+      "functionCount": 0,
+      "classCount": 0,
+      "interfaceCount": 0,
+      "variableCount": 0,
+      "constantCount": 8,
+      "enumCount": 0,
+      "typeCount": 0,
+      "exportedCount": 8
+    }
+  },
+  "interpretedData": {
+    "dependency-analysis": {
+      "summary": {
+        "totalDependencies": 0,
+        "externalDependencies": 0,
+        "internalDependencies": 0,
+        "devDependencies": 0,
+        "typeOnlyImports": 0,
+        "circularDependencies": [],
+        "unusedImports": [],
+        "missingDependencies": []
+      },
+      "dependencyGraph": {
+        "nodes": [],
+        "edges": []
+      },
+      "insights": {
+        "riskFactors": [],
+        "recommendations": [],
+        "metrics": {
+          "dependencyCoupling": 0,
+          "modularity": 1,
+          "stability": 1
+        }
+      }
+    },
+    "identifier-analysis": {
+      "summary": {
+        "codebaseStructure": {
+          "publicApi": 0,
+          "privateImplementation": null,
+          "exportRatio": null
+        },
+        "complexity": {
+          "averageParametersPerFunction": 0,
+          "functionsWithManyParameters": 0,
+          "largeClasses": 0,
+          "deepInheritance": 0
+        },
+        "patterns": {
+          "namingConventions": {
+            "camelCase": 0,
+            "pascalCase": 0,
+            "snakeCase": 0,
+            "kebabCase": 0,
+            "inconsistencies": [],
+            "conventionScore": 1
+          },
+          "designPatterns": [],
+          "antiPatterns": []
+        }
+      },
+      "recommendations": {
+        "codeQuality": [],
+        "refactoring": [],
+        "architecture": []
+      },
+      "metrics": {
+        "cohesion": 1,
+        "abstraction": 0,
+        "encapsulation": 0,
+        "apiStability": null
+      }
+    }
+  },
+  "performanceMetrics": {
+    "parseTime": 7,
+    "extractionTime": 2,
+    "interpretationTime": 0,
+    "totalTime": 10,
+    "memoryUsage": 52336760,
+    "breakdown": {
+      "extractors": {},
+      "interpreters": {},
+      "parser": {
+        "languageDetectionTime": 0,
+        "grammarLoadTime": 0,
+        "parseTime": 62,
+        "validationTime": 0,
+        "nodeCount": 1,
+        "maxDepth": 0,
+        "astMemoryUsage": 6465072
+      }
+    },
+    "resources": {
+      "cpuUsage": 104.07,
+      "memoryUsage": 48.95537567138672,
+      "fileHandles": 0,
+      "threadCount": 1,
+      "gc": {
+        "collections": 0,
+        "gcTime": 0,
+        "memoryReclaimed": 0
+      }
+    }
+  },
+  "errors": [],
+  "metadata": {
+    "timestamp": "2025-09-23T02:20:52.115Z",
+    "version": "2.0.0",
+    "config": {
+      "depth": 3,
+      "useCache": true,
+      "maxCacheSize": 1000,
+      "maxCacheMemory": 104857600,
+      "cacheTtl": 3600000,
+      "timeout": 30000,
+      "maxFileSize": 10485760,
+      "performance": {
+        "enableParallelProcessing": true,
+        "maxConcurrency": 4,
+        "monitorMemory": true,
+        "memoryLimit": 536870912,
+        "enableAstReuse": true,
+        "enableIncrementalAnalysis": true
+      },
+      "output": {
+        "format": "json",
+        "includeMetrics": true,
+        "includeErrors": true,
+        "includeInterpretedData": true,
+        "formatting": {
+          "pretty": true,
+          "indent": 2
+        }
+      },
+      "plugins": {
+        "autoLoad": true,
+        "allowNative": false,
+        "security": {
+          "sandboxed": true
+        }
+      },
+      "extractorOptions": {
+        "dependency": {
+          "options": {
+            "includeSources": false
+          }
+        }
+      },
+      "extractors": [
+        "dependency",
+        "identifier"
+      ],
+      "interpreterOptions": {}
+    },
+    "extractorsUsed": [
+      "dependency",
+      "identifier"
+    ],
+    "interpretersUsed": [
+      "dependency-analysis",
+      "identifier-analysis"
+    ],
+    "fromCache": false,
+    "fileSize": 0,
+    "lastModified": "2025-09-23T02:20:52.106Z"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-09-23T02:20:52.206Z",
+  "totalFiles": 6,
+  "files": [
+    {
+      "originalPath": "/Users/junwoobang/project/deps-cli/src/commands/index.ts",
+      "resultFile": "results/index_2b6fc25e.json",
+      "success": true,
+      "dependencyCount": 5
+    },
+    {
+      "originalPath": "/Users/junwoobang/project/deps-cli/src/commands/GreetCommand.ts",
+      "resultFile": "results/GreetCommand_68157564.json",
+      "success": true,
+      "dependencyCount": 4
+    },
+    {
+      "originalPath": "/Users/junwoobang/project/deps-cli/src/commands/AnalyzeCommand.ts",
+      "resultFile": "results/AnalyzeCommand_4f3bd1a7.json",
+      "success": true,
+      "dependencyCount": 17
+    },
+    {
+      "originalPath": "/Users/junwoobang/project/deps-cli/src/commands/QueueStatusCommand.ts",
+      "resultFile": "results/QueueStatusCommand_9917c82.json",
+      "success": true,
+      "dependencyCount": 8
+    },
+    {
+      "originalPath": "/Users/junwoobang/project/deps-cli/src/commands/SimpleQueueCommand.ts",
+      "resultFile": "results/SimpleQueueCommand_198fc29a.json",
+      "success": true,
+      "dependencyCount": 5
+    },
+    {
+      "originalPath": "/Users/junwoobang/project/deps-cli/src/commands/QueueCommand.ts",
+      "resultFile": "results/QueueCommand_51f4d56c.json",
+      "success": true,
+      "dependencyCount": 7
+    }
+  ]
+}
