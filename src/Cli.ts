@@ -5,19 +5,42 @@
  */
 import * as Command from "@effect/cli/Command"
 
-// Main commands (core functionality + templates)
-import { greetCommand, queueCommand, queueStatusCommand, simpleQueueCommand } from "./commands/index.js"
+// Simple commands (no queue system)
+import { analyzeCommand, classifyCommand } from "./commands/simple.js"
 
 // 메인 커맨드 생성 - 기본 핸들러 없이 서브커맨드만 사용
 const mainCommand = Command.make("effect-cli")
 
-// CLI 구성: 메인 기능 명령어들
-const command = mainCommand.pipe(
-  Command.withSubcommands([greetCommand, queueCommand, queueStatusCommand, simpleQueueCommand])
+// Simple CLI for non-queue commands
+export const simpleCommand = mainCommand.pipe(
+  Command.withSubcommands([analyzeCommand, classifyCommand])
 )
 
-// 커맨드 실행
-export const run = Command.run(command, {
+// Simple command runner
+export const runSimple = Command.run(simpleCommand, {
   name: "Effect CLI Application",
   version: "1.0.0"
 })
+
+// Dynamic import for full command with queue system
+export const createFullCommand = async () => {
+  const { queueCommand, queueStatusCommand, simpleQueueCommand } = await import("./commands/index.js")
+
+  const fullCommand = mainCommand.pipe(
+    Command.withSubcommands([analyzeCommand, classifyCommand, queueCommand, queueStatusCommand, simpleQueueCommand])
+  )
+
+  return Command.run(fullCommand, {
+    name: "Effect CLI Application",
+    version: "1.0.0"
+  })
+}
+
+// Full command runner (lazy loaded)
+export const runFull = async (argv: Array<string>) => {
+  const fullRunner = await createFullCommand()
+  return fullRunner(argv)
+}
+
+// Default export for backward compatibility
+export const run = runFull

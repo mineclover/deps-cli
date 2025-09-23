@@ -2,11 +2,11 @@
  * Main CLI Commands
  *
  * Core functionality commands for the Effect CLI application.
- * These include both template examples and production-ready queue management.
+ * These include production-ready code analysis and queue management.
  */
 
-// Template commands
-import { greetCommand } from "./GreetCommand.js"
+// Code analysis commands (core functionality)
+import { analyzeCommand } from "./AnalyzeCommand.js"
 
 // Queue management commands (core functionality)
 import { queueCommand } from "./QueueCommand.js"
@@ -18,8 +18,8 @@ import { simpleQueueCommand } from "./SimpleQueueCommand.js"
  * Core CLI functionality including queue management
  */
 export const mainCommands = [
-  // Template command (replace with your commands)
-  greetCommand,
+  // Code analysis (core functionality)
+  analyzeCommand,
 
   // Queue management (core functionality)
   queueCommand,
@@ -30,4 +30,4 @@ export const mainCommands = [
 /**
  * Individual command exports
  */
-export { greetCommand, queueCommand, queueStatusCommand, simpleQueueCommand }
+export { analyzeCommand, queueCommand, queueStatusCommand, simpleQueueCommand }

@@ -8,7 +8,7 @@ import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
 import * as Effect from "effect/Effect"
 import { mergeAll } from "effect/Layer"
 import * as Logger from "effect/Logger"
-import { run } from "./Cli.js"
+import { runFull, runSimple } from "./Cli.js"
 import { BasicQueueSystemLayer } from "./services/Queue/index.js"
 
 /**
@@ -59,10 +59,22 @@ const FullAppLayer = mergeAll(
   DevToolsLive
 )
 
-// Choose layer based on command
-const selectedLayer = needsQueueSystem(process.argv) ? FullAppLayer : SimpleAppLayer
+// Choose layer and runner based on command
+const needsQueue = needsQueueSystem(process.argv)
+const selectedLayer = needsQueue ? FullAppLayer : SimpleAppLayer
 
-run(process.argv).pipe(
-  Effect.provide(selectedLayer) as any,
-  NodeRuntime.runMain
-)
+if (needsQueue) {
+  // Use full command with queue system
+  runFull(process.argv).then((effect) =>
+    effect.pipe(
+      Effect.provide(selectedLayer) as any,
+      NodeRuntime.runMain
+    )
+  ).catch(console.error)
+} else {
+  // Use simple command without queue system
+  runSimple(process.argv).pipe(
+    Effect.provide(selectedLayer) as any,
+    NodeRuntime.runMain
+  )
+}
