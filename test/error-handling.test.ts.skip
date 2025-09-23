@@ -162,7 +162,7 @@ export const anotherShort = "short"
       await fs.writeFile(testFile, `export const test = "test"`)
 
       try {
-        execSync(`node "${CLI_PATH}" analyze "${testFile}" --format invalid-format`, {
+        execSync(`node "${CLI_PATH}" analyze "${testFile}"-format`, {
           encoding: "utf-8"
         })
         // 잘못된 형식이라도 기본값으로 처리될 수 있음
@@ -177,7 +177,7 @@ export const anotherShort = "short"
       await fs.writeFile(testFile, `export const test = "test"`)
 
       try {
-        execSync(`node "${CLI_PATH}" analyze "${testFile}" --max-depth not-a-number`, {
+        execSync(`node "${CLI_PATH}" analyze "${testFile}"not-a-number`, {
           encoding: "utf-8"
         })
       } catch (error: any) {
@@ -185,7 +185,7 @@ export const anotherShort = "short"
       }
 
       try {
-        execSync(`node "${CLI_PATH}" analyze "${testFile}" --concurrency -5`, {
+        execSync(`node "${CLI_PATH}" analyze "${testFile}"-5`, {
           encoding: "utf-8"
         })
       } catch (error: any) {
@@ -199,7 +199,7 @@ export const anotherShort = "short"
       await fs.writeFile(testFile, `export const test = "test"`)
 
       // 논리적으로 맞지 않는 옵션 조합도 처리되어야 함
-      const result = execSync(`node "${CLI_PATH}" classify "${testFile}" --min-file-size 1000000 --max-file-size 100`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${testFile}"`, {
         encoding: "utf-8"
       })
 
@@ -231,7 +231,7 @@ export function util${i}() {
       }
 
       const startTime = Date.now()
-      const result = execSync(`node "${CLI_PATH}" analyze "${manyFilesDir}" --parallel --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" analyze "${manyFilesDir}" --verbose`, {
         encoding: "utf-8",
         timeout: 30000 // 30초 타임아웃
       })
@@ -274,7 +274,7 @@ export const config${i} = {
         `)
       }
 
-      const result = execSync(`node "${CLI_PATH}" classify "${complexDir}" --parallel --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${complexDir}" --verbose`, {
         encoding: "utf-8",
         timeout: 45000 // 45초 타임아웃
       })

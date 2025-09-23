@@ -156,7 +156,7 @@ afterAll(() => {
 })
       `)
 
-      const result = execSync(`node "${CLI_PATH}" classify "${projectDir}" --include-tests --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${projectDir}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -218,7 +218,7 @@ import { Calculator } from "./calculator"
 export * from "./docs"
       `)
 
-      const result = execSync(`node "${CLI_PATH}" classify "${TEST_FIXTURES_DIR}" --include-docs --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${TEST_FIXTURES_DIR}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -323,7 +323,7 @@ export function App() {
       await fs.writeFile(path.join(srcDir, "medium.ts"), mediumContent)
 
       // 최소 파일 크기 필터 적용
-      const result = execSync(`node "${CLI_PATH}" classify "${srcDir}" --min-file-size 1000 --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -349,7 +349,7 @@ export function App() {
       await fs.writeFile(path.join(deepDir, "deep.ts"), `export const deep = "deep"`)
 
       // 최대 깊이 2로 제한
-      const result = execSync(`node "${CLI_PATH}" classify "${TEST_FIXTURES_DIR}" --max-depth 2 --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${TEST_FIXTURES_DIR}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -374,14 +374,14 @@ export function App() {
       await fs.writeFile(path.join(srcDir, "legacy.old.js"), `// legacy file`)
 
       // .tsx 파일만 포함
-      const includeResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --include "*.tsx" --verbose`, {
+      const includeResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
         encoding: "utf-8"
       })
 
       expect(includeResult).toContain("📊 의존성 분류 분석 결과")
 
       // .spec.ts 파일 제외
-      const excludeResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --exclude "*.spec.*" --verbose`, {
+      const excludeResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -446,7 +446,7 @@ export const utils = "utilities"
       `)
 
       const result = execSync(
-        `node "${CLI_PATH}" classify "${srcDir}" --output-dir "${outputDir}" --generate-report --output-metadata --verbose`,
+        `node "${CLI_PATH}" classify "${srcDir}" --output-dir "${outputDir}" --verbose`,
         { encoding: "utf-8" }
       )
 
@@ -476,7 +476,7 @@ export const utils = "utilities"
       await fs.writeFile(path.join(srcDir, "base.ts"), `export const base = "base"`)
 
       // 첫 번째 분석
-      const firstResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --incremental --verbose`, {
+      const firstResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -485,7 +485,7 @@ export const utils = "utilities"
       // 파일 추가 후 두 번째 분석
       await fs.writeFile(path.join(srcDir, "new.ts"), `export const newFile = "new"`)
 
-      const secondResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --incremental --verbose`, {
+      const secondResult = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -512,7 +512,7 @@ import { nonExistentFunction } from "./non-existent"
 export const unreliable = nonExistentFunction()
       `)
 
-      const result = execSync(`node "${CLI_PATH}" classify "${srcDir}" --confidence-threshold 80 --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -536,7 +536,7 @@ export const helper = "helper"
       `)
 
       // 캐시 활성화 분석
-      const result = execSync(`node "${CLI_PATH}" classify "${srcDir}" --enable-cache --parallel --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${srcDir}" --verbose`, {
         encoding: "utf-8"
       })
 

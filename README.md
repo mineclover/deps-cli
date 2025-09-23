@@ -2,18 +2,17 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
-[![Effect](https://img.shields.io/badge/Effect-3.17-purple.svg)](https://effect.website/)
+[![Commander.js](https://img.shields.io/badge/Commander.js-14.0-green.svg)](https://github.com/tj/commander.js/)
 
-프로젝트 의존성을 분석하고 참조 관계를 시각화하는 종합적인 CLI 도구입니다.
+프로젝트 의존성을 분석하고 참조 관계를 시각화하는 간단하고 효율적인 CLI 도구입니다.
 
 ## ✨ 주요 기능
 
-- 🔍 **다층 의존성 분석**: TypeScript, JavaScript, 마크다운, 테스트 파일 지원
+- 🔍 **의존성 분석**: TypeScript, JavaScript 파일 지원
 - 🎯 **참조 관계 구성**: 내부 모듈 간 교차 참조 메타데이터 생성
-- 📊 **시각화 지원**: Mermaid, DOT, 상세 리포트 자동 생성
-- ⚙️ **고도화된 필터링**: 파일 패턴, 크기, 신뢰도 기반 정밀 분석
-- 🚀 **성능 최적화**: 병렬 처리, 캐싱, 증분 분석 지원
-- 📁 **유연한 출력**: 커스텀 디렉토리, 파일명, 다양한 형식 지원
+- 📊 **간편한 출력**: JSON, 요약 형식 지원
+- 📁 **유연한 저장**: 커스텀 디렉토리 출력 지원
+- ⚡ **경량화**: 33KB 번들 크기로 빠른 실행
 
 ## 🚀 빠른 시작
 
@@ -34,14 +33,14 @@ npm run build
 ### 기본 사용법
 
 ```bash
-# 현재 프로젝트 분석
-node dist/bin.cjs classify .
+# 파일 또는 디렉토리 분석
+node dist/bin.js analyze src/
 
-# 특정 디렉토리 분석
-node dist/bin.cjs classify src/
+# 분류 및 저장
+node dist/bin.js classify . --output-dir ./results
 
-# 시각화 도구 실행
-node visualize-dependencies.cjs
+# 자세한 출력
+node dist/bin.js analyze . --verbose
 ```
 
 ## 📊 분석 결과 예시
@@ -63,57 +62,68 @@ node visualize-dependencies.cjs
   5. src/analyzers/MetadataExtractor.ts (7개 의존성)
 ```
 
-## 🎯 고급 사용법
+## 🎯 사용법
 
-### 커스텀 출력 설정
-
-```bash
-# 커스텀 디렉토리와 파일명
-node dist/bin.cjs classify . \
-  --output-dir ./analysis-results \
-  --output-name "project-analysis"
-```
-
-### 정밀 필터링
+### 분석 명령어
 
 ```bash
-# 특정 패턴만 분석
-node dist/bin.cjs classify . \
-  --include "src/**/*.ts,lib/**/*.ts" \
-  --exclude "**/*.test.*,**/node_modules/**"
+# 기본 분석 (요약 출력)
+node dist/bin.js analyze src/
 
-# 파일 크기와 신뢰도 기준 필터링
-node dist/bin.cjs classify . \
-  --min-file-size 1000 \
-  --confidence-threshold 80
+# JSON 형식 출력
+node dist/bin.js analyze src/ --format json
+
+# 자세한 출력
+node dist/bin.js analyze src/ --verbose
 ```
 
-### 분석 깊이 조절
+### 분류 명령어
 
 ```bash
-# 빠른 개요 분석
-node dist/bin.cjs classify . --analysis-depth minimal
+# 기본 분류
+node dist/bin.js classify .
 
-# 종합적 분석
-node dist/bin.cjs classify . --analysis-depth comprehensive
+# 결과 저장
+node dist/bin.js classify . --output-dir ./analysis-results
 
-# 심화 분석 (모든 세부사항)
-node dist/bin.cjs classify . --analysis-depth deep
+# 자세한 출력과 함께 저장
+node dist/bin.js classify . --output-dir ./results --verbose
 ```
+
+### 환경 변수 설정
+
+deps-cli는 환경 변수를 통한 설정을 지원합니다:
+
+```bash
+# 기본 출력 형식 설정
+export DEPS_CLI_DEFAULT_FORMAT=json
+
+# 기본 출력 디렉토리 설정
+export DEPS_CLI_DEFAULT_OUTPUT_DIR=./analysis-results
+
+# 자세한 출력 활성화
+export DEPS_CLI_VERBOSE=true
+
+# 디버그 모드 활성화
+export DEPS_CLI_DEBUG=true
+
+# 분석 동시 실행 수 설정
+export DEPS_CLI_MAX_CONCURRENCY=8
+
+# Notion API 설정 (향후 사용)
+export NOTION_API_KEY=secret_your_api_key_here
+export NOTION_DATABASE_ID=your_database_id
+```
+
+설정 우선순위: CLI 옵션 > 환경 변수 > 기본값
 
 ## 📁 생성되는 파일들
 
-### 기본 출력
-- `reference-metadata.json`: 완전한 참조 관계 메타데이터
+### classify 명령어 출력 파일
 - `analysis-report.json`: 분석 결과 요약
-- `dependency-graph.json`: 의존성 그래프 데이터
-
-### 리포트 활성화 시 (`--generate-report`)
-- `{name}-report.md`: 상세 분석 리포트
-
-### 시각화 활성화 시 (`--generate-viz`)
-- `{name}-diagram.mmd`: Mermaid 다이어그램
-- `{name}-graph.dot`: Graphviz DOT 파일
+- `file-index.json`: 파일 인덱스
+- `results/`: 상세 분석 결과
+- `summary`: 요약 정보
 
 ## 🏗️ 아키텍처
 
@@ -214,6 +224,30 @@ npm run build
 npm test
 ```
 
+### 테스트
+
+현재 CLI 기능 테스트가 구현되어 있습니다:
+
+```bash
+# 모든 테스트 실행
+npm test
+
+# 테스트 커버리지 확인
+npm run test -- --coverage
+```
+
+**테스트 현황:**
+- ✅ CLI 명령어 테스트 (18개 테스트 통과)
+- ✅ 기본 기능 테스트 (analyze, classify)
+- ✅ 에러 처리 테스트
+- ✅ 옵션 테스트
+- ✅ 출력 형식 테스트
+
+**향후 테스트 계획:**
+- Phase 1: 설정 관리 테스트
+- Phase 2: 데이터 저장소 테스트
+- Phase 3: Notion 연동 테스트
+
 ### 새로운 분석기 추가
 
 ```typescript
@@ -236,25 +270,20 @@ export class UnifiedDependencyAnalyzer {
 }
 ```
 
-## 📋 CLI 옵션 전체 목록
+## 📋 CLI 옵션
+
+### analyze 명령어
 
 | 옵션 | 타입 | 기본값 | 설명 |
 |------|------|--------|------|
-| `--output-dir` | string | `.deps-analysis` | 결과 저장 디렉토리 |
-| `--output-name` | string | `analysis-result` | 출력 파일명 프리픽스 |
-| `--format` | choice | `json` | 출력 형식 (json, sqlite, neo4j, graphml) |
-| `--analysis-depth` | choice | `standard` | 분석 깊이 (minimal, standard, comprehensive, deep) |
-| `--include` | string | - | 포함할 파일 패턴 (쉼표 구분) |
-| `--exclude` | string | - | 제외할 파일 패턴 (쉼표 구분) |
-| `--min-file-size` | number | `0` | 최소 파일 크기 (bytes) |
-| `--max-file-size` | number | `10485760` | 최대 파일 크기 (bytes) |
-| `--confidence-threshold` | number | `50` | 신뢰도 임계값 (0-100%) |
-| `--generate-report` | boolean | `true` | 리포트 생성 여부 |
-| `--generate-viz` | boolean | `false` | 시각화 생성 여부 |
-| `--parallel` | boolean | `true` | 병렬 처리 활성화 |
-| `--enable-cache` | boolean | `true` | 캐싱 활성화 |
-| `--compression` | boolean | `false` | 결과 압축 |
-| `--incremental` | boolean | `false` | 증분 분석 모드 |
+| `--format` | choice | `summary` | 출력 형식 (json, summary) |
+| `--verbose` | boolean | `false` | 상세 출력 |
+
+### classify 명령어
+
+| 옵션 | 타입 | 기본값 | 설명 |
+|------|------|--------|------|
+| `--output-dir` | string | - | 결과 저장 디렉토리 |
 | `--verbose` | boolean | `false` | 상세 출력 |
 
 ## 📖 문서
@@ -275,7 +304,6 @@ export class UnifiedDependencyAnalyzer {
 ### 코딩 스타일
 
 - TypeScript strict mode 사용
-- Effect.js 함수형 프로그래밍 패턴 준수
 - ESLint + Prettier 설정 따르기
 - 모든 public API에 JSDoc 주석 필수
 
@@ -285,10 +313,9 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
 ## 🙏 감사의 말
 
-- [Effect](https://effect.website/) - 함수형 프로그래밍 프레임워크
+- [Commander.js](https://github.com/tj/commander.js/) - CLI 프레임워크
 - [@context-action/dependency-linker](https://github.com/context-action/dependency-linker) - 의존성 분석 엔진
-- [Mermaid](https://mermaid.js.org/) - 다이어그램 생성
-- [Graphviz](https://graphviz.org/) - 그래프 시각화
+- [glob](https://github.com/isaacs/node-glob) - 파일 매칭
 
 ---
 

@@ -494,7 +494,7 @@ describe("ApiClient", () => {
       `)
 
       // 전체 프로젝트 분석
-      const result = execSync(`node "${CLI_PATH}" classify "${projectDir}" --include-tests --output-dir "${path.join(projectDir, "analysis")}" --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${projectDir}" --output-dir "${path.join(projectDir, "analysis")}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -1251,7 +1251,7 @@ describe("Posts Routes", () => {
       `)
 
       // 프로젝트 분석 실행
-      const result = execSync(`node "${CLI_PATH}" analyze "${projectDir}" --include-tests --parallel --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" analyze "${projectDir}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -1269,7 +1269,7 @@ describe("Posts Routes", () => {
 
   describe("현재 프로젝트 자체 분석", () => {
     test("deps-cli 프로젝트 자체 분석", async () => {
-      const result = execSync(`node "${CLI_PATH}" classify "${PROJECT_ROOT}" --max-depth 3 --exclude "node_modules" --exclude "dist" --exclude "test" --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${PROJECT_ROOT}" --verbose`, {
         encoding: "utf-8",
         cwd: PROJECT_ROOT
       })
@@ -1290,7 +1290,7 @@ describe("Posts Routes", () => {
     test("소스 코드 디렉토리만 분석", async () => {
       const srcPath = path.join(PROJECT_ROOT, "src")
 
-      const result = execSync(`node "${CLI_PATH}" analyze "${srcPath}" --verbose --format json`, {
+      const result = execSync(`node "${CLI_PATH}" analyze "${srcPath}" --verbose`, {
         encoding: "utf-8"
       })
 
@@ -1328,7 +1328,7 @@ export function helper() {
       `)
 
       // 첫 번째 분석
-      const firstAnalysis = execSync(`node "${CLI_PATH}" analyze "${workflowDir}" --format json`, {
+      const firstAnalysis = execSync(`node "${CLI_PATH}" analyze "${workflowDir}"`, {
         encoding: "utf-8"
       })
 
@@ -1363,7 +1363,7 @@ export function advancedHelper(data: any[]) {
       `)
 
       // 두 번째 분석
-      const secondAnalysis = execSync(`node "${CLI_PATH}" analyze "${workflowDir}" --format json`, {
+      const secondAnalysis = execSync(`node "${CLI_PATH}" analyze "${workflowDir}"`, {
         encoding: "utf-8"
       })
 
@@ -1407,7 +1407,7 @@ export default app
       `)
 
       // CI/CD 스타일 분석 (리포트 생성)
-      const result = execSync(`node "${CLI_PATH}" classify "${cicdDir}" --output-dir "${outputDir}" --generate-report --output-metadata --verbose`, {
+      const result = execSync(`node "${CLI_PATH}" classify "${cicdDir}" --output-dir "${outputDir}" --verbose`, {
         encoding: "utf-8"
       })
 
