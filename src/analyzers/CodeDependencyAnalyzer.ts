@@ -6,19 +6,34 @@ import * as fs from "node:fs"
 import * as path from "node:path"
 import type { CodeDependency } from "../types/DependencyClassification.js"
 
+export interface TodoComment {
+  type: 'TODO' | 'FIXME' | 'HACK' | 'XXX' | 'BUG' | 'NOTE'
+  content: string
+  line: number
+  author?: string
+  date?: string
+  priority?: 'low' | 'medium' | 'high' | 'critical'
+  category?: string
+  isMultiline: boolean
+  context: string // 주변 코드 컨텍스트
+}
+
+export interface TodoAnalysis {
+  totalCount: number
+  byType: Record<string, number>
+  byPriority: Record<string, number>
+  byCategory: Record<string, number>
+  items: Array<TodoComment>
+  averageWordsPerTodo: number
+  oldestTodo?: TodoComment
+  highPriorityTodos: Array<TodoComment>
+}
+
 export interface CodeAnalysisResult {
   internalModules: Array<CodeDependency> // 프로젝트 내부 모듈
   externalLibraries: Array<CodeDependency> // 외부 라이브러리
   builtinModules: Array<CodeDependency> // Node.js 내장 모듈
-  codeMetadata: {
-    language: string // typescript, javascript 등
-    framework?: string // react, vue, angular 등
-    complexity: number // 복잡도 점수
-    linesOfCode: number
-    exportCount: number
-    importCount: number
-    circularDependencies: Array<string>
-  }
+  todoAnalysis: TodoAnalysis // TODO 주석 분석 결과
 }
 
 export class CodeDependencyAnalyzer {
@@ -55,16 +70,6 @@ export class CodeDependencyAnalyzer {
     "global"
   ])
 
-  private frameworkPatterns = {
-    react: ["react", "@types/react", "react-dom"],
-    vue: ["vue", "@vue", "nuxt"],
-    angular: ["@angular", "rxjs"],
-    svelte: ["svelte", "@sveltejs"],
-    express: ["express", "@types/express"],
-    nestjs: ["@nestjs"],
-    next: ["next", "@next"],
-    gatsby: ["gatsby", "@gatsby"]
-  }
 
   constructor(private projectRoot: string) {
     // tsconfig.json에서 alias 정보 로드
@@ -73,18 +78,32 @@ export class CodeDependencyAnalyzer {
 
   private tsConfigAliases = new Map<string, string>()
 
-  async analyzeCodeFile(filePath: string): Promise<CodeAnalysisResult> {
-    const content = await fs.promises.readFile(filePath, "utf-8")
-    const dependencies = await this.extractDependencies(content, filePath)
+  async analyzeCodeFile(filePath: string): Promise<CodeAnalysisResult>
+  async analyzeCodeFile(content: string, filePath: string): Promise<CodeAnalysisResult>
+  async analyzeCodeFile(contentOrFilePath: string, filePath?: string): Promise<CodeAnalysisResult> {
+    let content: string
+    let actualFilePath: string
+
+    if (filePath === undefined) {
+      // 첫 번째 오버로드: filePath만 제공된 경우
+      actualFilePath = contentOrFilePath
+      content = await fs.promises.readFile(actualFilePath, "utf-8")
+    } else {
+      // 두 번째 오버로드: content와 filePath가 모두 제공된 경우
+      content = contentOrFilePath
+      actualFilePath = filePath
+    }
+
+    const dependencies = await this.extractDependencies(content, actualFilePath)
 
     // 중복 처리 방지를 위한 Set 사용
     const processedSources = new Set<string>()
 
     return {
-      internalModules: this.classifyInternalModules(dependencies, filePath, processedSources),
-      externalLibraries: this.classifyExternalLibraries(dependencies, filePath, processedSources),
-      builtinModules: this.classifyBuiltinModules(dependencies, filePath, processedSources),
-      codeMetadata: this.analyzeCodeMetadata(content, filePath, dependencies)
+      internalModules: this.classifyInternalModules(dependencies, actualFilePath, processedSources),
+      externalLibraries: this.classifyExternalLibraries(dependencies, actualFilePath, processedSources),
+      builtinModules: this.classifyBuiltinModules(dependencies, actualFilePath, processedSources),
+      todoAnalysis: this.analyzeTodoComments(content, actualFilePath)
     }
   }
 
@@ -238,17 +257,6 @@ export class CodeDependencyAnalyzer {
     return builtinModules
   }
 
-  private analyzeCodeMetadata(content: string, filePath: string, dependencies: Array<any>) {
-    return {
-      language: this.detectLanguage(filePath),
-      framework: this.detectFramework(dependencies),
-      complexity: this.calculateComplexity(content),
-      linesOfCode: this.countLines(content),
-      exportCount: this.countExports(content),
-      importCount: dependencies.length,
-      circularDependencies: this.detectCircularDependencies(filePath, dependencies)
-    }
-  }
 
   private isInternalModule(source: string, _currentFile: string): boolean {
     // 상대 경로이거나 프로젝트 루트 기준 절대 경로
@@ -425,79 +433,145 @@ export class CodeDependencyAnalyzer {
     return "runtime"
   }
 
-  private detectLanguage(filePath: string): string {
-    const ext = path.extname(filePath)
-    switch (ext) {
-      case ".ts":
-        return "typescript"
-      case ".tsx":
-        return "typescript-jsx"
-      case ".js":
-        return "javascript"
-      case ".jsx":
-        return "javascript-jsx"
-      case ".vue":
-        return "vue"
-      case ".svelte":
-        return "svelte"
-      default:
-        return "unknown"
-    }
-  }
 
-  private detectFramework(dependencies: Array<any>): string | undefined {
-    for (const [framework, patterns] of Object.entries(this.frameworkPatterns)) {
-      if (dependencies.some((dep) => patterns.some((pattern) => dep.source.includes(pattern)))) {
-        return framework
+
+  private analyzeTodoComments(content: string, filePath: string): TodoAnalysis {
+    const lines = content.split('\n')
+    const todos: TodoComment[] = []
+    const todoPattern = /^\s*(?:\/\/|\/\*|\*|#|<!--|<!--)\s*(TODO|FIXME|HACK|XXX|BUG|NOTE)(?:\s*\(([^)]+)\))?\s*:?\s*(.*)(?:\*\/)?$/i
+    const priorityPattern = /\b(high|critical|urgent|low|medium)\b/i
+    const categoryPattern = /\[([^\]]+)\]/
+    const authorPattern = /@([a-zA-Z0-9_-]+)/
+    const datePattern = /\b(\d{4}-\d{2}-\d{2}|\d{2}\/\d{2}\/\d{4})\b/
+
+    // 분석 통계 초기화
+    const byType: Record<string, number> = {}
+    const byPriority: Record<string, number> = { low: 0, medium: 0, high: 0, critical: 0 }
+    const byCategory: Record<string, number> = {}
+    let totalWords = 0
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]
+      const match = line.match(todoPattern)
+
+      if (match) {
+        const [, type, metadata, content] = match
+        const todoType = type.toUpperCase() as TodoComment['type']
+
+        // 전체 텍스트에서 메타데이터 추출 (metadata와 content 모두에서)
+        const fullText = (metadata || '') + ' ' + (content || '')
+        let cleanContent = (content || '').replace(/\s*\*\/\s*$/, '').trim() // 블록 주석 닫기 제거
+
+        // 우선순위 추출
+        let priority: TodoComment['priority'] = 'medium' // 기본값
+        const priorityMatch = fullText.match(priorityPattern)
+        if (priorityMatch) {
+          priority = priorityMatch[1].toLowerCase() as TodoComment['priority']
+        }
+
+        // 카테고리 추출
+        let category: string | undefined
+        const categoryMatch = fullText.match(categoryPattern)
+        if (categoryMatch) {
+          category = categoryMatch[1]
+        }
+
+        // 작성자 추출
+        let author: string | undefined
+        const authorMatch = fullText.match(authorPattern)
+        if (authorMatch) {
+          author = authorMatch[1]
+        }
+
+        // 날짜 추출
+        let date: string | undefined
+        const dateMatch = fullText.match(datePattern)
+        if (dateMatch) {
+          date = dateMatch[1]
+        }
+
+        // 멀티라인 검사 (다음 라인이 연속된 주석인지 확인)
+        let isMultiline = false
+        let fullContent = cleanContent
+
+        // 다음 라인들을 확인하여 연속된 주석인지 판단
+        for (let j = i + 1; j < lines.length; j++) {
+          const nextLine = lines[j]
+          const continuationMatch = nextLine.match(/^\s*(?:\/\/|\/\*|\*|#|<!--|<!--)\s*(.*)$/)
+
+          if (continuationMatch && !continuationMatch[1].match(/^\s*(TODO|FIXME|HACK|XXX|BUG|NOTE)/i)) {
+            isMultiline = true
+            let continuationContent = continuationMatch[1].replace(/\s*\*\/\s*$/, '').trim()
+            fullContent += ' ' + continuationContent
+          } else {
+            break
+          }
+        }
+
+        // 주변 컨텍스트 추출 (앞뒤 2줄씩)
+        const contextStart = Math.max(0, i - 2)
+        const contextEnd = Math.min(lines.length - 1, i + 2)
+        const context = lines.slice(contextStart, contextEnd + 1).join('\n')
+
+        const todoComment: TodoComment = {
+          type: todoType,
+          content: fullContent.trim(),
+          line: i + 1,
+          author,
+          date,
+          priority,
+          category,
+          isMultiline,
+          context
+        }
+
+        todos.push(todoComment)
+
+        // 통계 업데이트
+        byType[todoType] = (byType[todoType] || 0) + 1
+        byPriority[priority] = (byPriority[priority] || 0) + 1
+
+        if (category) {
+          byCategory[category] = (byCategory[category] || 0) + 1
+        }
+
+        // 단어 수 계산
+        totalWords += fullContent.split(/\s+/).filter(word => word.length > 0).length
       }
     }
-    return undefined
+
+    // 가장 오래된 TODO 찾기 (날짜가 있는 경우)
+    const todosWithDate = todos.filter(todo => todo.date)
+    let oldestTodo: TodoComment | undefined
+
+    if (todosWithDate.length > 0) {
+      oldestTodo = todosWithDate.reduce((oldest, current) => {
+        const oldestDate = new Date(oldest.date!)
+        const currentDate = new Date(current.date!)
+        return currentDate < oldestDate ? current : oldest
+      })
+    }
+
+    // 높은 우선순위 TODO 필터링
+    const highPriorityTodos = todos.filter(todo =>
+      todo.priority === 'high' || todo.priority === 'critical'
+    )
+
+    // 평균 단어 수 계산
+    const averageWordsPerTodo = todos.length > 0 ? totalWords / todos.length : 0
+
+    return {
+      totalCount: todos.length,
+      byType,
+      byPriority,
+      byCategory,
+      items: todos,
+      averageWordsPerTodo: Math.round(averageWordsPerTodo * 100) / 100, // 소수점 2자리
+      oldestTodo,
+      highPriorityTodos
+    }
   }
 
-  private calculateComplexity(content: string): number {
-    // 간단한 복잡도 계산 (McCabe 복잡도 기반)
-    let complexity = 1 // 기본 복잡도
-
-    // 분기문 카운트
-    const branchPatterns = [
-      /\bif\b/g,
-      /\belse\b/g,
-      /\bfor\b/g,
-      /\bwhile\b/g,
-      /\bswitch\b/g,
-      /\bcase\b/g,
-      /\bcatch\b/g,
-      /\btry\b/g,
-      /\?\s*[^:]*:/g // 삼항 연산자
-    ]
-
-    branchPatterns.forEach((pattern) => {
-      const matches = content.match(pattern)
-      if (matches) complexity += matches.length
-    })
-
-    return complexity
-  }
-
-  private countLines(content: string): number {
-    return content.split("\n").filter((line) => line.trim().length > 0).length
-  }
-
-  private countExports(content: string): number {
-    const exportPatterns = [
-      /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type)\s+/g,
-      /export\s*\{[^}]*\}/g,
-      /export\s*\*/g
-    ]
-
-    let count = 0
-    exportPatterns.forEach((pattern) => {
-      const matches = content.match(pattern)
-      if (matches) count += matches.length
-    })
-
-    return count
-  }
 
   private detectCircularDependencies(filePath: string, dependencies: Array<any>): Array<string> {
     // 간단한 순환 의존성 감지 (실제로는 더 복잡한 그래프 분석 필요)
