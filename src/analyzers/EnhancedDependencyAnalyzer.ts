@@ -315,4 +315,142 @@ export class EnhancedDependencyAnalyzer {
   clearCache(): void {
     this.parseCache.clear()
   }
+
+  // ========================================
+  // ANALYSIS METHODS FOR ENHANCED COMMANDS
+  // ========================================
+
+  /**
+   * 특정 파일을 import하는 모든 파일들을 찾습니다
+   */
+  async findFilesUsingTargetFromGraph(graph: ProjectDependencyGraph, targetFilePath: string): Promise<string[]> {
+    const resolvedTargetPath = path.resolve(this.projectRoot, targetFilePath)
+
+    return graph.edges
+      .filter(edge => edge.to === resolvedTargetPath)
+      .map(edge => edge.from)
+      .filter((file, index, arr) => arr.indexOf(file) === index) // 중복 제거
+  }
+
+  /**
+   * 특정 메서드를 사용하는 모든 파일들을 찾습니다
+   */
+  async findFilesUsingMethodFromGraph(graph: ProjectDependencyGraph, className: string | null, methodName: string): Promise<any[]> {
+    const results: any[] = []
+
+    // 모든 파일에서 해당 메서드 사용을 찾음
+    for (const filePath of graph.nodes) {
+      try {
+        const content = await fs.readFile(filePath, 'utf-8')
+        const references = this.findMethodReferences(content, className, methodName, filePath)
+
+        if (references.length > 0) {
+          results.push({
+            filePath,
+            references
+          })
+        }
+      } catch (error) {
+        // 파일 읽기 실패 시 무시
+        continue
+      }
+    }
+
+    return results
+  }
+
+  /**
+   * 어디서도 import되지 않는 파일들을 찾습니다
+   */
+  findUnusedFilesFromGraph(graph: ProjectDependencyGraph): string[] {
+    const importedFiles = new Set<string>()
+
+    // 모든 edges에서 import되는 파일들을 수집
+    graph.edges.forEach(edge => {
+      importedFiles.add(edge.to)
+    })
+
+    // 엔트리 포인트들을 사용되는 파일로 간주
+    graph.entryPoints.forEach(entry => {
+      importedFiles.add(entry)
+    })
+
+    // 모든 파일 중에서 import되지 않는 파일들 찾기
+    return Array.from(graph.nodes).filter(file => !importedFiles.has(file))
+  }
+
+  /**
+   * 어디서도 호출되지 않는 메서드들을 찾습니다
+   */
+  findUnusedMethodsFromGraph(graph: ProjectDependencyGraph): any[] {
+    const unusedMethods: any[] = []
+
+    // 간단한 구현: export된 메서드들 중 import되지 않는 것들
+    for (const [filePath, exportResult] of graph.exportMap) {
+      if (exportResult.exports) {
+        exportResult.exports.forEach(exp => {
+          if (exp.type === 'class_method' || exp.type === 'function') {
+            // 해당 export가 다른 파일에서 import되는지 확인
+            const isImported = graph.edges.some(edge =>
+              edge.to === filePath && edge.importedMembers.includes(exp.name)
+            )
+
+            if (!isImported) {
+              unusedMethods.push({
+                className: exp.className || 'standalone',
+                methodName: exp.name,
+                type: exp.type,
+                filePath,
+                line: exp.line || 0,
+                visibility: exp.visibility || 'public'
+              })
+            }
+          }
+        })
+      }
+    }
+
+    return unusedMethods
+  }
+
+  /**
+   * 메서드 참조를 찾는 헬퍼 메서드
+   */
+  private findMethodReferences(content: string, className: string | null, methodName: string, filePath: string): any[] {
+    const references: any[] = []
+    const lines = content.split('\n')
+
+    lines.forEach((line, index) => {
+      let found = false
+
+      if (className) {
+        // 클래스 메서드 호출 패턴
+        const patterns = [
+          new RegExp(`\\b${className}\\.${methodName}\\s*\\(`, 'g'),
+          new RegExp(`\\.${methodName}\\s*\\(`, 'g'), // 인스턴스 메서드 호출
+        ]
+
+        patterns.forEach(pattern => {
+          if (pattern.test(line)) {
+            found = true
+          }
+        })
+      } else {
+        // 독립 함수 호출 패턴
+        const pattern = new RegExp(`\\b${methodName}\\s*\\(`, 'g')
+        if (pattern.test(line)) {
+          found = true
+        }
+      }
+
+      if (found) {
+        references.push({
+          line: index + 1,
+          context: line.trim()
+        })
+      }
+    })
+
+    return references
+  }
 }

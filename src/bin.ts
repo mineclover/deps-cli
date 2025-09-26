@@ -93,7 +93,7 @@ program
       } else {
         console.log('📊 Enhanced Dependency Analysis Results')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-        console.log(`📁 Total files: ${graph.files.length}`)
+        console.log(`📁 Total files: ${graph.nodes.size}`)
         console.log(`🔗 Dependencies (edges): ${graph.edges.length}`)
         console.log(`🚀 Entry points: ${graph.entryPoints.length}`)
 
@@ -166,7 +166,7 @@ program
         console.log('📄 Enhanced File Usage Analysis')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
         console.log(`🎯 Target file: ${targetFilePath}`)
-        console.log(`📁 Total files analyzed: ${graph.files.length}`)
+        console.log(`📁 Total files analyzed: ${graph.nodes.size}`)
 
         if (usingFiles.length > 0) {
           console.log(`\n✅ Files using this file (${usingFiles.length}):`)
@@ -216,7 +216,7 @@ program
         console.log('🔧 Enhanced Method Usage Analysis')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
         console.log(`🎯 Target: ${classNameOrNull ? `${classNameOrNull}.${methodName}` : methodName}`)
-        console.log(`📁 Total files analyzed: ${graph.files.length}`)
+        console.log(`📁 Total files analyzed: ${graph.nodes.size}`)
 
         if (methodUsages.length > 0) {
           console.log(`\n✅ Files using this method (${methodUsages.length}):`)
@@ -261,14 +261,14 @@ program
 
       if (options.format === 'json') {
         console.log(JSON.stringify({
-          totalFiles: graph.files.length,
+          totalFiles: graph.nodes.size,
           unusedFiles,
           entryPoints: graph.entryPoints
         }, null, 2))
       } else {
         console.log('🗑️ Enhanced Unused Files Analysis')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-        console.log(`📁 Total files: ${graph.files.length}`)
+        console.log(`📁 Total files: ${graph.nodes.size}`)
         console.log(`🚀 Entry points: ${graph.entryPoints.length}`)
 
         if (unusedFiles.length === 0) {
@@ -322,7 +322,7 @@ program
       } else {
         console.log('🔧 Enhanced Unused Methods Analysis')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-        console.log(`📁 Total files analyzed: ${graph.files.length}`)
+        console.log(`📁 Total files analyzed: ${graph.nodes.size}`)
 
         if (unusedMethods.length === 0) {
           console.log('\n✅ All methods are being used!')
