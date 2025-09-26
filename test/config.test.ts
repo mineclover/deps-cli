@@ -5,7 +5,7 @@
 import { describe, test, expect, beforeEach } from "vitest"
 import { ConfigManager } from "../src/config/ConfigManager.js"
 import { EnvironmentAdapter, EnvParser } from "../src/adapters/EnvironmentAdapter.js"
-import { DefaultConfigAdapter, FileConfigAdapter, CliConfigAdapter } from "../src/adapters/ConfigAdapter.js"
+import { DefaultConfigAdapter, CliConfigAdapter } from "../src/adapters/ConfigAdapter.js"
 
 describe("환경 설정 시스템 테스트", () => {
   let configManager: ConfigManager
@@ -189,7 +189,7 @@ describe("환경 설정 시스템 테스트", () => {
     test("CLI > 환경변수 > 기본값 우선순위", async () => {
       // 환경변수에서 verbose=false 설정
       const mockEnv = { DEPS_CLI_VERBOSE: "false" }
-      const envAdapter = new EnvironmentAdapter(mockEnv)
+      const _envAdapter = new EnvironmentAdapter(mockEnv)
 
       // CLI에서 verbose=true 설정
       const mockArgs = { verbose: true }
