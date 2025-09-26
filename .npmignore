@@ -1,0 +1,43 @@
+# Source code
+src/
+test/
+scripts/
+
+# Config files
+tsconfig*.json
+vitest.config.ts
+eslint.config.mjs
+tsup.config.ts
+
+# Documentation
+docs/
+examples/
+samples/
+specs/
+
+# Development files
+.claude/
+.deps-analysis/
+.deps-cli-history/
+.cache/
+.changeset/
+.env.example
+.envrc
+.gemini/
+.github/
+.serena/
+.specify/
+.vscode/
+
+# Build artifacts
+*.tgz
+demo/
+patches/
+
+# Only include dist directory contents
+*
+!dist/
+!dist/**
+!package.json
+!README.md
+!LICENSE
