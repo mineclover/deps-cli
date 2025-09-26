@@ -1,0 +1,90 @@
+{
+  "namespaces": {
+    "development": {
+      "analysis": {
+        "maxConcurrency": 8,
+        "timeout": 60000,
+        "cacheEnabled": true,
+        "cacheTtl": 3600
+      },
+      "logging": {
+        "level": "debug",
+        "format": "json",
+        "enabled": true
+      },
+      "output": {
+        "defaultFormat": "json",
+        "defaultDir": "./dev-output",
+        "compression": false
+      },
+      "development": {
+        "verbose": true,
+        "debugMode": true,
+        "mockApiCalls": false
+      }
+    },
+    "production": {
+      "analysis": {
+        "maxConcurrency": 4,
+        "timeout": 30000,
+        "cacheEnabled": true,
+        "cacheTtl": 7200
+      },
+      "logging": {
+        "level": "warn",
+        "format": "text",
+        "enabled": true
+      },
+      "output": {
+        "defaultFormat": "summary",
+        "defaultDir": "./output",
+        "compression": true
+      },
+      "development": {
+        "verbose": false,
+        "debugMode": false,
+        "mockApiCalls": false
+      }
+    },
+    "staging": {
+      "analysis": {
+        "maxConcurrency": 4,
+        "timeout": 30000,
+        "cacheEnabled": true,
+        "cacheTtl": 7200
+      },
+      "logging": {
+        "level": "warn",
+        "format": "text",
+        "enabled": true
+      },
+      "output": {
+        "defaultFormat": "summary",
+        "defaultDir": "./output",
+        "compression": true
+      },
+      "development": {
+        "verbose": false,
+        "debugMode": false,
+        "mockApiCalls": false
+      }
+    }
+  },
+  "default": "development",
+  "_metadata": {
+    "created": {
+      "source": "manual",
+      "raw": "2025-09-27",
+      "parsed": "Example namespaced configuration",
+      "isValid": true,
+      "timestamp": "2025-09-27T00:00:00.000Z"
+    },
+    "namespace.staging.updated": {
+      "source": "namespace-update",
+      "raw": "{\"analysis\":{\"maxConcurrency\":4,\"timeout\":30000,\"cacheEnabled\":true,\"cacheTtl\":7200},\"logging\":{\"level\":\"warn\",\"format\":\"text\",\"enabled\":true},\"output\":{\"defaultFormat\":\"summary\",\"defaultDir\":\"./output\",\"compression\":true},\"development\":{\"verbose\":false,\"debugMode\":false,\"mockApiCalls\":false}}",
+      "parsed": "Updated namespace staging",
+      "isValid": true,
+      "timestamp": "2025-09-26T17:51:15.074Z"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "deps-cli-demo",
+  "version": "1.0.0",
+  "description": "@context-action/deps-cli 데모 프로젝트",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "demo": "npx ctx-deps analyze-enhanced",
+    "demo-unused-files": "npx ctx-deps find-unused-files-enhanced",
+    "demo-unused-methods": "npx ctx-deps find-unused-methods-enhanced",
+    "demo-find-usages": "npx ctx-deps find-usages-enhanced src/UserService.ts",
+    "demo-method-usages": "npx ctx-deps find-method-usages-enhanced getUserById"
+  },
+  "keywords": [
+    "demo",
+    "deps-cli",
+    "dependency-analysis"
+  ],
+  "author": "Context Action Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@context-action/deps-cli": "file:../context-action-deps-cli-1.0.2.tgz",
+    "typescript": "^5.0.0"
+  }
+}
