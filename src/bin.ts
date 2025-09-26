@@ -103,7 +103,9 @@ program
       const excludePatterns: Array<string> = []
       if (options.exclude) {
         const patterns = options.exclude.split(',').map((p: string) => p.trim()).filter(Boolean)
-        excludePatterns.push(...patterns)
+        for (const pattern of patterns) {
+          excludePatterns.push(pattern)
+        }
         if (verbose) {
           console.log(`🚫 Excluding patterns: ${patterns.join(', ')}`)
         }

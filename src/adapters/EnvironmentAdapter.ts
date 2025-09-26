@@ -56,7 +56,7 @@ export class EnvironmentAdapter implements ConfigAdapter {
   private metadata: Map<string, ConfigMetadata> = new Map()
   private validationErrors: Map<string, string> = new Map()
 
-  constructor(private readonly env: EnvironmentVariables = process.env) {}
+  constructor(private readonly env: EnvironmentVariables = process.env as any) {}
 
   async load(): Promise<Partial<EnvironmentConfig>> {
     const config: Partial<EnvironmentConfig> = {}
@@ -103,13 +103,13 @@ export class EnvironmentAdapter implements ConfigAdapter {
         this.env.DEPS_CLI_LOG_LEVEL,
         ['debug', 'info', 'warn', 'error'],
         'info'
-      ),
+      ) as any,
       format: this.parseEnumEnvVar(
         'DEPS_CLI_LOG_FORMAT',
         this.env.DEPS_CLI_LOG_FORMAT,
         ['json', 'text'],
         'text'
-      ),
+      ) as any,
       enabled: this.parseBooleanEnvVar(
         'DEPS_CLI_LOG_ENABLED',
         this.env.DEPS_CLI_LOG_ENABLED,
@@ -124,7 +124,7 @@ export class EnvironmentAdapter implements ConfigAdapter {
         this.env.DEPS_CLI_DEFAULT_FORMAT,
         ['json', 'summary'],
         'summary'
-      ),
+      ) as any,
       defaultDir: this.parsePathEnvVar('DEPS_CLI_DEFAULT_OUTPUT_DIR', this.env.DEPS_CLI_DEFAULT_OUTPUT_DIR),
       compression: this.parseBooleanEnvVar(
         'DEPS_CLI_COMPRESSION',

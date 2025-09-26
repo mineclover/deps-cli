@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { existsSync, writeFileSync, mkdirSync, rmSync } from 'fs'
-import * as fs from 'node:fs/promises'
+// import * as fs from 'node:fs/promises' // unused
 import { join } from 'path'
 import { ConfigManager } from '../src/config/ConfigManager.js'
 import type { NamespacedConfig } from '../src/types/EnvironmentConfig.js'
@@ -371,7 +371,7 @@ describe('Namespace Integration Tests', () => {
     })
 
     it('동시 namespace 작업을 처리해야 함', async () => {
-      const concurrentTasks: Promise<any>[] = []
+      const concurrentTasks: Array<Promise<any>> = []
 
       // 여러 namespace를 동시에 생성
       for (let i = 1; i <= 10; i++) {
@@ -393,7 +393,7 @@ describe('Namespace Integration Tests', () => {
       expect(namespaces.namespaces).toHaveLength(10)
 
       // 각 namespace 로드 테스트
-      const loadTasks: Promise<any>[] = []
+      const loadTasks: Array<Promise<any>> = []
       for (let i = 1; i <= 10; i++) {
         loadTasks.push(
           configManager.loadNamespacedConfig(testConfigPath, `concurrent_${i}`)

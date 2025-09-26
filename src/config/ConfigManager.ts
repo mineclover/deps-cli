@@ -472,7 +472,7 @@ export class ConfigManager {
   /**
    * 캐시 통계 조회
    */
-  getCacheStats() {
+  getCacheStats(): any {
     return this.cache.getStats()
   }
 
@@ -734,7 +734,7 @@ export class ConfigManager {
   /**
    * 사용 가능한 namespace 목록 반환
    */
-  async listNamespaces(configFile?: string): Promise<{ namespaces: string[], default?: string }> {
+  async listNamespaces(configFile?: string): Promise<{ namespaces: Array<string>, default?: string }> {
     const filePath = configFile || this.getDefaultConfigPath()
     
     try {

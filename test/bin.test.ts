@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { spawn } from 'child_process'
 import { join } from 'path'
 
@@ -24,11 +24,11 @@ describe('bin.ts CLI', () => {
       })
 
       let output = ''
-      child.stdout.on('data', (data) => {
+      child.stdout.on('data', (_data) => {
         output += data.toString()
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         expect(output).toContain('Usage:')
         expect(code).toBe(0)
         done()
@@ -47,11 +47,11 @@ describe('bin.ts CLI', () => {
       })
 
       let output = ''
-      child.stdout.on('data', (data) => {
+      child.stdout.on('data', (_data) => {
         output += data.toString()
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         expect(output).toMatch(/\d+\.\d+\.\d+/)
         expect(code).toBe(0)
         done()
@@ -68,12 +68,12 @@ describe('bin.ts CLI', () => {
         stdio: ['pipe', 'pipe', 'pipe']
       })
 
-      let errorOutput = ''
+      let _errorOutput = ''
       child.stderr.on('data', (data) => {
-        errorOutput += data.toString()
+        _errorOutput += data.toString()
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         expect(code).not.toBe(0)
         done()
       })
@@ -92,11 +92,11 @@ describe('bin.ts CLI', () => {
       })
 
       let output = ''
-      child.stdout.on('data', (data) => {
+      child.stdout.on('data', (_data) => {
         output += data.toString()
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         expect(output).toContain('analyze-enhanced')
         expect(code).toBe(0)
         done()
@@ -114,11 +114,11 @@ describe('bin.ts CLI', () => {
       })
 
       let output = ''
-      child.stdout.on('data', (data) => {
+      child.stdout.on('data', (_data) => {
         output += data.toString()
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         expect(output).toContain('find-unused-files-enhanced')
         expect(code).toBe(0)
         done()
@@ -139,11 +139,11 @@ describe('bin.ts CLI', () => {
       })
 
       let hasOutput = false
-      child.stdout.on('data', (data) => {
+      child.stdout.on('data', (_data) => {
         hasOutput = true
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         expect(hasOutput).toBe(true)
         done()
       })
@@ -161,11 +161,11 @@ describe('bin.ts CLI', () => {
       })
 
       let hasOutput = false
-      child.stdout.on('data', (data) => {
+      child.stdout.on('data', (_data) => {
         hasOutput = true
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         expect(hasOutput).toBe(true)
         done()
       })
@@ -183,12 +183,12 @@ describe('bin.ts CLI', () => {
         stdio: ['pipe', 'pipe', 'pipe']
       })
 
-      let errorOutput = ''
+      let _errorOutput = ''
       child.stderr.on('data', (data) => {
-        errorOutput += data.toString()
+        _errorOutput += data.toString()
       })
 
-      child.on('close', (code) => {
+      child.on('close', (_code) => {
         // 에러가 발생하거나 적절히 처리되어야 함
         expect(code !== null).toBe(true)
         done()

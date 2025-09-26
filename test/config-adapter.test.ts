@@ -1,15 +1,15 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { existsSync, writeFileSync, mkdirSync, rmSync } from 'fs'
+import { existsSync, mkdirSync, rmSync } from 'fs'
 import { join } from 'path'
 import { FileConfigAdapter, DefaultConfigAdapter, CliConfigAdapter } from '../src/adapters/ConfigAdapter.js'
 
 describe('ConfigAdapter', () => {
   let testProjectPath: string
-  let testConfigPath: string
+  let _testConfigPath: string
 
   beforeEach(() => {
     testProjectPath = join(process.cwd(), 'test-adapter-project')
-    testConfigPath = join(testProjectPath, 'deps-cli.config.json')
+    _testConfigPath = join(testProjectPath, 'deps-cli.config.json')
 
     if (!existsSync(testProjectPath)) {
       mkdirSync(testProjectPath, { recursive: true })

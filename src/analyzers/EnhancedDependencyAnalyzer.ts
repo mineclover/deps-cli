@@ -396,8 +396,8 @@ export class EnhancedDependencyAnalyzer {
 
     // 간단한 구현: export된 메서드들 중 import되지 않는 것들
     for (const [filePath, exportResult] of graph.exportMap) {
-      if (exportResult.exports) {
-        exportResult.exports.forEach(exp => {
+      if (exportResult.exportMethods) {
+        exportResult.exportMethods.forEach((exp: any) => {
           if (exp.type === 'class_method' || exp.type === 'function') {
             // 해당 export가 다른 파일에서 import되는지 확인
             const isImported = graph.edges.some(edge =>

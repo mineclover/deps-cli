@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { existsSync, writeFileSync, mkdirSync, rmSync } from 'fs'
+import { existsSync, writeFileSync, mkdirSync, rmSync, readFileSync } from 'fs'
 import { join } from 'path'
 import { spawn } from 'node:child_process'
 import { promisify } from 'node:util'
 
-const execFile = promisify(spawn)
+const _execFile = promisify(spawn)
 
 describe('CLI Namespace Commands', () => {
   let testProjectPath: string
@@ -29,7 +29,7 @@ describe('CLI Namespace Commands', () => {
     }
   })
 
-  const runCLI = async (args: string[]): Promise<{ stdout: string; stderr: string; exitCode: number }> => {
+  const runCLI = async (args: Array<string>): Promise<{ stdout: string; stderr: string; exitCode: number }> => {
     return new Promise((resolve) => {
       const child = spawn('node', [cliPath, ...args], {
         cwd: testProjectPath,
@@ -140,7 +140,7 @@ describe('CLI Namespace Commands', () => {
       expect(existsSync(testConfigPath)).toBe(true)
 
       // 생성된 설정 파일 확인
-      const savedConfig = JSON.parse(require('fs').readFileSync(testConfigPath, 'utf-8'))
+      const savedConfig = JSON.parse(readFileSync(testConfigPath, 'utf-8'))
       expect(savedConfig.namespaces.mynew).toBeDefined()
       expect(savedConfig.namespaces.mynew.analysis).toBeDefined()
       expect(savedConfig.default).toBe('mynew')
@@ -156,7 +156,7 @@ describe('CLI Namespace Commands', () => {
       expect(result.stdout).toContain("Namespace 'target' created successfully")
       expect(result.stdout).toContain("Settings copied from namespace 'source'")
 
-      const savedConfig = JSON.parse(require('fs').readFileSync(testConfigPath, 'utf-8'))
+      const savedConfig = JSON.parse(readFileSync(testConfigPath, 'utf-8'))
       expect(savedConfig.namespaces.target).toBeDefined()
       expect(savedConfig.namespaces.source).toBeDefined()
     })
@@ -170,7 +170,7 @@ describe('CLI Namespace Commands', () => {
       expect(result.exitCode).toBe(0)
       expect(result.stdout).toContain("Set 'second' as default namespace")
 
-      const savedConfig = JSON.parse(require('fs').readFileSync(testConfigPath, 'utf-8'))
+      const savedConfig = JSON.parse(readFileSync(testConfigPath, 'utf-8'))
       expect(savedConfig.default).toBe('first') // 실제로는 첫 번째가 기본이 되는 로직
     })
 
@@ -204,7 +204,7 @@ describe('CLI Namespace Commands', () => {
       expect(result.exitCode).toBe(0)
       expect(result.stdout).toContain("Namespace 'testing' deleted successfully")
 
-      const savedConfig = JSON.parse(require('fs').readFileSync(testConfigPath, 'utf-8'))
+      const savedConfig = JSON.parse(readFileSync(testConfigPath, 'utf-8'))
       expect(savedConfig.namespaces.testing).toBeUndefined()
       expect(savedConfig.namespaces.development).toBeDefined()
       expect(savedConfig.namespaces.production).toBeDefined()

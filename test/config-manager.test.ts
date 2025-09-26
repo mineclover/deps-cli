@@ -202,7 +202,7 @@ describe('ConfigManager', () => {
 
     describe('loadFallbackConfig', () => {
       it('기본 어댑터로 fallback 설정 로드', async () => {
-        const originalError = new Error('Original configuration load failed')
+        const _originalError = new Error('Original configuration load failed')
 
         // private 메서드이므로 간접적으로 테스트
         await configManager.loadWithRetry({ configFile: '/nonexistent/file.json' })
