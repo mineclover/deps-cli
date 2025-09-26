@@ -68,7 +68,6 @@ export interface FileNode {
   relativePath: string // 프로젝트 루트 기준 상대 경로
   size: number // 파일 크기
   lastModified: Date // 마지막 수정 시간
-  language: string // 프로그래밍 언어
   framework?: string // 사용 프레임워크 (React, Vue 등)
 
   // 메타데이터

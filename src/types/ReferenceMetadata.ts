@@ -47,8 +47,6 @@ export interface FileMetadata {
   relativePath: string
   /** 파일 타입 */
   fileType: FileType
-  /** 파일 언어 */
-  language: string
   /** 파일 크기 (bytes) */
   size: number
   /** 마지막 수정 시간 */

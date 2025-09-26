@@ -5,6 +5,8 @@
 import * as fs from "node:fs"
 import * as path from "node:path"
 import type { CodeDependency } from "../types/DependencyClassification.js"
+import { MethodFlowAnalyzer } from './MethodFlowAnalyzer.js'
+import type { MethodFlowResult, MethodAnalysisOptions } from '../types/MethodFlowTypes.js'
 
 export interface TodoComment {
   type: 'TODO' | 'FIXME' | 'HACK' | 'XXX' | 'BUG' | 'NOTE'
@@ -34,6 +36,16 @@ export interface CodeAnalysisResult {
   externalLibraries: Array<CodeDependency> // 외부 라이브러리
   builtinModules: Array<CodeDependency> // Node.js 내장 모듈
   todoAnalysis: TodoAnalysis // TODO 주석 분석 결과
+  codeMetadata: {
+    complexity: number
+    linesOfCode: number
+    circularDependencies: Array<string>
+    framework?: string
+  }
+}
+
+export interface ExtendedCodeAnalysisResult extends CodeAnalysisResult {
+  methodFlow?: import('../types/MethodFlowTypes.js').MethodFlowResult // 메서드 흐름 분석 결과
 }
 
 export class CodeDependencyAnalyzer {
@@ -70,10 +82,13 @@ export class CodeDependencyAnalyzer {
     "global"
   ])
 
+  private methodFlowAnalyzer: MethodFlowAnalyzer
 
-  constructor(private projectRoot: string) {
+  constructor(private projectRoot: string, methodAnalysisOptions?: Partial<MethodAnalysisOptions>) {
     // tsconfig.json에서 alias 정보 로드
     this.loadTsConfigAliases()
+    // 메서드 흐름 분석기 초기화
+    this.methodFlowAnalyzer = new MethodFlowAnalyzer(methodAnalysisOptions)
   }
 
   private tsConfigAliases = new Map<string, string>()
@@ -103,8 +118,132 @@ export class CodeDependencyAnalyzer {
       internalModules: this.classifyInternalModules(dependencies, actualFilePath, processedSources),
       externalLibraries: this.classifyExternalLibraries(dependencies, actualFilePath, processedSources),
       builtinModules: this.classifyBuiltinModules(dependencies, actualFilePath, processedSources),
-      todoAnalysis: this.analyzeTodoComments(content, actualFilePath)
+      todoAnalysis: this.analyzeTodoComments(content, actualFilePath),
+      codeMetadata: {
+        complexity: this.calculateCodeComplexity(content),
+        linesOfCode: content.split('\n').length,
+        circularDependencies: this.detectCircularDependencies(actualFilePath, dependencies),
+        framework: this.detectFramework(dependencies)
+      }
     }
+  }
+
+  /**
+   * 메서드 흐름 분석을 포함한 확장된 코드 분석
+   */
+  async analyzeCodeFileWithMethods(filePath: string, includeMethodFlow: boolean = false): Promise<ExtendedCodeAnalysisResult>
+  async analyzeCodeFileWithMethods(content: string, filePath: string, includeMethodFlow: boolean = false): Promise<ExtendedCodeAnalysisResult>
+  async analyzeCodeFileWithMethods(contentOrFilePath: string, filePathOrInclude?: string | boolean, includeMethodFlow?: boolean): Promise<ExtendedCodeAnalysisResult> {
+    let content: string
+    let actualFilePath: string
+    let shouldIncludeMethodFlow: boolean
+
+    // 오버로드 처리
+    if (typeof filePathOrInclude === 'boolean') {
+      // 첫 번째 오버로드: filePath, includeMethodFlow
+      actualFilePath = contentOrFilePath
+      content = await fs.promises.readFile(actualFilePath, "utf-8")
+      shouldIncludeMethodFlow = filePathOrInclude
+    } else if (typeof filePathOrInclude === 'string') {
+      // 두 번째 오버로드: content, filePath, includeMethodFlow
+      content = contentOrFilePath
+      actualFilePath = filePathOrInclude
+      shouldIncludeMethodFlow = includeMethodFlow || false
+    } else {
+      throw new Error('Invalid arguments provided to analyzeCodeFileWithMethods')
+    }
+
+    // 기본 의존성 분석 수행
+    const basicResult = await this.analyzeCodeFile(content, actualFilePath)
+
+    // 확장된 결과 생성
+    const extendedResult: ExtendedCodeAnalysisResult = {
+      ...basicResult
+    }
+
+    // 메서드 흐름 분석 수행 (필요한 경우)
+    if (shouldIncludeMethodFlow) {
+      try {
+        const methodFlow = await this.methodFlowAnalyzer.analyzeMethodFlow(actualFilePath)
+        extendedResult.methodFlow = methodFlow
+      } catch (error) {
+        // 메서드 분석 실패 시 경고만 출력하고 계속 진행
+        console.warn(`Method flow analysis failed for ${actualFilePath}:`, error instanceof Error ? error.message : error)
+      }
+    }
+
+    return extendedResult
+  }
+
+  /**
+   * 코드 복잡도 계산 (간단한 추정)
+   */
+  private calculateCodeComplexity(content: string): number {
+    let complexity = 1 // 기본 복잡도
+
+    // 조건문과 반복문으로 복잡도 증가
+    const patterns = [
+      /\bif\s*\(/g,
+      /\belse\s+if\s*\(/g,
+      /\bfor\s*\(/g,
+      /\bwhile\s*\(/g,
+      /\bdo\s*{/g,
+      /\bswitch\s*\(/g,
+      /\bcase\s+/g,
+      /\bcatch\s*\(/g,
+      /\?\s*.*\s*:/g, // 삼항 연산자
+      /&&/g,
+      /\|\|/g
+    ]
+
+    patterns.forEach(pattern => {
+      const matches = content.match(pattern)
+      if (matches) {
+        complexity += matches.length
+      }
+    })
+
+    return Math.min(complexity, 50) // 최대 50으로 제한
+  }
+
+  /**
+   * 프레임워크 감지
+   */
+  private detectFramework(dependencies: Array<any>): string | undefined {
+    const frameworks = [
+      { name: 'react', patterns: ['react', '@types/react'] },
+      { name: 'vue', patterns: ['vue', '@vue/'] },
+      { name: 'angular', patterns: ['@angular/', 'angular'] },
+      { name: 'svelte', patterns: ['svelte'] },
+      { name: 'express', patterns: ['express'] },
+      { name: 'fastify', patterns: ['fastify'] },
+      { name: 'next', patterns: ['next'] },
+      { name: 'nuxt', patterns: ['nuxt'] }
+    ]
+
+    for (const framework of frameworks) {
+      for (const dep of dependencies) {
+        if (framework.patterns.some(pattern => dep.source.includes(pattern))) {
+          return framework.name
+        }
+      }
+    }
+
+    return undefined
+  }
+
+  /**
+   * 메서드 분석 옵션 업데이트
+   */
+  updateMethodAnalysisOptions(options: Partial<MethodAnalysisOptions>): void {
+    this.methodFlowAnalyzer.updateOptions(options)
+  }
+
+  /**
+   * 현재 메서드 분석 옵션 조회
+   */
+  getMethodAnalysisOptions(): MethodAnalysisOptions {
+    return this.methodFlowAnalyzer.getOptions()
   }
 
   private async extractDependencies(content: string, _filePath: string): Promise<Array<any>> {

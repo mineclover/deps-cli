@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@context-action/dependency-linker':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.3.0
+        version: 2.3.0
       commander:
         specifier: ^14.0.1
         version: 14.0.1
@@ -230,8 +230,8 @@ packages:
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
 
-  '@context-action/dependency-linker@2.1.0':
-    resolution: {integrity: sha512-3w0DvwmTFimSgJ2ncg/0tXMm33pbA1yPIVzASMI2hlWQnA/yMCggaYZJfSq2zX9T19s8K5Zchj5/z1F7zMGzyA==}
+  '@context-action/dependency-linker@2.3.0':
+    resolution: {integrity: sha512-Nk6ePcjLu5esywJ3x+yJVqOYVvFV5osDiav5AHYI/12DMMpqB7mZ3cmx/fp01+k/GKTK3kZodZA/TJ22WK2RLg==}
     hasBin: true
 
   '@emnapi/core@1.5.0':
@@ -3202,7 +3202,7 @@ snapshots:
       human-id: 4.1.1
       prettier: 2.8.8
 
-  '@context-action/dependency-linker@2.1.0':
+  '@context-action/dependency-linker@2.3.0':
     dependencies:
       '@types/glob': 8.1.0
       commander: 14.0.1
