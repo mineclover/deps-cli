@@ -2,10 +2,14 @@
  * 설정 관리자 - 여러 어댑터를 조합하여 설정을 관리
  */
 
-import { EnvironmentConfig, EnvironmentConfigWithMetadata, ConfigMetadata } from '../types/EnvironmentConfig.js'
-import { ConfigAdapter, DefaultConfigAdapter, FileConfigAdapter, CliConfigAdapter } from '../adapters/ConfigAdapter.js'
+import type { EnvironmentConfig, EnvironmentConfigWithMetadata, ConfigMetadata, NamespacedConfig } from '../types/EnvironmentConfig.js'
+import type { ConfigAdapter} from '../adapters/ConfigAdapter.js';
+import { DefaultConfigAdapter, FileConfigAdapter, CliConfigAdapter } from '../adapters/ConfigAdapter.js'
 import { EnvironmentAdapter } from '../adapters/EnvironmentAdapter.js'
-import { ConfigCache, globalConfigCache } from './ConfigCache.js'
+import type { ConfigCache} from './ConfigCache.js';
+import { globalConfigCache } from './ConfigCache.js'
+import * as fs from 'node:fs/promises'
+import * as path from 'node:path'
 
 /**
  * 설정 로딩 옵션
@@ -17,6 +21,7 @@ export interface ConfigLoadOptions {
   throwOnValidationError?: boolean
   enableCache?: boolean
   cacheKey?: string
+  namespace?: string  // 사용할 namespace 지정
 }
 
 /**
@@ -24,7 +29,7 @@ export interface ConfigLoadOptions {
  */
 export class ConfigManager {
   private config: EnvironmentConfigWithMetadata = {}
-  private adapters: ConfigAdapter[] = []
+  private adapters: Array<ConfigAdapter> = []
   private isLoaded = false
   private loadPromise: Promise<EnvironmentConfigWithMetadata> | null = null
   private static instance: ConfigManager | null = null
@@ -103,7 +108,7 @@ export class ConfigManager {
    */
   private async performLoad(options: ConfigLoadOptions, cacheKey: string): Promise<EnvironmentConfigWithMetadata> {
     this.initializeAdapters()
-    const adapters: ConfigAdapter[] = [...this.adapters]
+    const adapters: Array<ConfigAdapter> = [...this.adapters]
 
     // 파일 어댑터 추가 (환경 변수보다 높은 우선순위)
     if (options.configFile) {
@@ -162,7 +167,7 @@ export class ConfigManager {
     metadata: Record<string, ConfigMetadata>
   }> {
     const config = await adapter.load()
-    let metadata: Record<string, ConfigMetadata> = {}
+    const metadata: Record<string, ConfigMetadata> = {}
 
     // 메타데이터 수집
     if (adapter.getMetadata) {
@@ -253,7 +258,7 @@ export class ConfigManager {
    * 설정 검증 (최적화된 병렬 처리)
    */
   private async validateConfig(
-    adapters: ConfigAdapter[],
+    adapters: Array<ConfigAdapter>,
     config: EnvironmentConfig,
     throwOnError = false
   ): Promise<void> {
@@ -263,7 +268,7 @@ export class ConfigManager {
       )
     )
 
-    const errors: string[] = []
+    const errors: Array<string> = []
     
     validationResults.forEach(result => {
       if (result.status === 'fulfilled') {
@@ -390,7 +395,7 @@ export class ConfigManager {
    * 캐시 키 생성
    */
   private generateCacheKey(options: ConfigLoadOptions): string {
-    const keyParts: string[] = ['config']
+    const keyParts: Array<string> = ['config']
     
     if (options.configFile) {
       keyParts.push(`file:${options.configFile}`)
@@ -562,7 +567,7 @@ export class ConfigManager {
       
       console.error('Critical configuration failure. Using hardcoded fallback:', {
         originalError: originalError.message,
-        fallbackError: fallbackError
+        fallbackError
       })
       
       return hardcodedConfig
@@ -574,13 +579,13 @@ export class ConfigManager {
    */
   async diagnose(): Promise<{
     isHealthy: boolean
-    issues: string[]
-    recommendations: string[]
-    adapters: { name: string; status: 'ok' | 'warning' | 'error'; message?: string }[]
+    issues: Array<string>
+    recommendations: Array<string>
+    adapters: Array<{ name: string; status: 'ok' | 'warning' | 'error'; message?: string }>
   }> {
-    const issues: string[] = []
-    const recommendations: string[] = []
-    const adapters: { name: string; status: 'ok' | 'warning' | 'error'; message?: string }[] = []
+    const issues: Array<string> = []
+    const recommendations: Array<string> = []
+    const adapters: Array<{ name: string; status: 'ok' | 'warning' | 'error'; message?: string }> = []
     
     this.initializeAdapters()
     
@@ -649,8 +654,8 @@ export class ConfigManager {
   /**
    * 자동 복구 시도
    */
-  async autoRecover(): Promise<{ success: boolean; actions: string[] }> {
-    const actions: string[] = []
+  async autoRecover(): Promise<{ success: boolean; actions: Array<string> }> {
+    const actions: Array<string> = []
     
     try {
       // 1. 캐시 정리
@@ -679,6 +684,174 @@ export class ConfigManager {
     } catch (error) {
       actions.push(`Recovery failed: ${(error as Error).message}`)
       return { success: false, actions }
+    }
+  }
+
+  // ========================================
+  // NAMESPACE-BASED CONFIGURATION METHODS
+  // ========================================
+
+  /**
+   * namespace 기반 설정 파일 로드
+   */
+  async loadNamespacedConfig(configFile?: string, namespace?: string): Promise<EnvironmentConfigWithMetadata> {
+    const filePath = configFile || this.getDefaultConfigPath()
+    
+    try {
+      const content = await fs.readFile(filePath, 'utf-8')
+      const namespacedConfig = JSON.parse(content) as NamespacedConfig
+      
+      // namespace가 지정되지 않은 경우 default 사용
+      const targetNamespace = namespace || namespacedConfig.default || 'default'
+      
+      if (!namespacedConfig.namespaces[targetNamespace]) {
+        throw new Error(`Namespace '${targetNamespace}' not found in configuration`)
+      }
+      
+      // 해당 namespace의 설정을 일반 설정으로 변환
+      const config = namespacedConfig.namespaces[targetNamespace]
+      
+      return {
+        ...config,
+        _metadata: {
+          'namespace.selected': {
+            source: 'namespace',
+            raw: targetNamespace,
+            parsed: `Using namespace: ${targetNamespace}`,
+            isValid: true,
+            timestamp: new Date().toISOString()
+          },
+          ...namespacedConfig._metadata
+        }
+      }
+    } catch (error) {
+      console.warn(`Failed to load namespaced config from ${filePath}:`, error)
+      // 일반 설정 파일로 fallback
+      return this.load({ configFile: filePath })
+    }
+  }
+
+  /**
+   * 사용 가능한 namespace 목록 반환
+   */
+  async listNamespaces(configFile?: string): Promise<{ namespaces: string[], default?: string }> {
+    const filePath = configFile || this.getDefaultConfigPath()
+    
+    try {
+      const content = await fs.readFile(filePath, 'utf-8')
+      const namespacedConfig = JSON.parse(content) as NamespacedConfig
+      
+      return {
+        namespaces: Object.keys(namespacedConfig.namespaces || {}),
+        default: namespacedConfig.default
+      }
+    } catch (error) {
+      console.warn(`Failed to read namespaces from ${filePath}:`, error)
+      return { namespaces: [] }
+    }
+  }
+
+  /**
+   * 특정 namespace의 설정 생성/업데이트
+   */
+  async setNamespaceConfig(namespace: string, config: EnvironmentConfig, configFile?: string): Promise<void> {
+    const filePath = configFile || this.getDefaultConfigPath()
+    let namespacedConfig: NamespacedConfig
+    
+    try {
+      const content = await fs.readFile(filePath, 'utf-8')
+      namespacedConfig = JSON.parse(content) as NamespacedConfig
+    } catch (error) {
+      // 파일이 없으면 새로 생성
+      namespacedConfig = {
+        namespaces: {},
+        default: namespace
+      }
+    }
+    
+    // namespace 설정 업데이트
+    namespacedConfig.namespaces[namespace] = config
+    
+    // 첫 번째 namespace인 경우 default로 설정
+    if (!namespacedConfig.default && Object.keys(namespacedConfig.namespaces).length === 1) {
+      namespacedConfig.default = namespace
+    }
+    
+    // 메타데이터 업데이트
+    if (!namespacedConfig._metadata) {
+      namespacedConfig._metadata = {}
+    }
+    namespacedConfig._metadata[`namespace.${namespace}.updated`] = {
+      source: 'namespace-update',
+      raw: JSON.stringify(config),
+      parsed: `Updated namespace ${namespace}`,
+      isValid: true,
+      timestamp: new Date().toISOString()
+    }
+    
+    await fs.writeFile(filePath, JSON.stringify(namespacedConfig, null, 2))
+  }
+
+  /**
+   * namespace 삭제
+   */
+  async deleteNamespace(namespace: string, configFile?: string): Promise<void> {
+    const filePath = configFile || this.getDefaultConfigPath()
+    
+    try {
+      const content = await fs.readFile(filePath, 'utf-8')
+      const namespacedConfig = JSON.parse(content) as NamespacedConfig
+      
+      if (!namespacedConfig.namespaces[namespace]) {
+        throw new Error(`Namespace '${namespace}' not found`)
+      }
+      
+      delete namespacedConfig.namespaces[namespace]
+      
+      // 삭제된 namespace가 default였다면 다른 namespace를 default로 설정
+      if (namespacedConfig.default === namespace) {
+        const remainingNamespaces = Object.keys(namespacedConfig.namespaces)
+        namespacedConfig.default = remainingNamespaces.length > 0 ? remainingNamespaces[0] : undefined
+      }
+      
+      await fs.writeFile(filePath, JSON.stringify(namespacedConfig, null, 2))
+    } catch (error) {
+      throw new Error(`Failed to delete namespace '${namespace}': ${error}`)
+    }
+  }
+
+  /**
+   * 기본 설정 파일 경로 반환
+   */
+  private getDefaultConfigPath(): string {
+    return path.join(process.cwd(), 'deps-cli.config.json')
+  }
+
+  /**
+   * load 메서드를 namespace 지원으로 확장
+   */
+  async loadWithNamespace(options: ConfigLoadOptions = {}): Promise<EnvironmentConfigWithMetadata> {
+    // namespace가 지정된 경우 namespace 기반 로드 시도
+    if (options.namespace || await this.isNamespacedConfig(options.configFile)) {
+      return this.loadNamespacedConfig(options.configFile, options.namespace)
+    }
+    
+    // 일반 로드
+    return this.load(options)
+  }
+
+  /**
+   * 설정 파일이 namespace 기반인지 확인
+   */
+  private async isNamespacedConfig(configFile?: string): Promise<boolean> {
+    const filePath = configFile || this.getDefaultConfigPath()
+    
+    try {
+      const content = await fs.readFile(filePath, 'utf-8')
+      const config = JSON.parse(content)
+      return 'namespaces' in config && typeof config.namespaces === 'object'
+    } catch {
+      return false
     }
   }
 }

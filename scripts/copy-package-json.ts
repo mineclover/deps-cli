@@ -14,7 +14,11 @@ async function main() {
     type: json.type,
     description: json.description,
     main: "bin.js",
-    bin: { [json.name]: "bin.js" },
+    bin: {
+      "deps-cli": "bin.js",
+      "ctx-deps": "bin.js"
+    },
+    files: ["*"],
     engines: json.engines,
     dependencies: json.dependencies,
     peerDependencies: json.peerDependencies,

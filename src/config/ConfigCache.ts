@@ -2,7 +2,7 @@
  * 설정 캐싱 시스템
  */
 
-import { EnvironmentConfig, EnvironmentConfigWithMetadata } from '../types/EnvironmentConfig.js'
+import type { EnvironmentConfigWithMetadata } from '../types/EnvironmentConfig.js';
 
 interface CacheEntry {
   config: EnvironmentConfigWithMetadata
@@ -120,7 +120,7 @@ export class ConfigCache {
    */
   cleanup(): void {
     const now = Date.now()
-    const expiredKeys: string[] = []
+    const expiredKeys: Array<string> = []
 
     for (const [key, entry] of this.memoryCache.entries()) {
       if (now - entry.timestamp > entry.ttl) {
@@ -238,7 +238,7 @@ export class ConfigCache {
   /**
    * 파일 캐시에서 조회 (기본 구현)
    */
-  private async getFromFile(key: string): Promise<CacheEntry | null> {
+  private async getFromFile(_key: string): Promise<CacheEntry | null> {
     // 향후 파일 시스템 캐시 구현
     return null
   }
@@ -246,14 +246,14 @@ export class ConfigCache {
   /**
    * 파일 캐시에 저장 (기본 구현)
    */
-  private async setInFile(key: string, entry: CacheEntry): Promise<void> {
+  private async setInFile(_key: string, _entry: CacheEntry): Promise<void> {
     // 향후 파일 시스템 캐시 구현
   }
 
   /**
    * 파일 캐시에서 삭제 (기본 구현)
    */
-  private async deleteFromFile(key: string): Promise<void> {
+  private async deleteFromFile(_key: string): Promise<void> {
     // 향후 파일 시스템 캐시 구현
   }
 

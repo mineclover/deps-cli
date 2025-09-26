@@ -2,8 +2,8 @@
  * 환경 변수 기반 설정 어댑터
  */
 
-import { EnvironmentConfig, EnvironmentVariables, ConfigMetadata, ConfigSource } from '../types/EnvironmentConfig.js'
-import { ConfigAdapter } from './ConfigAdapter.js'
+import type { EnvironmentConfig, EnvironmentVariables, ConfigMetadata, ConfigSource } from '../types/EnvironmentConfig.js'
+import type { ConfigAdapter } from './ConfigAdapter.js'
 
 /**
  * 환경 변수를 파싱하는 유틸리티 함수들
@@ -32,7 +32,7 @@ export class EnvParser {
    */
   static parseEnum<T extends string>(
     value: string | undefined,
-    allowedValues: T[],
+    allowedValues: Array<T>,
     defaultValue: T
   ): T {
     if (!value) return defaultValue
@@ -356,7 +356,7 @@ export class EnvironmentAdapter implements ConfigAdapter {
   private parseEnumEnvVar<T extends string>(
     key: string,
     value: string | undefined,
-    allowedValues: T[],
+    allowedValues: Array<T>,
     defaultValue: T
   ): T {
     const result = EnvParser.parseEnum(value, allowedValues, defaultValue)

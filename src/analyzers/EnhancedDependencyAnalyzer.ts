@@ -9,13 +9,13 @@ export interface ProjectExportInfo {
 
 export interface ProjectImportInfo {
   absolutePath: string
-  imports: ImportDeclaration[]
+  imports: Array<ImportDeclaration>
 }
 
 export interface ImportDeclaration {
   importPath: string           // 원본 import 경로
   resolvedPath: string | null  // 절대 경로로 resolve된 경로
-  importedMembers: string[]    // import된 멤버들
+  importedMembers: Array<string>    // import된 멤버들
   importType: 'named' | 'default' | 'namespace' | 'side-effect'
   line: number
 }
@@ -23,16 +23,16 @@ export interface ImportDeclaration {
 export interface DependencyEdge {
   from: string                 // 절대 경로
   to: string                   // 절대 경로
-  importedMembers: string[]    // 사용된 exports
+  importedMembers: Array<string>    // 사용된 exports
   line: number
 }
 
 export interface ProjectDependencyGraph {
   nodes: Set<string>           // 모든 파일의 절대 경로
-  edges: DependencyEdge[]      // 의존성 관계
+  edges: Array<DependencyEdge>      // 의존성 관계
   exportMap: Map<string, EnhancedExportExtractionResult>  // 파일별 export 정보
-  importMap: Map<string, ImportDeclaration[]>             // 파일별 import 정보
-  entryPoints: string[]        // 엔트리 포인트들
+  importMap: Map<string, Array<ImportDeclaration>>             // 파일별 import 정보
+  entryPoints: Array<string>        // 엔트리 포인트들
 }
 
 /**
@@ -52,8 +52,11 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 프로젝트 전체 의존성 그래프 구축
    */
-  async buildProjectDependencyGraph(filePatterns: string[] = ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']): Promise<ProjectDependencyGraph> {
-    const allFiles = await this.getAllProjectFiles(filePatterns)
+  async buildProjectDependencyGraph(
+    filePatterns: Array<string> = ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    excludePatterns: Array<string> = []
+  ): Promise<ProjectDependencyGraph> {
+    const allFiles = await this.getAllProjectFiles(filePatterns, excludePatterns)
     const sortedFiles = this.sortFilesByAbsolutePath(allFiles)
 
     // 1단계: 모든 파일의 export 정보 수집 (절대경로 기준)
@@ -80,7 +83,7 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 파일들을 절대경로 기준으로 정렬
    */
-  private sortFilesByAbsolutePath(files: string[]): string[] {
+  private sortFilesByAbsolutePath(files: Array<string>): Array<string> {
     return files
       .map(file => path.resolve(this.projectRoot, file))
       .sort((a, b) => a.localeCompare(b))
@@ -89,7 +92,7 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 모든 파일의 export 정보를 EnhancedExportExtractor로 수집
    */
-  private async collectAllExports(sortedFiles: string[]): Promise<Map<string, EnhancedExportExtractionResult>> {
+  private async collectAllExports(sortedFiles: Array<string>): Promise<Map<string, EnhancedExportExtractionResult>> {
     const exportMap = new Map<string, EnhancedExportExtractionResult>()
 
     for (const filePath of sortedFiles) {
@@ -112,8 +115,8 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 모든 파일의 import 정보를 AST 기반으로 수집
    */
-  private async collectAllImports(sortedFiles: string[]): Promise<Map<string, ImportDeclaration[]>> {
-    const importMap = new Map<string, ImportDeclaration[]>()
+  private async collectAllImports(sortedFiles: Array<string>): Promise<Map<string, Array<ImportDeclaration>>> {
+    const importMap = new Map<string, Array<ImportDeclaration>>()
 
     for (const filePath of sortedFiles) {
       try {
@@ -132,8 +135,8 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 파일에서 import 선언들을 추출하고 절대경로로 resolve
    */
-  private async extractImportsFromFile(filePath: string, content: string): Promise<ImportDeclaration[]> {
-    const imports: ImportDeclaration[] = []
+  private async extractImportsFromFile(filePath: string, content: string): Promise<Array<ImportDeclaration>> {
+    const imports: Array<ImportDeclaration> = []
 
     // TODO: AST 기반 import 추출 구현
     // 현재는 정규식 폴백 사용
@@ -172,10 +175,10 @@ export class EnhancedDependencyAnalyzer {
    * export-import 매칭을 통한 의존성 엣지 구축
    */
   private buildDependencyEdges(
-    importMap: Map<string, ImportDeclaration[]>,
+    importMap: Map<string, Array<ImportDeclaration>>,
     exportMap: Map<string, EnhancedExportExtractionResult>
-  ): DependencyEdge[] {
-    const edges: DependencyEdge[] = []
+  ): Array<DependencyEdge> {
+    const edges: Array<DependencyEdge> = []
 
     for (const [fromFile, imports] of importMap) {
       for (const importDecl of imports) {
@@ -206,9 +209,9 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 엔트리 포인트 식별
    */
-  private identifyEntryPoints(sortedFiles: string[], edges: DependencyEdge[]): string[] {
+  private identifyEntryPoints(sortedFiles: Array<string>, edges: Array<DependencyEdge>): Array<string> {
     const importedFiles = new Set(edges.map(edge => edge.to))
-    const entryPoints: string[] = []
+    const entryPoints: Array<string> = []
 
     for (const file of sortedFiles) {
       const basename = path.basename(file)
@@ -293,19 +296,25 @@ export class EnhancedDependencyAnalyzer {
     return !importPath.startsWith('.') && !importPath.startsWith('/')
   }
 
-  private async getAllProjectFiles(patterns: string[]): Promise<string[]> {
+  private async getAllProjectFiles(patterns: Array<string>, excludePatterns: Array<string> = []): Promise<Array<string>> {
     const glob = await import('glob')
-    const files: string[] = []
+    const files: Array<string> = []
+
+    // 기본 제외 패턴에 사용자 제외 패턴 추가
+    const defaultIgnore = ['**/node_modules/**', '**/dist/**', '**/.git/**', '**/coverage/**']
+    const allIgnorePatterns = [...defaultIgnore, ...excludePatterns]
 
     for (const pattern of patterns) {
       try {
         const matches = await glob.glob(pattern, {
           cwd: this.projectRoot,
-          ignore: ['**/node_modules/**', '**/dist/**', '**/.git/**', '**/coverage/**']
+          ignore: allIgnorePatterns
         })
-        files.push(...matches)
-      } catch (error) {
-        console.warn(`Failed to glob pattern ${pattern}:`, error)
+        for (const match of matches) {
+          files.push(match)
+        }
+      } catch {
+        console.warn(`Failed to glob pattern ${pattern}`)
       }
     }
 
@@ -323,7 +332,7 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 특정 파일을 import하는 모든 파일들을 찾습니다
    */
-  async findFilesUsingTargetFromGraph(graph: ProjectDependencyGraph, targetFilePath: string): Promise<string[]> {
+  async findFilesUsingTargetFromGraph(graph: ProjectDependencyGraph, targetFilePath: string): Promise<Array<string>> {
     const resolvedTargetPath = path.resolve(this.projectRoot, targetFilePath)
 
     return graph.edges
@@ -335,8 +344,8 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 특정 메서드를 사용하는 모든 파일들을 찾습니다
    */
-  async findFilesUsingMethodFromGraph(graph: ProjectDependencyGraph, className: string | null, methodName: string): Promise<any[]> {
-    const results: any[] = []
+  async findFilesUsingMethodFromGraph(graph: ProjectDependencyGraph, className: string | null, methodName: string): Promise<Array<any>> {
+    const results: Array<any> = []
 
     // 모든 파일에서 해당 메서드 사용을 찾음
     for (const filePath of graph.nodes) {
@@ -350,7 +359,7 @@ export class EnhancedDependencyAnalyzer {
             references
           })
         }
-      } catch (error) {
+      } catch {
         // 파일 읽기 실패 시 무시
         continue
       }
@@ -362,7 +371,7 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 어디서도 import되지 않는 파일들을 찾습니다
    */
-  findUnusedFilesFromGraph(graph: ProjectDependencyGraph): string[] {
+  findUnusedFilesFromGraph(graph: ProjectDependencyGraph): Array<string> {
     const importedFiles = new Set<string>()
 
     // 모든 edges에서 import되는 파일들을 수집
@@ -382,8 +391,8 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 어디서도 호출되지 않는 메서드들을 찾습니다
    */
-  findUnusedMethodsFromGraph(graph: ProjectDependencyGraph): any[] {
-    const unusedMethods: any[] = []
+  findUnusedMethodsFromGraph(graph: ProjectDependencyGraph): Array<any> {
+    const unusedMethods: Array<any> = []
 
     // 간단한 구현: export된 메서드들 중 import되지 않는 것들
     for (const [filePath, exportResult] of graph.exportMap) {
@@ -416,8 +425,8 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 메서드 참조를 찾는 헬퍼 메서드
    */
-  private findMethodReferences(content: string, className: string | null, methodName: string, filePath: string): any[] {
-    const references: any[] = []
+  private findMethodReferences(content: string, className: string | null, methodName: string, _filePath: string): Array<any> {
+    const references: Array<any> = []
     const lines = content.split('\n')
 
     lines.forEach((line, index) => {

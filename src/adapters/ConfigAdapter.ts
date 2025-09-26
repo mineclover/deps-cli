@@ -2,7 +2,7 @@
  * 설정 어댑터 인터페이스 및 구현체들
  */
 
-import { EnvironmentConfig, ConfigMetadata, ConfigSource } from '../types/EnvironmentConfig.js'
+import type { EnvironmentConfig, ConfigMetadata, ConfigSource } from '../types/EnvironmentConfig.js'
 
 /**
  * 설정 어댑터 인터페이스
