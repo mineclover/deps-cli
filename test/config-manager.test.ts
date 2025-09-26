@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { existsSync, writeFileSync, mkdirSync, rmSync } from 'fs'
+import * as fs from 'node:fs/promises'
 import { join } from 'path'
 import { ConfigManager } from '../src/config/ConfigManager.js'
-import type { ProjectConfig } from '../src/types/ProjectConfig.js'
 
 describe('ConfigManager', () => {
   let configManager: ConfigManager
@@ -389,6 +389,382 @@ describe('ConfigManager', () => {
         configManager.set('testKey', { testValue: 'after-recovery' })
         const testValue = configManager.get('testKey')
         expect(testValue).toEqual({ testValue: 'after-recovery' })
+      })
+    })
+  })
+
+  describe('Namespace-based Configuration Tests', () => {
+    describe('loadNamespacedConfig', () => {
+      it('정상적인 namespace 설정을 로드해야 함', async () => {
+        // namespace 기반 설정 파일 생성
+        const namespacedConfig = {
+          namespaces: {
+            development: {
+              analysis: { maxConcurrency: 8, timeout: 60000 },
+              logging: { level: 'debug', format: 'json', enabled: true },
+              output: { defaultFormat: 'json', compression: false }
+            },
+            production: {
+              analysis: { maxConcurrency: 4, timeout: 30000 },
+              logging: { level: 'warn', format: 'text', enabled: true },
+              output: { defaultFormat: 'summary', compression: true }
+            }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'namespaced-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
+
+        const config = await configManager.loadNamespacedConfig(namespacedConfigPath, 'development')
+
+        expect(config).toBeDefined()
+        expect(config.analysis?.maxConcurrency).toBe(8)
+        expect(config.analysis?.timeout).toBe(60000)
+        expect(config.logging?.level).toBe('debug')
+        expect(config._metadata?.['namespace.selected']).toBeDefined()
+      })
+
+      it('기본 namespace를 사용해야 함', async () => {
+        const namespacedConfig = {
+          namespaces: {
+            staging: { analysis: { maxConcurrency: 6 } },
+            production: { analysis: { maxConcurrency: 4 } }
+          },
+          default: 'staging'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'default-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
+
+        const config = await configManager.loadNamespacedConfig(namespacedConfigPath)
+
+        expect(config.analysis?.maxConcurrency).toBe(6)
+        expect(config._metadata?.['namespace.selected']?.parsed).toContain('staging')
+      })
+
+      it('존재하지 않는 namespace에 대해 에러를 발생시켜야 함', async () => {
+        const namespacedConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'error-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
+
+        try {
+          await configManager.loadNamespacedConfig(namespacedConfigPath, 'nonexistent')
+          expect.fail('Should have thrown an error for nonexistent namespace')
+        } catch (error) {
+          expect(error.message).toContain("Namespace 'nonexistent' not found in configuration")
+        }
+      })
+
+      it('잘못된 파일에 대해 일반 설정으로 fallback해야 함', async () => {
+        const nonNamespacedConfig = {
+          analysis: { maxConcurrency: 2 },
+          logging: { level: 'info' }
+        }
+
+        const regularConfigPath = join(testProjectPath, 'regular-config.json')
+        writeFileSync(regularConfigPath, JSON.stringify(nonNamespacedConfig, null, 2))
+
+        const config = await configManager.loadNamespacedConfig(regularConfigPath, 'development')
+
+        expect(config.analysis?.maxConcurrency).toBe(2)
+        expect(config.logging?.level).toBe('info')
+      })
+    })
+
+    describe('listNamespaces', () => {
+      it('사용 가능한 namespace들을 반환해야 함', async () => {
+        const namespacedConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } },
+            production: { analysis: { maxConcurrency: 4 } },
+            testing: { analysis: { maxConcurrency: 2 } }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'list-namespaces-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
+
+        const result = await configManager.listNamespaces(namespacedConfigPath)
+
+        expect(result.namespaces).toEqual(['development', 'production', 'testing'])
+        expect(result.default).toBe('development')
+      })
+
+      it('빈 namespace 목록을 처리해야 함', async () => {
+        const emptyNamespacedConfig = {
+          namespaces: {},
+          default: undefined
+        }
+
+        const emptyConfigPath = join(testProjectPath, 'empty-namespaces-config.json')
+        writeFileSync(emptyConfigPath, JSON.stringify(emptyNamespacedConfig, null, 2))
+
+        const result = await configManager.listNamespaces(emptyConfigPath)
+
+        expect(result.namespaces).toEqual([])
+        expect(result.default).toBeUndefined()
+      })
+
+      it('존재하지 않는 파일에 대해 빈 목록을 반환해야 함', async () => {
+        const nonexistentPath = join(testProjectPath, 'nonexistent-config.json')
+
+        const result = await configManager.listNamespaces(nonexistentPath)
+
+        expect(result.namespaces).toEqual([])
+        expect(result.default).toBeUndefined()
+      })
+    })
+
+    describe('setNamespaceConfig', () => {
+      it('새로운 namespace를 생성해야 함', async () => {
+        const namespacedConfigPath = join(testProjectPath, 'set-namespace-config.json')
+
+        const newConfig = {
+          analysis: { maxConcurrency: 10, timeout: 45000 },
+          logging: { level: 'debug', format: 'json', enabled: true }
+        }
+
+        await configManager.setNamespaceConfig('custom', newConfig, namespacedConfigPath)
+
+        // 파일이 생성되었는지 확인
+        expect(existsSync(namespacedConfigPath)).toBe(true)
+
+        // 생성된 설정 확인
+        const savedContent = JSON.parse(await fs.readFile(namespacedConfigPath, 'utf-8'))
+        expect(savedContent.namespaces.custom).toEqual(newConfig)
+        expect(savedContent.default).toBe('custom') // 첫 번째 namespace는 default가 됨
+        expect(savedContent._metadata['namespace.custom.updated']).toBeDefined()
+      })
+
+      it('기존 namespace를 업데이트해야 함', async () => {
+        const existingConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'update-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(existingConfig, null, 2))
+
+        const updatedConfig = {
+          analysis: { maxConcurrency: 12, timeout: 50000 },
+          logging: { level: 'info' }
+        }
+
+        await configManager.setNamespaceConfig('development', updatedConfig, namespacedConfigPath)
+
+        const savedContent = JSON.parse(await fs.readFile(namespacedConfigPath, 'utf-8'))
+        expect(savedContent.namespaces.development).toEqual(updatedConfig)
+        expect(savedContent.default).toBe('development') // default는 유지
+      })
+
+      it('여러 namespace가 있을 때 default를 유지해야 함', async () => {
+        const existingConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } },
+            production: { analysis: { maxConcurrency: 4 } }
+          },
+          default: 'production'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'multi-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(existingConfig, null, 2))
+
+        const newConfig = { analysis: { maxConcurrency: 6 } }
+        await configManager.setNamespaceConfig('staging', newConfig, namespacedConfigPath)
+
+        const savedContent = JSON.parse(await fs.readFile(namespacedConfigPath, 'utf-8'))
+        expect(savedContent.namespaces.staging).toEqual(newConfig)
+        expect(savedContent.default).toBe('production') // 기존 default 유지
+      })
+    })
+
+    describe('deleteNamespace', () => {
+      it('존재하는 namespace를 삭제해야 함', async () => {
+        const existingConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } },
+            production: { analysis: { maxConcurrency: 4 } },
+            testing: { analysis: { maxConcurrency: 2 } }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'delete-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(existingConfig, null, 2))
+
+        await configManager.deleteNamespace('testing', namespacedConfigPath)
+
+        const savedContent = JSON.parse(await fs.readFile(namespacedConfigPath, 'utf-8'))
+        expect(savedContent.namespaces.testing).toBeUndefined()
+        expect(savedContent.namespaces.development).toBeDefined()
+        expect(savedContent.namespaces.production).toBeDefined()
+        expect(savedContent.default).toBe('development') // default 유지
+      })
+
+      it('default namespace 삭제 시 다른 namespace를 default로 설정해야 함', async () => {
+        const existingConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } },
+            production: { analysis: { maxConcurrency: 4 } }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'delete-default-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(existingConfig, null, 2))
+
+        await configManager.deleteNamespace('development', namespacedConfigPath)
+
+        const savedContent = JSON.parse(await fs.readFile(namespacedConfigPath, 'utf-8'))
+        expect(savedContent.namespaces.development).toBeUndefined()
+        expect(savedContent.namespaces.production).toBeDefined()
+        expect(savedContent.default).toBe('production') // production이 새로운 default
+      })
+
+      it('마지막 namespace 삭제 시 default를 undefined로 설정해야 함', async () => {
+        const existingConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'delete-last-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(existingConfig, null, 2))
+
+        await configManager.deleteNamespace('development', namespacedConfigPath)
+
+        const savedContent = JSON.parse(await fs.readFile(namespacedConfigPath, 'utf-8'))
+        expect(Object.keys(savedContent.namespaces)).toHaveLength(0)
+        expect(savedContent.default).toBeUndefined()
+      })
+
+      it('존재하지 않는 namespace 삭제 시 에러를 발생시켜야 함', async () => {
+        const existingConfig = {
+          namespaces: {
+            development: { analysis: { maxConcurrency: 8 } }
+          },
+          default: 'development'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'error-delete-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(existingConfig, null, 2))
+
+        await expect(
+          configManager.deleteNamespace('nonexistent', namespacedConfigPath)
+        ).rejects.toThrow("Namespace 'nonexistent' not found")
+      })
+    })
+
+    describe('loadWithNamespace', () => {
+      it('namespace가 지정된 경우 namespace 기반 로드를 사용해야 함', async () => {
+        const namespacedConfig = {
+          namespaces: {
+            testing: {
+              analysis: { maxConcurrency: 16 },
+              development: { verbose: true, debugMode: true }
+            }
+          },
+          default: 'testing'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'load-with-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
+
+        const config = await configManager.loadWithNamespace({
+          configFile: namespacedConfigPath,
+          namespace: 'testing'
+        })
+
+        expect(config.analysis?.maxConcurrency).toBe(16)
+        expect(config.development?.verbose).toBe(true)
+        expect(config.development?.debugMode).toBe(true)
+      })
+
+      it('namespace가 지정되지 않았지만 파일이 namespace 기반인 경우 자동으로 감지해야 함', async () => {
+        const namespacedConfig = {
+          namespaces: {
+            autodetect: {
+              analysis: { maxConcurrency: 20 }
+            }
+          },
+          default: 'autodetect'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'autodetect-namespace-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
+
+        const config = await configManager.loadWithNamespace({
+          configFile: namespacedConfigPath
+        })
+
+        expect(config.analysis?.maxConcurrency).toBe(20)
+      })
+
+      it('일반 설정 파일인 경우 일반 load를 사용해야 함', async () => {
+        const regularConfig = {
+          analysis: { maxConcurrency: 3 },
+          logging: { level: 'error' }
+        }
+
+        const regularConfigPath = join(testProjectPath, 'regular-load-config.json')
+        writeFileSync(regularConfigPath, JSON.stringify(regularConfig, null, 2))
+
+        const config = await configManager.loadWithNamespace({
+          configFile: regularConfigPath
+        })
+
+        expect(config.analysis?.maxConcurrency).toBe(3)
+        expect(config.logging?.level).toBe('error')
+      })
+    })
+
+    describe('isNamespacedConfig (private method 간접 테스트)', () => {
+      it('namespace 기반 설정 파일을 올바르게 감지해야 함', async () => {
+        const namespacedConfig = {
+          namespaces: {
+            test: { analysis: { maxConcurrency: 1 } }
+          },
+          default: 'test'
+        }
+
+        const namespacedConfigPath = join(testProjectPath, 'detect-namespaced-config.json')
+        writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
+
+        // loadWithNamespace를 통해 간접적으로 테스트
+        const config = await configManager.loadWithNamespace({
+          configFile: namespacedConfigPath
+        })
+
+        // namespace 기반으로 로드되었다면 _metadata에 namespace 정보가 있어야 함
+        expect(config._metadata?.['namespace.selected']).toBeDefined()
+      })
+
+      it('일반 설정 파일을 올바르게 구분해야 함', async () => {
+        const regularConfig = {
+          analysis: { maxConcurrency: 1 },
+          someOtherField: 'value'
+        }
+
+        const regularConfigPath = join(testProjectPath, 'detect-regular-config.json')
+        writeFileSync(regularConfigPath, JSON.stringify(regularConfig, null, 2))
+
+        const config = await configManager.loadWithNamespace({
+          configFile: regularConfigPath
+        })
+
+        // 일반 설정으로 로드되었다면 namespace 관련 metadata가 없어야 함
+        expect(config._metadata?.['namespace.selected']).toBeUndefined()
       })
     })
   })
