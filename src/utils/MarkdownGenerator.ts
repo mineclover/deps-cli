@@ -1,344 +1,257 @@
+import { readFile, stat, writeFile } from 'node:fs/promises'
+import { extname, relative } from 'node:path'
+import { MarkdownPathResolver } from './MarkdownPathResolver.js'
+
+export interface FileMetadata {
+  path: string
+  size: number
+  lines: number
+  extension: string
+  lastModified: string
+  created: string
+  namespace?: string
+}
+
+export interface MarkdownContent {
+  title: string
+  metadata: FileMetadata
+  content: string
+  frontMatter?: Record<string, any>
+}
+
 /**
- * 마크다운 생성 엔진
- * ID 기반 구조적 마크다운 문서 생성
+ * 마크다운 생성 전용 클래스
+ *
+ * 핵심 기능:
+ * 1. 파일 메타데이터 생성
+ * 2. 마크다운 콘텐츠 생성
+ * 3. 다양한 템플릿 지원
  */
-
-import { mkdir, writeFile } from 'node:fs/promises'
-import { dirname, join, relative } from 'node:path'
-import type {
-  CodeRole,
-  DependencyMapping,
-  FileMetadata,
-  MarkdownGenerationConfig,
-  MarkdownNode,
-  MethodMetadata,
-  NodeId,
-} from '../types/MappingTypes.js'
-import { RoleClassifier } from './RoleClassifier.js'
-
 export class MarkdownGenerator {
-  private config: MarkdownGenerationConfig
+  private projectRoot: string
+  private pathResolver: MarkdownPathResolver
 
-  constructor(config: MarkdownGenerationConfig) {
-    this.config = config
+  constructor(projectRoot: string, docsRoot: string = './docs', namespace?: string) {
+    this.projectRoot = projectRoot
+    this.pathResolver = new MarkdownPathResolver(projectRoot, docsRoot, namespace)
   }
 
   /**
-   * 단일 노드의 마크다운 생성
+   * namespace 업데이트
    */
-  async generateNodeMarkdown(node: MarkdownNode): Promise<string> {
-    const frontMatter = this.generateFrontMatter(node)
-    const content = this.generateContent(node)
-
-    return `${frontMatter}\n\n${content}`
+  updateNamespace(namespace?: string): void {
+    this.pathResolver.updateNamespace(namespace)
   }
 
   /**
-   * 전체 프로젝트의 마크다운 생성 (일관된 위치 지정)
+   * 파일의 메타데이터를 생성합니다
    */
-  async generateProjectMarkdown(nodes: MarkdownNode[]): Promise<void> {
-    console.log(`📝 Generating ${nodes.length} markdown files...`)
+  async createFileMetadata(filePath: string, namespace?: string): Promise<FileMetadata | null> {
+    try {
+      const content = await readFile(filePath, 'utf-8')
+      const stats = await stat(filePath)
+      const relativePath = relative(this.projectRoot, filePath)
 
-    // 각 노드별 마크다운 파일 생성 (MirrorPathMapper 경로 사용)
-    for (const node of nodes) {
-      const markdown = await this.generateNodeMarkdown(node)
-
-      // 파일 메타데이터에서 documentPath 사용 (MirrorPathMapper에 의해 생성된 경로)
-      const metadata = node.metadata as FileMetadata
-      const filePath = metadata.documentPath
-
-      if (!filePath) {
-        console.warn(`  ⚠️  No documentPath for file: ${metadata.path}`)
-        continue
+      return {
+        path: relativePath,
+        size: stats.size,
+        lines: content.split('\n').length,
+        extension: extname(filePath),
+        lastModified: stats.mtime.toISOString(),
+        created: new Date().toISOString(),
+        ...(namespace && { namespace }),
       }
-
-      // 디렉토리 생성
-      await mkdir(dirname(filePath), { recursive: true })
-
-      // 마크다운 파일 저장
-      await writeFile(filePath, markdown, 'utf-8')
-
-      console.log(`  ✅ Generated: ${filePath}`)
+    } catch (error) {
+      console.error(`메타데이터 생성 실패: ${filePath}`, error instanceof Error ? error.message : error)
+      return null
     }
-
-    console.log(`✅ All markdown files generated successfully!`)
   }
 
   /**
-   * YAML/JSON Front Matter 생성
+   * 기본 마크다운 콘텐츠를 생성합니다
    */
-  private generateFrontMatter(node: MarkdownNode): string {
-    const { metadata } = node
+  generateBasicMarkdown(metadata: FileMetadata): MarkdownContent {
+    const title = metadata.path.split('/').pop() || metadata.path
 
-    const frontMatterData = {
-      title: node.title,
-      type: node.type,
-      lastUpdated: new Date().toISOString(),
-      ...(node.type === 'file' && {
-        file: {
-          path: (metadata as FileMetadata).relativePath,
-          language: (metadata as FileMetadata).language,
-          size: (metadata as FileMetadata).size,
-          lines: (metadata as FileMetadata).lines,
-        },
-      }),
+    const content = `# ${title}
+
+## 📄 File Metadata
+
+\`\`\`json
+${JSON.stringify(metadata, null, 2)}
+\`\`\`
+`
+
+    return {
+      title,
+      metadata,
+      content,
+    }
+  }
+
+  /**
+   * 상세한 마크다운 콘텐츠를 생성합니다
+   */
+  generateDetailedMarkdown(metadata: FileMetadata, sourceContent: string): MarkdownContent {
+    const title = metadata.path.split('/').pop() || metadata.path
+
+    const frontMatter = {
+      title,
+      path: metadata.path,
+      size: metadata.size,
+      lines: metadata.lines,
+      extension: metadata.extension,
+      lastModified: metadata.lastModified,
+      namespace: metadata.namespace,
     }
 
-    if (this.config.frontMatterFormat === 'json') {
-      return `---json\n${JSON.stringify(frontMatterData, null, 2)}\n---`
+    const content = `---
+title: "${title}"
+path: "${metadata.path}"
+size: ${metadata.size}
+lines: ${metadata.lines}
+extension: "${metadata.extension}"
+lastModified: "${metadata.lastModified}"
+${metadata.namespace ? `namespace: "${metadata.namespace}"` : ''}
+---
+
+# ${title}
+
+## 📄 File Information
+
+- **Path**: \`${metadata.path}\`
+- **Size**: ${metadata.size} bytes
+- **Lines**: ${metadata.lines}
+- **Extension**: \`${metadata.extension}\`
+- **Last Modified**: ${new Date(metadata.lastModified).toLocaleString()}
+${metadata.namespace ? `- **Namespace**: \`${metadata.namespace}\`` : ''}
+
+## 📝 Source Code
+
+\`\`\`${this.getLanguageFromExtension(metadata.extension)}
+${sourceContent}
+\`\`\`
+`
+
+    return {
+      title,
+      metadata,
+      content,
+      frontMatter,
+    }
+  }
+
+  /**
+   * 확장자에서 언어를 추출합니다
+   */
+  private getLanguageFromExtension(extension: string): string {
+    const languageMap: Record<string, string> = {
+      '.ts': 'typescript',
+      '.tsx': 'typescript',
+      '.js': 'javascript',
+      '.jsx': 'javascript',
+      '.json': 'json',
+      '.md': 'markdown',
+      '.html': 'html',
+      '.css': 'css',
+      '.scss': 'scss',
+      '.sass': 'sass',
+      '.less': 'less',
+    }
+
+    return languageMap[extension] || 'text'
+  }
+
+  /**
+   * 단일 파일의 마크다운을 생성하고 저장합니다
+   */
+  async generateMarkdownFile(
+    filePath: string,
+    options: {
+      includeSource?: boolean
+      template?: 'basic' | 'detailed'
+      namespace?: string
+    } = {}
+  ): Promise<string | null> {
+    const { includeSource = false, template = 'basic', namespace } = options
+
+    const metadata = await this.createFileMetadata(filePath, namespace)
+    if (!metadata) return null
+
+    let markdownContent: MarkdownContent
+
+    if (template === 'detailed' && includeSource) {
+      const sourceContent = await readFile(filePath, 'utf-8')
+      markdownContent = this.generateDetailedMarkdown(metadata, sourceContent)
     } else {
-      return `---\n${this.objectToYaml(frontMatterData)}\n---`
-    }
-  }
-
-  /**
-   * 마크다운 컨텐츠 생성
-   */
-  private generateContent(node: MarkdownNode): string {
-    const { type, metadata } = node
-
-    let content = `# ${node.title}\n\n`
-
-    // 개요 섹션
-    content += this.generateOverviewSection(node)
-
-    // 파일 메타데이터 섹션
-    if (type === 'file') {
-      content += this.generateFileMetadataSection(metadata as FileMetadata)
+      markdownContent = this.generateBasicMarkdown(metadata)
     }
 
-    // 소스 코드 섹션 (항상 포함)
-    if (node.content) {
-      content += this.generateSourceCodeSection(node)
-    }
+    const markdownPath = this.pathResolver.ensureMarkdownDirectory(filePath)
+    await writeFile(markdownPath, markdownContent.content, 'utf-8')
 
-    return content
+    return markdownPath
   }
 
   /**
-   * 개요 섹션 생성
+   * 배치로 마크다운 파일들을 생성합니다
    */
-  private generateOverviewSection(node: MarkdownNode): string {
-    const { type, metadata } = node
+  async generateBatchMarkdown(
+    filePaths: Array<string>,
+    options: {
+      includeSource?: boolean
+      template?: 'basic' | 'detailed'
+      namespace?: string
+      maxFiles?: number
+    } = {}
+  ): Promise<{ processed: number; total: number; results: Array<{ source: string; markdown: string | null; error?: string }> }> {
+    const { includeSource = false, template = 'basic', namespace, maxFiles } = options
+    const targetFiles = maxFiles ? filePaths.slice(0, maxFiles) : filePaths
 
-    let overview = `## 📋 개요\n\n`
+    const results: Array<{ source: string; markdown: string | null; error?: string }> = []
+    let processed = 0
 
-    if (type === 'file') {
-      const fileMeta = metadata as FileMetadata
-      overview += `- **파일 경로**: \`${fileMeta.relativePath}\`\n`
-      overview += `- **언어**: ${fileMeta.language}\n`
-      overview += `- **크기**: ${fileMeta.size} bytes\n`
-      overview += `- **라인 수**: ${fileMeta.lines}\n`
-      overview += `- **최종 수정**: ${fileMeta.lastModified.toLocaleDateString()}\n\n`
-    } else {
-      const methodMeta = metadata as MethodMetadata
-      overview += `- **메서드명**: \`${methodMeta.name}\`\n`
-      overview += `- **타입**: ${methodMeta.type}\n`
-      overview += `- **내보내기**: ${methodMeta.exported ? '✅ Yes' : '❌ No'}\n`
-      overview += `- **위치**: 라인 ${methodMeta.startLine}-${methodMeta.endLine}\n\n`
-    }
+    for (const filePath of targetFiles) {
+      try {
+        const markdownPath = await this.generateMarkdownFile(filePath, {
+          includeSource,
+          template,
+          namespace,
+        })
 
-    return overview
-  }
+        results.push({
+          source: filePath,
+          markdown: markdownPath,
+        })
 
-  /**
-   * 파일 메타데이터 섹션 생성
-   */
-  private generateFileMetadataSection(metadata: FileMetadata): string {
-    let section = `## 📄 파일 정보\n\n`
-
-    section += `| 속성 | 값 |\n`
-    section += `|------|----|\n`
-    section += `| 경로 | \`${metadata.relativePath}\` |\n`
-    section += `| 언어 | ${metadata.language} |\n`
-    section += `| 파일 크기 | ${metadata.size} bytes |\n`
-    section += `| 라인 수 | ${metadata.lines} |\n`
-    section += `| 해시 | \`${metadata.hash.substring(0, 16)}...\` |\n`
-    section += `| 최종 수정 | ${metadata.lastModified.toLocaleString()} |\n\n`
-
-    return section
-  }
-
-  /**
-   * 메서드 메타데이터 섹션 생성
-   */
-  private generateMethodMetadataSection(metadata: MethodMetadata): string {
-    let section = `## 🔧 메서드 정보\n\n`
-
-    section += `### 시그니처\n\n`
-    section += `\`\`\`typescript\n${metadata.signature}\n\`\`\`\n\n`
-
-    section += `| 속성 | 값 |\n`
-    section += `|------|----|\n`
-    section += `| 이름 | \`${metadata.name}\` |\n`
-    section += `| 타입 | ${metadata.type} |\n`
-    section += `| 내보내기 | ${metadata.exported ? '✅' : '❌'} |\n`
-    section += `| 시작 라인 | ${metadata.startLine} |\n`
-    section += `| 종료 라인 | ${metadata.endLine} |\n`
-    section += `| 해시 | \`${metadata.hash.substring(0, 16)}...\` |\n\n`
-
-    return section
-  }
-
-
-
-  /**
-   * 소스 코드 섹션 생성
-   */
-  private generateSourceCodeSection(node: MarkdownNode): string {
-    if (!node.content) return ''
-
-    const language = node.type === 'file' ? (node.metadata as FileMetadata).language.toLowerCase() : 'typescript'
-
-    return `## 💻 소스 코드\n\n\`\`\`${language}\n${node.content}\n\`\`\`\n\n`
-  }
-
-  /**
-   * ID 기반 링크 생성
-   */
-  private generateIdLink(targetId: NodeId, currentNodeId?: NodeId): string {
-    // 단순한 파일 경로 기반 링크 생성 (ID는 상대 경로로 사용됨)
-    const safeName = String(targetId).replace(/[\/\\]/g, '-').replace(/\./g, '-')
-    return `[${targetId}](${safeName}.md)`
-  }
-
-
-  /**
-   * 인덱스 파일 생성
-   */
-  private async generateIndexFiles(nodes: MarkdownNode[]): Promise<void> {
-    // 역할별 인덱스 생성
-    const roleGroups = new Map<string, MarkdownNode[]>()
-
-    for (const node of nodes) {
-      const role = node.role
-      if (!roleGroups.has(role)) {
-        roleGroups.set(role, [])
-      }
-      roleGroups.get(role)!.push(node)
-    }
-
-    // 각 역할별 인덱스 파일 생성
-    for (const [role, roleNodes] of Array.from(roleGroups)) {
-      const indexContent = this.generateRoleIndexContent(role, roleNodes)
-      const indexPath = join(this.config.outputDirectory, role.toLowerCase().replace('_', '-'), 'README.md')
-
-      await mkdir(dirname(indexPath), { recursive: true })
-      await writeFile(indexPath, indexContent, 'utf-8')
-    }
-
-    // 전체 프로젝트 인덱스 생성
-    const projectIndex = this.generateProjectIndexContent(nodes, roleGroups)
-    const projectIndexPath = join(this.config.outputDirectory, 'README.md')
-    await writeFile(projectIndexPath, projectIndex, 'utf-8')
-  }
-
-  /**
-   * 역할별 인덱스 컨텐츠 생성
-   */
-  private generateRoleIndexContent(role: string, nodes: MarkdownNode[]): string {
-    const displayName = RoleClassifier.getRoleDisplayName(role as CodeRole)
-
-    let content = `# ${displayName}\n\n`
-    content += `총 ${nodes.length}개의 ${role} 항목\n\n`
-
-    // 파일과 메서드 분리
-    const files = nodes.filter((n) => n.type === 'file')
-    const methods = nodes.filter((n) => n.type === 'method')
-
-    if (files.length > 0) {
-      content += `## 📁 파일 (${files.length}개)\n\n`
-      for (const file of files.sort((a, b) => a.title.localeCompare(b.title))) {
-        content += `- [${file.title}](files/${file.id}.md)\n`
-      }
-      content += `\n`
-    }
-
-    if (methods.length > 0) {
-      content += `## 🔧 메서드 (${methods.length}개)\n\n`
-      for (const method of methods.sort((a, b) => a.title.localeCompare(b.title))) {
-        content += `- [${method.title}](methods/${method.id}.md)\n`
-      }
-      content += `\n`
-    }
-
-    return content
-  }
-
-  /**
-   * 프로젝트 전체 인덱스 컨텐츠 생성
-   */
-  private generateProjectIndexContent(nodes: MarkdownNode[], roleGroups: Map<string, MarkdownNode[]>): string {
-    let content = `# 프로젝트 의존성 문서\n\n`
-    content += `총 ${nodes.length}개의 코드 엔티티 문서화\n\n`
-
-    // 역할별 통계
-    content += `## 📊 역할별 통계\n\n`
-    for (const [role, roleNodes] of Array.from(roleGroups)) {
-      const displayName = RoleClassifier.getRoleDisplayName(role as CodeRole)
-      content += `- **${displayName}**: ${roleNodes.length}개 ([보기](${role.toLowerCase().replace('_', '-')}/README.md))\n`
-    }
-    content += `\n`
-
-    // 생성 정보
-    content += `## ℹ️ 생성 정보\n\n`
-    content += `- 생성 시간: ${new Date().toLocaleString()}\n`
-    content += `- 생성 도구: deps-cli v2.0.0\n`
-    content += `- 구조적 마크다운 매핑 시스템\n\n`
-
-    return content
-  }
-
-  /**
-   * 메트릭 생성
-   */
-  private generateMetrics(node: MarkdownNode): Record<string, string | number> {
-    const metrics: Record<string, string | number> = {}
-
-    if (node.type === 'file') {
-      const fileMeta = node.metadata as FileMetadata
-      metrics['파일 크기'] = `${fileMeta.size} bytes`
-      metrics['라인 수'] = fileMeta.lines
-      metrics['의존성 수'] = node.dependencies.length
-      metrics['의존자 수'] = node.dependents.length
-    } else {
-      const methodMeta = node.metadata as MethodMetadata
-      metrics['메서드 길이'] = `${methodMeta.endLine - methodMeta.startLine + 1} 라인`
-      metrics['복잡도'] = methodMeta.complexity || 'N/A'
-      metrics['의존성 수'] = node.dependencies.length
-      metrics['의존자 수'] = node.dependents.length
-    }
-
-    return metrics
-  }
-
-  /**
-   * 객체를 YAML 형식으로 변환 (간단한 구현)
-   */
-  private objectToYaml(obj: any, indent = 0): string {
-    const spaces = '  '.repeat(indent)
-    let yaml = ''
-
-    for (const [key, value] of Object.entries(obj)) {
-      if (value === undefined) continue
-
-      if (Array.isArray(value)) {
-        yaml += `${spaces}${key}:\n`
-        for (const item of value) {
-          if (typeof item === 'object') {
-            yaml += `${spaces}  -\n${this.objectToYaml(item, indent + 2)}`
-          } else {
-            yaml += `${spaces}  - ${item}\n`
-          }
-        }
-      } else if (typeof value === 'object' && value !== null) {
-        yaml += `${spaces}${key}:\n${this.objectToYaml(value, indent + 1)}`
-      } else {
-        const yamlValue = typeof value === 'string' ? `"${value}"` : value
-        yaml += `${spaces}${key}: ${yamlValue}\n`
+        if (markdownPath) processed++
+      } catch (error) {
+        results.push({
+          source: filePath,
+          markdown: null,
+          error: error instanceof Error ? error.message : String(error),
+        })
       }
     }
 
-    return yaml
+    return {
+      processed,
+      total: filePaths.length,
+      results,
+    }
+  }
+
+  /**
+   * 마크다운 경로 해결기를 반환합니다
+   */
+  getPathResolver(): MarkdownPathResolver {
+    return this.pathResolver
+  }
+
+  /**
+   * 현재 설정을 반환합니다
+   */
+  getConfig() {
+    return this.pathResolver.getConfig()
   }
 }
