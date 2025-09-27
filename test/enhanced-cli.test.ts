@@ -41,7 +41,7 @@ describe('Enhanced CLI 전체 기능 테스트', () => {
     test('--help 명령어 작동 확인', () => {
       const result = execSync(`node "${CLI_PATH}" --help`, { encoding: 'utf-8' })
 
-      expect(result).toContain('Enhanced dependency analysis CLI tool with 99%+ accuracy')
+      expect(result).toContain('Enhanced TypeScript/JavaScript dependency analysis with AST-based parsing')
       expect(result).toContain('analyze-enhanced')
       expect(result).toContain('find-usages-enhanced')
       expect(result).toContain('find-unused-files-enhanced')
@@ -58,7 +58,7 @@ describe('Enhanced CLI 전체 기능 테스트', () => {
     test('analyze-enhanced --help 명령어 작동 확인', () => {
       const result = execSync(`node "${CLI_PATH}" analyze-enhanced --help`, { encoding: 'utf-8' })
 
-      expect(result).toContain('Enhanced dependency analysis with AST-based parsing')
+      expect(result).toContain('Comprehensive dependency analysis using AST parsing with 99%+ accuracy')
       expect(result).toContain('--format')
       expect(result).toContain('--verbose')
     })
@@ -66,7 +66,7 @@ describe('Enhanced CLI 전체 기능 테스트', () => {
     test('find-usages-enhanced --help 명령어 작동 확인', () => {
       const result = execSync(`node "${CLI_PATH}" find-usages-enhanced --help`, { encoding: 'utf-8' })
 
-      expect(result).toContain('Enhanced AST-based analysis to find all files that import/use a specific file')
+      expect(result).toContain('Find all files that import or reference a specific file using precise AST')
       expect(result).toContain('<filePath>')
     })
   })

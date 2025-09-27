@@ -36,6 +36,16 @@ export interface EnvironmentConfig {
     compression?: boolean
   }
 
+  // 마크다운 문서 관련 설정
+  markdown?: {
+    outputDir?: string
+    template?: 'detailed' | 'summary' | 'compact'
+    includeSource?: boolean
+    frontMatterFormat?: 'yaml' | 'json'
+    generateToc?: boolean
+    roleBasedOrganization?: boolean
+  }
+
   // 개발 환경 설정
   development?: {
     verbose?: boolean

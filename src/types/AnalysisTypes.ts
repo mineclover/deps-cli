@@ -55,3 +55,21 @@ export type OutputFormat = 'json' | 'summary' | 'table' | 'csv'
  * Analysis preset types
  */
 export type AnalysisPreset = 'fast' | 'balanced' | 'comprehensive'
+
+/**
+ * Dependency Graph Types (from EnhancedDependencyAnalyzer)
+ */
+export interface DependencyEdge {
+  from: string
+  to: string
+  importedMembers: string[]
+  line?: number
+}
+
+export interface DependencyGraph {
+  nodes: Set<string>
+  edges: Array<DependencyEdge>
+  exportMap: Map<string, any>
+  importMap: Map<string, any>
+  entryPoints: Array<string>
+}

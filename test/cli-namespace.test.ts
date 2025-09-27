@@ -306,7 +306,7 @@ export function testFunction() {
       expect(result.stdout).toContain('--namespace <name>')
       expect(result.stdout).toContain('Use specific configuration namespace')
       expect(result.stdout).toContain('--list-namespaces')
-      expect(result.stdout).toContain('List available configuration namespaces')
+      expect(result.stdout).toContain('List all available configuration namespaces')
     })
 
     it('namespace 관련 명령어들이 help에 나타나야 함', async () => {
