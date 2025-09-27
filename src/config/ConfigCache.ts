@@ -118,7 +118,7 @@ export class ConfigCache {
     const now = Date.now()
     const expiredKeys: Array<string> = []
 
-    for (const [key, entry] of this.memoryCache.entries()) {
+    for (const [key, entry] of Array.from(this.memoryCache.entries())) {
       if (now - entry.timestamp > entry.ttl) {
         expiredKeys.push(key)
       }
@@ -194,7 +194,7 @@ export class ConfigCache {
     let oldestKey: string | null = null
     let oldestTimestamp = Number.MAX_SAFE_INTEGER
 
-    for (const [key, entry] of this.memoryCache.entries()) {
+    for (const [key, entry] of Array.from(this.memoryCache.entries())) {
       if (entry.timestamp < oldestTimestamp) {
         oldestTimestamp = entry.timestamp
         oldestKey = key

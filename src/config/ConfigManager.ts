@@ -177,7 +177,7 @@ export class ConfigManager {
       // EnvironmentAdapter의 경우
       if (adapter instanceof EnvironmentAdapter) {
         const envMetadata = adapter.getAllMetadata()
-        for (const [key, meta] of envMetadata) {
+        for (const [key, meta] of Array.from(envMetadata)) {
           metadata[key] = meta
         }
       }
@@ -620,7 +620,7 @@ export class ConfigManager {
       const validationErrors = envAdapter.getValidationErrors()
 
       if (validationErrors.size > 0) {
-        for (const [key, error] of validationErrors.entries()) {
+        for (const [key, error] of Array.from(validationErrors.entries())) {
           issues.push(`Environment variable ${key}: ${error}`)
           recommendations.push(`Fix environment variable ${key}`)
         }

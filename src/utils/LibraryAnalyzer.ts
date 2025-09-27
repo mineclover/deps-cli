@@ -247,7 +247,7 @@ export class LibraryAnalyzer {
       }
     }
 
-    return [...new Set(exports)] // 중복 제거
+    return Array.from(new Set(exports)) // 중복 제거
   }
 
   /**
@@ -273,7 +273,7 @@ export class LibraryAnalyzer {
       }
     }
 
-    return [...new Set(imports)] // 중복 제거
+    return Array.from(new Set(imports)) // 중복 제거
   }
 
   /**
@@ -299,7 +299,7 @@ export class LibraryAnalyzer {
       }
     }
 
-    return [...new Set(reexports)] // 중복 제거
+    return Array.from(new Set(reexports)) // 중복 제거
   }
 
   /**

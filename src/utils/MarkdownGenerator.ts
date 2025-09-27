@@ -219,7 +219,7 @@ export class MarkdownGenerator {
     }
 
     // 각 역할별 인덱스 파일 생성
-    for (const [role, roleNodes] of roleGroups) {
+    for (const [role, roleNodes] of Array.from(roleGroups)) {
       const indexContent = this.generateRoleIndexContent(role, roleNodes)
       const indexPath = join(this.config.outputDirectory, role.toLowerCase().replace('_', '-'), 'README.md')
 
@@ -274,7 +274,7 @@ export class MarkdownGenerator {
 
     // 역할별 통계
     content += `## 📊 역할별 통계\n\n`
-    for (const [role, roleNodes] of roleGroups) {
+    for (const [role, roleNodes] of Array.from(roleGroups)) {
       const displayName = RoleClassifier.getRoleDisplayName(role as CodeRole)
       content += `- **${displayName}**: ${roleNodes.length}개 ([보기](${role.toLowerCase().replace('_', '-')}/README.md))\n`
     }

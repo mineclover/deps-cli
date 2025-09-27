@@ -188,7 +188,7 @@ export class EnhancedDependencyAnalyzer {
   ): Array<DependencyEdge> {
     const edges: Array<DependencyEdge> = []
 
-    for (const [fromFile, imports] of importMap) {
+    for (const [fromFile, imports] of Array.from(importMap)) {
       for (const importDecl of imports) {
         if (!importDecl.resolvedPath) continue
 
@@ -335,7 +335,7 @@ export class EnhancedDependencyAnalyzer {
       }
     }
 
-    return [...new Set(files)] // 중복 제거
+    return Array.from(new Set(files)) // 중복 제거
   }
 
   clearCache(): void {
@@ -369,7 +369,7 @@ export class EnhancedDependencyAnalyzer {
     const results: Array<any> = []
 
     // 모든 파일에서 해당 메서드 사용을 찾음
-    for (const filePath of graph.nodes) {
+    for (const filePath of Array.from(graph.nodes)) {
       try {
         const content = await fs.readFile(filePath, 'utf-8')
         const references = this.findMethodReferences(content, className, methodName, filePath)
@@ -415,7 +415,7 @@ export class EnhancedDependencyAnalyzer {
     const unusedMethods: Array<any> = []
 
     // 간단한 구현: export된 메서드들 중 import되지 않는 것들
-    for (const [filePath, exportResult] of graph.exportMap) {
+    for (const [filePath, exportResult] of Array.from(graph.exportMap)) {
       if (exportResult.exportMethods) {
         exportResult.exportMethods.forEach((exp: any) => {
           if (exp.type === 'class_method' || exp.type === 'function') {

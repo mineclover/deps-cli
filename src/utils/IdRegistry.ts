@@ -442,7 +442,7 @@ export class IdRegistry {
     const now = new Date()
     const removedCount = 0
 
-    for (const [id, entry] of this.entries) {
+    for (const [id, entry] of Array.from(this.entries)) {
       if (now.getTime() - entry.lastSeen.getTime() > maxAge) {
         this.entries.delete(id)
         this.pathToId.delete(entry.path)
@@ -501,7 +501,7 @@ export class IdRegistry {
     const idToPath = new Map<NodeId, string>()
     const roles = new Map<NodeId, any>() // CodeRole은 다른 곳에서 관리
 
-    for (const [id, entry] of this.entries) {
+    for (const [id, entry] of Array.from(this.entries)) {
       if (entry.type === 'file') {
         files.set(entry.path, id as FileId)
       } else {

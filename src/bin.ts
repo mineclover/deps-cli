@@ -5,6 +5,9 @@ import * as path from 'node:path'
 import { Command } from 'commander'
 import { EnhancedDependencyAnalyzer } from './analyzers/EnhancedDependencyAnalyzer.js'
 import { globalConfig } from './config/ConfigManager.js'
+import { SimpleMirrorManager } from './utils/SimpleMirrorManager.js'
+import { existsSync, statSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 const program = new Command()
 
@@ -760,7 +763,7 @@ program
 
           // 역할별 통계 출력
           console.log('\n📋 Role-based statistics:')
-          for (const [role, count] of stats.roleStatistics) {
+          for (const [role, count] of Array.from(stats.roleStatistics)) {
             console.log(`  • ${role}: ${count} files`)
           }
 
@@ -851,7 +854,7 @@ program
             }
           }
 
-          for (const [role, count] of roleStats) {
+          for (const [role, count] of Array.from(roleStats)) {
             console.log(`  • ${role}: ${count} files`)
           }
 
@@ -1066,7 +1069,7 @@ program
 
           // 역할별 통계
           console.log('📊 Role Statistics:')
-          for (const [role, count] of roleStats) {
+          for (const [role, count] of Array.from(roleStats)) {
             const displayName = RoleClassifier.getRoleDisplayName(role)
             console.log(`  • ${displayName} (${role}): ${count} files`)
           }
@@ -1194,7 +1197,7 @@ program
 
           if (result.roles.size > 0) {
             console.log('\n📋 Role breakdown:')
-            for (const [role, count] of result.roles) {
+            for (const [role, count] of Array.from(result.roles)) {
               console.log(`  • ${role}: ${count} documents`)
             }
           }
@@ -1328,13 +1331,13 @@ program
           console.log(`📅 Last Updated: ${stats.lastUpdated?.toLocaleString() || 'Unknown'}`)
 
           console.log('\n🏷️ Role Breakdown:')
-          for (const [role, count] of stats.roleBreakdown) {
+          for (const [role, count] of Array.from(stats.roleBreakdown)) {
             const percentage = ((count / stats.totalDocuments) * 100).toFixed(1)
             console.log(`  • ${role}: ${count} documents (${percentage}%)`)
           }
 
           console.log('\n📁 Type Breakdown:')
-          for (const [type, count] of stats.typeBreakdown) {
+          for (const [type, count] of Array.from(stats.typeBreakdown)) {
             const percentage = ((count / stats.totalDocuments) * 100).toFixed(1)
             console.log(`  • ${type}: ${count} documents (${percentage}%)`)
           }
@@ -1367,5 +1370,48 @@ program
         }
       })
   )
+
+program
+  .command('mirror')
+  .description('🪞 File mirroring system for creating documentation mirrors of source files')
+  .argument('[path]', 'Path to file or directory to mirror', '.')
+  .option('-c, --create', 'Create mirror files instead of just showing mapping')
+  .option('-n, --namespace <name>', 'Namespace for organizing mirrors')
+  .option('-d, --docs-path <path>', 'Documentation output path', './docs')
+  .option('-e, --extensions <exts>', 'File extensions to process (comma-separated)', '.ts,.tsx,.js,.jsx')
+  .option('-m, --max-display <num>', 'Maximum files to display', '20')
+  .option('-v, --verbose', 'Show detailed information')
+  .action(async (targetPath, options) => {
+    try {
+      console.log('🪞 Mirror System')
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
+      const resolvedPath = resolve(targetPath)
+      if (!existsSync(resolvedPath)) {
+        console.error(`❌ Error: Path does not exist: ${targetPath}`)
+        process.exit(1)
+      }
+
+      const manager = new SimpleMirrorManager(process.cwd(), options.docsPath, options.namespace)
+
+      if (options.create) {
+        const result = await manager.processFiles({
+          targetPath,
+          shouldCreate: true,
+          namespace: options.namespace,
+          extensions: options.extensions.split(',').map((ext: string) => ext.trim()),
+          maxDisplay: Number(options.maxDisplay)
+        })
+        console.log(`✅ Created ${result.processed} mirror files`)
+      } else {
+        await manager.showMirrorMapping(targetPath, Number(options.maxDisplay))
+      }
+
+      process.exit(0)
+    } catch (error) {
+      console.error('❌ Mirror operation failed:', error instanceof Error ? error.message : String(error))
+      process.exit(1)
+    }
+  })
 
 program.parse()
