@@ -125,7 +125,61 @@ program
       const graph = await analyzer.buildProjectDependencyGraph(undefined, excludePatterns)
 
       if (options.format === 'json') {
-        console.log(JSON.stringify(graph, null, 2))
+        // Set과 Map을 JSON으로 직렬화 가능한 형태로 변환하고 경로를 프로젝트 기준으로 변경
+        const makeRelativePath = (absolutePath: string) => {
+          return path.relative(projectRoot, absolutePath)
+        }
+
+        // 파일을 유형별로 분류하여 더 유용한 nodes 구조 생성
+        const allFiles = Array.from(graph.nodes).map(makeRelativePath)
+        const categorizeFile = (filePath: string) => {
+          if (filePath.includes('/test/') || filePath.endsWith('.test.ts') || filePath.endsWith('.test.js') || filePath.includes('.spec.')) {
+            return 'test'
+          } else if (filePath.startsWith('src/')) {
+            return 'source'
+          } else if (filePath.startsWith('demo/')) {
+            return 'demo'
+          } else if (filePath.endsWith('.js') && !filePath.startsWith('src/')) {
+            return 'script'
+          } else {
+            return 'other'
+          }
+        }
+
+        const nodesByType = allFiles.reduce((acc, file) => {
+          const type = categorizeFile(file)
+          if (!acc[type]) acc[type] = []
+          acc[type].push(file)
+          return acc
+        }, {} as Record<string, string[]>)
+
+        const serializedGraph = {
+          nodes: nodesByType,
+          edges: graph.edges.map(edge => ({
+            from: makeRelativePath(edge.from),
+            to: makeRelativePath(edge.to),
+            importedMembers: edge.importedMembers,
+            line: edge.line
+          })),
+          exportMap: Object.fromEntries(
+            Array.from(graph.exportMap.entries()).map(([filePath, exports]) => [
+              makeRelativePath(filePath),
+              exports
+            ])
+          ),
+          importMap: Object.fromEntries(
+            Array.from(graph.importMap.entries()).map(([filePath, imports]) => [
+              makeRelativePath(filePath),
+              imports.map(imp => ({
+                ...imp,
+                resolvedPath: imp.resolvedPath ? makeRelativePath(imp.resolvedPath) : null
+              }))
+            ])
+          ),
+          entryPoints: graph.entryPoints.map(makeRelativePath)
+        }
+
+        console.log(JSON.stringify(serializedGraph, null, 2))
       } else {
         console.log('📊 Enhanced Dependency Analysis Results')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
