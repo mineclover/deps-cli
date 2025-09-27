@@ -728,7 +728,7 @@ export class ConfigManager {
       if (error instanceof Error && error.message.includes('not found in configuration')) {
         throw error
       }
-      
+
       console.warn(`Failed to load namespaced config from ${filePath}:`, error)
       // 일반 설정 파일로 fallback
       return this.load({ configFile: filePath })

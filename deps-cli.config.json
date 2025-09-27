@@ -85,6 +85,13 @@
       "parsed": "Updated namespace staging",
       "isValid": true,
       "timestamp": "2025-09-26T17:51:15.074Z"
+    },
+    "namespace.test-env.updated": {
+      "source": "namespace-update",
+      "raw": "{\"analysis\":{\"maxConcurrency\":4,\"timeout\":30000},\"logging\":{\"level\":\"info\",\"format\":\"text\",\"enabled\":true},\"output\":{\"defaultFormat\":\"summary\",\"compression\":false},\"development\":{\"verbose\":false,\"debugMode\":false,\"mockApiCalls\":false}}",
+      "parsed": "Updated namespace test-env",
+      "isValid": true,
+      "timestamp": "2025-09-27T06:17:39.542Z"
     }
   }
 }

@@ -1,10 +1,10 @@
 {
   "name": "@context-action/deps-cli",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "type": "module",
   "packageManager": "npm@10.0.0",
   "license": "MIT",
-  "description": "Enhanced dependency analysis CLI tool with 99%+ accuracy - AST-based TypeScript/JavaScript dependency analyzer",
+  "description": "🚀 Enhanced dependency analysis CLI tool with 99%+ accuracy - AST-based TypeScript/JavaScript analyzer with Biome integration and namespace configuration management",
   "keywords": [
     "dependency",
     "analysis",
@@ -14,7 +14,11 @@
     "cli",
     "unused",
     "imports",
-    "exports"
+    "exports",
+    "biome",
+    "namespace",
+    "configuration",
+    "linting"
   ],
   "bin": {
     "deps-cli": "./dist/bin.js",

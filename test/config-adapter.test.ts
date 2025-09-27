@@ -120,7 +120,7 @@ describe('ConfigAdapter', () => {
     })
 
     it('validate가 CLI 설정을 검증해야 함', async () => {
-      const config = {
+      const _config = {
         development: {
           verbose: true,
         },

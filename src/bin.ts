@@ -64,10 +64,10 @@ async function ensureConfig(options: Record<string, any> = {}) {
 
 program
   .name('deps-cli')
-  .description('Enhanced dependency analysis CLI tool with 99%+ accuracy')
+  .description('🚀 Enhanced TypeScript/JavaScript dependency analysis with AST-based parsing, Biome integration, and namespace configuration management')
   .version('2.0.0')
-  .option('--namespace <name>', 'Use specific configuration namespace')
-  .option('--list-namespaces', 'List available configuration namespaces')
+  .option('--namespace <name>', 'Use specific configuration namespace for environment-specific analysis')
+  .option('--list-namespaces', 'List all available configuration namespaces (development, production, staging, etc.)')
 
 // =========================================================
 // ENHANCED DEPENDENCY ANALYSIS COMMANDS (AST-BASED)
@@ -77,11 +77,11 @@ program
 // Enhanced analyze command
 program
   .command('analyze-enhanced')
-  .description('Enhanced dependency analysis with AST-based parsing and graph construction')
-  .argument('<filePath>', 'Path to the file or directory to analyze')
-  .option('--format <format>', 'Output format (json, summary)', 'summary')
-  .option('-v, --verbose', 'Enable verbose output')
-  .option('--exclude <patterns>', 'Comma-separated list of glob patterns to exclude')
+  .description('🔍 Comprehensive dependency analysis using AST parsing with 99%+ accuracy. Builds complete dependency graphs, detects entry points, and analyzes import/export relationships.')
+  .argument('<filePath>', 'Path to the file or directory to analyze (supports TypeScript, JavaScript, and mixed projects)')
+  .option('--format <format>', 'Output format: json (detailed graph data) or summary (human-readable stats)', 'summary')
+  .option('-v, --verbose', 'Enable detailed analysis output with timing information and file counts')
+  .option('--exclude <patterns>', 'Comma-separated glob patterns to exclude (e.g., "*.test.ts,node_modules/**")')
   .action(async (filePath, options) => {
     try {
       await ensureConfig(options)
@@ -172,10 +172,10 @@ program
 
 program
   .command('find-usages-enhanced')
-  .description('Enhanced AST-based analysis to find all files that import/use a specific file')
-  .argument('<filePath>', 'Target file path to find usages for')
-  .option('--format <format>', 'Output format (json, summary)', 'summary')
-  .option('-v, --verbose', 'Enable verbose output')
+  .description('🔎 Find all files that import or reference a specific file using precise AST analysis. Perfect for refactoring and impact analysis.')
+  .argument('<filePath>', 'Target file path to find usages for (relative or absolute path, supports .ts/.js files)')
+  .option('--format <format>', 'Output format: json (machine-readable) or summary (formatted list with counts)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output showing import details and line numbers')
   .action(async (targetFilePath, options) => {
     try {
       await ensureConfig(options)
@@ -216,11 +216,11 @@ program
 
 program
   .command('find-method-usages-enhanced')
-  .description('Enhanced AST-based analysis to find all files that call a specific method')
-  .argument('<className>', "Class name (use 'null' for standalone functions)")
-  .argument('<methodName>', 'Method or function name')
-  .option('--format <format>', 'Output format (json, summary)', 'summary')
-  .option('-v, --verbose', 'Enable verbose output')
+  .description('🎯 Find all locations where a specific method or function is called using advanced AST parsing. Supports both class methods and standalone functions.')
+  .argument('<className>', "Class name for methods (use 'null' for standalone functions like utils or helpers)")
+  .argument('<methodName>', 'Method or function name to search for (case-sensitive)')
+  .option('--format <format>', 'Output format: json (detailed usage data) or summary (readable list with locations)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output showing call context and line numbers')
   .action(async (className, methodName, options) => {
     try {
       await ensureConfig(options)
@@ -277,10 +277,10 @@ program
 
 program
   .command('find-unused-files-enhanced')
-  .description('Enhanced AST-based analysis to find files that are never imported anywhere')
-  .option('--format <format>', 'Output format (json, summary)', 'summary')
-  .option('-v, --verbose', 'Enable verbose output')
-  .option('--include-tests', 'Include test files as entry points', true)
+  .description('🧹 Discover dead code by finding files that are never imported anywhere using graph analysis. Eliminates false positives with smart entry point detection.')
+  .option('--format <format>', 'Output format: json (structured data) or summary (formatted report with statistics)', 'summary')
+  .option('-v, --verbose', 'Enable detailed output showing entry points and analysis steps')
+  .option('--include-tests', 'Include test files as entry points (recommended for accurate analysis)', true)
   .action(async (options) => {
     try {
       await ensureConfig(options)
@@ -341,10 +341,10 @@ program
 
 program
   .command('find-unused-methods-enhanced')
-  .description('Enhanced AST-based analysis to find methods that are never called anywhere')
-  .option('--format <format>', 'Output format (json, summary)', 'summary')
-  .option('-v, --verbose', 'Enable verbose output')
-  .option('--include-private', 'Include private methods in analysis', false)
+  .description('⚡ Identify unused methods and functions across your codebase using sophisticated AST analysis. Helps reduce bundle size and improve maintainability.')
+  .option('--format <format>', 'Output format: json (machine-readable method data) or summary (organized report by class/file)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output with method signatures and file locations')
+  .option('--include-private', 'Include private methods in analysis (useful for internal API cleanup)', false)
   .action(async (options) => {
     try {
       await ensureConfig(options)
@@ -400,8 +400,8 @@ program
 // List namespaces command
 program
   .command('list-namespaces')
-  .description('List all available configuration namespaces')
-  .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+  .description('📋 Display all available configuration namespaces with their settings. Useful for environment management and configuration overview.')
+  .option('--config <file>', 'Path to configuration file (defaults to deps-cli.config.json in current directory)', 'deps-cli.config.json')
   .action(async (options) => {
     try {
       const namespaces = await globalConfig.listNamespaces(options.config)
@@ -436,11 +436,11 @@ program
 // Create namespace command
 program
   .command('create-namespace')
-  .description('Create a new configuration namespace')
-  .argument('<name>', 'Namespace name')
-  .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
-  .option('--copy-from <namespace>', 'Copy settings from existing namespace')
-  .option('--set-default', 'Set as default namespace')
+  .description('🆕 Create a new configuration namespace for environment-specific analysis settings (development, production, staging, etc.)')
+  .argument('<name>', 'Namespace name (e.g., development, production, staging, testing)')
+  .option('--config <file>', 'Configuration file path (creates if not exists)', 'deps-cli.config.json')
+  .option('--copy-from <namespace>', 'Copy settings from existing namespace as template')
+  .option('--set-default', 'Set this namespace as the default for future operations')
   .action(async (name, options) => {
     try {
       let config = {}
@@ -482,10 +482,10 @@ program
 // Delete namespace command
 program
   .command('delete-namespace')
-  .description('Delete a configuration namespace')
-  .argument('<name>', 'Namespace name to delete')
+  .description('🗑️ Permanently remove a configuration namespace and all its settings. Use with caution!')
+  .argument('<name>', 'Namespace name to delete (cannot be undone)')
   .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
-  .option('--force', 'Force deletion without confirmation')
+  .option('--force', 'Force deletion without confirmation prompt (dangerous!)')
   .action(async (name, options) => {
     try {
       if (!options.force) {
