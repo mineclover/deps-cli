@@ -684,7 +684,8 @@ program
           }
 
           // 구조적 매핑 엔진 초기화 (MirrorPathMapper 포함)
-          const mappingEngine = new StructuralMappingEngine(path, finalOutputDir)
+          // 프로젝트 루트는 항상 현재 작업 디렉토리를 사용
+          const mappingEngine = new StructuralMappingEngine(process.cwd(), finalOutputDir)
 
           // 설정 업데이트 (namespace 설정 적용)
           mappingEngine.updateConfig({

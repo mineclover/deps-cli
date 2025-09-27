@@ -185,8 +185,16 @@ Enhanced Dependency Analysis System
 
 ## 📚 문서
 
+### 📖 사용자 가이드
 - **[명령어 가이드](docs/DEPENDENCY_ANALYSIS_COMMANDS.md)**: 모든 명령어 상세 설명
+- **[네임스페이스 설정](docs/NAMESPACE_CONFIGURATION.md)**: 환경별 설정 관리 가이드
+
+### 🔧 기술 문서
 - **[Enhanced 시스템](docs/ENHANCED_DEPENDENCY_ANALYSIS.md)**: 기술적 세부사항
+- **[데이터 플로우 아키텍처](docs/DATA_FLOW_ARCHITECTURE.md)**: 전체 기능 데이터 흐름 분석
+- **[컴포넌트 아키텍처](docs/COMPONENT_ARCHITECTURE.md)**: 모듈화된 시스템 설계
+
+### 📊 분석 자료
 - **[성능 분석](docs/ENHANCED_PERFORMANCE_COMPARISON.md)**: 정확도 및 성능 비교
 - **[아키텍처](docs/ARCHITECTURE.md)**: 시스템 설계 문서
 
