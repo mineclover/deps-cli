@@ -6,7 +6,7 @@
  */
 
 // Re-export the main types from dependency-linker
-export type { AnalysisResult, BatchResult, BatchSummary } from "@context-action/dependency-linker"
+export type { AnalysisResult, BatchResult, BatchSummary } from '@context-action/dependency-linker'
 
 /**
  * File index for multi-file output
@@ -49,9 +49,9 @@ export interface FilterOptions {
 /**
  * Output format types
  */
-export type OutputFormat = "json" | "summary" | "table" | "csv"
+export type OutputFormat = 'json' | 'summary' | 'table' | 'csv'
 
 /**
  * Analysis preset types
  */
-export type AnalysisPreset = "fast" | "balanced" | "comprehensive"
+export type AnalysisPreset = 'fast' | 'balanced' | 'comprehensive'

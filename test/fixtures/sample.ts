@@ -16,4 +16,4 @@ export function testFunction(input: string): string {
   return `Hello, ${input}!`
 }
 
-export const testConstant = "test-value"
+export const testConstant = 'test-value'

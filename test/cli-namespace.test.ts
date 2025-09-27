@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { existsSync, writeFileSync, mkdirSync, rmSync, readFileSync } from 'fs'
-import { join } from 'path'
 import { spawn } from 'node:child_process'
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { promisify } from 'node:util'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 const _execFile = promisify(spawn)
 
@@ -33,7 +33,7 @@ describe('CLI Namespace Commands', () => {
     return new Promise((resolve) => {
       const child = spawn('node', [cliPath, ...args], {
         cwd: testProjectPath,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       let stdout = ''
@@ -51,7 +51,7 @@ describe('CLI Namespace Commands', () => {
         resolve({
           stdout,
           stderr,
-          exitCode: code || 0
+          exitCode: code || 0,
         })
       })
     })
@@ -63,18 +63,18 @@ describe('CLI Namespace Commands', () => {
         namespaces: {
           development: {
             analysis: { maxConcurrency: 8 },
-            logging: { level: 'debug' }
+            logging: { level: 'debug' },
           },
           production: {
             analysis: { maxConcurrency: 4 },
-            logging: { level: 'warn' }
+            logging: { level: 'warn' },
           },
           testing: {
             analysis: { maxConcurrency: 2 },
-            logging: { level: 'info' }
-          }
+            logging: { level: 'info' },
+          },
         },
-        default: 'development'
+        default: 'development',
       }
 
       writeFileSync(testConfigPath, JSON.stringify(namespacedConfig, null, 2))
@@ -93,7 +93,7 @@ describe('CLI Namespace Commands', () => {
     it('빈 namespace 목록을 처리해야 함', async () => {
       const emptyConfig = {
         namespaces: {},
-        default: undefined
+        default: undefined,
       }
 
       writeFileSync(testConfigPath, JSON.stringify(emptyConfig, null, 2))
@@ -116,9 +116,9 @@ describe('CLI Namespace Commands', () => {
       const customConfigPath = join(testProjectPath, 'custom-config.json')
       const namespacedConfig = {
         namespaces: {
-          custom: { analysis: { maxConcurrency: 10 } }
+          custom: { analysis: { maxConcurrency: 10 } },
         },
-        default: 'custom'
+        default: 'custom',
       }
 
       writeFileSync(customConfigPath, JSON.stringify(namespacedConfig, null, 2))
@@ -190,9 +190,9 @@ describe('CLI Namespace Commands', () => {
         namespaces: {
           development: { analysis: { maxConcurrency: 8 } },
           production: { analysis: { maxConcurrency: 4 } },
-          testing: { analysis: { maxConcurrency: 2 } }
+          testing: { analysis: { maxConcurrency: 2 } },
         },
-        default: 'development'
+        default: 'development',
       }
 
       writeFileSync(testConfigPath, JSON.stringify(namespacedConfig, null, 2))
@@ -231,37 +231,35 @@ describe('CLI Namespace Commands', () => {
     beforeEach(() => {
       // 분석할 간단한 파일 생성
       const sourceFile = join(testProjectPath, 'test.ts')
-      writeFileSync(sourceFile, `
+      writeFileSync(
+        sourceFile,
+        `
 export function testFunction() {
   return 'test'
 }
-`)
+`
+      )
 
       // namespace 설정 생성
       const namespacedConfig = {
         namespaces: {
           verbose: {
             analysis: { maxConcurrency: 8 },
-            development: { verbose: true, debugMode: true }
+            development: { verbose: true, debugMode: true },
           },
           quiet: {
             analysis: { maxConcurrency: 4 },
-            development: { verbose: false, debugMode: false }
-          }
+            development: { verbose: false, debugMode: false },
+          },
         },
-        default: 'verbose'
+        default: 'verbose',
       }
 
       writeFileSync(testConfigPath, JSON.stringify(namespacedConfig, null, 2))
     })
 
     it('특정 namespace를 사용해서 분석을 실행해야 함', async () => {
-      const result = await runCLI([
-        'analyze-enhanced',
-        'test.ts',
-        '--namespace', 'verbose',
-        '--format', 'summary'
-      ])
+      const result = await runCLI(['analyze-enhanced', 'test.ts', '--namespace', 'verbose', '--format', 'summary'])
 
       expect(result.exitCode).toBe(0)
       expect(result.stdout).toContain('Enhanced Dependency Analysis Results')
@@ -269,23 +267,14 @@ export function testFunction() {
     })
 
     it('default namespace를 사용해야 함', async () => {
-      const result = await runCLI([
-        'analyze-enhanced',
-        'test.ts',
-        '--format', 'summary'
-      ])
+      const result = await runCLI(['analyze-enhanced', 'test.ts', '--format', 'summary'])
 
       expect(result.exitCode).toBe(0)
       expect(result.stdout).toContain('Enhanced Dependency Analysis Results')
     })
 
     it('JSON 형식으로 출력해야 함', async () => {
-      const result = await runCLI([
-        'analyze-enhanced',
-        'test.ts',
-        '--namespace', 'quiet',
-        '--format', 'json'
-      ])
+      const result = await runCLI(['analyze-enhanced', 'test.ts', '--namespace', 'quiet', '--format', 'json'])
 
       expect(result.exitCode).toBe(0)
 
@@ -294,18 +283,14 @@ export function testFunction() {
       try {
         JSON.parse(result.stdout)
         isValidJson = true
-      } catch (e) {
+      } catch (_e) {
         // JSON이 아님
       }
       expect(isValidJson).toBe(true)
     })
 
     it('존재하지 않는 namespace 사용 시 에러를 반환해야 함', async () => {
-      const result = await runCLI([
-        'analyze-enhanced',
-        'test.ts',
-        '--namespace', 'nonexistent'
-      ])
+      const result = await runCLI(['analyze-enhanced', 'test.ts', '--namespace', 'nonexistent'])
 
       // 현재 구현에서는 존재하지 않는 namespace를 사용하면 fallback 처리됨
       expect(result.exitCode).toBe(0)

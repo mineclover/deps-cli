@@ -1,6 +1,10 @@
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
-import { EnhancedExportExtractor, TypeScriptParser, type EnhancedExportExtractionResult } from '@context-action/dependency-linker'
+import {
+  type EnhancedExportExtractionResult,
+  EnhancedExportExtractor,
+  TypeScriptParser,
+} from '@context-action/dependency-linker'
 
 export interface ProjectExportInfo {
   absolutePath: string
@@ -13,26 +17,26 @@ export interface ProjectImportInfo {
 }
 
 export interface ImportDeclaration {
-  importPath: string           // 원본 import 경로
-  resolvedPath: string | null  // 절대 경로로 resolve된 경로
-  importedMembers: Array<string>    // import된 멤버들
+  importPath: string // 원본 import 경로
+  resolvedPath: string | null // 절대 경로로 resolve된 경로
+  importedMembers: Array<string> // import된 멤버들
   importType: 'named' | 'default' | 'namespace' | 'side-effect'
   line: number
 }
 
 export interface DependencyEdge {
-  from: string                 // 절대 경로
-  to: string                   // 절대 경로
-  importedMembers: Array<string>    // 사용된 exports
+  from: string // 절대 경로
+  to: string // 절대 경로
+  importedMembers: Array<string> // 사용된 exports
   line: number
 }
 
 export interface ProjectDependencyGraph {
-  nodes: Set<string>           // 모든 파일의 절대 경로
-  edges: Array<DependencyEdge>      // 의존성 관계
-  exportMap: Map<string, EnhancedExportExtractionResult>  // 파일별 export 정보
-  importMap: Map<string, Array<ImportDeclaration>>             // 파일별 import 정보
-  entryPoints: Array<string>        // 엔트리 포인트들
+  nodes: Set<string> // 모든 파일의 절대 경로
+  edges: Array<DependencyEdge> // 의존성 관계
+  exportMap: Map<string, EnhancedExportExtractionResult> // 파일별 export 정보
+  importMap: Map<string, Array<ImportDeclaration>> // 파일별 import 정보
+  entryPoints: Array<string> // 엔트리 포인트들
 }
 
 /**
@@ -76,7 +80,7 @@ export class EnhancedDependencyAnalyzer {
       edges,
       exportMap,
       importMap,
-      entryPoints
+      entryPoints,
     }
   }
 
@@ -84,9 +88,7 @@ export class EnhancedDependencyAnalyzer {
    * 파일들을 절대경로 기준으로 정렬
    */
   private sortFilesByAbsolutePath(files: Array<string>): Array<string> {
-    return files
-      .map(file => path.resolve(this.projectRoot, file))
-      .sort((a, b) => a.localeCompare(b))
+    return files.map((file) => path.resolve(this.projectRoot, file)).sort((a, b) => a.localeCompare(b))
   }
 
   /**
@@ -145,26 +147,32 @@ export class EnhancedDependencyAnalyzer {
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i]
-      let match
+      let match: RegExpExecArray | null = null
 
-      while ((match = importRegex.exec(line)) !== null) {
+      match = importRegex.exec(line)
+      while (match !== null) {
         const [, namedImports, defaultImport, namespaceImport, importPath] = match
 
         if (!importPath.startsWith('node:') && !this.isNodeModule(importPath)) {
           const resolvedPath = await this.resolveImportPath(importPath, filePath)
-          const importedMembers = namedImports ?
-            namedImports.split(',').map(m => m.trim()) :
-            defaultImport ? [defaultImport] :
-            namespaceImport ? [namespaceImport] : []
+          const importedMembers = namedImports
+            ? namedImports.split(',').map((m) => m.trim())
+            : defaultImport
+              ? [defaultImport]
+              : namespaceImport
+                ? [namespaceImport]
+                : []
 
           imports.push({
             importPath,
             resolvedPath,
             importedMembers,
             importType: namedImports ? 'named' : defaultImport ? 'default' : 'namespace',
-            line: i + 1
+            line: i + 1,
           })
         }
+
+        match = importRegex.exec(line)
       }
     }
 
@@ -188,8 +196,8 @@ export class EnhancedDependencyAnalyzer {
         if (!targetExports) continue
 
         // 실제로 존재하는 export만 의존성으로 간주
-        const validImports = importDecl.importedMembers.filter(member =>
-          targetExports.exportMethods.some(exp => exp.name === member)
+        const validImports = importDecl.importedMembers.filter((member) =>
+          targetExports.exportMethods.some((exp) => exp.name === member)
         )
 
         if (validImports.length > 0) {
@@ -197,7 +205,7 @@ export class EnhancedDependencyAnalyzer {
             from: fromFile,
             to: importDecl.resolvedPath,
             importedMembers: validImports,
-            line: importDecl.line
+            line: importDecl.line,
           })
         }
       }
@@ -210,7 +218,7 @@ export class EnhancedDependencyAnalyzer {
    * 엔트리 포인트 식별
    */
   private identifyEntryPoints(sortedFiles: Array<string>, edges: Array<DependencyEdge>): Array<string> {
-    const importedFiles = new Set(edges.map(edge => edge.to))
+    const importedFiles = new Set(edges.map((edge) => edge.to))
     const entryPoints: Array<string> = []
 
     for (const file of sortedFiles) {
@@ -218,10 +226,16 @@ export class EnhancedDependencyAnalyzer {
       const relativePath = path.relative(this.projectRoot, file)
 
       // 명시적 엔트리 포인트
-      if (basename === 'bin.ts' || basename === 'index.ts' ||
-          basename === 'main.ts' || relativePath.includes('bin/') ||
-          relativePath.includes('cli/') || basename.includes('test') ||
-          basename.includes('spec') || relativePath.includes('example')) {
+      if (
+        basename === 'bin.ts' ||
+        basename === 'index.ts' ||
+        basename === 'main.ts' ||
+        relativePath.includes('bin/') ||
+        relativePath.includes('cli/') ||
+        basename.includes('test') ||
+        basename.includes('spec') ||
+        relativePath.includes('example')
+      ) {
         entryPoints.push(file)
       }
       // 어떤 파일에서도 import되지 않는 파일 (독립적인 스크립트)
@@ -274,7 +288,7 @@ export class EnhancedDependencyAnalyzer {
         await fs.access(withExt)
         return withExt
       } catch {
-        continue
+        // File doesn't exist, continue to next extension
       }
     }
 
@@ -285,7 +299,7 @@ export class EnhancedDependencyAnalyzer {
         await fs.access(indexFile)
         return indexFile
       } catch {
-        continue
+        // File doesn't exist, continue to next extension
       }
     }
 
@@ -296,7 +310,10 @@ export class EnhancedDependencyAnalyzer {
     return !importPath.startsWith('.') && !importPath.startsWith('/')
   }
 
-  private async getAllProjectFiles(patterns: Array<string>, excludePatterns: Array<string> = []): Promise<Array<string>> {
+  private async getAllProjectFiles(
+    patterns: Array<string>,
+    excludePatterns: Array<string> = []
+  ): Promise<Array<string>> {
     const glob = await import('glob')
     const files: Array<string> = []
 
@@ -308,7 +325,7 @@ export class EnhancedDependencyAnalyzer {
       try {
         const matches = await glob.glob(pattern, {
           cwd: this.projectRoot,
-          ignore: allIgnorePatterns
+          ignore: allIgnorePatterns,
         })
         for (const match of matches) {
           files.push(match)
@@ -336,15 +353,19 @@ export class EnhancedDependencyAnalyzer {
     const resolvedTargetPath = path.resolve(this.projectRoot, targetFilePath)
 
     return graph.edges
-      .filter(edge => edge.to === resolvedTargetPath)
-      .map(edge => edge.from)
+      .filter((edge) => edge.to === resolvedTargetPath)
+      .map((edge) => edge.from)
       .filter((file, index, arr) => arr.indexOf(file) === index) // 중복 제거
   }
 
   /**
    * 특정 메서드를 사용하는 모든 파일들을 찾습니다
    */
-  async findFilesUsingMethodFromGraph(graph: ProjectDependencyGraph, className: string | null, methodName: string): Promise<Array<any>> {
+  async findFilesUsingMethodFromGraph(
+    graph: ProjectDependencyGraph,
+    className: string | null,
+    methodName: string
+  ): Promise<Array<any>> {
     const results: Array<any> = []
 
     // 모든 파일에서 해당 메서드 사용을 찾음
@@ -356,12 +377,11 @@ export class EnhancedDependencyAnalyzer {
         if (references.length > 0) {
           results.push({
             filePath,
-            references
+            references,
           })
         }
       } catch {
-        // 파일 읽기 실패 시 무시
-        continue
+        // File doesn't exist, continue to next extension
       }
     }
 
@@ -375,17 +395,17 @@ export class EnhancedDependencyAnalyzer {
     const importedFiles = new Set<string>()
 
     // 모든 edges에서 import되는 파일들을 수집
-    graph.edges.forEach(edge => {
+    graph.edges.forEach((edge) => {
       importedFiles.add(edge.to)
     })
 
     // 엔트리 포인트들을 사용되는 파일로 간주
-    graph.entryPoints.forEach(entry => {
+    graph.entryPoints.forEach((entry) => {
       importedFiles.add(entry)
     })
 
     // 모든 파일 중에서 import되지 않는 파일들 찾기
-    return Array.from(graph.nodes).filter(file => !importedFiles.has(file))
+    return Array.from(graph.nodes).filter((file) => !importedFiles.has(file))
   }
 
   /**
@@ -400,8 +420,8 @@ export class EnhancedDependencyAnalyzer {
         exportResult.exportMethods.forEach((exp: any) => {
           if (exp.type === 'class_method' || exp.type === 'function') {
             // 해당 export가 다른 파일에서 import되는지 확인
-            const isImported = graph.edges.some(edge =>
-              edge.to === filePath && edge.importedMembers.includes(exp.name)
+            const isImported = graph.edges.some(
+              (edge) => edge.to === filePath && edge.importedMembers.includes(exp.name)
             )
 
             if (!isImported) {
@@ -411,7 +431,7 @@ export class EnhancedDependencyAnalyzer {
                 type: exp.type,
                 filePath,
                 line: exp.line || 0,
-                visibility: exp.visibility || 'public'
+                visibility: exp.visibility || 'public',
               })
             }
           }
@@ -425,7 +445,12 @@ export class EnhancedDependencyAnalyzer {
   /**
    * 메서드 참조를 찾는 헬퍼 메서드
    */
-  private findMethodReferences(content: string, className: string | null, methodName: string, _filePath: string): Array<any> {
+  private findMethodReferences(
+    content: string,
+    className: string | null,
+    methodName: string,
+    _filePath: string
+  ): Array<any> {
     const references: Array<any> = []
     const lines = content.split('\n')
 
@@ -439,7 +464,7 @@ export class EnhancedDependencyAnalyzer {
           new RegExp(`\\.${methodName}\\s*\\(`, 'g'), // 인스턴스 메서드 호출
         ]
 
-        patterns.forEach(pattern => {
+        patterns.forEach((pattern) => {
           if (pattern.test(line)) {
             found = true
           }
@@ -455,7 +480,7 @@ export class EnhancedDependencyAnalyzer {
       if (found) {
         references.push({
           line: index + 1,
-          context: line.trim()
+          context: line.trim(),
         })
       }
     })

@@ -2,7 +2,7 @@
   "extends": "./tsconfig.base.json",
   "include": ["test", "src"],
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
     "tsBuildInfoFile": ".tsbuildinfo/test.tsbuildinfo",
     "rootDirs": ["src", "test"],
     "noEmit": true

@@ -3,7 +3,10 @@
 import { TestClass, testFunction } from './sample.js'
 
 export class ExtendedClass extends TestClass {
-  constructor(name: string, private id: number) {
+  constructor(
+    name: string,
+    private id: number
+  ) {
     super(name)
   }
 

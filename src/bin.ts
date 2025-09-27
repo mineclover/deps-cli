@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { Command } from "commander"
-import * as fs from "node:fs/promises"
-import * as path from "node:path"
-import { EnhancedDependencyAnalyzer } from "./analyzers/EnhancedDependencyAnalyzer.js"
-import { globalConfig } from "./config/ConfigManager.js"
+import * as fs from 'node:fs/promises'
+import * as path from 'node:path'
+import { Command } from 'commander'
+import { EnhancedDependencyAnalyzer } from './analyzers/EnhancedDependencyAnalyzer.js'
+import { globalConfig } from './config/ConfigManager.js'
 
 const program = new Command()
 
@@ -21,7 +21,7 @@ async function ensureConfig(options: Record<string, any> = {}) {
           namespace: options.namespace,
           validateConfig: true,
           throwOnValidationError: false,
-          enableCache: true
+          enableCache: true,
         })
       } else {
         // 강화된 로딩 방식 사용 (재시도 + 캐싱)
@@ -29,7 +29,7 @@ async function ensureConfig(options: Record<string, any> = {}) {
           cliArgs: options,
           validateConfig: true,
           throwOnValidationError: false,
-          enableCache: true
+          enableCache: true,
         })
       }
       configLoaded = true
@@ -43,7 +43,7 @@ async function ensureConfig(options: Record<string, any> = {}) {
         const cacheStats = globalConfig.getCacheStats()
         console.log('📊 Cache stats:', {
           memorySize: cacheStats.memorySize,
-          maxSize: cacheStats.maxSize
+          maxSize: cacheStats.maxSize,
         })
       }
     } catch (error) {
@@ -63,11 +63,11 @@ async function ensureConfig(options: Record<string, any> = {}) {
 }
 
 program
-  .name("deps-cli")
-  .description("Enhanced dependency analysis CLI tool with 99%+ accuracy")
-  .version("2.0.0")
-  .option("--namespace <name>", "Use specific configuration namespace")
-  .option("--list-namespaces", "List available configuration namespaces")
+  .name('deps-cli')
+  .description('Enhanced dependency analysis CLI tool with 99%+ accuracy')
+  .version('2.0.0')
+  .option('--namespace <name>', 'Use specific configuration namespace')
+  .option('--list-namespaces', 'List available configuration namespaces')
 
 // =========================================================
 // ENHANCED DEPENDENCY ANALYSIS COMMANDS (AST-BASED)
@@ -76,12 +76,12 @@ program
 
 // Enhanced analyze command
 program
-  .command("analyze-enhanced")
-  .description("Enhanced dependency analysis with AST-based parsing and graph construction")
-  .argument("<filePath>", "Path to the file or directory to analyze")
-  .option("--format <format>", "Output format (json, summary)", "summary")
-  .option("-v, --verbose", "Enable verbose output")
-  .option("--exclude <patterns>", "Comma-separated list of glob patterns to exclude")
+  .command('analyze-enhanced')
+  .description('Enhanced dependency analysis with AST-based parsing and graph construction')
+  .argument('<filePath>', 'Path to the file or directory to analyze')
+  .option('--format <format>', 'Output format (json, summary)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output')
+  .option('--exclude <patterns>', 'Comma-separated list of glob patterns to exclude')
   .action(async (filePath, options) => {
     try {
       await ensureConfig(options)
@@ -102,7 +102,10 @@ program
       // exclude 패턴 파싱
       const excludePatterns: Array<string> = []
       if (options.exclude) {
-        const patterns = options.exclude.split(',').map((p: string) => p.trim()).filter(Boolean)
+        const patterns = options.exclude
+          .split(',')
+          .map((p: string) => p.trim())
+          .filter(Boolean)
         for (const pattern of patterns) {
           excludePatterns.push(pattern)
         }
@@ -162,17 +165,17 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Enhanced analysis failed:", error instanceof Error ? error.message : String(error))
+      console.error('❌ Enhanced analysis failed:', error instanceof Error ? error.message : String(error))
       process.exit(1)
     }
   })
 
 program
-  .command("find-usages-enhanced")
-  .description("Enhanced AST-based analysis to find all files that import/use a specific file")
-  .argument("<filePath>", "Target file path to find usages for")
-  .option("--format <format>", "Output format (json, summary)", "summary")
-  .option("-v, --verbose", "Enable verbose output")
+  .command('find-usages-enhanced')
+  .description('Enhanced AST-based analysis to find all files that import/use a specific file')
+  .argument('<filePath>', 'Target file path to find usages for')
+  .option('--format <format>', 'Output format (json, summary)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output')
   .action(async (targetFilePath, options) => {
     try {
       await ensureConfig(options)
@@ -206,18 +209,18 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Enhanced file usage analysis failed:", error instanceof Error ? error.message : String(error))
+      console.error('❌ Enhanced file usage analysis failed:', error instanceof Error ? error.message : String(error))
       process.exit(1)
     }
   })
 
 program
-  .command("find-method-usages-enhanced")
-  .description("Enhanced AST-based analysis to find all files that call a specific method")
-  .argument("<className>", "Class name (use 'null' for standalone functions)")
-  .argument("<methodName>", "Method or function name")
-  .option("--format <format>", "Output format (json, summary)", "summary")
-  .option("-v, --verbose", "Enable verbose output")
+  .command('find-method-usages-enhanced')
+  .description('Enhanced AST-based analysis to find all files that call a specific method')
+  .argument('<className>', "Class name (use 'null' for standalone functions)")
+  .argument('<methodName>', 'Method or function name')
+  .option('--format <format>', 'Output format (json, summary)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output')
   .action(async (className, methodName, options) => {
     try {
       await ensureConfig(options)
@@ -233,11 +236,17 @@ program
       const methodUsages = await analyzer.findFilesUsingMethodFromGraph(graph, classNameOrNull, methodName)
 
       if (options.format === 'json') {
-        console.log(JSON.stringify({
-          className: classNameOrNull,
-          methodName,
-          usages: methodUsages
-        }, null, 2))
+        console.log(
+          JSON.stringify(
+            {
+              className: classNameOrNull,
+              methodName,
+              usages: methodUsages,
+            },
+            null,
+            2
+          )
+        )
       } else {
         console.log('🔧 Enhanced Method Usage Analysis')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
@@ -261,17 +270,17 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Enhanced method usage analysis failed:", error instanceof Error ? error.message : String(error))
+      console.error('❌ Enhanced method usage analysis failed:', error instanceof Error ? error.message : String(error))
       process.exit(1)
     }
   })
 
 program
-  .command("find-unused-files-enhanced")
-  .description("Enhanced AST-based analysis to find files that are never imported anywhere")
-  .option("--format <format>", "Output format (json, summary)", "summary")
-  .option("-v, --verbose", "Enable verbose output")
-  .option("--include-tests", "Include test files as entry points", true)
+  .command('find-unused-files-enhanced')
+  .description('Enhanced AST-based analysis to find files that are never imported anywhere')
+  .option('--format <format>', 'Output format (json, summary)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output')
+  .option('--include-tests', 'Include test files as entry points', true)
   .action(async (options) => {
     try {
       await ensureConfig(options)
@@ -286,11 +295,17 @@ program
       const unusedFiles = analyzer.findUnusedFilesFromGraph(graph)
 
       if (options.format === 'json') {
-        console.log(JSON.stringify({
-          totalFiles: graph.nodes.size,
-          unusedFiles,
-          entryPoints: graph.entryPoints
-        }, null, 2))
+        console.log(
+          JSON.stringify(
+            {
+              totalFiles: graph.nodes.size,
+              unusedFiles,
+              entryPoints: graph.entryPoints,
+            },
+            null,
+            2
+          )
+        )
       } else {
         console.log('🗑️ Enhanced Unused Files Analysis')
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
@@ -319,17 +334,17 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Enhanced unused files analysis failed:", error instanceof Error ? error.message : String(error))
+      console.error('❌ Enhanced unused files analysis failed:', error instanceof Error ? error.message : String(error))
       process.exit(1)
     }
   })
 
 program
-  .command("find-unused-methods-enhanced")
-  .description("Enhanced AST-based analysis to find methods that are never called anywhere")
-  .option("--format <format>", "Output format (json, summary)", "summary")
-  .option("-v, --verbose", "Enable verbose output")
-  .option("--include-private", "Include private methods in analysis", false)
+  .command('find-unused-methods-enhanced')
+  .description('Enhanced AST-based analysis to find methods that are never called anywhere')
+  .option('--format <format>', 'Output format (json, summary)', 'summary')
+  .option('-v, --verbose', 'Enable verbose output')
+  .option('--include-private', 'Include private methods in analysis', false)
   .action(async (options) => {
     try {
       await ensureConfig(options)
@@ -370,7 +385,10 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Enhanced unused methods analysis failed:", error instanceof Error ? error.message : String(error))
+      console.error(
+        '❌ Enhanced unused methods analysis failed:',
+        error instanceof Error ? error.message : String(error)
+      )
       process.exit(1)
     }
   })
@@ -381,9 +399,9 @@ program
 
 // List namespaces command
 program
-  .command("list-namespaces")
-  .description("List all available configuration namespaces")
-  .option("--config <file>", "Configuration file path", "deps-cli.config.json")
+  .command('list-namespaces')
+  .description('List all available configuration namespaces')
+  .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
   .action(async (options) => {
     try {
       const namespaces = await globalConfig.listNamespaces(options.config)
@@ -410,19 +428,19 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Failed to list namespaces:", error instanceof Error ? error.message : String(error))
+      console.error('❌ Failed to list namespaces:', error instanceof Error ? error.message : String(error))
       process.exit(1)
     }
   })
 
 // Create namespace command
 program
-  .command("create-namespace")
-  .description("Create a new configuration namespace")
-  .argument("<name>", "Namespace name")
-  .option("--config <file>", "Configuration file path", "deps-cli.config.json")
-  .option("--copy-from <namespace>", "Copy settings from existing namespace")
-  .option("--set-default", "Set as default namespace")
+  .command('create-namespace')
+  .description('Create a new configuration namespace')
+  .argument('<name>', 'Namespace name')
+  .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+  .option('--copy-from <namespace>', 'Copy settings from existing namespace')
+  .option('--set-default', 'Set as default namespace')
   .action(async (name, options) => {
     try {
       let config = {}
@@ -438,7 +456,7 @@ program
           analysis: { maxConcurrency: 4, timeout: 30000 },
           logging: { level: 'info', format: 'text', enabled: true },
           output: { defaultFormat: 'summary', compression: false },
-          development: { verbose: false, debugMode: false, mockApiCalls: false }
+          development: { verbose: false, debugMode: false, mockApiCalls: false },
         }
       }
 
@@ -456,18 +474,18 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Failed to create namespace:", error instanceof Error ? error.message : String(error))
+      console.error('❌ Failed to create namespace:', error instanceof Error ? error.message : String(error))
       process.exit(1)
     }
   })
 
 // Delete namespace command
 program
-  .command("delete-namespace")
-  .description("Delete a configuration namespace")
-  .argument("<name>", "Namespace name to delete")
-  .option("--config <file>", "Configuration file path", "deps-cli.config.json")
-  .option("--force", "Force deletion without confirmation")
+  .command('delete-namespace')
+  .description('Delete a configuration namespace')
+  .argument('<name>', 'Namespace name to delete')
+  .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+  .option('--force', 'Force deletion without confirmation')
   .action(async (name, options) => {
     try {
       if (!options.force) {
@@ -481,7 +499,7 @@ program
 
       process.exit(0)
     } catch (error) {
-      console.error("❌ Failed to delete namespace:", error instanceof Error ? error.message : String(error))
+      console.error('❌ Failed to delete namespace:', error instanceof Error ? error.message : String(error))
       process.exit(1)
     }
   })
@@ -489,7 +507,7 @@ program
 // Help command
 program.configureHelp({
   sortSubcommands: true,
-  subcommandTerm: (cmd) => cmd.name()
+  subcommandTerm: (cmd) => cmd.name(),
 })
 
 // Error handling

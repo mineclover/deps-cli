@@ -1,15 +1,15 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { existsSync, mkdirSync, rmSync } from 'fs'
-import { join } from 'path'
-import { FileConfigAdapter, DefaultConfigAdapter, CliConfigAdapter } from '../src/adapters/ConfigAdapter.js'
+import { existsSync, mkdirSync, rmSync } from 'node:fs'
+import { join } from 'node:path'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { CliConfigAdapter, DefaultConfigAdapter, FileConfigAdapter } from '../src/adapters/ConfigAdapter.js'
 
 describe('ConfigAdapter', () => {
   let testProjectPath: string
-  let _testConfigPath: string
+  let testConfigPath: string
 
   beforeEach(() => {
     testProjectPath = join(process.cwd(), 'test-adapter-project')
-    _testConfigPath = join(testProjectPath, 'deps-cli.config.json')
+    testConfigPath = join(testProjectPath, 'deps-cli.config.json')
 
     if (!existsSync(testProjectPath)) {
       mkdirSync(testProjectPath, { recursive: true })
@@ -26,7 +26,7 @@ describe('ConfigAdapter', () => {
     let adapter: FileConfigAdapter
 
     beforeEach(() => {
-      adapter = new FileConfigAdapter()
+      adapter = new FileConfigAdapter(testConfigPath)
     })
 
     it('FileConfigAdapter 인스턴스가 생성되어야 함', () => {
@@ -40,15 +40,20 @@ describe('ConfigAdapter', () => {
     })
 
     it('설정 파일을 로드할 수 있어야 함', async () => {
-      const config = await adapter.load(testProjectPath)
+      const config = await adapter.load()
       expect(config).toBeDefined()
       expect(typeof config).toBe('object')
     })
 
     it('validate가 설정을 검증해야 함', async () => {
       const validConfig = {
-        filePatterns: ['**/*.ts'],
-        excludePatterns: ['**/node_modules/**']
+        notion: {
+          apiKey: 'secret_test',
+          databaseId: 'test-db-id',
+        },
+        analysis: {
+          maxConcurrency: 4,
+        },
       }
 
       const isValid = await adapter.validate(validConfig)
@@ -74,14 +79,13 @@ describe('ConfigAdapter', () => {
     })
 
     it('기본 설정을 로드해야 함', async () => {
-      const config = await adapter.load(testProjectPath)
+      const config = await adapter.load()
       expect(config).toBeDefined()
       expect(typeof config).toBe('object')
     })
 
     it('validate가 설정을 검증해야 함', async () => {
-      const config = {}
-      const isValid = await adapter.validate(config)
+      const isValid = await adapter.validate()
       expect(typeof isValid).toBe('boolean')
     })
   })
@@ -90,7 +94,7 @@ describe('ConfigAdapter', () => {
     let adapter: CliConfigAdapter
 
     beforeEach(() => {
-      adapter = new CliConfigAdapter()
+      adapter = new CliConfigAdapter({ verbose: true, format: 'json' })
     })
 
     it('CliConfigAdapter 인스턴스가 생성되어야 함', () => {
@@ -106,7 +110,7 @@ describe('ConfigAdapter', () => {
     it('CLI 설정을 로드해야 함', async () => {
       // CLI args가 undefined일 수 있으므로 에러를 무시하고 테스트
       try {
-        const config = await adapter.load(testProjectPath)
+        const config = await adapter.load()
         expect(config).toBeDefined()
         expect(typeof config).toBe('object')
       } catch (error) {
@@ -117,11 +121,12 @@ describe('ConfigAdapter', () => {
 
     it('validate가 CLI 설정을 검증해야 함', async () => {
       const config = {
-        format: 'json',
-        verbose: true
+        development: {
+          verbose: true,
+        },
       }
 
-      const isValid = await adapter.validate(config)
+      const isValid = await adapter.validate()
       expect(typeof isValid).toBe('boolean')
     })
   })

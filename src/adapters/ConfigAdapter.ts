@@ -2,7 +2,7 @@
  * 설정 어댑터 인터페이스 및 구현체들
  */
 
-import type { EnvironmentConfig, ConfigMetadata, ConfigSource } from '../types/EnvironmentConfig.js'
+import type { ConfigMetadata, ConfigSource, EnvironmentConfig } from '../types/EnvironmentConfig.js'
 
 /**
  * 설정 어댑터 인터페이스
@@ -38,22 +38,22 @@ export class DefaultConfigAdapter implements ConfigAdapter {
       maxConcurrency: 4,
       timeout: 30000,
       cacheEnabled: true,
-      cacheTtl: 3600000 // 1시간
+      cacheTtl: 3600000, // 1시간
     },
     logging: {
       level: 'info',
       format: 'text',
-      enabled: true
+      enabled: true,
     },
     output: {
       defaultFormat: 'summary',
-      compression: false
+      compression: false,
     },
     development: {
       verbose: false,
       debugMode: false,
-      mockApiCalls: false
-    }
+      mockApiCalls: false,
+    },
   }
 
   async load(): Promise<Partial<EnvironmentConfig>> {
@@ -98,8 +98,10 @@ export class FileConfigAdapter implements ConfigAdapter {
       if (config.notion?.apiKey && typeof config.notion.apiKey !== 'string') {
         return false
       }
-      if (config.analysis?.maxConcurrency &&
-          (typeof config.analysis.maxConcurrency !== 'number' || config.analysis.maxConcurrency < 1)) {
+      if (
+        config.analysis?.maxConcurrency &&
+        (typeof config.analysis.maxConcurrency !== 'number' || config.analysis.maxConcurrency < 1)
+      ) {
         return false
       }
       return true

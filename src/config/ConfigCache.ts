@@ -2,7 +2,7 @@
  * 설정 캐싱 시스템
  */
 
-import type { EnvironmentConfigWithMetadata } from '../types/EnvironmentConfig.js';
+import type { EnvironmentConfigWithMetadata } from '../types/EnvironmentConfig.js'
 
 interface CacheEntry {
   config: EnvironmentConfigWithMetadata
@@ -32,7 +32,7 @@ export class ConfigCache {
       maxSize: options.maxSize ?? 10,
       enableMemoryCache: options.enableMemoryCache ?? true,
       enableFileCache: options.enableFileCache ?? false,
-      cacheDir: options.cacheDir ?? '.deps-cli-cache'
+      cacheDir: options.cacheDir ?? '.deps-cli-cache',
     }
   }
 
@@ -70,11 +70,7 @@ export class ConfigCache {
   /**
    * 캐시에 설정 저장
    */
-  async set(
-    key: string,
-    config: EnvironmentConfigWithMetadata,
-    ttl?: number
-  ): Promise<void> {
+  async set(key: string, config: EnvironmentConfigWithMetadata, ttl?: number): Promise<void> {
     const actualTtl = ttl ?? this.options.ttl
     const hash = this.generateHash(config)
 
@@ -82,7 +78,7 @@ export class ConfigCache {
       config,
       timestamp: Date.now(),
       hash,
-      ttl: actualTtl
+      ttl: actualTtl,
     }
 
     // 메모리 캐시 저장
@@ -128,7 +124,9 @@ export class ConfigCache {
       }
     }
 
-    expiredKeys.forEach(key => this.memoryCache.delete(key))
+    for (const key of expiredKeys) {
+      this.memoryCache.delete(key)
+    }
   }
 
   /**
@@ -147,8 +145,8 @@ export class ConfigCache {
         hash: entry.hash,
         age: Date.now() - entry.timestamp,
         ttl: entry.ttl,
-        isExpired: Date.now() - entry.timestamp > entry.ttl
-      }))
+        isExpired: Date.now() - entry.timestamp > entry.ttl,
+      })),
     }
   }
 
@@ -185,7 +183,7 @@ export class ConfigCache {
 
     this.memoryCache.set(key, {
       ...entry,
-      ttl
+      ttl,
     })
   }
 
@@ -229,7 +227,7 @@ export class ConfigCache {
     let hash = 0
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i)
-      hash = ((hash << 5) - hash) + char
+      hash = (hash << 5) - hash + char
       hash = hash & hash // 32비트 정수로 변환
     }
     return hash.toString(16)
@@ -272,5 +270,5 @@ export const globalConfigCache = new ConfigCache({
   ttl: 300000, // 5분
   maxSize: 5,
   enableMemoryCache: true,
-  enableFileCache: false
+  enableFileCache: false,
 })

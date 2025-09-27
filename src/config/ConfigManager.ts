@@ -2,14 +2,19 @@
  * 설정 관리자 - 여러 어댑터를 조합하여 설정을 관리
  */
 
-import type { EnvironmentConfig, EnvironmentConfigWithMetadata, ConfigMetadata, NamespacedConfig } from '../types/EnvironmentConfig.js'
-import type { ConfigAdapter} from '../adapters/ConfigAdapter.js';
-import { DefaultConfigAdapter, FileConfigAdapter, CliConfigAdapter } from '../adapters/ConfigAdapter.js'
-import { EnvironmentAdapter } from '../adapters/EnvironmentAdapter.js'
-import type { ConfigCache} from './ConfigCache.js';
-import { globalConfigCache } from './ConfigCache.js'
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
+import type { ConfigAdapter } from '../adapters/ConfigAdapter.js'
+import { CliConfigAdapter, DefaultConfigAdapter, FileConfigAdapter } from '../adapters/ConfigAdapter.js'
+import { EnvironmentAdapter } from '../adapters/EnvironmentAdapter.js'
+import type {
+  ConfigMetadata,
+  EnvironmentConfig,
+  EnvironmentConfigWithMetadata,
+  NamespacedConfig,
+} from '../types/EnvironmentConfig.js'
+import type { ConfigCache } from './ConfigCache.js'
+import { globalConfigCache } from './ConfigCache.js'
 
 /**
  * 설정 로딩 옵션
@@ -21,7 +26,7 @@ export interface ConfigLoadOptions {
   throwOnValidationError?: boolean
   enableCache?: boolean
   cacheKey?: string
-  namespace?: string  // 사용할 namespace 지정
+  namespace?: string // 사용할 namespace 지정
 }
 
 /**
@@ -58,7 +63,7 @@ export class ConfigManager {
     if (this.adapters.length === 0) {
       this.adapters = [
         new DefaultConfigAdapter(), // 최하위 우선순위 (기본값)
-        new EnvironmentAdapter(),   // 환경 변수
+        new EnvironmentAdapter(), // 환경 변수
         // 파일과 CLI는 load() 시에 동적으로 추가
       ]
     }
@@ -70,7 +75,7 @@ export class ConfigManager {
   async load(options: ConfigLoadOptions = {}): Promise<EnvironmentConfigWithMetadata> {
     // 캐시 키 생성
     const cacheKey = options.cacheKey || this.generateCacheKey(options)
-    
+
     // 캐시에서 먼저 조회 (활성화된 경우)
     if (options.enableCache !== false) {
       const cachedConfig = await this.cache.get(cacheKey)
@@ -94,7 +99,7 @@ export class ConfigManager {
     }
 
     this.loadPromise = this.performLoad(options, cacheKey)
-    
+
     try {
       const result = await this.loadPromise
       return result
@@ -121,9 +126,7 @@ export class ConfigManager {
     }
 
     // 병렬로 모든 어댑터에서 설정 로드
-    const loadResults = await Promise.allSettled(
-      adapters.map(adapter => this.loadFromAdapter(adapter))
-    )
+    const loadResults = await Promise.allSettled(adapters.map((adapter) => this.loadFromAdapter(adapter)))
 
     // 성공한 결과들만 병합
     let mergedConfig: EnvironmentConfig = {}
@@ -163,7 +166,7 @@ export class ConfigManager {
    * 개별 어댑터에서 로드
    */
   private async loadFromAdapter(adapter: ConfigAdapter): Promise<{
-    config: Partial<EnvironmentConfig>,
+    config: Partial<EnvironmentConfig>
     metadata: Record<string, ConfigMetadata>
   }> {
     const config = await adapter.load()
@@ -205,7 +208,7 @@ export class ConfigManager {
    */
   set(path: string, value: any): void {
     this.setNestedValue(this.config, path, value)
-    
+
     // 메타데이터에 런타임 변경 기록
     if (!this.config._metadata) {
       this.config._metadata = {}
@@ -215,7 +218,7 @@ export class ConfigManager {
       raw: String(value),
       parsed: value,
       isValid: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }
   }
 
@@ -234,7 +237,7 @@ export class ConfigManager {
     this.isLoaded = false
     this.loadPromise = null
     // 캐시도 무효화
-    this.cache.invalidate().catch(error => {
+    this.cache.invalidate().catch((error) => {
       console.warn('Failed to invalidate cache during reset:', error)
     })
   }
@@ -263,14 +266,12 @@ export class ConfigManager {
     throwOnError = false
   ): Promise<void> {
     const validationResults = await Promise.allSettled(
-      adapters.map(adapter => 
-        adapter.validate(config).then(isValid => ({ adapter, isValid }))
-      )
+      adapters.map((adapter) => adapter.validate(config).then((isValid) => ({ adapter, isValid })))
     )
 
     const errors: Array<string> = []
-    
-    validationResults.forEach(result => {
+
+    validationResults.forEach((result) => {
       if (result.status === 'fulfilled') {
         if (!result.value.isValid) {
           errors.push(`Validation failed for ${result.value.adapter.getSource()} adapter`)
@@ -320,14 +321,14 @@ export class ConfigManager {
   private getNestedValue(obj: any, path: string): any {
     const keys = path.split('.')
     let current = obj
-    
+
     for (const key of keys) {
       if (current == null || typeof current !== 'object') {
         return undefined
       }
       current = current[key]
     }
-    
+
     return current
   }
 
@@ -396,24 +397,24 @@ export class ConfigManager {
    */
   private generateCacheKey(options: ConfigLoadOptions): string {
     const keyParts: Array<string> = ['config']
-    
+
     if (options.configFile) {
       keyParts.push(`file:${options.configFile}`)
     }
-    
+
     if (options.cliArgs) {
       // CLI 인자들을 정렬하여 일관된 키 생성
       const sortedArgs = Object.keys(options.cliArgs)
         .sort()
-        .map(key => `${key}:${options.cliArgs![key]}`)
+        .map((key) => `${key}:${options.cliArgs![key]}`)
         .join(',')
       keyParts.push(`cli:${sortedArgs}`)
     }
-    
+
     // 환경 변수 해시 추가 (변경 감지용)
     const envHash = this.generateEnvHash()
     keyParts.push(`env:${envHash}`)
-    
+
     return keyParts.join('|')
   }
 
@@ -423,7 +424,7 @@ export class ConfigManager {
   private generateEnvHash(): string {
     const relevantEnvVars = [
       'NOTION_API_KEY',
-      'NOTION_DATABASE_ID', 
+      'NOTION_DATABASE_ID',
       'NOTION_PAGE_ID',
       'NOTION_API_VERSION',
       'DEPS_CLI_MAX_CONCURRENCY',
@@ -439,13 +440,11 @@ export class ConfigManager {
       'DEPS_CLI_VERBOSE',
       'DEPS_CLI_DEBUG',
       'DEPS_CLI_MOCK_API',
-      'NODE_ENV'
+      'NODE_ENV',
     ]
-    
-    const envString = relevantEnvVars
-      .map(key => `${key}=${process.env[key] || ''}`)
-      .join('|')
-    
+
+    const envString = relevantEnvVars.map((key) => `${key}=${process.env[key] || ''}`).join('|')
+
     return this.simpleHash(envString)
   }
 
@@ -456,7 +455,7 @@ export class ConfigManager {
     let hash = 0
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i)
-      hash = ((hash << 5) - hash) + char
+      hash = (hash << 5) - hash + char
       hash = hash & hash // 32비트 정수로 변환
     }
     return Math.abs(hash).toString(16)
@@ -492,25 +491,25 @@ export class ConfigManager {
     retryDelay: number = 1000
   ): Promise<EnvironmentConfigWithMetadata> {
     let lastError: Error | null = null
-    
+
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         return await this.load(options)
       } catch (error) {
         lastError = error as Error
         console.warn(`Configuration load attempt ${attempt}/${maxRetries} failed:`, error)
-        
+
         if (attempt < maxRetries) {
           // 재시도 전 짧은 대기
-          await new Promise(resolve => setTimeout(resolve, retryDelay * attempt))
-          
+          await new Promise((resolve) => setTimeout(resolve, retryDelay * attempt))
+
           // 캐시 무효화 후 재시도
           await this.invalidateCache()
           this.reset()
         }
       }
     }
-    
+
     // 모든 재시도 실패 시 기본 설정으로 폴백
     console.error(`All ${maxRetries} configuration load attempts failed. Using fallback configuration.`)
     return this.loadFallbackConfig(lastError!)
@@ -524,7 +523,7 @@ export class ConfigManager {
       // 기본 어댑터만 사용하여 최소한의 설정 로드
       const defaultAdapter = new (await import('../adapters/ConfigAdapter.js')).DefaultConfigAdapter()
       const fallbackConfig = await defaultAdapter.load()
-      
+
       const configWithMetadata: EnvironmentConfigWithMetadata = {
         ...fallbackConfig,
         _metadata: {
@@ -534,14 +533,14 @@ export class ConfigManager {
             parsed: 'Configuration loaded with fallback due to errors',
             isValid: true,
             error: originalError.message,
-            timestamp: new Date().toISOString()
-          }
-        }
+            timestamp: new Date().toISOString(),
+          },
+        },
       }
-      
+
       this.config = configWithMetadata
       this.isLoaded = true
-      
+
       return configWithMetadata
     } catch (fallbackError) {
       // 폴백도 실패한 경우 하드코딩된 최소 설정 사용
@@ -557,19 +556,19 @@ export class ConfigManager {
             parsed: 'Using hardcoded configuration due to critical errors',
             isValid: true,
             error: `Original: ${originalError.message}, Fallback: ${fallbackError}`,
-            timestamp: new Date().toISOString()
-          }
-        }
+            timestamp: new Date().toISOString(),
+          },
+        },
       }
-      
+
       this.config = hardcodedConfig
       this.isLoaded = true
-      
+
       console.error('Critical configuration failure. Using hardcoded fallback:', {
         originalError: originalError.message,
-        fallbackError
+        fallbackError,
       })
-      
+
       return hardcodedConfig
     }
   }
@@ -586,40 +585,40 @@ export class ConfigManager {
     const issues: Array<string> = []
     const recommendations: Array<string> = []
     const adapters: Array<{ name: string; status: 'ok' | 'warning' | 'error'; message?: string }> = []
-    
+
     this.initializeAdapters()
-    
+
     // 각 어댑터 상태 확인
     for (const adapter of this.adapters) {
       try {
         const testConfig = await adapter.load()
         const isValid = await adapter.validate(testConfig)
-        
+
         if (isValid) {
           adapters.push({ name: adapter.getSource(), status: 'ok' })
         } else {
-          adapters.push({ 
-            name: adapter.getSource(), 
-            status: 'warning', 
-            message: 'Configuration validation failed' 
+          adapters.push({
+            name: adapter.getSource(),
+            status: 'warning',
+            message: 'Configuration validation failed',
           })
           issues.push(`${adapter.getSource()} adapter has validation issues`)
         }
       } catch (error) {
-        adapters.push({ 
-          name: adapter.getSource(), 
-          status: 'error', 
-          message: (error as Error).message 
+        adapters.push({
+          name: adapter.getSource(),
+          status: 'error',
+          message: (error as Error).message,
         })
         issues.push(`${adapter.getSource()} adapter failed to load: ${(error as Error).message}`)
       }
     }
-    
+
     // 환경 변수 특별 검사
-    if (this.adapters.find(a => a.getSource() === 'env')) {
-      const envAdapter = this.adapters.find(a => a.getSource() === 'env') as EnvironmentAdapter
+    if (this.adapters.find((a) => a.getSource() === 'env')) {
+      const envAdapter = this.adapters.find((a) => a.getSource() === 'env') as EnvironmentAdapter
       const validationErrors = envAdapter.getValidationErrors()
-      
+
       if (validationErrors.size > 0) {
         for (const [key, error] of validationErrors.entries()) {
           issues.push(`Environment variable ${key}: ${error}`)
@@ -627,27 +626,27 @@ export class ConfigManager {
         }
       }
     }
-    
+
     // 캐시 상태 확인
     const cacheStats = this.getCacheStats()
     if (cacheStats.memorySize > cacheStats.maxSize * 0.8) {
       issues.push('Cache is nearly full')
       recommendations.push('Consider increasing cache size or cleaning up old entries')
     }
-    
+
     // 설정 로드 상태 확인
     if (!this.isLoaded) {
       issues.push('Configuration has not been loaded')
       recommendations.push('Call load() to initialize configuration')
     }
-    
+
     const isHealthy = issues.length === 0
-    
+
     return {
       isHealthy,
       issues,
       recommendations,
-      adapters
+      adapters,
     }
   }
 
@@ -656,20 +655,20 @@ export class ConfigManager {
    */
   async autoRecover(): Promise<{ success: boolean; actions: Array<string> }> {
     const actions: Array<string> = []
-    
+
     try {
       // 1. 캐시 정리
       this.cleanupCache()
       actions.push('Cleaned up cache')
-      
+
       // 2. 설정 리셋
       this.reset()
       actions.push('Reset configuration state')
-      
+
       // 3. 진단 실행
       const diagnosis = await this.diagnose()
       actions.push('Performed system diagnosis')
-      
+
       // 4. 문제가 있는 경우 기본 설정으로 로드
       if (!diagnosis.isHealthy) {
         await this.loadFallbackConfig(new Error('Auto-recovery triggered due to unhealthy state'))
@@ -679,7 +678,7 @@ export class ConfigManager {
         await this.load()
         actions.push('Reloaded configuration successfully')
       }
-      
+
       return { success: true, actions }
     } catch (error) {
       actions.push(`Recovery failed: ${(error as Error).message}`)
@@ -696,21 +695,21 @@ export class ConfigManager {
    */
   async loadNamespacedConfig(configFile?: string, namespace?: string): Promise<EnvironmentConfigWithMetadata> {
     const filePath = configFile || this.getDefaultConfigPath()
-    
+
     try {
       const content = await fs.readFile(filePath, 'utf-8')
       const namespacedConfig = JSON.parse(content) as NamespacedConfig
-      
+
       // namespace가 지정되지 않은 경우 default 사용
       const targetNamespace = namespace || namespacedConfig.default || 'default'
-      
+
       if (!namespacedConfig.namespaces[targetNamespace]) {
         throw new Error(`Namespace '${targetNamespace}' not found in configuration`)
       }
-      
+
       // 해당 namespace의 설정을 일반 설정으로 변환
       const config = namespacedConfig.namespaces[targetNamespace]
-      
+
       return {
         ...config,
         _metadata: {
@@ -719,12 +718,17 @@ export class ConfigManager {
             raw: targetNamespace,
             parsed: `Using namespace: ${targetNamespace}`,
             isValid: true,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
           },
-          ...namespacedConfig._metadata
-        }
+          ...namespacedConfig._metadata,
+        },
       }
     } catch (error) {
+      // namespace 관련 에러는 다시 throw
+      if (error instanceof Error && error.message.includes('not found in configuration')) {
+        throw error
+      }
+      
       console.warn(`Failed to load namespaced config from ${filePath}:`, error)
       // 일반 설정 파일로 fallback
       return this.load({ configFile: filePath })
@@ -734,16 +738,16 @@ export class ConfigManager {
   /**
    * 사용 가능한 namespace 목록 반환
    */
-  async listNamespaces(configFile?: string): Promise<{ namespaces: Array<string>, default?: string }> {
+  async listNamespaces(configFile?: string): Promise<{ namespaces: Array<string>; default?: string }> {
     const filePath = configFile || this.getDefaultConfigPath()
-    
+
     try {
       const content = await fs.readFile(filePath, 'utf-8')
       const namespacedConfig = JSON.parse(content) as NamespacedConfig
-      
+
       return {
         namespaces: Object.keys(namespacedConfig.namespaces || {}),
-        default: namespacedConfig.default
+        default: namespacedConfig.default,
       }
     } catch (error) {
       console.warn(`Failed to read namespaces from ${filePath}:`, error)
@@ -755,28 +759,32 @@ export class ConfigManager {
    * 특정 namespace의 설정 생성/업데이트
    */
   async setNamespaceConfig(namespace: string, config: EnvironmentConfig, configFile?: string): Promise<void> {
+    if (!namespace || namespace.trim() === '') {
+      throw new Error('Namespace name cannot be empty')
+    }
+
     const filePath = configFile || this.getDefaultConfigPath()
     let namespacedConfig: NamespacedConfig
-    
+
     try {
       const content = await fs.readFile(filePath, 'utf-8')
       namespacedConfig = JSON.parse(content) as NamespacedConfig
-    } catch (error) {
+    } catch (_error) {
       // 파일이 없으면 새로 생성
       namespacedConfig = {
         namespaces: {},
-        default: namespace
+        default: namespace,
       }
     }
-    
+
     // namespace 설정 업데이트
     namespacedConfig.namespaces[namespace] = config
-    
+
     // 첫 번째 namespace인 경우 default로 설정
     if (!namespacedConfig.default && Object.keys(namespacedConfig.namespaces).length === 1) {
       namespacedConfig.default = namespace
     }
-    
+
     // 메타데이터 업데이트
     if (!namespacedConfig._metadata) {
       namespacedConfig._metadata = {}
@@ -786,9 +794,9 @@ export class ConfigManager {
       raw: JSON.stringify(config),
       parsed: `Updated namespace ${namespace}`,
       isValid: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }
-    
+
     await fs.writeFile(filePath, JSON.stringify(namespacedConfig, null, 2))
   }
 
@@ -797,23 +805,23 @@ export class ConfigManager {
    */
   async deleteNamespace(namespace: string, configFile?: string): Promise<void> {
     const filePath = configFile || this.getDefaultConfigPath()
-    
+
     try {
       const content = await fs.readFile(filePath, 'utf-8')
       const namespacedConfig = JSON.parse(content) as NamespacedConfig
-      
+
       if (!namespacedConfig.namespaces[namespace]) {
         throw new Error(`Namespace '${namespace}' not found`)
       }
-      
+
       delete namespacedConfig.namespaces[namespace]
-      
+
       // 삭제된 namespace가 default였다면 다른 namespace를 default로 설정
       if (namespacedConfig.default === namespace) {
         const remainingNamespaces = Object.keys(namespacedConfig.namespaces)
         namespacedConfig.default = remainingNamespaces.length > 0 ? remainingNamespaces[0] : undefined
       }
-      
+
       await fs.writeFile(filePath, JSON.stringify(namespacedConfig, null, 2))
     } catch (error) {
       throw new Error(`Failed to delete namespace '${namespace}': ${error}`)
@@ -832,10 +840,10 @@ export class ConfigManager {
    */
   async loadWithNamespace(options: ConfigLoadOptions = {}): Promise<EnvironmentConfigWithMetadata> {
     // namespace가 지정된 경우 namespace 기반 로드 시도
-    if (options.namespace || await this.isNamespacedConfig(options.configFile)) {
+    if (options.namespace || (await this.isNamespacedConfig(options.configFile))) {
       return this.loadNamespacedConfig(options.configFile, options.namespace)
     }
-    
+
     // 일반 로드
     return this.load(options)
   }
@@ -845,7 +853,7 @@ export class ConfigManager {
    */
   private async isNamespacedConfig(configFile?: string): Promise<boolean> {
     const filePath = configFile || this.getDefaultConfigPath()
-    
+
     try {
       const content = await fs.readFile(filePath, 'utf-8')
       const config = JSON.parse(content)

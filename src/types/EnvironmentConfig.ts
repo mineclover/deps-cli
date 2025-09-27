@@ -83,7 +83,16 @@ export interface EnvironmentVariables {
 /**
  * 설정 소스 타입
  */
-export type ConfigSource = 'env' | 'file' | 'cli' | 'default' | 'runtime' | 'fallback' | 'hardcoded' | 'namespace' | 'namespace-update'
+export type ConfigSource =
+  | 'env'
+  | 'file'
+  | 'cli'
+  | 'default'
+  | 'runtime'
+  | 'fallback'
+  | 'hardcoded'
+  | 'namespace'
+  | 'namespace-update'
 
 /**
  * 설정 항목 메타데이터
@@ -116,6 +125,6 @@ export type NamespacedConfigWithMetadata = NamespacedConfig & {
 
 // CLI에서 사용할 namespace 관련 옵션
 export interface NamespaceOptions {
-  namespace?: string    // 사용할 specific namespace
-  listNamespaces?: boolean  // 사용 가능한 namespace 목록 표시
+  namespace?: string // 사용할 specific namespace
+  listNamespaces?: boolean // 사용 가능한 namespace 목록 표시
 }

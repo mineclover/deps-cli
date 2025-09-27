@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { existsSync, writeFileSync, mkdirSync, rmSync } from 'fs'
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import * as fs from 'node:fs/promises'
-import { join } from 'path'
+import { join } from 'node:path'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { ConfigManager } from '../src/config/ConfigManager.js'
 
 describe('ConfigManager', () => {
@@ -35,7 +35,7 @@ describe('ConfigManager', () => {
     })
 
     it('load가 설정을 로드해야 함', async () => {
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       expect(configManager.isConfigLoaded()).toBe(true)
       const config = configManager.getConfig()
@@ -45,7 +45,7 @@ describe('ConfigManager', () => {
 
   describe('설정 파일 처리 테스트', () => {
     it('존재하지 않는 설정 파일의 경우 정상적으로 로드해야 함', async () => {
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       expect(configManager.isConfigLoaded()).toBe(true)
       const config = configManager.getConfig()
@@ -56,13 +56,13 @@ describe('ConfigManager', () => {
       const testConfig = {
         analysis: {
           enableUnusedFileDetection: true,
-          enableUnusedMethodDetection: false
-        }
+          enableUnusedMethodDetection: false,
+        },
       }
 
       writeFileSync(testConfigPath, JSON.stringify(testConfig, null, 2))
 
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       expect(configManager.isConfigLoaded()).toBe(true)
       const config = configManager.getConfig()
@@ -72,7 +72,7 @@ describe('ConfigManager', () => {
     it('잘못된 JSON 형식의 설정 파일을 처리할 수 있어야 함', async () => {
       writeFileSync(testConfigPath, '{ invalid json }')
 
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       // 잘못된 JSON인 경우에도 로드되어야 함 (폴백 사용)
       expect(configManager.isConfigLoaded()).toBe(true)
@@ -81,7 +81,7 @@ describe('ConfigManager', () => {
 
   describe('설정 검증 및 관리 테스트', () => {
     it('get과 set 메서드가 작동해야 함', async () => {
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       const testValue = { enableUnusedFileDetection: false }
       configManager.set('analysis', testValue)
@@ -91,7 +91,7 @@ describe('ConfigManager', () => {
     })
 
     it('reset 메서드가 설정을 초기화해야 함', async () => {
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
       expect(configManager.isConfigLoaded()).toBe(true)
 
       configManager.reset()
@@ -101,7 +101,7 @@ describe('ConfigManager', () => {
 
   describe('캐시 및 유틸리티 테스트', () => {
     it('getCacheStats가 캐시 통계를 반환해야 함', async () => {
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       const stats = configManager.getCacheStats()
       expect(stats).toBeDefined()
@@ -114,7 +114,7 @@ describe('ConfigManager', () => {
     })
 
     it('dump와 dumpSafe 메서드가 작동해야 함', async () => {
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       const dump = configManager.dump()
       expect(dump).toBeDefined()
@@ -126,7 +126,7 @@ describe('ConfigManager', () => {
 
   describe('진단 기능 테스트', () => {
     it('diagnose 메서드가 작동해야 함', async () => {
-      await configManager.load(testProjectPath)
+      await configManager.load({ configFile: testConfigPath })
 
       const diagnosis = await configManager.diagnose()
       expect(diagnosis).toBeDefined()
@@ -134,7 +134,7 @@ describe('ConfigManager', () => {
     })
 
     it('autoRecover 메서드가 작동해야 함', async () => {
-      const recovered = await configManager.autoRecover(testProjectPath)
+      const recovered = await configManager.autoRecover()
       expect(recovered).toBeDefined()
       expect(typeof recovered).toBe('object')
     })
@@ -173,7 +173,7 @@ describe('ConfigManager', () => {
         // loadWithRetry가 실제로 fallback을 사용하는지 확인
         // 현재는 normal load가 성공하므로 단순히 에러 로그 검사로 검증
         const config = await configManager.loadWithRetry({
-          configFile: '/nonexistent/path/config.json'
+          configFile: '/nonexistent/path/config.json',
         })
 
         expect(config).toBeDefined()
@@ -227,7 +227,7 @@ describe('ConfigManager', () => {
 
     describe('autoRecover', () => {
       it('정상 상태에서 autoRecover 실행', async () => {
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
 
         const result = await configManager.autoRecover()
 
@@ -266,7 +266,7 @@ describe('ConfigManager', () => {
 
     describe('캐시 무효화 및 복구', () => {
       it('invalidateCache가 정상 작동해야 함', async () => {
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
 
         // invalidateCache는 private이므로 간접적으로 테스트
         // loadWithRetry 과정에서 캐시 무효화가 호출됨
@@ -276,31 +276,31 @@ describe('ConfigManager', () => {
       })
 
       it('캐시 정리 후 재로드 테스트', async () => {
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
 
         configManager.cleanupCache()
         configManager.reset()
 
         // 재로드가 정상적으로 작동하는지 확인
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
         expect(configManager.isConfigLoaded()).toBe(true)
       })
     })
 
     describe('고급 데이터 처리 기능', () => {
       it('깊은 객체 병합 테스트', async () => {
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
 
         // 중첩된 설정 값 설정 및 병합 테스트
         const nestedConfig = {
           analysis: {
             maxConcurrency: 8,
-            newFeature: { enabled: true }
+            newFeature: { enabled: true },
           },
           newSection: {
             setting1: 'value1',
-            nested: { deep: 'value' }
-          }
+            nested: { deep: 'value' },
+          },
         }
 
         configManager.set('analysis', nestedConfig.analysis)
@@ -314,14 +314,14 @@ describe('ConfigManager', () => {
       })
 
       it('민감한 정보 마스킹 테스트', async () => {
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
 
         // 민감한 정보가 포함된 설정
         const sensitiveConfig = {
           apiKey: 'secret-api-key-12345',
           password: 'my-secret-password',
           token: 'bearer-token-abcdef',
-          normalSetting: 'normal-value'
+          normalSetting: 'normal-value',
         }
 
         configManager.set('credentials', sensitiveConfig)
@@ -342,7 +342,7 @@ describe('ConfigManager', () => {
       })
 
       it('중첩된 설정값 처리 테스트', async () => {
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
 
         // 깊이 중첩된 설정 구조
         const deepConfig = {
@@ -351,11 +351,11 @@ describe('ConfigManager', () => {
               level3: {
                 level4: {
                   value: 'deep-nested-value',
-                  array: [1, 2, { nested: 'in-array' }]
-                }
-              }
-            }
-          }
+                  array: [1, 2, { nested: 'in-array' }],
+                },
+              },
+            },
+          },
         }
 
         configManager.set('deepNested', deepConfig)
@@ -369,7 +369,7 @@ describe('ConfigManager', () => {
     describe('복구 시스템 통합 테스트', () => {
       it('전체 복구 시나리오 테스트', async () => {
         // 1. 초기 로드
-        await configManager.load(testProjectPath)
+        await configManager.load({ configFile: testConfigPath })
         expect(configManager.isConfigLoaded()).toBe(true)
 
         // 2. 상태 손상 시뮬레이션
@@ -401,16 +401,16 @@ describe('ConfigManager', () => {
           namespaces: {
             development: {
               analysis: { maxConcurrency: 8, timeout: 60000 },
-              logging: { level: 'debug', format: 'json', enabled: true },
-              output: { defaultFormat: 'json', compression: false }
+              logging: { level: 'debug' as const, format: 'json' as const, enabled: true },
+              output: { defaultFormat: 'json', compression: false },
             },
             production: {
               analysis: { maxConcurrency: 4, timeout: 30000 },
-              logging: { level: 'warn', format: 'text', enabled: true },
-              output: { defaultFormat: 'summary', compression: true }
-            }
+              logging: { level: 'warn' as const, format: 'text' as const, enabled: true },
+              output: { defaultFormat: 'summary', compression: true },
+            },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'namespaced-config.json')
@@ -429,9 +429,9 @@ describe('ConfigManager', () => {
         const namespacedConfig = {
           namespaces: {
             staging: { analysis: { maxConcurrency: 6 } },
-            production: { analysis: { maxConcurrency: 4 } }
+            production: { analysis: { maxConcurrency: 4 } },
           },
-          default: 'staging'
+          default: 'staging',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'default-namespace-config.json')
@@ -446,9 +446,9 @@ describe('ConfigManager', () => {
       it('존재하지 않는 namespace에 대해 에러를 발생시켜야 함', async () => {
         const namespacedConfig = {
           namespaces: {
-            development: { analysis: { maxConcurrency: 8 } }
+            development: { analysis: { maxConcurrency: 8 } },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'error-namespace-config.json')
@@ -458,14 +458,14 @@ describe('ConfigManager', () => {
           await configManager.loadNamespacedConfig(namespacedConfigPath, 'nonexistent')
           expect.fail('Should have thrown an error for nonexistent namespace')
         } catch (error) {
-          expect(error.message).toContain("Namespace 'nonexistent' not found in configuration")
+          expect((error as Error).message).toContain("Namespace 'nonexistent' not found in configuration")
         }
       })
 
       it('잘못된 파일에 대해 일반 설정으로 fallback해야 함', async () => {
         const nonNamespacedConfig = {
           analysis: { maxConcurrency: 2 },
-          logging: { level: 'info' }
+          logging: { level: 'info' as const },
         }
 
         const regularConfigPath = join(testProjectPath, 'regular-config.json')
@@ -484,9 +484,9 @@ describe('ConfigManager', () => {
           namespaces: {
             development: { analysis: { maxConcurrency: 8 } },
             production: { analysis: { maxConcurrency: 4 } },
-            testing: { analysis: { maxConcurrency: 2 } }
+            testing: { analysis: { maxConcurrency: 2 } },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'list-namespaces-config.json')
@@ -501,7 +501,7 @@ describe('ConfigManager', () => {
       it('빈 namespace 목록을 처리해야 함', async () => {
         const emptyNamespacedConfig = {
           namespaces: {},
-          default: undefined
+          default: undefined,
         }
 
         const emptyConfigPath = join(testProjectPath, 'empty-namespaces-config.json')
@@ -529,7 +529,7 @@ describe('ConfigManager', () => {
 
         const newConfig = {
           analysis: { maxConcurrency: 10, timeout: 45000 },
-          logging: { level: 'debug', format: 'json', enabled: true }
+          logging: { level: 'debug' as const, format: 'json' as const, enabled: true },
         }
 
         await configManager.setNamespaceConfig('custom', newConfig, namespacedConfigPath)
@@ -547,9 +547,9 @@ describe('ConfigManager', () => {
       it('기존 namespace를 업데이트해야 함', async () => {
         const existingConfig = {
           namespaces: {
-            development: { analysis: { maxConcurrency: 8 } }
+            development: { analysis: { maxConcurrency: 8 } },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'update-namespace-config.json')
@@ -557,7 +557,7 @@ describe('ConfigManager', () => {
 
         const updatedConfig = {
           analysis: { maxConcurrency: 12, timeout: 50000 },
-          logging: { level: 'info' }
+          logging: { level: 'info' as const },
         }
 
         await configManager.setNamespaceConfig('development', updatedConfig, namespacedConfigPath)
@@ -571,9 +571,9 @@ describe('ConfigManager', () => {
         const existingConfig = {
           namespaces: {
             development: { analysis: { maxConcurrency: 8 } },
-            production: { analysis: { maxConcurrency: 4 } }
+            production: { analysis: { maxConcurrency: 4 } },
           },
-          default: 'production'
+          default: 'production',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'multi-namespace-config.json')
@@ -594,9 +594,9 @@ describe('ConfigManager', () => {
           namespaces: {
             development: { analysis: { maxConcurrency: 8 } },
             production: { analysis: { maxConcurrency: 4 } },
-            testing: { analysis: { maxConcurrency: 2 } }
+            testing: { analysis: { maxConcurrency: 2 } },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'delete-namespace-config.json')
@@ -615,9 +615,9 @@ describe('ConfigManager', () => {
         const existingConfig = {
           namespaces: {
             development: { analysis: { maxConcurrency: 8 } },
-            production: { analysis: { maxConcurrency: 4 } }
+            production: { analysis: { maxConcurrency: 4 } },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'delete-default-namespace-config.json')
@@ -634,9 +634,9 @@ describe('ConfigManager', () => {
       it('마지막 namespace 삭제 시 default를 undefined로 설정해야 함', async () => {
         const existingConfig = {
           namespaces: {
-            development: { analysis: { maxConcurrency: 8 } }
+            development: { analysis: { maxConcurrency: 8 } },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'delete-last-namespace-config.json')
@@ -652,17 +652,17 @@ describe('ConfigManager', () => {
       it('존재하지 않는 namespace 삭제 시 에러를 발생시켜야 함', async () => {
         const existingConfig = {
           namespaces: {
-            development: { analysis: { maxConcurrency: 8 } }
+            development: { analysis: { maxConcurrency: 8 } },
           },
-          default: 'development'
+          default: 'development',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'error-delete-namespace-config.json')
         writeFileSync(namespacedConfigPath, JSON.stringify(existingConfig, null, 2))
 
-        await expect(
-          configManager.deleteNamespace('nonexistent', namespacedConfigPath)
-        ).rejects.toThrow("Namespace 'nonexistent' not found")
+        await expect(configManager.deleteNamespace('nonexistent', namespacedConfigPath)).rejects.toThrow(
+          "Namespace 'nonexistent' not found"
+        )
       })
     })
 
@@ -672,10 +672,10 @@ describe('ConfigManager', () => {
           namespaces: {
             testing: {
               analysis: { maxConcurrency: 16 },
-              development: { verbose: true, debugMode: true }
-            }
+              development: { verbose: true, debugMode: true },
+            },
           },
-          default: 'testing'
+          default: 'testing',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'load-with-namespace-config.json')
@@ -683,7 +683,7 @@ describe('ConfigManager', () => {
 
         const config = await configManager.loadWithNamespace({
           configFile: namespacedConfigPath,
-          namespace: 'testing'
+          namespace: 'testing',
         })
 
         expect(config.analysis?.maxConcurrency).toBe(16)
@@ -695,17 +695,17 @@ describe('ConfigManager', () => {
         const namespacedConfig = {
           namespaces: {
             autodetect: {
-              analysis: { maxConcurrency: 20 }
-            }
+              analysis: { maxConcurrency: 20 },
+            },
           },
-          default: 'autodetect'
+          default: 'autodetect',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'autodetect-namespace-config.json')
         writeFileSync(namespacedConfigPath, JSON.stringify(namespacedConfig, null, 2))
 
         const config = await configManager.loadWithNamespace({
-          configFile: namespacedConfigPath
+          configFile: namespacedConfigPath,
         })
 
         expect(config.analysis?.maxConcurrency).toBe(20)
@@ -714,14 +714,14 @@ describe('ConfigManager', () => {
       it('일반 설정 파일인 경우 일반 load를 사용해야 함', async () => {
         const regularConfig = {
           analysis: { maxConcurrency: 3 },
-          logging: { level: 'error' }
+          logging: { level: 'error' as const },
         }
 
         const regularConfigPath = join(testProjectPath, 'regular-load-config.json')
         writeFileSync(regularConfigPath, JSON.stringify(regularConfig, null, 2))
 
         const config = await configManager.loadWithNamespace({
-          configFile: regularConfigPath
+          configFile: regularConfigPath,
         })
 
         expect(config.analysis?.maxConcurrency).toBe(3)
@@ -733,9 +733,9 @@ describe('ConfigManager', () => {
       it('namespace 기반 설정 파일을 올바르게 감지해야 함', async () => {
         const namespacedConfig = {
           namespaces: {
-            test: { analysis: { maxConcurrency: 1 } }
+            test: { analysis: { maxConcurrency: 1 } },
           },
-          default: 'test'
+          default: 'test',
         }
 
         const namespacedConfigPath = join(testProjectPath, 'detect-namespaced-config.json')
@@ -743,7 +743,7 @@ describe('ConfigManager', () => {
 
         // loadWithNamespace를 통해 간접적으로 테스트
         const config = await configManager.loadWithNamespace({
-          configFile: namespacedConfigPath
+          configFile: namespacedConfigPath,
         })
 
         // namespace 기반으로 로드되었다면 _metadata에 namespace 정보가 있어야 함
@@ -753,14 +753,14 @@ describe('ConfigManager', () => {
       it('일반 설정 파일을 올바르게 구분해야 함', async () => {
         const regularConfig = {
           analysis: { maxConcurrency: 1 },
-          someOtherField: 'value'
+          someOtherField: 'value',
         }
 
         const regularConfigPath = join(testProjectPath, 'detect-regular-config.json')
         writeFileSync(regularConfigPath, JSON.stringify(regularConfig, null, 2))
 
         const config = await configManager.loadWithNamespace({
-          configFile: regularConfigPath
+          configFile: regularConfigPath,
         })
 
         // 일반 설정으로 로드되었다면 namespace 관련 metadata가 없어야 함

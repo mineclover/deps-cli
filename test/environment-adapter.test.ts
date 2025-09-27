@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { EnvironmentAdapter } from '../src/adapters/EnvironmentAdapter.js'
 
 describe('EnvironmentAdapter', () => {
@@ -35,15 +35,20 @@ describe('EnvironmentAdapter', () => {
 
   describe('설정 로드 및 검증 테스트', () => {
     it('load가 설정을 로드해야 함', async () => {
-      const config = await adapter.load('/test/path')
+      const config = await adapter.load()
       expect(config).toBeDefined()
       expect(typeof config).toBe('object')
     })
 
     it('validate가 설정을 검증해야 함', async () => {
       const testConfig = {
-        filePatterns: ['**/*.ts'],
-        excludePatterns: ['**/node_modules/**']
+        notion: {
+          apiKey: 'secret_test',
+          databaseId: 'test-db-id',
+        },
+        analysis: {
+          maxConcurrency: 4,
+        },
       }
 
       const isValid = await adapter.validate(testConfig)
