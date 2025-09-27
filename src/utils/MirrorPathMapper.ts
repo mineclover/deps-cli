@@ -15,10 +15,24 @@ export class MirrorPathMapper {
   private docsRoot: string
   private mirrorRoot: string
 
-  constructor(projectRoot: string, docsRoot: string = './docs') {
+  constructor(projectRoot: string, docsRoot: string = './docs', namespace?: string) {
     this.projectRoot = resolve(projectRoot)
     this.docsRoot = resolve(docsRoot)
-    this.mirrorRoot = resolve(this.docsRoot, 'mirror')
+    
+    // namespace 기본 컨벤션: 모든 경로는 프로젝트 루트 기준
+    if (namespace) {
+      // 절대 경로나 프로젝트 밖으로 나가는 경로는 방지
+      if (namespace.startsWith('/') || namespace.includes('../')) {
+        throw new Error(`Invalid namespace: cannot use absolute paths or paths outside project root. Got: ${namespace}`)
+      }
+
+      // 모든 namespace는 프로젝트 루트 기준으로 처리 (단순 이름 포함)
+      const cleanNamespace = namespace.startsWith('./') ? namespace.slice(2) : namespace
+      this.mirrorRoot = resolve(this.projectRoot, cleanNamespace)
+    } else {
+      // 기본값: docs/mirror
+      this.mirrorRoot = resolve(this.docsRoot, 'mirror')
+    }
   }
 
   /**

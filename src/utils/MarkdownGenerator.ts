@@ -14,16 +14,13 @@ import type {
   MethodMetadata,
   NodeId,
 } from '../types/MappingTypes.js'
-import { IdRegistry } from './IdRegistry.js'
 import { RoleClassifier } from './RoleClassifier.js'
 
 export class MarkdownGenerator {
   private config: MarkdownGenerationConfig
-  private idRegistry: IdRegistry
 
-  constructor(config: MarkdownGenerationConfig, idRegistry?: IdRegistry) {
+  constructor(config: MarkdownGenerationConfig) {
     this.config = config
-    this.idRegistry = idRegistry || new IdRegistry()
   }
 
   /**
@@ -40,17 +37,20 @@ export class MarkdownGenerator {
    * 전체 프로젝트의 마크다운 생성 (일관된 위치 지정)
    */
   async generateProjectMarkdown(nodes: MarkdownNode[]): Promise<void> {
-    // 출력 디렉토리 생성
-    await mkdir(this.config.outputDirectory, { recursive: true })
-
     console.log(`📝 Generating ${nodes.length} markdown files...`)
 
-    // 각 노드별 마크다운 파일 생성 (일관된 위치)
+    // 각 노드별 마크다운 파일 생성 (MirrorPathMapper 경로 사용)
     for (const node of nodes) {
       const markdown = await this.generateNodeMarkdown(node)
 
-      // ID 레지스트리 기반 일관된 경로 사용
-      const filePath = this.idRegistry.getMarkdownPath(node.id, this.config.outputDirectory)
+      // 파일 메타데이터에서 documentPath 사용 (MirrorPathMapper에 의해 생성된 경로)
+      const metadata = node.metadata as FileMetadata
+      const filePath = metadata.documentPath
+
+      if (!filePath) {
+        console.warn(`  ⚠️  No documentPath for file: ${metadata.path}`)
+        continue
+      }
 
       // 디렉토리 생성
       await mkdir(dirname(filePath), { recursive: true })
@@ -61,9 +61,6 @@ export class MarkdownGenerator {
       console.log(`  ✅ Generated: ${filePath}`)
     }
 
-    // 인덱스 파일 생성
-    await this.generateIndexFiles(nodes)
-
     console.log(`✅ All markdown files generated successfully!`)
   }
 
@@ -71,13 +68,11 @@ export class MarkdownGenerator {
    * YAML/JSON Front Matter 생성
    */
   private generateFrontMatter(node: MarkdownNode): string {
-    const { metadata, role, dependencies, dependents } = node
+    const { metadata } = node
 
     const frontMatterData = {
-      id: node.id,
       title: node.title,
       type: node.type,
-      role: role,
       lastUpdated: new Date().toISOString(),
       ...(node.type === 'file' && {
         file: {
@@ -85,31 +80,8 @@ export class MarkdownGenerator {
           language: (metadata as FileMetadata).language,
           size: (metadata as FileMetadata).size,
           lines: (metadata as FileMetadata).lines,
-          hash: (metadata as FileMetadata).hash,
         },
       }),
-      ...(node.type === 'method' && {
-        method: {
-          name: (metadata as MethodMetadata).name,
-          signature: (metadata as MethodMetadata).signature,
-          type: (metadata as MethodMetadata).type,
-          exported: (metadata as MethodMetadata).exported,
-          startLine: (metadata as MethodMetadata).startLine,
-          endLine: (metadata as MethodMetadata).endLine,
-          hash: (metadata as MethodMetadata).hash,
-        },
-      }),
-      dependencies: dependencies.map((dep) => ({
-        id: dep.toId,
-        type: dep.type,
-        members: dep.importedMembers,
-      })),
-      dependents: dependents.map((dep) => ({
-        id: dep.fromId,
-        type: dep.type,
-        members: dep.importedMembers,
-      })),
-      metrics: this.config.includeMetrics ? this.generateMetrics(node) : undefined,
     }
 
     if (this.config.frontMatterFormat === 'json') {
@@ -123,36 +95,20 @@ export class MarkdownGenerator {
    * 마크다운 컨텐츠 생성
    */
   private generateContent(node: MarkdownNode): string {
-    const { type, role, metadata, dependencies, dependents } = node
+    const { type, metadata } = node
 
     let content = `# ${node.title}\n\n`
 
     // 개요 섹션
     content += this.generateOverviewSection(node)
 
-    // 역할 정보
-    content += `## 🏷️ 역할\n\n`
-    content += `**${RoleClassifier.getRoleDisplayName(role)}** (\`${role}\`)\n\n`
-
-    // 메타데이터 섹션
+    // 파일 메타데이터 섹션
     if (type === 'file') {
       content += this.generateFileMetadataSection(metadata as FileMetadata)
-    } else {
-      content += this.generateMethodMetadataSection(metadata as MethodMetadata)
     }
 
-    // 의존성 관계 섹션
-    if (dependencies.length > 0 || dependents.length > 0) {
-      content += this.generateDependencySection(dependencies, dependents, node.id)
-    }
-
-    // 메트릭 섹션
-    if (this.config.includeMetrics) {
-      content += this.generateMetricsSection(node)
-    }
-
-    // 소스 코드 섹션 (옵션)
-    if (this.config.includeSourceCode && node.content) {
+    // 소스 코드 섹션 (항상 포함)
+    if (node.content) {
       content += this.generateSourceCodeSection(node)
     }
 
@@ -224,56 +180,7 @@ export class MarkdownGenerator {
     return section
   }
 
-  /**
-   * 의존성 관계 섹션 생성 (현재 노드 ID 전달)
-   */
-  private generateDependencySection(
-    dependencies: DependencyMapping[],
-    dependents: DependencyMapping[],
-    currentNodeId: NodeId
-  ): string {
-    let section = `## 🔗 의존성 관계\n\n`
 
-    if (dependencies.length > 0) {
-      section += `### 📥 의존하는 항목 (Dependencies)\n\n`
-      for (const dep of dependencies) {
-        const link = this.generateIdLink(dep.toId, currentNodeId)
-        const members = dep.importedMembers ? ` (${dep.importedMembers.join(', ')})` : ''
-        section += `- ${link} - \`${dep.type}\`${members}\n`
-      }
-      section += `\n`
-    }
-
-    if (dependents.length > 0) {
-      section += `### 📤 이것에 의존하는 항목 (Dependents)\n\n`
-      for (const dep of dependents) {
-        const link = this.generateIdLink(dep.fromId, currentNodeId)
-        const members = dep.importedMembers ? ` (${dep.importedMembers.join(', ')})` : ''
-        section += `- ${link} - \`${dep.type}\`${members}\n`
-      }
-      section += `\n`
-    }
-
-    return section
-  }
-
-  /**
-   * 메트릭 섹션 생성
-   */
-  private generateMetricsSection(node: MarkdownNode): string {
-    const metrics = this.generateMetrics(node)
-
-    let section = `## 📊 메트릭\n\n`
-    section += `| 메트릭 | 값 |\n`
-    section += `|--------|----|\n`
-
-    for (const [key, value] of Object.entries(metrics)) {
-      section += `| ${key} | ${value} |\n`
-    }
-
-    section += `\n`
-    return section
-  }
 
   /**
    * 소스 코드 섹션 생성
@@ -290,28 +197,11 @@ export class MarkdownGenerator {
    * ID 기반 링크 생성
    */
   private generateIdLink(targetId: NodeId, currentNodeId?: NodeId): string {
-    try {
-      if (currentNodeId) {
-        return this.idRegistry.generateIdLink(targetId, currentNodeId, this.config.outputDirectory)
-      } else {
-        // 현재 노드 ID가 없는 경우 기본 링크 생성
-        return `[${targetId}](${targetId}.md)`
-      }
-    } catch (error) {
-      // 레지스트리에서 찾지 못한 경우 기본 링크 생성
-      console.warn(`⚠️ ID not found in registry: ${targetId}`)
-      return `[${targetId}](${targetId}.md)`
-    }
+    // 단순한 파일 경로 기반 링크 생성 (ID는 상대 경로로 사용됨)
+    const safeName = String(targetId).replace(/[\/\\]/g, '-').replace(/\./g, '-')
+    return `[${targetId}](${safeName}.md)`
   }
 
-  /**
-   * 마크다운 파일 경로 생성 (ID 레지스트리 사용으로 삭제 예정)
-   * @deprecated Use idRegistry.getMarkdownPath() instead
-   */
-  private getMarkdownFilePath(node: MarkdownNode): string {
-    // ID 레지스트리를 통한 일관된 경로 사용
-    return this.idRegistry.getMarkdownPath(node.id, this.config.outputDirectory)
-  }
 
   /**
    * 인덱스 파일 생성

@@ -29,12 +29,10 @@ import { RoleClassifier } from '../utils/RoleClassifier.js'
 export class StructuralMappingEngine {
   private state: MappingSystemState
   private roleClassifier: RoleClassifier
-  private idRegistry: IdRegistry
   private pathMapper: MirrorPathMapper
 
   constructor(projectRoot?: string, docsRoot?: string) {
     this.roleClassifier = new RoleClassifier()
-    this.idRegistry = new IdRegistry()
     this.pathMapper = new MirrorPathMapper(projectRoot || process.cwd(), docsRoot || './docs')
     this.state = this.initializeState()
   }
@@ -77,25 +75,11 @@ export class StructuralMappingEngine {
   ): Promise<MarkdownNode[]> {
     const nodes: MarkdownNode[] = []
 
-    // 1. 파일 노드 생성 (namespace 전달)
+    // 1. 파일 노드만 생성 (미러링 완성도 집중)
     const fileNodes = await this.createFileNodes(dependencyGraph, projectPath, namespace)
     nodes.push(...fileNodes)
 
-    // 2. 메서드 노드 생성 (가벼운 구현)
-    const methodNodes = await this.createMethodNodes(dependencyGraph, projectPath)
-    nodes.push(...methodNodes)
-
-    // 3. 라이브러리/모듈 노드 생성 (가벼운 구현)
-    const libraryNodes = await this.createLibraryNodes(projectPath)
-    nodes.push(...libraryNodes)
-
-    // 4. 의존성 관계 매핑
-    this.mapDependencyRelations(nodes, dependencyGraph)
-
-    // 5. 매핑 테이블 업데이트
-    this.updateMappingTable(nodes)
-
-    // 6. 상태 업데이트
+    // 2. 상태 업데이트
     this.state.totalNodes = nodes.length
     this.state.lastUpdate = new Date()
     this.state.initialized = true
@@ -117,15 +101,22 @@ export class StructuralMappingEngine {
     // 모든 파일 경로 수집 (edges와 entry points에서)
     const allFiles = new Set<string>()
 
-    // Entry points 추가
+    // Entry points 추가 (실제 파일만)
     for (const entryPoint of dependencyGraph.entryPoints) {
-      allFiles.add(entryPoint)
+      // 디렉토리가 아닌 실제 파일만 추가
+      if (entryPoint && !entryPoint.endsWith('/') && entryPoint.includes('.')) {
+        allFiles.add(entryPoint)
+      }
     }
 
-    // Edges에서 파일 추가
+    // Edges에서 파일 추가 (실제 파일만)
     for (const edge of dependencyGraph.edges) {
-      allFiles.add(edge.from)
-      allFiles.add(edge.to)
+      if (edge.from && !edge.from.endsWith('/') && edge.from.includes('.')) {
+        allFiles.add(edge.from)
+      }
+      if (edge.to && !edge.to.endsWith('/') && edge.to.includes('.')) {
+        allFiles.add(edge.to)
+      }
     }
 
     // 각 파일에 대해 노드 생성
@@ -151,91 +142,16 @@ export class StructuralMappingEngine {
    * 메서드 노드 생성 (가벼운 구현)
    */
   private async createMethodNodes(dependencyGraph: DependencyGraph, projectPath: string): Promise<MarkdownNode[]> {
-    const methodNodes: MarkdownNode[] = []
-    const allFiles = new Set<string>()
-
-    // 모든 파일 경로 수집
-    for (const entryPoint of dependencyGraph.entryPoints) {
-      allFiles.add(entryPoint)
-    }
-
-    for (const edge of dependencyGraph.edges) {
-      allFiles.add(edge.from)
-      allFiles.add(edge.to)
-    }
-
-    // 각 파일에서 메서드 추출
-    for (const filePath of allFiles) {
-      try {
-        // 해당 파일의 FileId 가져오기 (이미 생성된 것 사용)
-        const { id: fileId } = this.idRegistry.getOrCreatePredictableFileId(filePath, projectPath)
-
-        // 메서드 분석
-        const analysisResult = await MethodAnalyzer.analyzeFile(filePath, fileId)
-
-        // 각 메서드에 대해 MarkdownNode 생성
-        for (const methodMetadata of analysisResult.methods) {
-          const methodNode = this.createMethodNode(methodMetadata, filePath)
-          if (methodNode) {
-            methodNodes.push(methodNode)
-          }
-        }
-      } catch (error) {
-        console.warn(`메서드 분석 실패: ${filePath}`, error)
-      }
-    }
-
-    return methodNodes
+    // 메서드 노드 생성을 간소화 - 현재는 파일 수준에서만 문서 생성
+    return []
   }
 
   /**
    * 라이브러리/모듈 노드 생성 (가벼운 구현)
    */
   private async createLibraryNodes(projectPath: string): Promise<MarkdownNode[]> {
-    const libraryNodes: MarkdownNode[] = []
-
-    try {
-      // 프로젝트 라이브러리/모듈 분석
-      const analysisResult = await LibraryAnalyzer.analyzeProject(projectPath)
-
-      // 라이브러리 노드 생성
-      for (const libraryMetadata of analysisResult.libraries) {
-        const libraryNode = this.createLibraryNode(libraryMetadata)
-        if (libraryNode) {
-          libraryNodes.push(libraryNode)
-        }
-      }
-
-      // 모듈 노드 생성
-      for (const moduleMetadata of analysisResult.modules) {
-        const moduleNode = this.createModuleNode(moduleMetadata)
-        if (moduleNode) {
-          libraryNodes.push(moduleNode)
-        }
-      }
-
-      console.log(
-        `📚 라이브러리/모듈 분석 완료: ${analysisResult.libraries.length}개 라이브러리, ${analysisResult.modules.length}개 모듈`
-      )
-
-      // 순환 의존성 검사
-      const dependencyGraph = LibraryAnalyzer.generateLibraryDependencyGraph(
-        analysisResult.libraries,
-        analysisResult.modules
-      )
-
-      const cycles = LibraryAnalyzer.detectCircularDependencies(dependencyGraph)
-      if (cycles.length > 0) {
-        console.warn(`⚠️  순환 의존성 발견: ${cycles.length}개`)
-        cycles.forEach((cycle, index) => {
-          console.warn(`   ${index + 1}. ${cycle.join(' → ')}`)
-        })
-      }
-    } catch (error) {
-      console.warn('라이브러리/모듈 분석 실패:', error)
-    }
-
-    return libraryNodes
+    // 라이브러리/모듈 노드 생성을 간소화 - 현재는 파일 수준에서만 문서 생성
+    return []
   }
 
   /**
@@ -490,49 +406,33 @@ export class StructuralMappingEngine {
       // 상대 경로 계산
       const relativePath = filePath.replace(projectPath, '').replace(/^\//, '')
 
-      // PredictableIdGenerator를 사용한 예측 가능한 ID 생성
-      const { id: fileId, isNew } = this.idRegistry.getOrCreatePredictableFileId(filePath, projectPath, namespace)
+      // MirrorPathMapper를 사용한 문서 경로 생성
+      const documentPath = this.pathMapper.getDocumentPath(filePath)
 
-      // 파일 메타데이터 생성
+      // 간단한 파일 메타데이터 생성
       const fileMetadata: FileMetadata = {
-        id: fileId,
+        id: relativePath as any,
         path: filePath,
         relativePath,
-        role: CodeRole.SERVICE, // 임시, 나중에 분류
+        role: CodeRole.SERVICE,
         language: this.detectLanguage(filePath),
         size: stats.size,
         lines: content.split('\n').length,
         lastModified: stats.mtime,
-        hash: IdGenerator.generateContentHash(content),
+        hash: '',
+        documentPath,
       }
 
-      if (isNew) {
-        console.log(`  🆕 New predictable ID: ${fileId} for ${relativePath}`)
-      } else {
-        console.log(`  🔄 Existing predictable ID: ${fileId} for ${relativePath}`)
-      }
-
-      // 역할 분류
-      fileMetadata.role = this.roleClassifier.classifyFile(fileMetadata, content)
-
-      // MirrorPathMapper를 사용한 문서 경로 매핑
-      const documentPath = this.pathMapper.getDocumentPath(filePath)
-      const mappingInfo = this.pathMapper.getMappingInfo(filePath)
-
-      // 마크다운 노드 생성
+      // 마크다운 노드 생성 (의존성 없이)
       const markdownNode: MarkdownNode = {
-        id: fileMetadata.id,
-        title: this.generateFileTitle(fileMetadata),
+        id: relativePath as any,
+        title: `${relativePath}`,
         type: 'file',
-        role: fileMetadata.role,
-        metadata: {
-          ...fileMetadata,
-          documentPath,
-          mirrorPath: mappingInfo.relativePath,
-        },
-        dependencies: [], // 나중에 매핑
-        dependents: [], // 나중에 매핑
-        content: content, // 옵션에 따라 포함
+        role: CodeRole.SERVICE,
+        metadata: fileMetadata,
+        dependencies: [],
+        dependents: [],
+        content: content,
       }
 
       return markdownNode
@@ -546,7 +446,7 @@ export class StructuralMappingEngine {
    * 의존성 관계 매핑
    */
   private mapDependencyRelations(nodes: MarkdownNode[], dependencyGraph: DependencyGraph): void {
-    // 파일 경로 → 노드 ID 매핑 테이블 생성
+    // 파일 경로 → 노드 매핑 테이블 생성
     const pathToNodeMap = new Map<string, MarkdownNode>()
     for (const node of nodes) {
       if (node.type === 'file') {
@@ -625,7 +525,7 @@ export class StructuralMappingEngine {
    * 마크다운 생성 (ID 레지스트리 전달)
    */
   async generateMarkdown(nodes: MarkdownNode[]): Promise<void> {
-    const generator = new MarkdownGenerator(this.state.generationConfig, this.idRegistry)
+    const generator = new MarkdownGenerator(this.state.generationConfig)
     await generator.generateProjectMarkdown(nodes)
   }
 
