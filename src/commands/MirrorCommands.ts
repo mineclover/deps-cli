@@ -2,6 +2,7 @@ import type { Command } from 'commander'
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { SimpleMirrorManager } from '../utils/SimpleMirrorManager.js'
+import { MirrorTrackingManager } from '../utils/MirrorTrackingManager.js'
 import { wrapAction } from './CommandRegistry.js'
 
 /**
@@ -9,6 +10,9 @@ import { wrapAction } from './CommandRegistry.js'
  */
 export const registerMirrorCommands = (program: Command): void => {
   registerMirrorCommand(program)
+  registerMirrorSyncCommand(program)
+  registerMirrorAnalyzeCommand(program)
+  registerMirrorCleanupCommand(program)
   registerMarkdownCommands(program)
 }
 
@@ -179,3 +183,186 @@ const registerMarkdownVerifyCommand = (markdownCommand: Command): void => {
         }
       }))
   }
+
+/**
+ * 미러링 동기화 명령어
+ */
+const registerMirrorSyncCommand = (program: Command): void => {
+  program
+    .command('mirror-sync')
+    .description('🔄 동기화 미러링 파일들과 죽은 코드 관리')
+    .argument('[path]', '분석할 소스 경로', '.')
+    .option('-d, --docs-path <path>', '미러링 문서 경로', './docs/mirror')
+    .option('--auto-backup', '죽은 파일 자동 백업', true)
+    .option('--auto-cleanup', '백업 파일 자동 정리', false)
+    .option('--force-sync', '강제 전체 동기화', false)
+    .option('--dry-run', '실제 변경 없이 시뮬레이션')
+    .option('-v, --verbose', '상세 로그 출력')
+    .action(wrapAction(async (sourcePath, options) => {
+      console.log('🔄 Mirror Sync System')
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
+      const trackingManager = new MirrorTrackingManager()
+
+      // 소스 파일 스캔
+      const manager = new SimpleMirrorManager(process.cwd(), options.docsPath)
+      const sourceFiles = manager.scanFiles(sourcePath, ['.ts', '.tsx', '.js', '.jsx'])
+
+      console.log(`📁 소스 파일: ${sourceFiles.length}개`)
+      console.log(`📂 미러링 경로: ${options.docsPath}`)
+
+      if (options.dryRun) {
+        console.log('🔍 시뮬레이션 모드 - 실제 변경사항 없음')
+      }
+
+      console.log('')
+      console.log('⏳ 미러링 파일 동기화 중...')
+
+      // 미러링 동기화 실행
+      const syncResult = await trackingManager.syncMirrorFiles(sourceFiles, options.docsPath, {
+        autoBackupDeadFiles: options.autoBackup,
+        autoCleanupBackups: options.autoCleanup,
+        forceFullSync: options.forceSync,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      })
+
+      // 결과 출력
+      console.log('')
+      console.log('📊 동기화 결과:')
+      console.log(`  ✅ 처리된 파일: ${syncResult.processedFiles}개`)
+      console.log(`  🆕 생성된 파일: ${syncResult.createdFiles}개`)
+      console.log(`  🔄 업데이트된 파일: ${syncResult.updatedFiles}개`)
+      console.log(`  📦 백업된 파일: ${syncResult.backedUpFiles}개`)
+      console.log(`  🗑️ 삭제된 파일: ${syncResult.deletedFiles}개`)
+      console.log(`  ⚡ 실행 시간: ${syncResult.executionTime}ms`)
+
+      if (syncResult.errors.length > 0) {
+        console.log('')
+        console.log('❌ 오류 발생:')
+        syncResult.errors.forEach(error => {
+          console.log(`  • ${error.filePath}: ${error.error}`)
+        })
+      }
+
+      if (options.dryRun) {
+        console.log('')
+        console.log('🔍 시뮬레이션 모드 - 실제 변경사항 없음')
+      }
+    }))
+}
+
+/**
+ * 죽은 코드 분석 명령어
+ */
+const registerMirrorAnalyzeCommand = (program: Command): void => {
+  program
+    .command('mirror-analyze')
+    .description('🔍 죽은 코드 및 미러링 파일 상태 분석')
+    .argument('[path]', '분석할 소스 경로', '.')
+    .option('-d, --docs-path <path>', '미러링 문서 경로', './docs/mirror')
+    .option('--detailed', '상세 분석 결과 출력')
+    .action(wrapAction(async (sourcePath, options) => {
+      console.log('🔍 Mirror Analysis System')
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
+      const trackingManager = new MirrorTrackingManager()
+
+      // 소스 파일 스캔
+      const manager = new SimpleMirrorManager(process.cwd(), options.docsPath)
+      const sourceFiles = manager.scanFiles(sourcePath, ['.ts', '.tsx', '.js', '.jsx'])
+
+      console.log(`📁 현재 소스 파일: ${sourceFiles.length}개`)
+
+      // 죽은 코드 분석
+      const analysis = await trackingManager.analyzeDeadCode(sourceFiles)
+
+      console.log('')
+      console.log('📊 분석 결과:')
+      console.log(`  📄 총 미러링 파일: ${analysis.totalMirrorFiles}개`)
+      console.log(`  ✅ 활성 파일: ${analysis.activeFiles}개`)
+      console.log(`  ⚠️ 비활성 파일: ${analysis.inactiveFiles}개`)
+      console.log(`  🔍 고아 파일: ${analysis.orphanedFiles}개`)
+      console.log(`  📦 백업 파일: ${analysis.backupFiles}개`)
+
+      if (analysis.filesToBackup.length > 0) {
+        console.log('')
+        console.log(`🔄 백업 대상 파일: ${analysis.filesToBackup.length}개`)
+        if (options.detailed) {
+          analysis.filesToBackup.forEach(file => {
+            console.log(`  • ${file.mirrorPath} (소스: ${file.sourcePath})`)
+          })
+        }
+      }
+
+      if (analysis.filesToCleanup.length > 0) {
+        console.log('')
+        console.log(`🗑️ 정리 대상 파일: ${analysis.filesToCleanup.length}개`)
+        if (options.detailed) {
+          analysis.filesToCleanup.forEach(file => {
+            console.log(`  • ${file.mirrorPath} (백업: ${file.backupPath})`)
+          })
+        }
+      }
+
+      // 통계 정보
+      const stats = await trackingManager.getStatistics()
+      console.log('')
+      console.log('📈 통계:')
+      console.log(`  💾 총 파일 크기: ${(stats.totalSize / 1024 / 1024).toFixed(2)} MB`)
+      console.log(`  🎯 활성 비율: ${stats.totalFiles > 0 ? Math.round((stats.activeFiles / stats.totalFiles) * 100) : 0}%`)
+    }))
+}
+
+/**
+ * 미러링 정리 명령어
+ */
+const registerMirrorCleanupCommand = (program: Command): void => {
+  program
+    .command('mirror-cleanup')
+    .description('🧹 오래된 백업 파일 및 죽은 미러링 파일 정리')
+    .option('--retention-days <days>', '백업 파일 보관 일수', '30')
+    .option('--force', '확인 없이 강제 정리')
+    .option('--dry-run', '실제 삭제 없이 시뮬레이션')
+    .option('-v, --verbose', '상세 로그 출력')
+    .action(wrapAction(async (options) => {
+      console.log('🧹 Mirror Cleanup System')
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
+      const trackingManager = new MirrorTrackingManager({
+        backupRetentionDays: Number(options.retentionDays),
+        autoCleanup: true
+      })
+
+      // 현재 상태 확인
+      const stats = await trackingManager.getStatistics()
+      console.log(`📄 총 추적 파일: ${stats.totalFiles}개`)
+      console.log(`📦 백업 파일: ${stats.backupFiles}개`)
+
+      if (!options.force && !options.dryRun) {
+        console.log('')
+        console.log('⚠️  이 작업은 오래된 백업 파일들을 영구적으로 삭제합니다.')
+        console.log('   --force 옵션 또는 --dry-run 옵션을 사용하세요.')
+        return
+      }
+
+      // 빈 소스 파일 목록으로 정리 실행 (백업 정리만)
+      const syncResult = await trackingManager.syncMirrorFiles([], './docs/mirror', {
+        autoBackupDeadFiles: false,
+        autoCleanupBackups: true,
+        forceFullSync: false,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      })
+
+      console.log('')
+      console.log('📊 정리 결과:')
+      console.log(`  🗑️ 삭제된 파일: ${syncResult.deletedFiles}개`)
+      console.log(`  ⚡ 실행 시간: ${syncResult.executionTime}ms`)
+
+      if (options.dryRun) {
+        console.log('')
+        console.log('🔍 시뮬레이션 모드 - 실제 삭제 없음')
+      }
+    }))
+}

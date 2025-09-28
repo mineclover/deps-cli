@@ -22,6 +22,7 @@ export interface ImportDeclaration {
   importedMembers: Array<string> // import된 멤버들
   importType: 'named' | 'default' | 'namespace' | 'side-effect'
   line: number
+  typeImportMembers?: Array<string> // TypeScript type import 멤버들
 }
 
 export interface DependencyEdge {
@@ -49,6 +50,7 @@ export class EnhancedDependencyAnalyzer {
   private parseCache = new Map<string, any>()
 
   constructor(private projectRoot: string) {
+    console.log(`🔍 Debug: EnhancedDependencyAnalyzer initialized with projectRoot: ${this.projectRoot}`)
     this.parser = new TypeScriptParser()
     this.extractor = new EnhancedExportExtractor()
   }
@@ -60,14 +62,31 @@ export class EnhancedDependencyAnalyzer {
     filePatterns: Array<string> = ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     excludePatterns: Array<string> = []
   ): Promise<ProjectDependencyGraph> {
+    console.log(`🚨 CRITICAL DEBUG: buildProjectDependencyGraph ENTRY POINT`)
+    console.log(`🚨 CRITICAL DEBUG: filePatterns:`, filePatterns)
+    console.log(`🚨 CRITICAL DEBUG: excludePatterns:`, excludePatterns)
+    console.log(`🚨 CRITICAL DEBUG: projectRoot:`, this.projectRoot)
+    
     const allFiles = await this.getAllProjectFiles(filePatterns, excludePatterns)
+    console.log(`🚨 CRITICAL DEBUG: Found ${allFiles.length} files:`, allFiles)
+    
     const sortedFiles = this.sortFilesByAbsolutePath(allFiles)
+    console.log(`🚨 CRITICAL DEBUG: Sorted to ${sortedFiles.length} absolute paths:`, sortedFiles)
 
     // 1단계: 모든 파일의 export 정보 수집 (절대경로 기준)
     const exportMap = await this.collectAllExports(sortedFiles)
+    console.log(`🚨 CRITICAL DEBUG: Export map size: ${exportMap.size}`)
 
     // 2단계: 모든 파일의 import 정보 수집 (절대경로로 resolve)
     const importMap = await this.collectAllImports(sortedFiles)
+    console.log(`🚨 CRITICAL DEBUG: Import map size: ${importMap.size}`)
+    
+    // 특정 파일의 imports 확인
+    const testFile = Array.from(importMap.keys()).find(f => f.includes('EnhancedDependencyAnalyzer'))
+    if (testFile) {
+      const imports = importMap.get(testFile) || []
+      console.log(`🚨 CRITICAL DEBUG: ${testFile} has ${imports.length} imports:`, imports.map(i => i.importPath))
+    }
 
     // 3단계: export-import 매칭을 통한 의존성 엣지 구축
     const edges = this.buildDependencyEdges(importMap, exportMap)
@@ -95,10 +114,12 @@ export class EnhancedDependencyAnalyzer {
    * 모든 파일의 export 정보를 EnhancedExportExtractor로 수집
    */
   private async collectAllExports(sortedFiles: Array<string>): Promise<Map<string, EnhancedExportExtractionResult>> {
+    console.log(`🔍 Debug: collectAllExports called with ${sortedFiles.length} files:`, sortedFiles.slice(0, 5))
     const exportMap = new Map<string, EnhancedExportExtractionResult>()
 
     for (const filePath of sortedFiles) {
       try {
+        console.log(`🔍 Debug: Attempting to read file: ${filePath}`)
         const content = await fs.readFile(filePath, 'utf-8')
         const parseResult = await this.parseWithCache(filePath, content)
 
@@ -120,10 +141,15 @@ export class EnhancedDependencyAnalyzer {
   private async collectAllImports(sortedFiles: Array<string>): Promise<Map<string, Array<ImportDeclaration>>> {
     const importMap = new Map<string, Array<ImportDeclaration>>()
 
+    console.log(`🚨 CRITICAL DEBUG: collectAllImports called with ${sortedFiles.length} files`)
+
     for (const filePath of sortedFiles) {
       try {
+        console.log(`🚨 CRITICAL DEBUG: Reading file: ${filePath}`)
         const content = await fs.readFile(filePath, 'utf-8')
+        console.log(`🚨 CRITICAL DEBUG: File read successfully, content length: ${content.length}`)
         const imports = await this.extractImportsFromFile(filePath, content)
+        console.log(`🚨 CRITICAL DEBUG: Extracted ${imports.length} imports from ${filePath}`)
         importMap.set(filePath, imports)
       } catch (error) {
         console.warn(`Failed to extract imports from ${filePath}:`, error)
@@ -140,41 +166,91 @@ export class EnhancedDependencyAnalyzer {
   private async extractImportsFromFile(filePath: string, content: string): Promise<Array<ImportDeclaration>> {
     const imports: Array<ImportDeclaration> = []
 
+    // DEBUG ALL FILES for now to see what's happening
+    console.log(`🚨 PROCESSING FILE: ${filePath}`)
+
     // TODO: AST 기반 import 추출 구현
-    // 현재는 정규식 폴백 사용
-    const importRegex = /import\s+(?:(?:\{([^}]+)\})|(?:(\w+))|(?:\*\s+as\s+(\w+)))\s+from\s+['"`]([^'"`]+)['"`]/g
-    const lines = content.split('\n')
+    // 현재는 정규식 폴백 사용 - 멀티라인 import 지원
+    
+    // First, handle multiline imports by normalizing them
+    // Replace multiline imports with single line versions
+    const normalizedContent = content.replace(
+      /import\s+(?:type\s+)?(?:(?:\{[^}]*\})|(?:\w+)|(?:\*\s+as\s+\w+))\s+from\s+['"`][^'"`]+['"`]/gms,
+      (match) => match.replace(/\s+/g, ' ')
+    )
+    
+    // Updated regex to handle TypeScript type imports
+    const importRegex = /import\s+(?:type\s+)?(?:(?:\{([^}]+)\})|(?:(\w+))|(?:\*\s+as\s+(\w+)))\s+from\s+['"`]([^'"`]+)['"`]/g
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i]
-      let match: RegExpExecArray | null = null
+    // Process the entire content as one string to catch multiline imports
+    let match: RegExpExecArray | null = null
+    importRegex.lastIndex = 0; // Reset regex
+    
+    while ((match = importRegex.exec(normalizedContent)) !== null) {
+      const [fullMatch, namedImports, defaultImport, namespaceImport, importPath] = match
 
-      match = importRegex.exec(line)
-      while (match !== null) {
-        const [, namedImports, defaultImport, namespaceImport, importPath] = match
+      console.log(`🚨 FOUND IMPORT in ${filePath}: ${importPath}`)
 
-        if (!importPath.startsWith('node:') && !this.isNodeModule(importPath)) {
-          const resolvedPath = await this.resolveImportPath(importPath, filePath)
-          const importedMembers = namedImports
-            ? namedImports.split(',').map((m) => m.trim())
-            : defaultImport
-              ? [defaultImport]
-              : namespaceImport
-                ? [namespaceImport]
-                : []
+      // 모든 외부 라이브러리 포함 (node:, npm 패키지, 상대경로)
+      // 단, 상대경로인 경우에만 resolve 시도
+      let resolvedPath: string | null = null
+      
+      if (importPath.startsWith('.') || importPath.startsWith('/')) {
+        resolvedPath = await this.resolveImportPath(importPath, filePath)
+      }
+      
+      // 타입 임포트와 일반 임포트를 분리해서 처리
+      const regularMembers: string[] = []
+      const typeMembers: string[] = []
+      
+      if (namedImports) {
+        namedImports.split(',').forEach((m) => {
+          let cleanMember = m.trim()
+          
+          // TypeScript type import 감지
+          if (cleanMember.startsWith('type ')) {
+            const typeName = cleanMember.substring(5).trim()
+            typeMembers.push(typeName)
+            console.log(`🚨 DETECTED TYPE IMPORT: ${typeName}`)
+          } else {
+            regularMembers.push(cleanMember)
+          }
+        })
+      } else if (defaultImport) {
+        regularMembers.push(defaultImport)
+      } else if (namespaceImport) {
+        regularMembers.push(namespaceImport)
+      }
 
-          imports.push({
-            importPath,
-            resolvedPath,
-            importedMembers,
-            importType: namedImports ? 'named' : defaultImport ? 'default' : 'namespace',
-            line: i + 1,
-          })
-        }
+      // Find line number by searching for the import in original content
+      const lineNumber = content.split('\n').findIndex(line => 
+        line.includes(`from '${importPath}'`) || 
+        line.includes(`from "${importPath}"`) || 
+        line.includes(`from \`${importPath}\``)
+      ) + 1
 
-        match = importRegex.exec(line)
+      const importDeclaration: ImportDeclaration = {
+        importPath,
+        resolvedPath,
+        importedMembers: regularMembers, // 일반 멤버만 포함
+        importType: namedImports ? 'named' : defaultImport ? 'default' : 'namespace',
+        line: lineNumber || 1,
+      }
+
+      // 타입 임포트가 있으면 추가
+      if (typeMembers.length > 0) {
+        importDeclaration.typeImportMembers = typeMembers
+      }
+
+      imports.push(importDeclaration)
+
+      console.log(`🚨 ADDED IMPORT: ${importPath} with regular members: ${regularMembers.join(', ')}`)
+      if (typeMembers.length > 0) {
+        console.log(`🚨 TYPE MEMBERS: ${typeMembers.join(', ')}`)
       }
     }
+
+    console.log(`🚨 TOTAL IMPORTS for ${filePath}: ${imports.length}`)
 
     return imports
   }
@@ -315,11 +391,16 @@ export class EnhancedDependencyAnalyzer {
     excludePatterns: Array<string> = []
   ): Promise<Array<string>> {
     const glob = await import('glob')
+    const fs = await import('fs/promises')
     const files: Array<string> = []
 
     // 기본 제외 패턴에 사용자 제외 패턴 추가
     const defaultIgnore = ['**/node_modules/**', '**/dist/**', '**/.git/**', '**/coverage/**']
     const allIgnorePatterns = [...defaultIgnore, ...excludePatterns]
+
+    console.log(`🔍 Debug: Searching for patterns:`, patterns)
+    console.log(`🔍 Debug: Exclude patterns:`, allIgnorePatterns)
+    console.log(`🔍 Debug: Project root:`, this.projectRoot)
 
     for (const pattern of patterns) {
       try {
@@ -327,14 +408,29 @@ export class EnhancedDependencyAnalyzer {
           cwd: this.projectRoot,
           ignore: allIgnorePatterns,
         })
+        console.log(`🔍 Debug: Pattern '${pattern}' found ${matches.length} matches:`, matches.slice(0, 5))
+        
+        // Filter out directories - only keep actual files
         for (const match of matches) {
-          files.push(match)
+          const fullPath = path.resolve(this.projectRoot, match)
+          try {
+            const stat = await fs.stat(fullPath)
+            if (stat.isFile()) {
+              files.push(match)
+              console.log(`🔍 Debug: Added file: ${match}`)
+            } else {
+              console.log(`🔍 Debug: Skipped directory: ${match}`)
+            }
+          } catch (error) {
+            console.log(`🔍 Debug: Stat error for ${match}:`, error instanceof Error ? error.message : error)
+          }
         }
-      } catch {
-        console.warn(`Failed to glob pattern ${pattern}`)
+      } catch (error) {
+        console.warn(`Failed to glob pattern ${pattern}:`, error)
       }
     }
 
+    console.log(`🔍 Debug: Total files collected: ${files.length}`)
     return Array.from(new Set(files)) // 중복 제거
   }
 

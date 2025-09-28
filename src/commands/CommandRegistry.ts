@@ -58,7 +58,8 @@ export const wrapAction = <T extends Array<any>>(
   return async (...args: T) => {
     try {
       await action(...args)
-      process.exit(0)
+      // Give time for any async operations to complete before exiting
+      setTimeout(() => process.exit(0), 100)
     } catch (error) {
       console.error('❌ Command failed:', error instanceof Error ? error.message : String(error))
       process.exit(1)

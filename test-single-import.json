@@ -1,0 +1,3855 @@
+{
+  "timestamp": "2025-09-28T14:46:10.524Z",
+  "totalNamespaces": 4,
+  "results": [
+    {
+      "namespace": "file-mirror",
+      "items": [
+        {
+          "type": "file",
+          "value": "src/adapters/ConfigAdapter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/adapters/ConfigAdapter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ConfigAdapter",
+              "DefaultConfigAdapter",
+              "defaultConfig",
+              "load",
+              "validate",
+              "getSource",
+              "CliConfigAdapter",
+              "constructor",
+              "load",
+              "validate",
+              "getSource"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/adapters/EnvironmentAdapter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/adapters/EnvironmentAdapter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "parseBoolean",
+              "parseNumber",
+              "parseEnum",
+              "validate",
+              "EnvironmentAdapter",
+              "metadata",
+              "validationErrors",
+              "constructor",
+              "load",
+              "validate",
+              "getSource",
+              "getMetadata",
+              "getAllMetadata",
+              "getValidationErrors",
+              "validateNotionApiKey",
+              "validateNotionDatabaseId",
+              "validateNotionPageId",
+              "validatePath",
+              "parseEnvVar",
+              "parseNumberEnvVar",
+              "parseBooleanEnvVar",
+              "parseEnumEnvVar",
+              "parsePathEnvVar",
+              "setMetadata",
+              "addValidationError"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/analyzers/EnhancedDependencyAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/analyzers/EnhancedDependencyAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ProjectExportInfo",
+              "ProjectImportInfo",
+              "ImportDeclaration",
+              "ProjectDependencyGraph"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "@context-action/dependency-linker"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/AnalysisCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/AnalysisCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerAnalysisCommands"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../analyzers/EnhancedDependencyAnalyzer.js",
+              "../config/ConfigManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/CommandRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/CommandRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "CommandModule",
+              "createCommandRegistry",
+              "addCommonOptions",
+              "wrapAction"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/ExperimentalCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/ExperimentalCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerExperimentalCommands"
+            ],
+            "imports": [
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/MirrorCommand.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommand.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorCommandOptions",
+              "MirrorCommand",
+              "manager",
+              "constructor",
+              "createCommand",
+              "showMirrorMapping",
+              "createMirrorFiles",
+              "validatePath"
+            ],
+            "imports": [
+              "commander",
+              "../utils/SimpleMirrorManager.js",
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/MirrorCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerMirrorCommands"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path",
+              "../utils/SimpleMirrorManager.js",
+              "../utils/MirrorTrackingManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/NamespaceCollectionCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCollectionCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerNamespaceCollectionCommands"
+            ],
+            "imports": [
+              "fs/promises",
+              "fs",
+              "../analyzers/EnhancedDependencyAnalyzer.js",
+              "../utils/DependencyDataCollector.js",
+              "../utils/NamespaceDataFilter.js",
+              "../utils/DocumentPathGenerator.js",
+              "../utils/ModularCollectionManager.js",
+              "../utils/SimpleMirrorManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/NamespaceCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerNamespaceCommands"
+            ],
+            "imports": [
+              "../config/ConfigManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/config/ConfigCache.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/config/ConfigCache.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "globalConfigCache"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/config/ConfigManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/config/ConfigManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ConfigLoadOptions",
+              "globalConfig"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../adapters/ConfigAdapter.js",
+              "../adapters/EnvironmentAdapter.js",
+              "./ConfigCache.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/mapping/DocumentNavigator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/mapping/DocumentNavigator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DocumentInfo",
+              "NavigationResult",
+              "SearchOptions",
+              "DocumentNavigator",
+              "documentsPath",
+              "idRegistry",
+              "documentCache",
+              "constructor",
+              "scanDocuments",
+              "parseDocumentFile",
+              "parseYamlFrontMatter",
+              "searchDocuments",
+              "getDocumentById",
+              "getDocumentPath",
+              "getDocumentsByRole",
+              "getDependencies",
+              "getDocumentStatistics",
+              "formatDocumentsList"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../utils/IdRegistry.js",
+              "../utils/RoleClassifier.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/mapping/StructuralMappingEngine.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/mapping/StructuralMappingEngine.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "node:fs/promises",
+              "../types/MappingTypes.js",
+              "../utils/IdGenerator.js",
+              "../utils/IdRegistry.js",
+              "../utils/ImprovedIdGenerator.js",
+              "../utils/LibraryAnalyzer.js",
+              "../utils/MarkdownGenerator.js",
+              "../utils/MethodAnalyzer.js",
+              "../utils/MirrorPathMapper.js",
+              "../utils/RoleClassifier.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/ExportImportCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/ExportImportCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ExportImportCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "collectExports",
+              "collectImports",
+              "shouldCollectExports",
+              "shouldCollectImports",
+              "matchesFilePatterns",
+              "matchesKeyword",
+              "findMatchedPattern",
+              "matchesGlobPattern",
+              "shouldExclude"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/FilePathCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/FilePathCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FilePathCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "findMatchingPattern",
+              "matchesPattern",
+              "shouldExclude",
+              "getFileExports",
+              "getFileImports",
+              "inferModuleType"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/KeywordCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/KeywordCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "KeywordCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "matchesKeywordPattern",
+              "matchesGlobPattern",
+              "shouldExclude",
+              "mapExportTypeToDataType"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/scripts/simple-mirror-create.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/scripts/simple-mirror-create.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "../utils/SimpleMirrorManager.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/scripts/simple-mirror.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/scripts/simple-mirror.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "../utils/SimpleMirrorManager.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/AnalysisTypes.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/AnalysisTypes.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "AnalysisResult",
+              "BatchResult",
+              "BatchSummary",
+              "FileIndex",
+              "AnalysisSummary",
+              "FilterOptions",
+              "OutputFormat",
+              "AnalysisPreset",
+              "DependencyGraph"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/CollectionModules.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "CollectionModule",
+              "CollectionDataType",
+              "CollectionModuleOptions",
+              "ValidationResult",
+              "CollectionModuleMetadata",
+              "CollectionModuleRegistry",
+              "ModuleExecutionResult",
+              "ModuleSelectionStrategy",
+              "ModuleExecutionConfig"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/EnvironmentConfig.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/EnvironmentConfig.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "EnvironmentConfig",
+              "EnvironmentVariables",
+              "ConfigSource",
+              "ConfigMetadata",
+              "EnvironmentConfigWithMetadata",
+              "NamespacedConfig",
+              "NamespacedConfigWithMetadata",
+              "NamespaceOptions"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/MappingTypes.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/MappingTypes.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileId",
+              "MethodId",
+              "NodeId",
+              "CodeRole",
+              "FileMetadata",
+              "MethodMetadata",
+              "MarkdownNode",
+              "IdMappingTable",
+              "RoleClassificationRule",
+              "MarkdownGenerationConfig",
+              "MappingSystemState"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/MirrorTracking.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/MirrorTracking.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorFileStatus",
+              "MirrorFileInfo",
+              "MirrorTrackingDatabase",
+              "MirrorTrackingConfig",
+              "DeadCodeAnalysisResult",
+              "MirrorSyncOptions",
+              "SyncResult"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/NamespaceCollection.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/NamespaceCollection.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DocumentStrategy",
+              "DocumentPaths",
+              "DocumentTemplates",
+              "NamespaceCollectionRule",
+              "CollectedDataItem",
+              "NamespaceCollectionResult",
+              "GeneratedDocumentPath",
+              "NamespaceCollectionConfig",
+              "CollectionOptions"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/CollectionModuleRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/CollectionModuleRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/DependencyDataCollector.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/DependencyDataCollector.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DependencyDataCollector",
+              "projectRoot",
+              "constructor",
+              "collectForNamespace",
+              "collectForAllNamespaces",
+              "collectFilePathItems",
+              "collectKeywordItems",
+              "collectLibraryImportItems",
+              "isExternalLibrary",
+              "extractLibraryName",
+              "findMatchingPattern",
+              "matchesPattern",
+              "matchesKeywordPattern",
+              "shouldExclude",
+              "getFileExports",
+              "getFileImports"
+            ],
+            "imports": [
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/DocumentPathGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/DocumentPathGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/IdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/IdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdGenerator",
+              "generateFileId",
+              "generateMethodId",
+              "generateContentHash",
+              "generateSignatureHash",
+              "generateStableFileId",
+              "generateStableMethodId",
+              "isValidFileId",
+              "isValidMethodId",
+              "getIdType"
+            ],
+            "imports": [
+              "node:crypto"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/IdRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/IdRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdRegistryEntry"
+            ],
+            "imports": [
+              "node:crypto",
+              "./ImprovedIdGenerator.js",
+              "./PredictableIdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/ImprovedIdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/ImprovedIdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ImprovedIdGenerator",
+              "generateReadableFileId",
+              "generateReadableMethodId",
+              "generateHierarchicalFileId",
+              "generateRoleBasedFileId",
+              "generateSemanticFileId",
+              "toKebabCase",
+              "isReadableId",
+              "extractFileContext",
+              "generateContextualFileId",
+              "migrateLegacyId",
+              "compareIdStrategies",
+              "generateLegacyFileId"
+            ],
+            "imports": [
+              "node:crypto",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/index.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdGenerator",
+              "IdRegistry",
+              "ImprovedIdGenerator",
+              "LibraryAnalyzer",
+              "MarkdownContent",
+              "MarkdownGenerator",
+              "MarkdownGenerator",
+              "MarkdownPathResolver",
+              "MethodAnalyzer",
+              "MirrorPathMapper",
+              "PredictableIdGenerator",
+              "RoleClassifier",
+              "FileMetadata",
+              "MirrorOptions",
+              "SimpleMirrorManager",
+              "createMirrorManager",
+              "createPathResolver",
+              "createMarkdownGenerator",
+              "generateMarkdownForFile",
+              "generateMarkdownForFiles",
+              "getMarkdownPath",
+              "MarkdownGeneratorUtil"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/LibraryAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/LibraryAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "LibraryMetadata",
+              "ModuleMetadata",
+              "LibraryAnalysisResult",
+              "LibraryAnalyzer"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../types/MappingTypes.js",
+              "./IdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MarkdownGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileMetadata",
+              "MarkdownContent",
+              "MarkdownGenerator",
+              "projectRoot",
+              "pathResolver",
+              "constructor",
+              "updateNamespace",
+              "createFileMetadata",
+              "generateBasicMarkdown",
+              "generateDetailedMarkdown",
+              "getLanguageFromExtension",
+              "generateMarkdownFile",
+              "generateBatchMarkdown",
+              "getPathResolver",
+              "getConfig"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "./MarkdownPathResolver.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MarkdownPathResolver.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownPathResolver.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MarkdownPathResolver",
+              "projectRoot",
+              "docsRoot",
+              "namespace",
+              "constructor",
+              "updateNamespace",
+              "getMarkdownPath",
+              "getBasePath",
+              "getSourcePath",
+              "ensureMarkdownDirectory",
+              "getMappingInfo",
+              "getBatchMapping",
+              "verifyMapping",
+              "getConfig"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MethodAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MethodAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MethodAnalysisResult",
+              "MethodAnalyzer",
+              "name"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "./IdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MirrorPathMapper.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorPathMapper.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorPathMapper",
+              "projectRoot",
+              "docsRoot",
+              "mirrorRoot",
+              "constructor",
+              "getDocumentPath",
+              "getSourcePath",
+              "ensureDocumentDirectory",
+              "getMappingInfo",
+              "getBatchMapping",
+              "verifyMapping",
+              "generateProjectMappingTable",
+              "scanDirectory",
+              "getMethodDocumentPath",
+              "getClassDocumentPath",
+              "getLibraryDocumentPath",
+              "getModuleDocumentPath",
+              "getDependencyGraphDocumentPath",
+              "getMarkdownPath",
+              "findConsistentPath",
+              "getRelativeMapping"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MirrorTrackingManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorTrackingManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorTrackingManager",
+              "database",
+              "config",
+              "constructor",
+              "loadDatabase",
+              "saveDatabase",
+              "syncMirrorFiles",
+              "analyzeDeadCode",
+              "processMirrorFile",
+              "backupMirrorFile",
+              "identifyDeadFiles",
+              "cleanupOldBackups",
+              "createOrUpdateMirrorFile",
+              "generateMirrorPath",
+              "createEmptyDatabase",
+              "getStatistics"
+            ],
+            "imports": [
+              "fs/promises",
+              "fs",
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/ModularCollectionManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/ModularCollectionManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "./CollectionModuleRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/NamespaceDataFilter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/NamespaceDataFilter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/PathMapper.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PathMapper.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "PathMapper",
+              "projectRoot",
+              "baseDocsPath",
+              "namespace",
+              "constructor",
+              "getMarkdownPath",
+              "getSourcePath",
+              "getMappingInfo",
+              "getBatchMapping",
+              "getDirectoryMapping",
+              "verifyMapping",
+              "getDocsDirectory",
+              "normalizeNamespace",
+              "isFileExtension",
+              "getRelativeMapping",
+              "findConsistentPath",
+              "generateProjectMappingTable"
+            ],
+            "imports": [
+              "node:path",
+              "./PredictableIdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/PredictableIdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PredictableIdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "PredictableIdGenerator",
+              "generateProjectBasedFileId",
+              "generateReversibleFileId",
+              "generateNamespacedFileId",
+              "generatePredictableMethodId",
+              "generateHierarchicalId",
+              "generateSimpleFileId",
+              "generateSmartProjectId",
+              "isValidPredictableId",
+              "extractFileContext",
+              "compareIdStrategies",
+              "pathToReversibleId",
+              "pathToKebabCase",
+              "toReversibleKebabCase",
+              "toKebabCase",
+              "reverseFileId",
+              "isFileExtension",
+              "normalizeNamespace",
+              "validateProjectRoot",
+              "generateBatchIds"
+            ],
+            "imports": [
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/RoleClassifier.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/RoleClassifier.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "RoleClassifier",
+              "rules",
+              "constructor",
+              "initializeDefaultRules",
+              "classifyFile",
+              "classifyMethod",
+              "matchesRule",
+              "addRule",
+              "removeRule",
+              "getRules",
+              "calculateRoleStatistics",
+              "getRoleDisplayName"
+            ],
+            "imports": [
+              "node:path",
+              "../types/MappingTypes.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/SimpleMirrorManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/SimpleMirrorManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileMetadata",
+              "MirrorOptions",
+              "SimpleMirrorManager",
+              "projectRoot",
+              "mapper",
+              "pathResolver",
+              "markdownGenerator",
+              "constructor",
+              "updateMapper",
+              "getPathResolver",
+              "getMarkdownGenerator",
+              "scanFiles",
+              "createFileMetadata",
+              "createSimpleMirror",
+              "processFiles",
+              "showMirrorMapping"
+            ],
+            "imports": [
+              "node:fs",
+              "node:fs/promises",
+              "node:path",
+              "./MarkdownGenerator.js",
+              "./MarkdownPathResolver.js",
+              "./MirrorPathMapper.js"
+            ]
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "registerAnalysisCommands",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/AnalysisCommands.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "variable",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "CommandModule",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/CommandRegistry.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "createCommandRegistry",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/CommandRegistry.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "variable",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "registerExperimentalCommands",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/ExperimentalCommands.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "variable",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MirrorCommandOptions",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommand.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MirrorCommand",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommand.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "createCommand",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommand.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "class_method",
+            "declarationType": "class_member",
+            "parentClass": "MirrorCommand"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "registerMirrorCommands",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommands.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "variable",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "registerNamespaceCollectionCommands",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCollectionCommands.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "variable",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "registerNamespaceCommands",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCommands.ts",
+          "matchedPattern": "Command",
+          "metadata": {
+            "exportType": "variable",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "ExportImportCollectionModule",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/ExportImportCollectionModule.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "FilePathCollectionModule",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/FilePathCollectionModule.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "inferModuleType",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/FilePathCollectionModule.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "class_method",
+            "declarationType": "class_member",
+            "parentClass": "FilePathCollectionModule"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "KeywordCollectionModule",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/KeywordCollectionModule.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "FilterOptions",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/AnalysisTypes.ts",
+          "matchedPattern": "Filter",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "CollectionModule",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "CollectionModuleOptions",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "CollectionModuleMetadata",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "CollectionModuleRegistry",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "ModuleExecutionResult",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "ModuleSelectionStrategy",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "ModuleExecutionConfig",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "DependencyDataCollector",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/DependencyDataCollector.ts",
+          "matchedPattern": "Collector",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "IdGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/IdGenerator.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "ImprovedIdGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/ImprovedIdGenerator.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "IdGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "re_export",
+            "declarationType": "re_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "ImprovedIdGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "re_export",
+            "declarationType": "re_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "LibraryAnalyzer",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Analyzer",
+          "metadata": {
+            "exportType": "re_export",
+            "declarationType": "re_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MarkdownGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "re_export",
+            "declarationType": "re_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MethodAnalyzer",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Analyzer",
+          "metadata": {
+            "exportType": "re_export",
+            "declarationType": "re_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "PredictableIdGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "re_export",
+            "declarationType": "re_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "SimpleMirrorManager",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Manager",
+          "metadata": {
+            "exportType": "re_export",
+            "declarationType": "re_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "createMirrorManager",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Manager",
+          "metadata": {
+            "exportType": "function",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "createMarkdownGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "function",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MarkdownGeneratorUtil",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "variable",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "ModuleMetadata",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/LibraryAnalyzer.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "type",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "LibraryAnalyzer",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/LibraryAnalyzer.ts",
+          "matchedPattern": "Analyzer",
+          "metadata": {
+            "exportType": "default",
+            "declarationType": "default_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MarkdownGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownGenerator.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MethodAnalyzer",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MethodAnalyzer.ts",
+          "matchedPattern": "Analyzer",
+          "metadata": {
+            "exportType": "default",
+            "declarationType": "default_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "getModuleDocumentPath",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorPathMapper.ts",
+          "matchedPattern": "Module",
+          "metadata": {
+            "exportType": "class_method",
+            "declarationType": "class_member",
+            "parentClass": "MirrorPathMapper"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "MirrorTrackingManager",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorTrackingManager.ts",
+          "matchedPattern": "Manager",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "PredictableIdGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PredictableIdGenerator.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "SimpleMirrorManager",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/SimpleMirrorManager.ts",
+          "matchedPattern": "Manager",
+          "metadata": {
+            "exportType": "class",
+            "declarationType": "named_export"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "markdownGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/SimpleMirrorManager.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "class_property",
+            "declarationType": "class_member",
+            "parentClass": "SimpleMirrorManager"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "getMarkdownGenerator",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/SimpleMirrorManager.ts",
+          "matchedPattern": "Generator",
+          "metadata": {
+            "exportType": "class_method",
+            "declarationType": "class_member",
+            "parentClass": "SimpleMirrorManager"
+          }
+        }
+      ],
+      "collectedAt": "2025-09-28T14:46:10.521Z",
+      "totalCount": 89
+    },
+    {
+      "namespace": "method-mirror",
+      "items": [
+        {
+          "type": "file",
+          "value": "src/adapters/ConfigAdapter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/adapters/ConfigAdapter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ConfigAdapter",
+              "DefaultConfigAdapter",
+              "defaultConfig",
+              "load",
+              "validate",
+              "getSource",
+              "CliConfigAdapter",
+              "constructor",
+              "load",
+              "validate",
+              "getSource"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/adapters/EnvironmentAdapter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/adapters/EnvironmentAdapter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "parseBoolean",
+              "parseNumber",
+              "parseEnum",
+              "validate",
+              "EnvironmentAdapter",
+              "metadata",
+              "validationErrors",
+              "constructor",
+              "load",
+              "validate",
+              "getSource",
+              "getMetadata",
+              "getAllMetadata",
+              "getValidationErrors",
+              "validateNotionApiKey",
+              "validateNotionDatabaseId",
+              "validateNotionPageId",
+              "validatePath",
+              "parseEnvVar",
+              "parseNumberEnvVar",
+              "parseBooleanEnvVar",
+              "parseEnumEnvVar",
+              "parsePathEnvVar",
+              "setMetadata",
+              "addValidationError"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/analyzers/EnhancedDependencyAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/analyzers/EnhancedDependencyAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ProjectExportInfo",
+              "ProjectImportInfo",
+              "ImportDeclaration",
+              "ProjectDependencyGraph"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "@context-action/dependency-linker"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/AnalysisCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/AnalysisCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerAnalysisCommands"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../analyzers/EnhancedDependencyAnalyzer.js",
+              "../config/ConfigManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/CommandRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/CommandRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "CommandModule",
+              "createCommandRegistry",
+              "addCommonOptions",
+              "wrapAction"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/ExperimentalCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/ExperimentalCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerExperimentalCommands"
+            ],
+            "imports": [
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/MirrorCommand.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommand.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorCommandOptions",
+              "MirrorCommand",
+              "manager",
+              "constructor",
+              "createCommand",
+              "showMirrorMapping",
+              "createMirrorFiles",
+              "validatePath"
+            ],
+            "imports": [
+              "commander",
+              "../utils/SimpleMirrorManager.js",
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/MirrorCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerMirrorCommands"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path",
+              "../utils/SimpleMirrorManager.js",
+              "../utils/MirrorTrackingManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/NamespaceCollectionCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCollectionCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerNamespaceCollectionCommands"
+            ],
+            "imports": [
+              "fs/promises",
+              "fs",
+              "../analyzers/EnhancedDependencyAnalyzer.js",
+              "../utils/DependencyDataCollector.js",
+              "../utils/NamespaceDataFilter.js",
+              "../utils/DocumentPathGenerator.js",
+              "../utils/ModularCollectionManager.js",
+              "../utils/SimpleMirrorManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/NamespaceCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerNamespaceCommands"
+            ],
+            "imports": [
+              "../config/ConfigManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/config/ConfigCache.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/config/ConfigCache.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "globalConfigCache"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/config/ConfigManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/config/ConfigManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ConfigLoadOptions",
+              "globalConfig"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../adapters/ConfigAdapter.js",
+              "../adapters/EnvironmentAdapter.js",
+              "./ConfigCache.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/mapping/DocumentNavigator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/mapping/DocumentNavigator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DocumentInfo",
+              "NavigationResult",
+              "SearchOptions",
+              "DocumentNavigator",
+              "documentsPath",
+              "idRegistry",
+              "documentCache",
+              "constructor",
+              "scanDocuments",
+              "parseDocumentFile",
+              "parseYamlFrontMatter",
+              "searchDocuments",
+              "getDocumentById",
+              "getDocumentPath",
+              "getDocumentsByRole",
+              "getDependencies",
+              "getDocumentStatistics",
+              "formatDocumentsList"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../utils/IdRegistry.js",
+              "../utils/RoleClassifier.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/mapping/StructuralMappingEngine.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/mapping/StructuralMappingEngine.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "node:fs/promises",
+              "../types/MappingTypes.js",
+              "../utils/IdGenerator.js",
+              "../utils/IdRegistry.js",
+              "../utils/ImprovedIdGenerator.js",
+              "../utils/LibraryAnalyzer.js",
+              "../utils/MarkdownGenerator.js",
+              "../utils/MethodAnalyzer.js",
+              "../utils/MirrorPathMapper.js",
+              "../utils/RoleClassifier.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/ExportImportCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/ExportImportCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ExportImportCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "collectExports",
+              "collectImports",
+              "shouldCollectExports",
+              "shouldCollectImports",
+              "matchesFilePatterns",
+              "matchesKeyword",
+              "findMatchedPattern",
+              "matchesGlobPattern",
+              "shouldExclude"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/FilePathCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/FilePathCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FilePathCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "findMatchingPattern",
+              "matchesPattern",
+              "shouldExclude",
+              "getFileExports",
+              "getFileImports",
+              "inferModuleType"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/KeywordCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/KeywordCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "KeywordCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "matchesKeywordPattern",
+              "matchesGlobPattern",
+              "shouldExclude",
+              "mapExportTypeToDataType"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/scripts/simple-mirror-create.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/scripts/simple-mirror-create.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "../utils/SimpleMirrorManager.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/scripts/simple-mirror.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/scripts/simple-mirror.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "../utils/SimpleMirrorManager.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/AnalysisTypes.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/AnalysisTypes.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "AnalysisResult",
+              "BatchResult",
+              "BatchSummary",
+              "FileIndex",
+              "AnalysisSummary",
+              "FilterOptions",
+              "OutputFormat",
+              "AnalysisPreset",
+              "DependencyGraph"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/CollectionModules.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "CollectionModule",
+              "CollectionDataType",
+              "CollectionModuleOptions",
+              "ValidationResult",
+              "CollectionModuleMetadata",
+              "CollectionModuleRegistry",
+              "ModuleExecutionResult",
+              "ModuleSelectionStrategy",
+              "ModuleExecutionConfig"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/EnvironmentConfig.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/EnvironmentConfig.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "EnvironmentConfig",
+              "EnvironmentVariables",
+              "ConfigSource",
+              "ConfigMetadata",
+              "EnvironmentConfigWithMetadata",
+              "NamespacedConfig",
+              "NamespacedConfigWithMetadata",
+              "NamespaceOptions"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/MappingTypes.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/MappingTypes.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileId",
+              "MethodId",
+              "NodeId",
+              "CodeRole",
+              "FileMetadata",
+              "MethodMetadata",
+              "MarkdownNode",
+              "IdMappingTable",
+              "RoleClassificationRule",
+              "MarkdownGenerationConfig",
+              "MappingSystemState"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/MirrorTracking.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/MirrorTracking.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorFileStatus",
+              "MirrorFileInfo",
+              "MirrorTrackingDatabase",
+              "MirrorTrackingConfig",
+              "DeadCodeAnalysisResult",
+              "MirrorSyncOptions",
+              "SyncResult"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/NamespaceCollection.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/NamespaceCollection.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DocumentStrategy",
+              "DocumentPaths",
+              "DocumentTemplates",
+              "NamespaceCollectionRule",
+              "CollectedDataItem",
+              "NamespaceCollectionResult",
+              "GeneratedDocumentPath",
+              "NamespaceCollectionConfig",
+              "CollectionOptions"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/CollectionModuleRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/CollectionModuleRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/DependencyDataCollector.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/DependencyDataCollector.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DependencyDataCollector",
+              "projectRoot",
+              "constructor",
+              "collectForNamespace",
+              "collectForAllNamespaces",
+              "collectFilePathItems",
+              "collectKeywordItems",
+              "collectLibraryImportItems",
+              "isExternalLibrary",
+              "extractLibraryName",
+              "findMatchingPattern",
+              "matchesPattern",
+              "matchesKeywordPattern",
+              "shouldExclude",
+              "getFileExports",
+              "getFileImports"
+            ],
+            "imports": [
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/DocumentPathGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/DocumentPathGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/IdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/IdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdGenerator",
+              "generateFileId",
+              "generateMethodId",
+              "generateContentHash",
+              "generateSignatureHash",
+              "generateStableFileId",
+              "generateStableMethodId",
+              "isValidFileId",
+              "isValidMethodId",
+              "getIdType"
+            ],
+            "imports": [
+              "node:crypto"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/IdRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/IdRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdRegistryEntry"
+            ],
+            "imports": [
+              "node:crypto",
+              "./ImprovedIdGenerator.js",
+              "./PredictableIdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/ImprovedIdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/ImprovedIdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ImprovedIdGenerator",
+              "generateReadableFileId",
+              "generateReadableMethodId",
+              "generateHierarchicalFileId",
+              "generateRoleBasedFileId",
+              "generateSemanticFileId",
+              "toKebabCase",
+              "isReadableId",
+              "extractFileContext",
+              "generateContextualFileId",
+              "migrateLegacyId",
+              "compareIdStrategies",
+              "generateLegacyFileId"
+            ],
+            "imports": [
+              "node:crypto",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/index.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdGenerator",
+              "IdRegistry",
+              "ImprovedIdGenerator",
+              "LibraryAnalyzer",
+              "MarkdownContent",
+              "MarkdownGenerator",
+              "MarkdownGenerator",
+              "MarkdownPathResolver",
+              "MethodAnalyzer",
+              "MirrorPathMapper",
+              "PredictableIdGenerator",
+              "RoleClassifier",
+              "FileMetadata",
+              "MirrorOptions",
+              "SimpleMirrorManager",
+              "createMirrorManager",
+              "createPathResolver",
+              "createMarkdownGenerator",
+              "generateMarkdownForFile",
+              "generateMarkdownForFiles",
+              "getMarkdownPath",
+              "MarkdownGeneratorUtil"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/LibraryAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/LibraryAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "LibraryMetadata",
+              "ModuleMetadata",
+              "LibraryAnalysisResult",
+              "LibraryAnalyzer"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../types/MappingTypes.js",
+              "./IdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MarkdownGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileMetadata",
+              "MarkdownContent",
+              "MarkdownGenerator",
+              "projectRoot",
+              "pathResolver",
+              "constructor",
+              "updateNamespace",
+              "createFileMetadata",
+              "generateBasicMarkdown",
+              "generateDetailedMarkdown",
+              "getLanguageFromExtension",
+              "generateMarkdownFile",
+              "generateBatchMarkdown",
+              "getPathResolver",
+              "getConfig"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "./MarkdownPathResolver.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MarkdownPathResolver.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownPathResolver.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MarkdownPathResolver",
+              "projectRoot",
+              "docsRoot",
+              "namespace",
+              "constructor",
+              "updateNamespace",
+              "getMarkdownPath",
+              "getBasePath",
+              "getSourcePath",
+              "ensureMarkdownDirectory",
+              "getMappingInfo",
+              "getBatchMapping",
+              "verifyMapping",
+              "getConfig"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MethodAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MethodAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MethodAnalysisResult",
+              "MethodAnalyzer",
+              "name"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "./IdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MirrorPathMapper.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorPathMapper.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorPathMapper",
+              "projectRoot",
+              "docsRoot",
+              "mirrorRoot",
+              "constructor",
+              "getDocumentPath",
+              "getSourcePath",
+              "ensureDocumentDirectory",
+              "getMappingInfo",
+              "getBatchMapping",
+              "verifyMapping",
+              "generateProjectMappingTable",
+              "scanDirectory",
+              "getMethodDocumentPath",
+              "getClassDocumentPath",
+              "getLibraryDocumentPath",
+              "getModuleDocumentPath",
+              "getDependencyGraphDocumentPath",
+              "getMarkdownPath",
+              "findConsistentPath",
+              "getRelativeMapping"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MirrorTrackingManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorTrackingManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorTrackingManager",
+              "database",
+              "config",
+              "constructor",
+              "loadDatabase",
+              "saveDatabase",
+              "syncMirrorFiles",
+              "analyzeDeadCode",
+              "processMirrorFile",
+              "backupMirrorFile",
+              "identifyDeadFiles",
+              "cleanupOldBackups",
+              "createOrUpdateMirrorFile",
+              "generateMirrorPath",
+              "createEmptyDatabase",
+              "getStatistics"
+            ],
+            "imports": [
+              "fs/promises",
+              "fs",
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/ModularCollectionManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/ModularCollectionManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "./CollectionModuleRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/NamespaceDataFilter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/NamespaceDataFilter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/PathMapper.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PathMapper.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "PathMapper",
+              "projectRoot",
+              "baseDocsPath",
+              "namespace",
+              "constructor",
+              "getMarkdownPath",
+              "getSourcePath",
+              "getMappingInfo",
+              "getBatchMapping",
+              "getDirectoryMapping",
+              "verifyMapping",
+              "getDocsDirectory",
+              "normalizeNamespace",
+              "isFileExtension",
+              "getRelativeMapping",
+              "findConsistentPath",
+              "generateProjectMappingTable"
+            ],
+            "imports": [
+              "node:path",
+              "./PredictableIdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/PredictableIdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PredictableIdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "PredictableIdGenerator",
+              "generateProjectBasedFileId",
+              "generateReversibleFileId",
+              "generateNamespacedFileId",
+              "generatePredictableMethodId",
+              "generateHierarchicalId",
+              "generateSimpleFileId",
+              "generateSmartProjectId",
+              "isValidPredictableId",
+              "extractFileContext",
+              "compareIdStrategies",
+              "pathToReversibleId",
+              "pathToKebabCase",
+              "toReversibleKebabCase",
+              "toKebabCase",
+              "reverseFileId",
+              "isFileExtension",
+              "normalizeNamespace",
+              "validateProjectRoot",
+              "generateBatchIds"
+            ],
+            "imports": [
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/RoleClassifier.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/RoleClassifier.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "RoleClassifier",
+              "rules",
+              "constructor",
+              "initializeDefaultRules",
+              "classifyFile",
+              "classifyMethod",
+              "matchesRule",
+              "addRule",
+              "removeRule",
+              "getRules",
+              "calculateRoleStatistics",
+              "getRoleDisplayName"
+            ],
+            "imports": [
+              "node:path",
+              "../types/MappingTypes.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/SimpleMirrorManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/SimpleMirrorManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileMetadata",
+              "MirrorOptions",
+              "SimpleMirrorManager",
+              "projectRoot",
+              "mapper",
+              "pathResolver",
+              "markdownGenerator",
+              "constructor",
+              "updateMapper",
+              "getPathResolver",
+              "getMarkdownGenerator",
+              "scanFiles",
+              "createFileMetadata",
+              "createSimpleMirror",
+              "processFiles",
+              "showMirrorMapping"
+            ],
+            "imports": [
+              "node:fs",
+              "node:fs/promises",
+              "node:path",
+              "./MarkdownGenerator.js",
+              "./MarkdownPathResolver.js",
+              "./MirrorPathMapper.js"
+            ]
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "classifyFile",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/RoleClassifier.ts",
+          "matchedPattern": "class",
+          "metadata": {
+            "exportType": "class_method",
+            "declarationType": "class_member",
+            "parentClass": "RoleClassifier"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "classifyMethod",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/RoleClassifier.ts",
+          "matchedPattern": "class",
+          "metadata": {
+            "exportType": "class_method",
+            "declarationType": "class_member",
+            "parentClass": "RoleClassifier"
+          }
+        }
+      ],
+      "collectedAt": "2025-09-28T14:46:10.522Z",
+      "totalCount": 46
+    },
+    {
+      "namespace": "library-structure",
+      "items": [
+        {
+          "type": "library-import",
+          "value": "readFile",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "writeFile",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "mkdir",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "stat",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "existsSync",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "readdirSync",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "statSync",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "fs",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "readdir",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "mkdirSync",
+          "sourcePath": "external/node/fs",
+          "matchedPattern": "library:node/fs",
+          "metadata": {
+            "libraryName": "node/fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "join",
+          "sourcePath": "external/node/path",
+          "matchedPattern": "library:node/path",
+          "metadata": {
+            "libraryName": "node/path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "resolve",
+          "sourcePath": "external/node/path",
+          "matchedPattern": "library:node/path",
+          "metadata": {
+            "libraryName": "node/path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "relative",
+          "sourcePath": "external/node/path",
+          "matchedPattern": "library:node/path",
+          "metadata": {
+            "libraryName": "node/path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "dirname",
+          "sourcePath": "external/node/path",
+          "matchedPattern": "library:node/path",
+          "metadata": {
+            "libraryName": "node/path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "extname",
+          "sourcePath": "external/node/path",
+          "matchedPattern": "library:node/path",
+          "metadata": {
+            "libraryName": "node/path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "path",
+          "sourcePath": "external/node/path",
+          "matchedPattern": "library:node/path",
+          "metadata": {
+            "libraryName": "node/path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "basename",
+          "sourcePath": "external/node/path",
+          "matchedPattern": "library:node/path",
+          "metadata": {
+            "libraryName": "node/path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "Tree",
+          "sourcePath": "external/tree-sitter",
+          "matchedPattern": "library:tree-sitter",
+          "metadata": {
+            "libraryName": "tree-sitter",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "type EnhancedExportExtractionResult",
+          "sourcePath": "external/@context-action/dependency-linker",
+          "matchedPattern": "library:@context-action/dependency-linker",
+          "metadata": {
+            "libraryName": "@context-action/dependency-linker",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "EnhancedExportExtractor",
+          "sourcePath": "external/@context-action/dependency-linker",
+          "matchedPattern": "library:@context-action/dependency-linker",
+          "metadata": {
+            "libraryName": "@context-action/dependency-linker",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "TypeScriptParser",
+          "sourcePath": "external/@context-action/dependency-linker",
+          "matchedPattern": "library:@context-action/dependency-linker",
+          "metadata": {
+            "libraryName": "@context-action/dependency-linker",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "",
+          "sourcePath": "external/@context-action/dependency-linker",
+          "matchedPattern": "library:@context-action/dependency-linker",
+          "metadata": {
+            "libraryName": "@context-action/dependency-linker",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "Command",
+          "sourcePath": "external/commander",
+          "matchedPattern": "library:commander",
+          "metadata": {
+            "libraryName": "commander",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "readFile",
+          "sourcePath": "external/fs",
+          "matchedPattern": "library:fs",
+          "metadata": {
+            "libraryName": "fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "writeFile",
+          "sourcePath": "external/fs",
+          "matchedPattern": "library:fs",
+          "metadata": {
+            "libraryName": "fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "existsSync",
+          "sourcePath": "external/fs",
+          "matchedPattern": "library:fs",
+          "metadata": {
+            "libraryName": "fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "stat",
+          "sourcePath": "external/fs",
+          "matchedPattern": "library:fs",
+          "metadata": {
+            "libraryName": "fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "rename",
+          "sourcePath": "external/fs",
+          "matchedPattern": "library:fs",
+          "metadata": {
+            "libraryName": "fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "unlink",
+          "sourcePath": "external/fs",
+          "matchedPattern": "library:fs",
+          "metadata": {
+            "libraryName": "fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "mkdir",
+          "sourcePath": "external/fs",
+          "matchedPattern": "library:fs",
+          "metadata": {
+            "libraryName": "fs",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "relative",
+          "sourcePath": "external/path",
+          "matchedPattern": "library:path",
+          "metadata": {
+            "libraryName": "path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "basename",
+          "sourcePath": "external/path",
+          "matchedPattern": "library:path",
+          "metadata": {
+            "libraryName": "path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "dirname",
+          "sourcePath": "external/path",
+          "matchedPattern": "library:path",
+          "metadata": {
+            "libraryName": "path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "extname",
+          "sourcePath": "external/path",
+          "matchedPattern": "library:path",
+          "metadata": {
+            "libraryName": "path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "join",
+          "sourcePath": "external/path",
+          "matchedPattern": "library:path",
+          "metadata": {
+            "libraryName": "path",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "createHash",
+          "sourcePath": "external/node/crypto",
+          "matchedPattern": "library:node/crypto",
+          "metadata": {
+            "libraryName": "node/crypto",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "defineConfig",
+          "sourcePath": "external/tsup",
+          "matchedPattern": "library:tsup",
+          "metadata": {
+            "libraryName": "tsup",
+            "importType": "named",
+            "isExternal": true
+          }
+        },
+        {
+          "type": "library-import",
+          "value": "defineConfig",
+          "sourcePath": "external/vitest",
+          "matchedPattern": "library:vitest",
+          "metadata": {
+            "libraryName": "vitest",
+            "importType": "named",
+            "isExternal": true
+          }
+        }
+      ],
+      "collectedAt": "2025-09-28T14:46:10.523Z",
+      "totalCount": 38
+    },
+    {
+      "namespace": "namespace-grouping",
+      "items": [
+        {
+          "type": "file",
+          "value": "src/adapters/ConfigAdapter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/adapters/ConfigAdapter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ConfigAdapter",
+              "DefaultConfigAdapter",
+              "defaultConfig",
+              "load",
+              "validate",
+              "getSource",
+              "CliConfigAdapter",
+              "constructor",
+              "load",
+              "validate",
+              "getSource"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/adapters/EnvironmentAdapter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/adapters/EnvironmentAdapter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "parseBoolean",
+              "parseNumber",
+              "parseEnum",
+              "validate",
+              "EnvironmentAdapter",
+              "metadata",
+              "validationErrors",
+              "constructor",
+              "load",
+              "validate",
+              "getSource",
+              "getMetadata",
+              "getAllMetadata",
+              "getValidationErrors",
+              "validateNotionApiKey",
+              "validateNotionDatabaseId",
+              "validateNotionPageId",
+              "validatePath",
+              "parseEnvVar",
+              "parseNumberEnvVar",
+              "parseBooleanEnvVar",
+              "parseEnumEnvVar",
+              "parsePathEnvVar",
+              "setMetadata",
+              "addValidationError"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/analyzers/EnhancedDependencyAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/analyzers/EnhancedDependencyAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ProjectExportInfo",
+              "ProjectImportInfo",
+              "ImportDeclaration",
+              "ProjectDependencyGraph"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "@context-action/dependency-linker"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/AnalysisCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/AnalysisCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerAnalysisCommands"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../analyzers/EnhancedDependencyAnalyzer.js",
+              "../config/ConfigManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/CommandRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/CommandRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "CommandModule",
+              "createCommandRegistry",
+              "addCommonOptions",
+              "wrapAction"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/ExperimentalCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/ExperimentalCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerExperimentalCommands"
+            ],
+            "imports": [
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/MirrorCommand.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommand.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorCommandOptions",
+              "MirrorCommand",
+              "manager",
+              "constructor",
+              "createCommand",
+              "showMirrorMapping",
+              "createMirrorFiles",
+              "validatePath"
+            ],
+            "imports": [
+              "commander",
+              "../utils/SimpleMirrorManager.js",
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/MirrorCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/MirrorCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerMirrorCommands"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path",
+              "../utils/SimpleMirrorManager.js",
+              "../utils/MirrorTrackingManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/NamespaceCollectionCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCollectionCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerNamespaceCollectionCommands"
+            ],
+            "imports": [
+              "fs/promises",
+              "fs",
+              "../analyzers/EnhancedDependencyAnalyzer.js",
+              "../utils/DependencyDataCollector.js",
+              "../utils/NamespaceDataFilter.js",
+              "../utils/DocumentPathGenerator.js",
+              "../utils/ModularCollectionManager.js",
+              "../utils/SimpleMirrorManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/commands/NamespaceCommands.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/commands/NamespaceCommands.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "registerNamespaceCommands"
+            ],
+            "imports": [
+              "../config/ConfigManager.js",
+              "./CommandRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/config/ConfigCache.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/config/ConfigCache.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "globalConfigCache"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/config/ConfigManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/config/ConfigManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ConfigLoadOptions",
+              "globalConfig"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../adapters/ConfigAdapter.js",
+              "../adapters/EnvironmentAdapter.js",
+              "./ConfigCache.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/mapping/DocumentNavigator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/mapping/DocumentNavigator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DocumentInfo",
+              "NavigationResult",
+              "SearchOptions",
+              "DocumentNavigator",
+              "documentsPath",
+              "idRegistry",
+              "documentCache",
+              "constructor",
+              "scanDocuments",
+              "parseDocumentFile",
+              "parseYamlFrontMatter",
+              "searchDocuments",
+              "getDocumentById",
+              "getDocumentPath",
+              "getDocumentsByRole",
+              "getDependencies",
+              "getDocumentStatistics",
+              "formatDocumentsList"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../utils/IdRegistry.js",
+              "../utils/RoleClassifier.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/mapping/StructuralMappingEngine.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/mapping/StructuralMappingEngine.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "node:fs/promises",
+              "../types/MappingTypes.js",
+              "../utils/IdGenerator.js",
+              "../utils/IdRegistry.js",
+              "../utils/ImprovedIdGenerator.js",
+              "../utils/LibraryAnalyzer.js",
+              "../utils/MarkdownGenerator.js",
+              "../utils/MethodAnalyzer.js",
+              "../utils/MirrorPathMapper.js",
+              "../utils/RoleClassifier.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/ExportImportCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/ExportImportCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ExportImportCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "collectExports",
+              "collectImports",
+              "shouldCollectExports",
+              "shouldCollectImports",
+              "matchesFilePatterns",
+              "matchesKeyword",
+              "findMatchedPattern",
+              "matchesGlobPattern",
+              "shouldExclude"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/FilePathCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/FilePathCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FilePathCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "findMatchingPattern",
+              "matchesPattern",
+              "shouldExclude",
+              "getFileExports",
+              "getFileImports",
+              "inferModuleType"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/modules/KeywordCollectionModule.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/modules/KeywordCollectionModule.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "KeywordCollectionModule",
+              "id",
+              "name",
+              "description",
+              "version",
+              "supportedTypes",
+              "collect",
+              "supports",
+              "validateConfig",
+              "matchesKeywordPattern",
+              "matchesGlobPattern",
+              "shouldExclude",
+              "mapExportTypeToDataType"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/scripts/simple-mirror-create.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/scripts/simple-mirror-create.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "../utils/SimpleMirrorManager.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/scripts/simple-mirror.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/scripts/simple-mirror.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "../utils/SimpleMirrorManager.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/AnalysisTypes.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/AnalysisTypes.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "AnalysisResult",
+              "BatchResult",
+              "BatchSummary",
+              "FileIndex",
+              "AnalysisSummary",
+              "FilterOptions",
+              "OutputFormat",
+              "AnalysisPreset",
+              "DependencyGraph"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/CollectionModules.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/CollectionModules.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "CollectionModule",
+              "CollectionDataType",
+              "CollectionModuleOptions",
+              "ValidationResult",
+              "CollectionModuleMetadata",
+              "CollectionModuleRegistry",
+              "ModuleExecutionResult",
+              "ModuleSelectionStrategy",
+              "ModuleExecutionConfig"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/EnvironmentConfig.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/EnvironmentConfig.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "EnvironmentConfig",
+              "EnvironmentVariables",
+              "ConfigSource",
+              "ConfigMetadata",
+              "EnvironmentConfigWithMetadata",
+              "NamespacedConfig",
+              "NamespacedConfigWithMetadata",
+              "NamespaceOptions"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/MappingTypes.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/MappingTypes.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileId",
+              "MethodId",
+              "NodeId",
+              "CodeRole",
+              "FileMetadata",
+              "MethodMetadata",
+              "MarkdownNode",
+              "IdMappingTable",
+              "RoleClassificationRule",
+              "MarkdownGenerationConfig",
+              "MappingSystemState"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/MirrorTracking.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/MirrorTracking.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorFileStatus",
+              "MirrorFileInfo",
+              "MirrorTrackingDatabase",
+              "MirrorTrackingConfig",
+              "DeadCodeAnalysisResult",
+              "MirrorSyncOptions",
+              "SyncResult"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/types/NamespaceCollection.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/types/NamespaceCollection.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DocumentStrategy",
+              "DocumentPaths",
+              "DocumentTemplates",
+              "NamespaceCollectionRule",
+              "CollectedDataItem",
+              "NamespaceCollectionResult",
+              "GeneratedDocumentPath",
+              "NamespaceCollectionConfig",
+              "CollectionOptions"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/CollectionModuleRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/CollectionModuleRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/DependencyDataCollector.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/DependencyDataCollector.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "DependencyDataCollector",
+              "projectRoot",
+              "constructor",
+              "collectForNamespace",
+              "collectForAllNamespaces",
+              "collectFilePathItems",
+              "collectKeywordItems",
+              "collectLibraryImportItems",
+              "isExternalLibrary",
+              "extractLibraryName",
+              "findMatchingPattern",
+              "matchesPattern",
+              "matchesKeywordPattern",
+              "shouldExclude",
+              "getFileExports",
+              "getFileImports"
+            ],
+            "imports": [
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/DocumentPathGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/DocumentPathGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/IdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/IdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdGenerator",
+              "generateFileId",
+              "generateMethodId",
+              "generateContentHash",
+              "generateSignatureHash",
+              "generateStableFileId",
+              "generateStableMethodId",
+              "isValidFileId",
+              "isValidMethodId",
+              "getIdType"
+            ],
+            "imports": [
+              "node:crypto"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/IdRegistry.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/IdRegistry.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdRegistryEntry"
+            ],
+            "imports": [
+              "node:crypto",
+              "./ImprovedIdGenerator.js",
+              "./PredictableIdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/ImprovedIdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/ImprovedIdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "ImprovedIdGenerator",
+              "generateReadableFileId",
+              "generateReadableMethodId",
+              "generateHierarchicalFileId",
+              "generateRoleBasedFileId",
+              "generateSemanticFileId",
+              "toKebabCase",
+              "isReadableId",
+              "extractFileContext",
+              "generateContextualFileId",
+              "migrateLegacyId",
+              "compareIdStrategies",
+              "generateLegacyFileId"
+            ],
+            "imports": [
+              "node:crypto",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/index.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/index.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "IdGenerator",
+              "IdRegistry",
+              "ImprovedIdGenerator",
+              "LibraryAnalyzer",
+              "MarkdownContent",
+              "MarkdownGenerator",
+              "MarkdownGenerator",
+              "MarkdownPathResolver",
+              "MethodAnalyzer",
+              "MirrorPathMapper",
+              "PredictableIdGenerator",
+              "RoleClassifier",
+              "FileMetadata",
+              "MirrorOptions",
+              "SimpleMirrorManager",
+              "createMirrorManager",
+              "createPathResolver",
+              "createMarkdownGenerator",
+              "generateMarkdownForFile",
+              "generateMarkdownForFiles",
+              "getMarkdownPath",
+              "MarkdownGeneratorUtil"
+            ],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/LibraryAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/LibraryAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "LibraryMetadata",
+              "ModuleMetadata",
+              "LibraryAnalysisResult",
+              "LibraryAnalyzer"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "../types/MappingTypes.js",
+              "./IdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MarkdownGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileMetadata",
+              "MarkdownContent",
+              "MarkdownGenerator",
+              "projectRoot",
+              "pathResolver",
+              "constructor",
+              "updateNamespace",
+              "createFileMetadata",
+              "generateBasicMarkdown",
+              "generateDetailedMarkdown",
+              "getLanguageFromExtension",
+              "generateMarkdownFile",
+              "generateBatchMarkdown",
+              "getPathResolver",
+              "getConfig"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "node:path",
+              "./MarkdownPathResolver.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MarkdownPathResolver.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownPathResolver.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MarkdownPathResolver",
+              "projectRoot",
+              "docsRoot",
+              "namespace",
+              "constructor",
+              "updateNamespace",
+              "getMarkdownPath",
+              "getBasePath",
+              "getSourcePath",
+              "ensureMarkdownDirectory",
+              "getMappingInfo",
+              "getBatchMapping",
+              "verifyMapping",
+              "getConfig"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MethodAnalyzer.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MethodAnalyzer.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MethodAnalysisResult",
+              "MethodAnalyzer",
+              "name"
+            ],
+            "imports": [
+              "node:fs/promises",
+              "./IdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MirrorPathMapper.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorPathMapper.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorPathMapper",
+              "projectRoot",
+              "docsRoot",
+              "mirrorRoot",
+              "constructor",
+              "getDocumentPath",
+              "getSourcePath",
+              "ensureDocumentDirectory",
+              "getMappingInfo",
+              "getBatchMapping",
+              "verifyMapping",
+              "generateProjectMappingTable",
+              "scanDirectory",
+              "getMethodDocumentPath",
+              "getClassDocumentPath",
+              "getLibraryDocumentPath",
+              "getModuleDocumentPath",
+              "getDependencyGraphDocumentPath",
+              "getMarkdownPath",
+              "findConsistentPath",
+              "getRelativeMapping"
+            ],
+            "imports": [
+              "node:fs",
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/MirrorTrackingManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MirrorTrackingManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "MirrorTrackingManager",
+              "database",
+              "config",
+              "constructor",
+              "loadDatabase",
+              "saveDatabase",
+              "syncMirrorFiles",
+              "analyzeDeadCode",
+              "processMirrorFile",
+              "backupMirrorFile",
+              "identifyDeadFiles",
+              "cleanupOldBackups",
+              "createOrUpdateMirrorFile",
+              "generateMirrorPath",
+              "createEmptyDatabase",
+              "getStatistics"
+            ],
+            "imports": [
+              "fs/promises",
+              "fs",
+              "path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/ModularCollectionManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/ModularCollectionManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": [
+              "./CollectionModuleRegistry.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/NamespaceDataFilter.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/NamespaceDataFilter.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [],
+            "imports": []
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/PathMapper.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PathMapper.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "PathMapper",
+              "projectRoot",
+              "baseDocsPath",
+              "namespace",
+              "constructor",
+              "getMarkdownPath",
+              "getSourcePath",
+              "getMappingInfo",
+              "getBatchMapping",
+              "getDirectoryMapping",
+              "verifyMapping",
+              "getDocsDirectory",
+              "normalizeNamespace",
+              "isFileExtension",
+              "getRelativeMapping",
+              "findConsistentPath",
+              "generateProjectMappingTable"
+            ],
+            "imports": [
+              "node:path",
+              "./PredictableIdGenerator.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/PredictableIdGenerator.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PredictableIdGenerator.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "PredictableIdGenerator",
+              "generateProjectBasedFileId",
+              "generateReversibleFileId",
+              "generateNamespacedFileId",
+              "generatePredictableMethodId",
+              "generateHierarchicalId",
+              "generateSimpleFileId",
+              "generateSmartProjectId",
+              "isValidPredictableId",
+              "extractFileContext",
+              "compareIdStrategies",
+              "pathToReversibleId",
+              "pathToKebabCase",
+              "toReversibleKebabCase",
+              "toKebabCase",
+              "reverseFileId",
+              "isFileExtension",
+              "normalizeNamespace",
+              "validateProjectRoot",
+              "generateBatchIds"
+            ],
+            "imports": [
+              "node:path"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/RoleClassifier.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/RoleClassifier.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "RoleClassifier",
+              "rules",
+              "constructor",
+              "initializeDefaultRules",
+              "classifyFile",
+              "classifyMethod",
+              "matchesRule",
+              "addRule",
+              "removeRule",
+              "getRules",
+              "calculateRoleStatistics",
+              "getRoleDisplayName"
+            ],
+            "imports": [
+              "node:path",
+              "../types/MappingTypes.js"
+            ]
+          }
+        },
+        {
+          "type": "file",
+          "value": "src/utils/SimpleMirrorManager.ts",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/SimpleMirrorManager.ts",
+          "matchedPattern": "src/**/*.ts",
+          "metadata": {
+            "exports": [
+              "FileMetadata",
+              "MirrorOptions",
+              "SimpleMirrorManager",
+              "projectRoot",
+              "mapper",
+              "pathResolver",
+              "markdownGenerator",
+              "constructor",
+              "updateMapper",
+              "getPathResolver",
+              "getMarkdownGenerator",
+              "scanFiles",
+              "createFileMetadata",
+              "createSimpleMirror",
+              "processFiles",
+              "showMirrorMapping"
+            ],
+            "imports": [
+              "node:fs",
+              "node:fs/promises",
+              "node:path",
+              "./MarkdownGenerator.js",
+              "./MarkdownPathResolver.js",
+              "./MirrorPathMapper.js"
+            ]
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "namespace",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/MarkdownPathResolver.ts",
+          "matchedPattern": "namespace",
+          "metadata": {
+            "exportType": "class_property",
+            "declarationType": "class_member",
+            "parentClass": "MarkdownPathResolver"
+          }
+        },
+        {
+          "type": "keyword",
+          "value": "namespace",
+          "sourcePath": "/Users/junwoobang/project/deps-cli/src/utils/PathMapper.ts",
+          "matchedPattern": "namespace",
+          "metadata": {
+            "exportType": "class_property",
+            "declarationType": "class_member",
+            "parentClass": "PathMapper"
+          }
+        }
+      ],
+      "collectedAt": "2025-09-28T14:46:10.524Z",
+      "totalCount": 46
+    }
+  ]
+}

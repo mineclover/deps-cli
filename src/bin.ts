@@ -6,6 +6,7 @@ import { createCommandRegistry } from './commands/CommandRegistry.js'
 import { registerExperimentalCommands } from './commands/ExperimentalCommands.js'
 import { registerMirrorCommands } from './commands/MirrorCommands.js'
 import { registerNamespaceCommands } from './commands/NamespaceCommands.js'
+import { registerNamespaceCollectionCommands } from './commands/NamespaceCollectionCommands.js'
 
 const program = new Command()
 
@@ -30,6 +31,7 @@ registry.registerModule(registerAnalysisCommands)
 registry.registerModule(registerNamespaceCommands)
 registry.registerModule(registerMirrorCommands)
 registry.registerModule(registerExperimentalCommands)
+registry.registerModule(registerNamespaceCollectionCommands)
 
 // 모든 커맨드 등록
 registry.registerAll(program)

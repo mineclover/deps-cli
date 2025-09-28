@@ -1,0 +1,98 @@
+{
+  "namespaces": {
+    "file-mirror": {
+      "keywords": [
+        "Analyzer",
+        "Manager",
+        "Generator",
+        "Filter",
+        "Collector",
+        "Command",
+        "Module"
+      ],
+      "filePaths": [
+        "src/**/*.ts"
+      ],
+      "excludePatterns": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/node_modules/**",
+        "**/dist/**"
+      ],
+      "documentStrategy": "file-mirror",
+      "documentPath": "docs/file-mirror",
+      "enableMirrorTracking": true,
+      "autoBackupDeadFiles": true,
+      "description": "파일 미러링 전략 - 소스 파일 구조를 그대로 문서화"
+    },
+    "method-mirror": {
+      "keywords": [
+        "function",
+        "method",
+        "async",
+        "export",
+        "class"
+      ],
+      "filePaths": [
+        "src/**/*.ts"
+      ],
+      "excludePatterns": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/node_modules/**",
+        "**/dist/**"
+      ],
+      "documentStrategy": "method-mirror",
+      "documentPath": "docs/method-mirror",
+      "enableMirrorTracking": true,
+      "autoBackupDeadFiles": true,
+      "description": "메서드 미러링 전략 - 개별 메서드/함수별 문서화"
+    },
+    "library-structure": {
+      "keywords": [
+        "Module",
+        "Collection",
+        "Library",
+        "Component",
+        "Service"
+      ],
+      "filePaths": [
+        "src/**/*.ts"
+      ],
+      "excludePatterns": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/node_modules/**",
+        "**/dist/**"
+      ],
+      "documentStrategy": "library-structure",
+      "documentPath": "docs/library-structure",
+      "enableMirrorTracking": true,
+      "autoBackupDeadFiles": true,
+      "description": "라이브러리 구조 전략 - 기능별 카테고리로 문서화"
+    },
+    "namespace-grouping": {
+      "keywords": [
+        "interface",
+        "type",
+        "enum",
+        "declare",
+        "namespace"
+      ],
+      "filePaths": [
+        "src/**/*.ts"
+      ],
+      "excludePatterns": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/node_modules/**",
+        "**/dist/**"
+      ],
+      "documentStrategy": "namespace-grouping",
+      "documentPath": "docs/namespace-grouping",
+      "enableMirrorTracking": true,
+      "autoBackupDeadFiles": true,
+      "description": "네임스페이스 그룹핑 전략 - 타입별로 그룹화하여 문서화"
+    }
+  }
+}

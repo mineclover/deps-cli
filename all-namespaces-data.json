@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-09-28T09:40:26.530Z",
+  "totalNamespaces": 7,
+  "results": [
+    {
+      "namespace": "analyzers",
+      "totalItems": 0,
+      "collectedAt": "2025-09-28T09:40:26.530Z"
+    },
+    {
+      "namespace": "commands",
+      "totalItems": 0,
+      "collectedAt": "2025-09-28T09:40:26.530Z"
+    },
+    {
+      "namespace": "utils",
+      "totalItems": 0,
+      "collectedAt": "2025-09-28T09:40:26.530Z"
+    },
+    {
+      "namespace": "modules",
+      "totalItems": 0,
+      "collectedAt": "2025-09-28T09:40:26.530Z"
+    },
+    {
+      "namespace": "types",
+      "totalItems": 0,
+      "collectedAt": "2025-09-28T09:40:26.530Z"
+    },
+    {
+      "namespace": "tests",
+      "totalItems": 0,
+      "collectedAt": "2025-09-28T09:40:26.530Z"
+    },
+    {
+      "namespace": "test-methods",
+      "totalItems": 0,
+      "collectedAt": "2025-09-28T09:40:26.530Z"
+    }
+  ]
+}
