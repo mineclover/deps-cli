@@ -207,6 +207,11 @@ export class EnhancedDependencyAnalyzer {
         namedImports.split(',').forEach((m) => {
           let cleanMember = m.trim()
           
+          // Skip empty strings (from trailing commas)
+          if (!cleanMember) {
+            return
+          }
+          
           // TypeScript type import 감지
           if (cleanMember.startsWith('type ')) {
             const typeName = cleanMember.substring(5).trim()

@@ -591,7 +591,14 @@ export class DocumentPathGenerator {
         library = libraryName || 'unknown'
       }
 
-      const methodName = this.extractMethodName(item)
+      // TypeScript type import 감지 - 간단한 문자열 패턴 매칭
+      const isTypeImport = item.metadata?.isTypeImport || item.value.startsWith('type ')
+      
+      // 메서드 이름에서 "type " 접두사 제거
+      let methodName = this.extractMethodName(item)
+      if (methodName.startsWith('type ')) {
+        methodName = methodName.substring(5).trim()
+      }
       
       // 라이브러리 경로 변환 처리
       let libraryPath: string
@@ -611,7 +618,7 @@ export class DocumentPathGenerator {
       
       // TypeScript type import인 경우 type/ 폴더에 배치
       let documentPath: string
-      if (item.metadata?.isTypeImport) {
+      if (isTypeImport) {
         documentPath = `${rootPath}/${libraryPath}/type/${methodName}.md`
       } else {
         documentPath = `${rootPath}/${libraryPath}/${methodName}.md`
@@ -631,7 +638,7 @@ export class DocumentPathGenerator {
           name: item.value,
           isExternal: item.metadata?.isExternal || false,
           importType: item.metadata?.importType || 'unknown',
-          isTypeImport: item.metadata?.isTypeImport || false
+          isTypeImport: isTypeImport
         }
       }
     })
