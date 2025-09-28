@@ -22,6 +22,12 @@ export interface EnvironmentConfig {
     cacheTtl?: number
   }
 
+  // 파일 패턴 설정 (namespace별 파일 영역 지정)
+  filePatterns?: {
+    include?: string[]
+    exclude?: string[]
+  }
+
   // 로깅 관련 설정
   logging?: {
     level?: 'debug' | 'info' | 'warn' | 'error'

@@ -543,18 +543,29 @@ const registerFindUnusedImports = (program: Command): void => {
             }
 
             const { glob } = await import('glob')
-            const patterns = [
+
+            // Config에서 파일 패턴 가져오기, 없으면 기본값 사용
+            const includePatterns = config.filePatterns?.include || [
               '**/*.ts',
               '**/*.tsx',
               '**/*.js',
               '**/*.jsx'
             ]
 
+            const excludePatterns = config.filePatterns?.exclude || [
+              'node_modules/**',
+              'dist/**',
+              'build/**',
+              '**/*.d.ts',
+              '**/*.test.*',
+              '**/*.spec.*'
+            ]
+
             const allFiles = []
-            for (const pattern of patterns) {
+            for (const pattern of includePatterns) {
               const files = await glob(pattern, {
                 cwd: projectRoot,
-                ignore: ['node_modules/**', 'dist/**', 'build/**', '**/*.d.ts']
+                ignore: excludePatterns
               })
               allFiles.push(...files.map(f => path.resolve(projectRoot, f)))
             }
@@ -722,18 +733,29 @@ const registerAnalyzeBundleOptimization = (program: Command): void => {
             }
 
             const { glob } = await import('glob')
-            const patterns = [
+
+            // Config에서 파일 패턴 가져오기, 없으면 기본값 사용
+            const includePatterns = config.filePatterns?.include || [
               '**/*.ts',
               '**/*.tsx',
               '**/*.js',
               '**/*.jsx'
             ]
 
+            const excludePatterns = config.filePatterns?.exclude || [
+              'node_modules/**',
+              'dist/**',
+              'build/**',
+              '**/*.d.ts',
+              '**/*.test.*',
+              '**/*.spec.*'
+            ]
+
             const allFiles = []
-            for (const pattern of patterns) {
+            for (const pattern of includePatterns) {
               const files = await glob(pattern, {
                 cwd: projectRoot,
-                ignore: ['node_modules/**', 'dist/**', 'build/**', '**/*.d.ts']
+                ignore: excludePatterns
               })
               allFiles.push(...files.map(f => path.resolve(projectRoot, f)))
             }
@@ -1020,18 +1042,29 @@ const registerAnalyzeCodeQuality = (program: Command): void => {
             }
 
             const { glob } = await import('glob')
-            const patterns = [
+
+            // Config에서 파일 패턴 가져오기, 없으면 기본값 사용
+            const includePatterns = config.filePatterns?.include || [
               '**/*.ts',
               '**/*.tsx',
               '**/*.js',
               '**/*.jsx'
             ]
 
+            const excludePatterns = config.filePatterns?.exclude || [
+              'node_modules/**',
+              'dist/**',
+              'build/**',
+              '**/*.d.ts',
+              '**/*.test.*',
+              '**/*.spec.*'
+            ]
+
             const allFiles = []
-            for (const pattern of patterns) {
+            for (const pattern of includePatterns) {
               const files = await glob(pattern, {
                 cwd: projectRoot,
-                ignore: ['node_modules/**', 'dist/**', 'build/**', '**/*.d.ts', '**/*.test.*', '**/*.spec.*']
+                ignore: excludePatterns
               })
               allFiles.push(...files.map(f => path.resolve(projectRoot, f)))
             }
