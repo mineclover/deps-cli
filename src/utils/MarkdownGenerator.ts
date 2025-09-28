@@ -204,7 +204,11 @@ ${sourceContent}
       namespace?: string
       maxFiles?: number
     } = {}
-  ): Promise<{ processed: number; total: number; results: Array<{ source: string; markdown: string | null; error?: string }> }> {
+  ): Promise<{
+    processed: number
+    total: number
+    results: Array<{ source: string; markdown: string | null; error?: string }>
+  }> {
     const { includeSource = false, template = 'basic', namespace, maxFiles } = options
     const targetFiles = maxFiles ? filePaths.slice(0, maxFiles) : filePaths
 

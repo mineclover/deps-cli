@@ -1,13 +1,13 @@
+import { basename, dirname, extname, relative } from 'path'
 import type {
   CollectedDataItem,
-  NamespaceCollectionResult,
-  GeneratedDocumentPath,
+  DocumentPaths,
   DocumentStrategy,
   DocumentTemplates,
-  DocumentPaths,
-  NamespaceCollectionRule
+  GeneratedDocumentPath,
+  NamespaceCollectionResult,
+  NamespaceCollectionRule,
 } from '../types/NamespaceCollection.js'
-import { basename, dirname, extname, relative } from 'path'
 
 /**
  * 수집된 데이터를 기반으로 문서 경로를 생성하는 클래스
@@ -48,23 +48,14 @@ export class DocumentPathGenerator {
   /**
    * 네임스페이스 수집 결과에서 문서 경로들 생성 (기존 방식, 하위 호환성용)
    */
-  public generatePaths(
-    result: NamespaceCollectionResult,
-    template: string
-  ): GeneratedDocumentPath[] {
-    return result.items.map(item =>
-      this.generatePathForItem(result.namespace, item, template)
-    )
+  public generatePaths(result: NamespaceCollectionResult, template: string): GeneratedDocumentPath[] {
+    return result.items.map((item) => this.generatePathForItem(result.namespace, item, template))
   }
 
   /**
    * 단일 데이터 항목에 대한 문서 경로 생성
    */
-  public generatePathForItem(
-    namespace: string,
-    item: CollectedDataItem,
-    template: string
-  ): GeneratedDocumentPath {
+  public generatePathForItem(namespace: string, item: CollectedDataItem, template: string): GeneratedDocumentPath {
     const templateVariables = this.extractTemplateVariables(namespace, item)
     const documentPath = this.replaceTemplateVariables(template, templateVariables)
 
@@ -72,7 +63,7 @@ export class DocumentPathGenerator {
       namespace,
       documentPath,
       sourceItem: item,
-      templateVariables
+      templateVariables,
     }
   }
 
@@ -125,7 +116,7 @@ export class DocumentPathGenerator {
 
           resolvedPaths.push({
             ...originalPath,
-            documentPath: resolvedPath
+            documentPath: resolvedPath,
           })
         }
       }
@@ -176,7 +167,7 @@ export class DocumentPathGenerator {
     const fileExt = extname(item.sourcePath).slice(1) // 점 제거
 
     // 디렉토리 경로를 세분화
-    const pathParts = fileDir.split('/').filter(part => part !== '' && part !== '.')
+    const pathParts = fileDir.split('/').filter((part) => part !== '' && part !== '.')
     const sourceDir = pathParts[pathParts.length - 1] || 'root'
 
     // 카테고리 추론
@@ -196,19 +187,14 @@ export class DocumentPathGenerator {
       matchedPattern: item.matchedPattern,
       fileExt,
       // 경로의 각 부분
-      ...Object.fromEntries(
-        pathParts.map((part, index) => [`dir${index + 1}`, part])
-      )
+      ...Object.fromEntries(pathParts.map((part, index) => [`dir${index + 1}`, part])),
     }
   }
 
   /**
    * 템플릿 변수 치환
    */
-  private replaceTemplateVariables(
-    template: string,
-    variables: Record<string, string>
-  ): string {
+  private replaceTemplateVariables(template: string, variables: Record<string, string>): string {
     let result = template
 
     // {variable} 형태의 변수 치환
@@ -288,7 +274,7 @@ export class DocumentPathGenerator {
     rootPath: string,
     subPath: string
   ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+    return result.items.map((item) => {
       const documentPath = `${rootPath}/${subPath}/${item.sourcePath}.md`
 
       return {
@@ -301,8 +287,8 @@ export class DocumentPathGenerator {
           filePath: item.sourcePath,
           namespace: result.namespace,
           filename: basename(item.sourcePath, extname(item.sourcePath)),
-          extension: extname(item.sourcePath).slice(1)
-        }
+          extension: extname(item.sourcePath).slice(1),
+        },
       }
     })
   }
@@ -310,23 +296,20 @@ export class DocumentPathGenerator {
   /**
    * 파일 미러링 경로 생성 (하위 호환성용)
    */
-  private generateFileMirrorPaths(
-    result: NamespaceCollectionResult,
-    template: string
-  ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+  private generateFileMirrorPaths(result: NamespaceCollectionResult, template: string): GeneratedDocumentPath[] {
+    return result.items.map((item) => {
       const variables = {
         filePath: item.sourcePath,
         namespace: result.namespace,
         filename: basename(item.sourcePath, extname(item.sourcePath)),
-        extension: extname(item.sourcePath).slice(1)
+        extension: extname(item.sourcePath).slice(1),
       }
 
       return {
         namespace: result.namespace,
         documentPath: this.replaceTemplateVariables(template, variables),
         sourceItem: item,
-        templateVariables: variables
+        templateVariables: variables,
       }
     })
   }
@@ -340,7 +323,7 @@ export class DocumentPathGenerator {
     subPath: string,
     libraryName?: string
   ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+    return result.items.map((item) => {
       const category = this.inferLibraryCategory(item)
       const methodName = this.extractMethodName(item)
       const library = libraryName || 'unknown'
@@ -359,8 +342,8 @@ export class DocumentPathGenerator {
           method: methodName,
           namespace: result.namespace,
           type: item.type,
-          name: item.value
-        }
+          name: item.value,
+        },
       }
     })
   }
@@ -373,7 +356,7 @@ export class DocumentPathGenerator {
     rootPath: string,
     subPath: string
   ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+    return result.items.map((item) => {
       const category = this.inferCategory(item)
       const documentPath = `${rootPath}/${subPath}/${result.namespace}/${item.type}/${item.value}.md`
 
@@ -388,8 +371,8 @@ export class DocumentPathGenerator {
           type: item.type,
           name: item.value,
           category,
-          filename: basename(item.sourcePath, extname(item.sourcePath))
-        }
+          filename: basename(item.sourcePath, extname(item.sourcePath)),
+        },
       }
     })
   }
@@ -402,7 +385,7 @@ export class DocumentPathGenerator {
     template: string,
     libraryName?: string
   ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+    return result.items.map((item) => {
       const category = this.inferLibraryCategory(item)
       const methodName = this.extractMethodName(item)
 
@@ -412,14 +395,14 @@ export class DocumentPathGenerator {
         method: methodName,
         namespace: result.namespace,
         type: item.type,
-        name: item.value
+        name: item.value,
       }
 
       return {
         namespace: result.namespace,
         documentPath: this.replaceTemplateVariables(template, variables),
         sourceItem: item,
-        templateVariables: variables
+        templateVariables: variables,
       }
     })
   }
@@ -427,24 +410,21 @@ export class DocumentPathGenerator {
   /**
    * 네임스페이스 그룹핑 경로 생성
    */
-  private generateNamespaceGroupingPaths(
-    result: NamespaceCollectionResult,
-    template: string
-  ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+  private generateNamespaceGroupingPaths(result: NamespaceCollectionResult, template: string): GeneratedDocumentPath[] {
+    return result.items.map((item) => {
       const variables = {
         namespace: result.namespace,
         type: item.type,
         name: item.value,
         category: this.inferCategory(item),
-        filename: basename(item.sourcePath, extname(item.sourcePath))
+        filename: basename(item.sourcePath, extname(item.sourcePath)),
       }
 
       return {
         namespace: result.namespace,
         documentPath: this.replaceTemplateVariables(template, variables),
         sourceItem: item,
-        templateVariables: variables
+        templateVariables: variables,
       }
     })
   }
@@ -491,13 +471,13 @@ export class DocumentPathGenerator {
       if (!item.value || item.value.trim() === '') {
         return basename(item.sourcePath, extname(item.sourcePath))
       }
-      
+
       // TypeScript type import에서 "type " 접두사 제거
       let cleanValue = item.value
       if (cleanValue.startsWith('type ')) {
         cleanValue = cleanValue.substring(5).trim()
       }
-      
+
       return cleanValue
     }
 
@@ -512,13 +492,10 @@ export class DocumentPathGenerator {
   /**
    * 단순화된 파일 미러링 경로 생성
    */
-  private generateSimpleFileMirrorPaths(
-    result: NamespaceCollectionResult,
-    rootPath: string
-  ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+  private generateSimpleFileMirrorPaths(result: NamespaceCollectionResult, rootPath: string): GeneratedDocumentPath[] {
+    return result.items.map((item) => {
       let relativePath: string
-      
+
       if (item.type === 'file') {
         // file 타입: value가 이미 상대경로
         relativePath = item.value
@@ -526,7 +503,7 @@ export class DocumentPathGenerator {
         // keyword 타입: sourcePath를 상대경로로 변환
         relativePath = relative(process.cwd(), item.sourcePath)
       }
-      
+
       const documentPath = `${rootPath}/${relativePath}.md`
 
       return {
@@ -538,8 +515,8 @@ export class DocumentPathGenerator {
           filePath: relativePath,
           namespace: result.namespace,
           filename: basename(relativePath, extname(relativePath)),
-          extension: extname(relativePath).slice(1)
-        }
+          extension: extname(relativePath).slice(1),
+        },
       }
     })
   }
@@ -551,7 +528,7 @@ export class DocumentPathGenerator {
     result: NamespaceCollectionResult,
     rootPath: string
   ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+    return result.items.map((item) => {
       // 메서드/함수 이름 추출
       const methodName = this.extractMethodName(item)
       const fileName = basename(item.sourcePath, extname(item.sourcePath))
@@ -568,8 +545,8 @@ export class DocumentPathGenerator {
           namespace: result.namespace,
           type: item.type,
           value: item.value,
-          sourcePath: item.sourcePath
-        }
+          sourcePath: item.sourcePath,
+        },
       }
     })
   }
@@ -582,7 +559,7 @@ export class DocumentPathGenerator {
     rootPath: string,
     libraryName?: string
   ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+    return result.items.map((item) => {
       // library-import 타입인 경우 메타데이터에서 라이브러리 이름 추출
       let library: string
       if (item.type === 'library-import' && item.metadata?.libraryName) {
@@ -593,16 +570,16 @@ export class DocumentPathGenerator {
 
       // TypeScript type import 감지 - 간단한 문자열 패턴 매칭
       const isTypeImport = item.metadata?.isTypeImport || item.value.startsWith('type ')
-      
+
       // 메서드 이름에서 "type " 접두사 제거
       let methodName = this.extractMethodName(item)
       if (methodName.startsWith('type ')) {
         methodName = methodName.substring(5).trim()
       }
-      
+
       // 라이브러리 경로 변환 처리
       let libraryPath: string
-      
+
       if (library.startsWith('node:')) {
         // node:fs/promises → node/fs, node:fs → node/fs
         const withoutProtocol = library.substring(5) // 'node:' 제거
@@ -615,7 +592,7 @@ export class DocumentPathGenerator {
         // 일반 패키지는 그대로
         libraryPath = library
       }
-      
+
       // TypeScript type import인 경우 type/ 폴더에 배치
       let documentPath: string
       if (isTypeImport) {
@@ -638,8 +615,8 @@ export class DocumentPathGenerator {
           name: item.value,
           isExternal: item.metadata?.isExternal || false,
           importType: item.metadata?.importType || 'unknown',
-          isTypeImport: isTypeImport
-        }
+          isTypeImport: isTypeImport,
+        },
       }
     })
   }
@@ -651,7 +628,7 @@ export class DocumentPathGenerator {
     result: NamespaceCollectionResult,
     rootPath: string
   ): GeneratedDocumentPath[] {
-    return result.items.map(item => {
+    return result.items.map((item) => {
       const category = this.inferCategory(item)
       const documentPath = `${rootPath}/${result.namespace}/${item.type}/${item.value}.md`
 
@@ -665,8 +642,8 @@ export class DocumentPathGenerator {
           type: item.type,
           name: item.value,
           category,
-          filename: basename(item.sourcePath, extname(item.sourcePath))
-        }
+          filename: basename(item.sourcePath, extname(item.sourcePath)),
+        },
       }
     })
   }

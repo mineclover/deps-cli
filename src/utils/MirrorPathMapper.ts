@@ -18,7 +18,7 @@ export class MirrorPathMapper {
   constructor(projectRoot: string, docsRoot: string = './docs', namespace?: string) {
     this.projectRoot = resolve(projectRoot)
     this.docsRoot = resolve(docsRoot)
-    
+
     // namespace 기본 컨벤션: 모든 경로는 프로젝트 루트 기준
     if (namespace) {
       // 절대 경로나 프로젝트 밖으로 나가는 경로는 방지

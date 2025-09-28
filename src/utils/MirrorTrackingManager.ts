@@ -1,14 +1,14 @@
-import { readFile, writeFile, stat, rename, unlink, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
-import { dirname, basename, extname, join } from 'path'
+import { mkdir, readFile, rename, stat, unlink, writeFile } from 'fs/promises'
+import { basename, dirname, extname, join } from 'path'
 import type {
-  MirrorFileInfo,
-  MirrorTrackingDatabase,
-  MirrorTrackingConfig,
   DeadCodeAnalysisResult,
+  MirrorFileInfo,
+  MirrorFileStatus,
   MirrorSyncOptions,
+  MirrorTrackingConfig,
+  MirrorTrackingDatabase,
   SyncResult,
-  MirrorFileStatus
 } from '../types/MirrorTracking.js'
 
 /**
@@ -24,7 +24,7 @@ export class MirrorTrackingManager {
       autoCleanup: true,
       backupExtension: '.bak',
       trackingDatabasePath: '.deps-cli/mirror-tracking.json',
-      ...config
+      ...config,
     }
 
     this.database = this.createEmptyDatabase()
@@ -62,10 +62,7 @@ export class MirrorTrackingManager {
       await mkdir(dirname(this.config.trackingDatabasePath), { recursive: true })
 
       this.database.lastUpdated = new Date()
-      await writeFile(
-        this.config.trackingDatabasePath,
-        JSON.stringify(this.database, null, 2)
-      )
+      await writeFile(this.config.trackingDatabasePath, JSON.stringify(this.database, null, 2))
     } catch (error) {
       console.error('추적 데이터베이스 저장 실패:', error)
       throw error
@@ -83,7 +80,7 @@ export class MirrorTrackingManager {
       autoCleanupBackups: false,
       forceFullSync: false,
       dryRun: false,
-      verbose: false
+      verbose: false,
     }
   ): Promise<SyncResult> {
     const startTime = Date.now()
@@ -94,7 +91,7 @@ export class MirrorTrackingManager {
       backedUpFiles: 0,
       deletedFiles: 0,
       errors: [],
-      executionTime: 0
+      executionTime: 0,
     }
 
     await this.loadDatabase()
@@ -107,7 +104,7 @@ export class MirrorTrackingManager {
       } catch (error) {
         result.errors.push({
           filePath: sourcePath,
-          error: error instanceof Error ? error.message : 'Unknown error'
+          error: error instanceof Error ? error.message : 'Unknown error',
         })
       }
     }
@@ -122,7 +119,7 @@ export class MirrorTrackingManager {
         } catch (error) {
           result.errors.push({
             filePath: deadFile.mirrorPath,
-            error: error instanceof Error ? error.message : 'Backup failed'
+            error: error instanceof Error ? error.message : 'Backup failed',
           })
         }
       }
@@ -157,7 +154,7 @@ export class MirrorTrackingManager {
       orphanedFiles: 0,
       backupFiles: 0,
       filesToCleanup: [],
-      filesToBackup: []
+      filesToBackup: [],
     }
 
     const cutoffDate = new Date()
@@ -222,9 +219,7 @@ export class MirrorTrackingManager {
       return
     }
 
-    const shouldUpdate = !existingFile ||
-                        existingFile.lastModified < sourceStats.mtime ||
-                        !existsSync(mirrorPath)
+    const shouldUpdate = !existingFile || existingFile.lastModified < sourceStats.mtime || !existsSync(mirrorPath)
 
     if (shouldUpdate && !options.dryRun) {
       // 미러링 파일 생성/업데이트
@@ -246,7 +241,7 @@ export class MirrorTrackingManager {
       created: existingFile?.created || new Date(),
       lastModified: sourceStats.mtime,
       size: sourceStats.size,
-      sourceExists: true
+      sourceExists: true,
     }
 
     if (options.verbose) {
@@ -297,10 +292,7 @@ export class MirrorTrackingManager {
     let cleanedCount = 0
 
     for (const [mirrorPath, fileInfo] of Object.entries(this.database.files)) {
-      if (fileInfo.status === 'backup' &&
-          fileInfo.lastModified < cutoffDate &&
-          fileInfo.backupPath) {
-
+      if (fileInfo.status === 'backup' && fileInfo.lastModified < cutoffDate && fileInfo.backupPath) {
         try {
           if (existsSync(fileInfo.backupPath)) {
             await unlink(fileInfo.backupPath)
@@ -319,11 +311,7 @@ export class MirrorTrackingManager {
   /**
    * 미러링 파일 생성/업데이트
    */
-  private async createOrUpdateMirrorFile(
-    sourcePath: string,
-    mirrorPath: string,
-    sourceStats: any
-  ): Promise<void> {
+  private async createOrUpdateMirrorFile(sourcePath: string, mirrorPath: string, sourceStats: any): Promise<void> {
     // 디렉토리 생성
     await mkdir(dirname(mirrorPath), { recursive: true })
 
@@ -334,7 +322,7 @@ export class MirrorTrackingManager {
       lines: 0, // 실제로는 파일을 읽어서 계산해야 함
       extension: extname(sourcePath),
       lastModified: sourceStats.mtime.toISOString(),
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
     }
 
     const content = `# ${sourcePath}
@@ -364,7 +352,7 @@ ${JSON.stringify(metadata, null, 2)}
       version: '1.0.0',
       lastUpdated: new Date(),
       files: {},
-      config: this.config
+      config: this.config,
     }
   }
 
@@ -408,7 +396,7 @@ ${JSON.stringify(metadata, null, 2)}
       activeFiles,
       orphanedFiles,
       backupFiles,
-      totalSize
+      totalSize,
     }
   }
 }

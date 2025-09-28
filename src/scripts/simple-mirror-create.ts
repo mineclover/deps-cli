@@ -19,7 +19,7 @@ async function main() {
       shouldCreate,
       namespace,
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
-      maxDisplay: 20
+      maxDisplay: 20,
     })
   } catch (error) {
     console.error('Error:', error instanceof Error ? error.message : error)

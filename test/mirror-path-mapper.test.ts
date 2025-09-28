@@ -74,7 +74,7 @@ describe('MirrorPathMapper', () => {
       const sourceFiles = [
         '/Users/test/my-project/src/utils/helper.ts',
         '/Users/test/my-project/src/components/Button.tsx',
-        '/Users/test/my-project/test/unit/helper.test.ts'
+        '/Users/test/my-project/test/unit/helper.test.ts',
       ]
 
       const mapping = mapper.getBatchMapping(sourceFiles)

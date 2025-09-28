@@ -1,14 +1,11 @@
 import type { ProjectDependencyGraph } from '../analyzers/EnhancedDependencyAnalyzer.js'
 import type {
+  CollectionDataType,
   CollectionModule,
   CollectionModuleOptions,
   ValidationResult,
-  CollectionDataType
 } from '../types/CollectionModules.js'
-import type {
-  NamespaceCollectionRule,
-  CollectedDataItem
-} from '../types/NamespaceCollection.js'
+import type { CollectedDataItem, NamespaceCollectionRule } from '../types/NamespaceCollection.js'
 
 /**
  * 키워드 기반 데이터 수집 모듈
@@ -61,8 +58,8 @@ export class KeywordCollectionModule implements CollectionModule {
                 isAsync: exportItem.isAsync,
                 isStatic: exportItem.isStatic,
                 visibility: exportItem.visibility,
-                location: exportItem.location
-              }
+                location: exportItem.location,
+              },
             })
             collectedCount++
             break // 같은 아이템에 대해 여러 키워드가 매칭되어도 한 번만 수집
@@ -101,7 +98,7 @@ export class KeywordCollectionModule implements CollectionModule {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     }
   }
 
@@ -122,9 +119,7 @@ export class KeywordCollectionModule implements CollectionModule {
    * Glob 패턴 매칭
    */
   private matchesGlobPattern(value: string, pattern: string): boolean {
-    const regexPattern = pattern
-      .replace(/\./g, '\\.')
-      .replace(/\*/g, '.*')
+    const regexPattern = pattern.replace(/\./g, '\\.').replace(/\*/g, '.*')
 
     const regex = new RegExp(`^${regexPattern}$`, 'i')
     return regex.test(value)
@@ -134,7 +129,7 @@ export class KeywordCollectionModule implements CollectionModule {
    * 제외 패턴 확인
    */
   private shouldExclude(value: string, excludePatterns: string[]): boolean {
-    return excludePatterns.some(pattern => this.matchesGlobPattern(value, pattern))
+    return excludePatterns.some((pattern) => this.matchesGlobPattern(value, pattern))
   }
 
   /**

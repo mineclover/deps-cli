@@ -4,7 +4,6 @@
  * 이 파일을 통해 모든 유틸리티 클래스들을 쉽게 import할 수 있습니다.
  */
 
-
 // ID 생성 및 관리 클래스들
 export { IdGenerator } from './IdGenerator.js'
 export { IdRegistry } from './IdRegistry.js'
@@ -83,14 +82,14 @@ export async function generateMarkdownForFile(
     docsPath = './docs',
     namespace,
     template = 'basic',
-    includeSource = false
+    includeSource = false,
   } = options
 
   const generator = createMarkdownGenerator(projectRoot, docsPath, namespace)
   return await generator.generateMarkdownFile(filePath, {
     includeSource,
     template,
-    namespace
+    namespace,
   })
 }
 
@@ -114,7 +113,7 @@ export async function generateMarkdownForFiles(
     namespace,
     template = 'basic',
     includeSource = false,
-    maxFiles
+    maxFiles,
   } = options
 
   const generator = createMarkdownGenerator(projectRoot, docsPath, namespace)
@@ -122,7 +121,7 @@ export async function generateMarkdownForFiles(
     includeSource,
     template,
     namespace,
-    maxFiles
+    maxFiles,
   })
 }
 
@@ -137,11 +136,7 @@ export function getMarkdownPath(
     namespace?: string
   } = {}
 ): string {
-  const {
-    projectRoot = process.cwd(),
-    docsPath = './docs',
-    namespace
-  } = options
+  const { projectRoot = process.cwd(), docsPath = './docs', namespace } = options
 
   const resolver = createPathResolver(projectRoot, docsPath, namespace)
   return resolver.getMarkdownPath(sourcePath)

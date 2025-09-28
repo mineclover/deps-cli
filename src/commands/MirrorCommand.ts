@@ -1,7 +1,7 @@
-import { Command } from 'commander'
-import { SimpleMirrorManager, type MirrorOptions } from '../utils/SimpleMirrorManager.js'
 import { existsSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { Command } from 'commander'
+import { type MirrorOptions, SimpleMirrorManager } from '../utils/SimpleMirrorManager.js'
 
 export interface MirrorCommandOptions {
   namespace?: string
@@ -25,14 +25,17 @@ export class MirrorCommand {
   createCommand(): Command {
     const mirrorCommand = new Command('mirror')
       .description('🪞 File mirroring system for creating documentation mirrors of source files')
-      .addHelpText('after', `
+      .addHelpText(
+        'after',
+        `
 Examples:
   $ deps-cli mirror src/                           # Show mirror mapping for src directory
   $ deps-cli mirror src/ --create                  # Create mirror files
   $ deps-cli mirror src/utils/Helper.ts --create   # Mirror single file
   $ deps-cli mirror . --namespace core --create    # Create with namespace
   $ deps-cli mirror src/ --docs-path ./documentation --create
-      `)
+      `
+      )
 
     // mirror-show 서브커맨드 (기본 동작)
     mirrorCommand
@@ -119,7 +122,7 @@ Examples:
       docsPath = './docs',
       extensions = '.ts,.tsx,.js,.jsx',
       verbose = false,
-      maxDisplay = 20
+      maxDisplay = 20,
     } = options
 
     if (verbose) {
@@ -139,7 +142,7 @@ Examples:
       return
     }
 
-    const extensionsArray = extensions.split(',').map(ext => ext.trim())
+    const extensionsArray = extensions.split(',').map((ext) => ext.trim())
 
     const mirrorOptions: MirrorOptions = {
       targetPath,
@@ -148,7 +151,7 @@ Examples:
       extensions: extensionsArray,
       maxDisplay: Number(maxDisplay),
       docsPath,
-      verbose
+      verbose,
     }
 
     try {

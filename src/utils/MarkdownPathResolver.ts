@@ -51,7 +51,9 @@ export class MarkdownPathResolver {
     if (this.namespace) {
       // namespace가 있으면 프로젝트 루트 기준으로 해당 경로 사용
       if (this.namespace.startsWith('/') || this.namespace.includes('../')) {
-        throw new Error(`Invalid namespace: cannot use absolute paths or paths outside project root. Got: ${this.namespace}`)
+        throw new Error(
+          `Invalid namespace: cannot use absolute paths or paths outside project root. Got: ${this.namespace}`
+        )
       }
 
       const cleanNamespace = this.namespace.startsWith('./') ? this.namespace.slice(2) : this.namespace

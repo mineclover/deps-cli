@@ -1,16 +1,13 @@
 import type { ProjectDependencyGraph } from '../analyzers/EnhancedDependencyAnalyzer.js'
 import type {
   CollectionModule,
+  CollectionModuleOptions,
   CollectionModuleRegistry,
-  ModuleExecutionResult,
   ModuleExecutionConfig,
+  ModuleExecutionResult,
   ModuleSelectionStrategy,
-  CollectionModuleOptions
 } from '../types/CollectionModules.js'
-import type {
-  NamespaceCollectionRule,
-  NamespaceCollectionResult
-} from '../types/NamespaceCollection.js'
+import type { NamespaceCollectionResult, NamespaceCollectionRule } from '../types/NamespaceCollection.js'
 import { DefaultCollectionModuleRegistry } from './CollectionModuleRegistry.js'
 
 /**
@@ -57,9 +54,7 @@ export class ModularCollectionManager {
 
     if (config?.parallel) {
       // 병렬 실행
-      const promises = selectedModules.map(module =>
-        this.executeModule(module, dependencyGraph, rule, options)
-      )
+      const promises = selectedModules.map((module) => this.executeModule(module, dependencyGraph, rule, options))
       const results = await Promise.allSettled(promises)
 
       results.forEach((result, index) => {
@@ -71,7 +66,7 @@ export class ModularCollectionManager {
             items: [],
             executionTime: 0,
             success: false,
-            error: result.reason?.message || 'Unknown error'
+            error: result.reason?.message || 'Unknown error',
           })
         }
       })
@@ -91,7 +86,7 @@ export class ModularCollectionManager {
             items: [],
             executionTime: 0,
             success: false,
-            error: error instanceof Error ? error.message : 'Unknown error'
+            error: error instanceof Error ? error.message : 'Unknown error',
           }
           executionResults.push(errorResult)
 
@@ -103,9 +98,7 @@ export class ModularCollectionManager {
     }
 
     // 모든 성공한 결과를 합치기
-    const allItems = executionResults
-      .filter(result => result.success)
-      .flatMap(result => result.items)
+    const allItems = executionResults.filter((result) => result.success).flatMap((result) => result.items)
 
     return {
       namespace: rule.namespace,
@@ -115,9 +108,9 @@ export class ModularCollectionManager {
       metadata: {
         executionResults,
         totalExecutionTime: executionResults.reduce((sum, r) => sum + r.executionTime, 0),
-        successfulModules: executionResults.filter(r => r.success).length,
-        failedModules: executionResults.filter(r => !r.success).length
-      }
+        successfulModules: executionResults.filter((r) => r.success).length,
+        failedModules: executionResults.filter((r) => !r.success).length,
+      },
     }
   }
 
@@ -138,31 +131,29 @@ export class ModularCollectionManager {
   /**
    * 모듈 선택
    */
-  private selectModules(
-    rule: NamespaceCollectionRule,
-    config?: ModuleExecutionConfig
-  ): CollectionModule[] {
+  private selectModules(rule: NamespaceCollectionRule, config?: ModuleExecutionConfig): CollectionModule[] {
     const strategy = config?.strategy || 'auto'
 
     switch (strategy) {
       case 'all':
-        return Array.from(this.registry.list()).map(meta => this.registry.get(meta.id)!)
+        return Array.from(this.registry.list()).map((meta) => this.registry.get(meta.id)!)
 
       case 'explicit':
         if (!config?.selectedModules) {
           throw new Error('명시적 선택 전략에는 selectedModules이 필요합니다')
         }
         return config.selectedModules
-          .map(id => this.registry.get(id))
+          .map((id) => this.registry.get(id))
           .filter((module): module is CollectionModule => module !== undefined)
 
       case 'auto':
         return this.registry.findCompatibleModules(rule)
 
-      case 'priority':
+      case 'priority': {
         // 우선순위 기반 선택 (파일 > 키워드 > export/import)
         const compatible = this.registry.findCompatibleModules(rule)
         return compatible.sort((a, b) => this.getModulePriority(a) - this.getModulePriority(b))
+      }
 
       default:
         return this.registry.findCompatibleModules(rule)
@@ -174,10 +165,14 @@ export class ModularCollectionManager {
    */
   private getModulePriority(module: CollectionModule): number {
     switch (module.id) {
-      case 'file-path': return 1
-      case 'keyword': return 2
-      case 'export-import': return 3
-      default: return 10
+      case 'file-path':
+        return 1
+      case 'keyword':
+        return 2
+      case 'export-import':
+        return 3
+      default:
+        return 10
     }
   }
 
@@ -203,8 +198,8 @@ export class ModularCollectionManager {
         success: true,
         metadata: {
           moduleName: module.name,
-          moduleVersion: module.version
-        }
+          moduleVersion: module.version,
+        },
       }
     } catch (error) {
       const executionTime = Date.now() - startTime
@@ -214,7 +209,7 @@ export class ModularCollectionManager {
         items: [],
         executionTime,
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       }
     }
   }

@@ -1,19 +1,21 @@
+import { relative } from 'path'
 import type { ProjectDependencyGraph } from '../analyzers/EnhancedDependencyAnalyzer.js'
 import type {
-  NamespaceCollectionRule,
   CollectedDataItem,
-  NamespaceCollectionResult
+  NamespaceCollectionResult,
+  NamespaceCollectionRule,
 } from '../types/NamespaceCollection.js'
-import { relative } from 'path'
 
 /**
  * 의존성 데이터에서 네임스페이스별 데이터를 수집하는 핵심 클래스
  */
 export class DependencyDataCollector {
   private projectRoot: string
+  private debugMode: boolean
 
-  constructor(projectRoot: string = process.cwd()) {
+  constructor(projectRoot: string = process.cwd(), options: { debug?: boolean } = {}) {
     this.projectRoot = projectRoot
+    this.debugMode = options.debug === true
   }
 
   /**
@@ -44,7 +46,7 @@ export class DependencyDataCollector {
       namespace: rule.namespace,
       items: collectedItems,
       collectedAt: new Date(),
-      totalCount: collectedItems.length
+      totalCount: collectedItems.length,
     }
   }
 
@@ -55,7 +57,7 @@ export class DependencyDataCollector {
     dependencyGraph: ProjectDependencyGraph,
     rules: NamespaceCollectionRule[]
   ): NamespaceCollectionResult[] {
-    return rules.map(rule => this.collectForNamespace(dependencyGraph, rule))
+    return rules.map((rule) => this.collectForNamespace(dependencyGraph, rule))
   }
 
   /**
@@ -71,7 +73,7 @@ export class DependencyDataCollector {
     for (const absoluteFilePath of dependencyGraph.nodes) {
       // 절대 경로를 상대 경로로 변환
       const relativePath = relative(this.projectRoot, absoluteFilePath)
-      
+
       // 파일 경로 패턴 매칭 확인
       const matchedPattern = this.findMatchingPattern(relativePath, rule.filePaths)
       if (matchedPattern) {
@@ -84,8 +86,8 @@ export class DependencyDataCollector {
             matchedPattern,
             metadata: {
               exports: this.getFileExports(dependencyGraph, absoluteFilePath),
-              imports: this.getFileImports(dependencyGraph, absoluteFilePath)
-            }
+              imports: this.getFileImports(dependencyGraph, absoluteFilePath),
+            },
           })
         }
       }
@@ -106,7 +108,7 @@ export class DependencyDataCollector {
     for (const [absoluteFilePath, exportInfo] of dependencyGraph.exportMap) {
       // 절대 경로를 상대 경로로 변환
       const relativePath = relative(this.projectRoot, absoluteFilePath)
-      
+
       // 제외 패턴 확인
       if (this.shouldExclude(relativePath, rule.excludePatterns)) {
         continue
@@ -124,8 +126,8 @@ export class DependencyDataCollector {
               metadata: {
                 exportType: exportItem.exportType,
                 declarationType: exportItem.declarationType,
-                parentClass: exportItem.parentClass
-              }
+                parentClass: exportItem.parentClass,
+              },
             })
           }
         }
@@ -143,15 +145,19 @@ export class DependencyDataCollector {
     rule: NamespaceCollectionRule
   ): CollectedDataItem[] {
     const items: CollectedDataItem[] = []
-    const libraryImports = new Map<string, Set<{name: string, isType: boolean}>>() // 라이브러리별 import된 메서드들
+    const libraryImports = new Map<string, Set<{ name: string; isType: boolean }>>() // 라이브러리별 import된 메서드들
 
-    console.log(`🔍 Debug: importMap has ${dependencyGraph.importMap.size} files`)
+    if (this.debugMode) {
+      console.log(`🔍 Debug: importMap has ${dependencyGraph.importMap.size} files`)
+    }
 
     // 모든 파일의 import 정보 분석
     for (const [absoluteFilePath, imports] of dependencyGraph.importMap) {
-      console.log(`🔍 Debug: Processing ${absoluteFilePath} with ${imports.length} imports`)
+      if (this.debugMode) {
+        console.log(`🔍 Debug: Processing ${absoluteFilePath} with ${imports.length} imports`)
+      }
       const relativePath = relative(this.projectRoot, absoluteFilePath)
-      
+
       // 제외 패턴 확인
       if (this.shouldExclude(relativePath, rule.excludePatterns)) {
         continue
@@ -162,7 +168,7 @@ export class DependencyDataCollector {
         // 외부 라이브러리만 처리 (node_modules에서 오는 것들)
         if (this.isExternalLibrary(importDecl.importPath)) {
           const libraryName = this.extractLibraryName(importDecl.importPath)
-          
+
           if (!libraryImports.has(libraryName)) {
             libraryImports.set(libraryName, new Set())
           }
@@ -171,7 +177,7 @@ export class DependencyDataCollector {
           for (const member of importDecl.importedMembers) {
             libraryImports.get(libraryName)!.add({
               name: member,
-              isType: false
+              isType: false,
             })
           }
 
@@ -180,9 +186,11 @@ export class DependencyDataCollector {
             for (const typeMember of importDecl.typeImportMembers) {
               libraryImports.get(libraryName)!.add({
                 name: typeMember,
-                isType: true
+                isType: true,
               })
-              console.log(`🚨 ADDED TYPE IMPORT: ${typeMember} from ${libraryName}`)
+              if (this.debugMode) {
+                console.log(`🚨 ADDED TYPE IMPORT: ${typeMember} from ${libraryName}`)
+              }
             }
           }
         }
@@ -201,8 +209,8 @@ export class DependencyDataCollector {
             libraryName,
             importType: 'named',
             isExternal: true,
-            isTypeImport: method.isType
-          }
+            isTypeImport: method.isType,
+          },
         })
       }
     }
@@ -228,13 +236,13 @@ export class DependencyDataCollector {
       const parts = withoutProtocol.split('/')
       return parts.length > 1 ? `node/${parts[0]}` : `node/${withoutProtocol}`
     }
-    
+
     // @scope/package 형태 처리
     if (importPath.startsWith('@')) {
       const parts = importPath.split('/')
       return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : importPath
     }
-    
+
     // 일반 패키지에서 첫 번째 부분만 추출
     return importPath.split('/')[0]
   }
@@ -256,11 +264,11 @@ export class DependencyDataCollector {
    */
   private matchesPattern(value: string, pattern: string): boolean {
     // 간단한 glob 패턴 구현 (*, **)
-    let regexPattern = pattern
-      .replace(/\*\*/g, 'DOUBLE_ASTERISK')  // ** -> 임시 플레이스홀더
-      .replace(/\./g, '\\.')                // . -> \.
-      .replace(/\*/g, '[^/]*')              // * -> [^/]*
-      .replace(/DOUBLE_ASTERISK/g, '.*')    // ** -> .* (0개 이상의 모든 문자)
+    const regexPattern = pattern
+      .replace(/\*\*/g, 'DOUBLE_ASTERISK') // ** -> 임시 플레이스홀더
+      .replace(/\./g, '\\.') // . -> \.
+      .replace(/\*/g, '[^/]*') // * -> [^/]*
+      .replace(/DOUBLE_ASTERISK/g, '.*') // ** -> .* (0개 이상의 모든 문자)
 
     const regex = new RegExp(`^${regexPattern}$`)
     return regex.test(value)
@@ -281,7 +289,7 @@ export class DependencyDataCollector {
    * 제외 패턴 확인
    */
   private shouldExclude(value: string, excludePatterns: string[]): boolean {
-    return excludePatterns.some(pattern => this.matchesPattern(value, pattern))
+    return excludePatterns.some((pattern) => this.matchesPattern(value, pattern))
   }
 
   /**
@@ -291,7 +299,7 @@ export class DependencyDataCollector {
     const exportInfo = dependencyGraph.exportMap.get(filePath)
     if (!exportInfo) return []
 
-    return exportInfo.exportMethods.map(exp => exp.name)
+    return exportInfo.exportMethods.map((exp) => exp.name)
   }
 
   /**
@@ -301,6 +309,6 @@ export class DependencyDataCollector {
     const importInfo = dependencyGraph.importMap.get(filePath)
     if (!importInfo) return []
 
-    return importInfo.map(imp => imp.importPath)
+    return importInfo.map((imp) => imp.importPath)
   }
 }

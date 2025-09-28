@@ -1,43 +1,67 @@
-import { describe, it, expect } from 'vitest'
-import { DependencyDataCollector } from '../src/utils/DependencyDataCollector.js'
-import { NamespaceDataFilter } from '../src/utils/NamespaceDataFilter.js'
-import { DocumentPathGenerator } from '../src/utils/DocumentPathGenerator.js'
+import { describe, expect, it } from 'vitest'
 import type { ProjectDependencyGraph } from '../src/analyzers/EnhancedDependencyAnalyzer.js'
 import type { NamespaceCollectionRule } from '../src/types/NamespaceCollection.js'
+import { DependencyDataCollector } from '../src/utils/DependencyDataCollector.js'
+import { DocumentPathGenerator } from '../src/utils/DocumentPathGenerator.js'
+import { NamespaceDataFilter } from '../src/utils/NamespaceDataFilter.js'
 
 describe('NamespaceCollection System', () => {
   const mockDependencyGraph: ProjectDependencyGraph = {
     nodes: new Set([
       'src/analyzers/EnhancedDependencyAnalyzer.ts',
       'src/utils/DependencyDataCollector.ts',
-      'src/commands/AnalysisCommands.ts'
+      'src/commands/AnalysisCommands.ts',
     ]),
     edges: [],
     exportMap: new Map([
-      ['src/analyzers/EnhancedDependencyAnalyzer.ts', {
-        exportMethods: [
-          { name: 'EnhancedDependencyAnalyzer', exportType: 'class', declarationType: 'named_export', location: { line: 1, column: 1 } }
-        ],
-        statistics: { totalExports: 1, functionExports: 0, classExports: 1, variableExports: 0, typeExports: 0 },
-        classes: []
-      }],
-      ['src/utils/DependencyDataCollector.ts', {
-        exportMethods: [
-          { name: 'DependencyDataCollector', exportType: 'class', declarationType: 'named_export', location: { line: 1, column: 1 } }
-        ],
-        statistics: { totalExports: 1, functionExports: 0, classExports: 1, variableExports: 0, typeExports: 0 },
-        classes: []
-      }],
-      ['src/commands/AnalysisCommands.ts', {
-        exportMethods: [
-          { name: 'registerAnalysisCommands', exportType: 'function', declarationType: 'named_export', location: { line: 1, column: 1 } }
-        ],
-        statistics: { totalExports: 1, functionExports: 1, classExports: 0, variableExports: 0, typeExports: 0 },
-        classes: []
-      }]
+      [
+        'src/analyzers/EnhancedDependencyAnalyzer.ts',
+        {
+          exportMethods: [
+            {
+              name: 'EnhancedDependencyAnalyzer',
+              exportType: 'class',
+              declarationType: 'named_export',
+              location: { line: 1, column: 1 },
+            },
+          ],
+          statistics: { totalExports: 1, functionExports: 0, classExports: 1, variableExports: 0, typeExports: 0 },
+          classes: [],
+        },
+      ],
+      [
+        'src/utils/DependencyDataCollector.ts',
+        {
+          exportMethods: [
+            {
+              name: 'DependencyDataCollector',
+              exportType: 'class',
+              declarationType: 'named_export',
+              location: { line: 1, column: 1 },
+            },
+          ],
+          statistics: { totalExports: 1, functionExports: 0, classExports: 1, variableExports: 0, typeExports: 0 },
+          classes: [],
+        },
+      ],
+      [
+        'src/commands/AnalysisCommands.ts',
+        {
+          exportMethods: [
+            {
+              name: 'registerAnalysisCommands',
+              exportType: 'function',
+              declarationType: 'named_export',
+              location: { line: 1, column: 1 },
+            },
+          ],
+          statistics: { totalExports: 1, functionExports: 1, classExports: 0, variableExports: 0, typeExports: 0 },
+          classes: [],
+        },
+      ],
     ]),
     importMap: new Map(),
-    entryPoints: []
+    entryPoints: [],
   }
 
   const mockRule: NamespaceCollectionRule = {
@@ -49,14 +73,13 @@ describe('NamespaceCollection System', () => {
     documentPath: 'docs/analyzers',
     enableMirrorTracking: true,
     autoBackupDeadFiles: true,
-    description: '분석기 관련 컴포넌트'
+    description: '분석기 관련 컴포넌트',
   }
 
   describe('DependencyDataCollector', () => {
     it('should collect file path based data', () => {
       const collector = new DependencyDataCollector()
       const result = collector.collectForNamespace(mockDependencyGraph, mockRule)
-
 
       expect(result.namespace).toBe('file-mirror')
       expect(result.items.length).toBeGreaterThan(0)
@@ -80,14 +103,14 @@ describe('NamespaceCollection System', () => {
       const ruleWithTestExclusion: NamespaceCollectionRule = {
         ...mockRule,
         filePaths: ['**/*.ts'],
-        excludePatterns: ['**/test/**', '**/*.test.ts']
+        excludePatterns: ['**/test/**', '**/*.test.ts'],
       }
 
       const collector = new DependencyDataCollector()
       const result = collector.collectForNamespace(mockDependencyGraph, ruleWithTestExclusion)
 
-      const testFiles = result.items.filter((item: any) =>
-        item.sourcePath.includes('test') || item.sourcePath.includes('.test.')
+      const testFiles = result.items.filter(
+        (item: any) => item.sourcePath.includes('test') || item.sourcePath.includes('.test.')
       )
       expect(testFiles.length).toBe(0)
     })
@@ -103,18 +126,18 @@ describe('NamespaceCollection System', () => {
             value: 'TestClass',
             sourcePath: '/test/file.ts',
             matchedPattern: 'Test*',
-            metadata: {}
+            metadata: {},
           },
           {
             type: 'keyword' as const,
             value: 'TestClass',
             sourcePath: '/test/file.ts',
             matchedPattern: 'Test*',
-            metadata: {}
-          }
+            metadata: {},
+          },
         ],
         collectedAt: new Date(),
-        totalCount: 2
+        totalCount: 2,
       }
 
       const filter = new NamespaceDataFilter()
@@ -133,18 +156,18 @@ describe('NamespaceCollection System', () => {
             value: 'TestClass',
             sourcePath: '/test/file.ts',
             matchedPattern: 'Test*',
-            metadata: {}
+            metadata: {},
           },
           {
             type: 'file' as const,
             value: '/test/file.ts',
             sourcePath: '/test/file.ts',
             matchedPattern: '**/*.ts',
-            metadata: {}
-          }
+            metadata: {},
+          },
         ],
         collectedAt: new Date(),
-        totalCount: 2
+        totalCount: 2,
       }
 
       const filter = new NamespaceDataFilter()
@@ -163,18 +186,18 @@ describe('NamespaceCollection System', () => {
             value: 'TestClass',
             sourcePath: '/test/file1.ts',
             matchedPattern: 'Test*',
-            metadata: {}
+            metadata: {},
           },
           {
             type: 'file' as const,
             value: '/test/file2.ts',
             sourcePath: '/test/file2.ts',
             matchedPattern: '**/*.ts',
-            metadata: {}
-          }
+            metadata: {},
+          },
         ],
         collectedAt: new Date(),
-        totalCount: 2
+        totalCount: 2,
       }
 
       const filter = new NamespaceDataFilter()
@@ -198,11 +221,11 @@ describe('NamespaceCollection System', () => {
             value: 'EnhancedDependencyAnalyzer',
             sourcePath: 'src/analyzers/EnhancedDependencyAnalyzer.ts',
             matchedPattern: 'Enhanced*',
-            metadata: { exportType: 'class' }
-          }
+            metadata: { exportType: 'class' },
+          },
         ],
         collectedAt: new Date(),
-        totalCount: 1
+        totalCount: 1,
       }
 
       const generator = new DocumentPathGenerator()
@@ -225,9 +248,9 @@ describe('NamespaceCollection System', () => {
             value: 'Test1',
             sourcePath: '/test1.ts',
             matchedPattern: 'Test*',
-            metadata: {}
+            metadata: {},
           },
-          templateVariables: {}
+          templateVariables: {},
         },
         {
           namespace: 'test',
@@ -237,10 +260,10 @@ describe('NamespaceCollection System', () => {
             value: 'Test2',
             sourcePath: '/test2.ts',
             matchedPattern: 'Test*',
-            metadata: {}
+            metadata: {},
           },
-          templateVariables: {}
-        }
+          templateVariables: {},
+        },
       ]
 
       const generator = new DocumentPathGenerator()
@@ -262,9 +285,9 @@ describe('NamespaceCollection System', () => {
             value: 'Test1',
             sourcePath: '/test1.ts',
             matchedPattern: 'Test*',
-            metadata: {}
+            metadata: {},
           },
-          templateVariables: {}
+          templateVariables: {},
         },
         {
           namespace: 'test',
@@ -274,10 +297,10 @@ describe('NamespaceCollection System', () => {
             value: 'Test2',
             sourcePath: '/test2.ts',
             matchedPattern: 'Test*',
-            metadata: {}
+            metadata: {},
           },
-          templateVariables: {}
-        }
+          templateVariables: {},
+        },
       ]
 
       const generator = new DocumentPathGenerator()

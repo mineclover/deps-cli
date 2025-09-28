@@ -1,7 +1,4 @@
-import type {
-  CollectedDataItem,
-  NamespaceCollectionResult
-} from '../types/NamespaceCollection.js'
+import type { CollectedDataItem, NamespaceCollectionResult } from '../types/NamespaceCollection.js'
 
 /**
  * 네임스페이스 데이터 필터링 및 정제를 담당하는 클래스
@@ -23,7 +20,7 @@ export class NamespaceDataFilter {
     return {
       ...result,
       items: Array.from(uniqueItems.values()),
-      totalCount: uniqueItems.size
+      totalCount: uniqueItems.size,
     }
   }
 
@@ -32,50 +29,46 @@ export class NamespaceDataFilter {
    */
   public filterByType(
     result: NamespaceCollectionResult,
-    types: Array<'keyword' | 'file' | 'export' | 'import' | 'class' | 'function' | 'variable' | 'type' | 'library-import'>
+    types: Array<
+      'keyword' | 'file' | 'export' | 'import' | 'class' | 'function' | 'variable' | 'type' | 'library-import'
+    >
   ): NamespaceCollectionResult {
-    const filteredItems = result.items.filter(item => types.includes(item.type))
+    const filteredItems = result.items.filter((item) => types.includes(item.type))
 
     return {
       ...result,
       items: filteredItems,
-      totalCount: filteredItems.length
+      totalCount: filteredItems.length,
     }
   }
 
   /**
    * 소스 파일 경로별 필터링
    */
-  public filterBySourcePath(
-    result: NamespaceCollectionResult,
-    pathPatterns: string[]
-  ): NamespaceCollectionResult {
-    const filteredItems = result.items.filter(item =>
-      pathPatterns.some(pattern => this.matchesPattern(item.sourcePath, pattern))
+  public filterBySourcePath(result: NamespaceCollectionResult, pathPatterns: string[]): NamespaceCollectionResult {
+    const filteredItems = result.items.filter((item) =>
+      pathPatterns.some((pattern) => this.matchesPattern(item.sourcePath, pattern))
     )
 
     return {
       ...result,
       items: filteredItems,
-      totalCount: filteredItems.length
+      totalCount: filteredItems.length,
     }
   }
 
   /**
    * 값 패턴별 필터링
    */
-  public filterByValuePattern(
-    result: NamespaceCollectionResult,
-    valuePatterns: string[]
-  ): NamespaceCollectionResult {
-    const filteredItems = result.items.filter(item =>
-      valuePatterns.some(pattern => this.matchesPattern(item.value, pattern))
+  public filterByValuePattern(result: NamespaceCollectionResult, valuePatterns: string[]): NamespaceCollectionResult {
+    const filteredItems = result.items.filter((item) =>
+      valuePatterns.some((pattern) => this.matchesPattern(item.value, pattern))
     )
 
     return {
       ...result,
       items: filteredItems,
-      totalCount: filteredItems.length
+      totalCount: filteredItems.length,
     }
   }
 
@@ -86,14 +79,14 @@ export class NamespaceDataFilter {
     result: NamespaceCollectionResult,
     metadataFilters: Record<string, any>
   ): NamespaceCollectionResult {
-    const filteredItems = result.items.filter(item =>
+    const filteredItems = result.items.filter((item) =>
       this.matchesMetadataFilters(item.metadata || {}, metadataFilters)
     )
 
     return {
       ...result,
       items: filteredItems,
-      totalCount: filteredItems.length
+      totalCount: filteredItems.length,
     }
   }
 
@@ -116,7 +109,7 @@ export class NamespaceDataFilter {
 
     return {
       ...result,
-      items: sortedItems
+      items: sortedItems,
     }
   }
 
@@ -180,9 +173,7 @@ export class NamespaceDataFilter {
       namespace: result.namespace,
       totalItems: result.totalCount,
       collectedAt: result.collectedAt,
-      typeDistribution: Object.fromEntries(
-        Object.entries(typeGroups).map(([type, items]) => [type, items.length])
-      ),
+      typeDistribution: Object.fromEntries(Object.entries(typeGroups).map(([type, items]) => [type, items.length])),
       sourceFileCount: Object.keys(sourceGroups).length,
       patternMatchCount: Object.keys(patternGroups).length,
       topSources: Object.entries(sourceGroups)
@@ -192,7 +183,7 @@ export class NamespaceDataFilter {
       topPatterns: Object.entries(patternGroups)
         .sort(([, a], [, b]) => b.length - a.length)
         .slice(0, 10)
-        .map(([pattern, items]) => ({ pattern, count: items.length }))
+        .map(([pattern, items]) => ({ pattern, count: items.length })),
     }
   }
 
@@ -207,10 +198,7 @@ export class NamespaceDataFilter {
    * 패턴 매칭 (glob 패턴 지원)
    */
   private matchesPattern(value: string, pattern: string): boolean {
-    const regexPattern = pattern
-      .replace(/\*\*/g, '.*')
-      .replace(/\*/g, '[^/]*')
-      .replace(/\./g, '\\.')
+    const regexPattern = pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*').replace(/\./g, '\\.')
 
     const regex = new RegExp(`^${regexPattern}$`)
     return regex.test(value)
@@ -219,10 +207,7 @@ export class NamespaceDataFilter {
   /**
    * 메타데이터 필터 매칭
    */
-  private matchesMetadataFilters(
-    metadata: Record<string, any>,
-    filters: Record<string, any>
-  ): boolean {
+  private matchesMetadataFilters(metadata: Record<string, any>, filters: Record<string, any>): boolean {
     for (const [key, filterValue] of Object.entries(filters)) {
       const metadataValue = metadata[key]
 

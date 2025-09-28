@@ -78,10 +78,10 @@ export class SimpleMirrorManager {
           const stat = statSync(fullPath)
 
           if (stat.isDirectory()) {
-            if (!['node_modules', 'docs', 'dist', '.git'].some(excluded => item.includes(excluded))) {
+            if (!['node_modules', 'docs', 'dist', '.git'].some((excluded) => item.includes(excluded))) {
               walk(fullPath)
             }
-          } else if (extensions.some(ext => item.endsWith(ext))) {
+          } else if (extensions.some((ext) => item.endsWith(ext))) {
             files.push(fullPath)
           }
         }
@@ -156,7 +156,7 @@ ${JSON.stringify(metadata, null, 2)}
       shouldCreate = false,
       namespace,
       extensions = ['.ts', '.tsx', '.js', '.jsx'],
-      maxDisplay = 20
+      maxDisplay = 20,
     } = options
 
     console.log('🪞 Simple Mirror System')
@@ -250,7 +250,7 @@ ${JSON.stringify(metadata, null, 2)}
       console.log(`📋 Found ${files.length} files:`)
       console.log('')
 
-      files.slice(0, maxDisplay).forEach(filePath => {
+      files.slice(0, maxDisplay).forEach((filePath) => {
         const mirrorPath = this.mapper.getDocumentPath(filePath)
         const relativePath = relative(this.projectRoot, filePath)
         const relativeMirror = relative(this.projectRoot, mirrorPath)

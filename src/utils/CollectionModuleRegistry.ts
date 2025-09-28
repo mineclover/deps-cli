@@ -1,8 +1,8 @@
 import type {
+  CollectionDataType,
   CollectionModule,
-  CollectionModuleRegistry,
   CollectionModuleMetadata,
-  CollectionDataType
+  CollectionModuleRegistry,
 } from '../types/CollectionModules.js'
 
 /**
@@ -33,12 +33,12 @@ export class DefaultCollectionModuleRegistry implements CollectionModuleRegistry
    * 등록된 모든 모듈 목록
    */
   list(): CollectionModuleMetadata[] {
-    return Array.from(this.modules.values()).map(module => ({
+    return Array.from(this.modules.values()).map((module) => ({
       id: module.id,
       name: module.name,
       description: module.description,
       version: module.version,
-      supportedTypes: module.supportedTypes
+      supportedTypes: module.supportedTypes,
     }))
   }
 
@@ -46,9 +46,7 @@ export class DefaultCollectionModuleRegistry implements CollectionModuleRegistry
    * 특정 데이터 타입을 지원하는 모듈들
    */
   getByType(type: CollectionDataType): CollectionModule[] {
-    return Array.from(this.modules.values()).filter(module =>
-      module.supportedTypes.includes(type)
-    )
+    return Array.from(this.modules.values()).filter((module) => module.supportedTypes.includes(type))
   }
 
   /**
@@ -83,8 +81,6 @@ export class DefaultCollectionModuleRegistry implements CollectionModuleRegistry
    * 네임스페이스 규칙에 적합한 모듈들 찾기
    */
   findCompatibleModules(rule: any): CollectionModule[] {
-    return Array.from(this.modules.values()).filter(module =>
-      module.supports(rule)
-    )
+    return Array.from(this.modules.values()).filter((module) => module.supports(rule))
   }
 }

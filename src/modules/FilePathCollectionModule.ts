@@ -1,14 +1,11 @@
 import type { ProjectDependencyGraph } from '../analyzers/EnhancedDependencyAnalyzer.js'
 import type {
+  CollectionDataType,
   CollectionModule,
   CollectionModuleOptions,
   ValidationResult,
-  CollectionDataType
 } from '../types/CollectionModules.js'
-import type {
-  NamespaceCollectionRule,
-  CollectedDataItem
-} from '../types/NamespaceCollection.js'
+import type { CollectedDataItem, NamespaceCollectionRule } from '../types/NamespaceCollection.js'
 
 /**
  * 파일 경로 기반 데이터 수집 모듈
@@ -49,8 +46,8 @@ export class FilePathCollectionModule implements CollectionModule {
             metadata: {
               exports: this.getFileExports(dependencyGraph, filePath),
               imports: this.getFileImports(dependencyGraph, filePath),
-              moduleType: this.inferModuleType(filePath)
-            }
+              moduleType: this.inferModuleType(filePath),
+            },
           })
           collectedCount++
         }
@@ -87,7 +84,7 @@ export class FilePathCollectionModule implements CollectionModule {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     }
   }
 
@@ -107,7 +104,7 @@ export class FilePathCollectionModule implements CollectionModule {
    * 단일 패턴 매칭 (glob 패턴 지원)
    */
   private matchesPattern(value: string, pattern: string): boolean {
-    let regexPattern = pattern
+    const regexPattern = pattern
       .replace(/\*\*/g, 'DOUBLE_ASTERISK')
       .replace(/\./g, '\\.')
       .replace(/\*/g, '[^/]*')
@@ -121,7 +118,7 @@ export class FilePathCollectionModule implements CollectionModule {
    * 제외 패턴 확인
    */
   private shouldExclude(value: string, excludePatterns: string[]): boolean {
-    return excludePatterns.some(pattern => this.matchesPattern(value, pattern))
+    return excludePatterns.some((pattern) => this.matchesPattern(value, pattern))
   }
 
   /**
@@ -131,7 +128,7 @@ export class FilePathCollectionModule implements CollectionModule {
     const exportInfo = dependencyGraph.exportMap.get(filePath)
     if (!exportInfo) return []
 
-    return exportInfo.exportMethods.map(exp => exp.name)
+    return exportInfo.exportMethods.map((exp) => exp.name)
   }
 
   /**
@@ -141,7 +138,7 @@ export class FilePathCollectionModule implements CollectionModule {
     const importInfo = dependencyGraph.importMap.get(filePath)
     if (!importInfo) return []
 
-    return importInfo.map(imp => imp.importPath)
+    return importInfo.map((imp) => imp.importPath)
   }
 
   /**

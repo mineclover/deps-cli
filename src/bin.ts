@@ -5,8 +5,8 @@ import { registerAnalysisCommands } from './commands/AnalysisCommands.js'
 import { createCommandRegistry } from './commands/CommandRegistry.js'
 import { registerExperimentalCommands } from './commands/ExperimentalCommands.js'
 import { registerMirrorCommands } from './commands/MirrorCommands.js'
-import { registerNamespaceCommands } from './commands/NamespaceCommands.js'
 import { registerNamespaceCollectionCommands } from './commands/NamespaceCollectionCommands.js'
+import { registerNamespaceCommands } from './commands/NamespaceCommands.js'
 
 const program = new Command()
 

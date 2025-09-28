@@ -1,14 +1,11 @@
 import type { ProjectDependencyGraph } from '../analyzers/EnhancedDependencyAnalyzer.js'
 import type {
+  CollectionDataType,
   CollectionModule,
   CollectionModuleOptions,
   ValidationResult,
-  CollectionDataType
 } from '../types/CollectionModules.js'
-import type {
-  NamespaceCollectionRule,
-  CollectedDataItem
-} from '../types/NamespaceCollection.js'
+import type { CollectedDataItem, NamespaceCollectionRule } from '../types/NamespaceCollection.js'
 
 /**
  * Export/Import 관계 기반 데이터 수집 모듈
@@ -58,10 +55,11 @@ export class ExportImportCollectionModule implements CollectionModule {
    */
   supports(rule: NamespaceCollectionRule): boolean {
     // export/import 관련 키워드가 있거나, 파일 패턴이 있으면 지원
-    return (rule.keywords && rule.keywords.some(k =>
-      k.toLowerCase().includes('export') ||
-      k.toLowerCase().includes('import')
-    )) || (rule.filePaths && rule.filePaths.length > 0)
+    return (
+      (rule.keywords &&
+        rule.keywords.some((k) => k.toLowerCase().includes('export') || k.toLowerCase().includes('import'))) ||
+      (rule.filePaths && rule.filePaths.length > 0)
+    )
   }
 
   /**
@@ -71,7 +69,7 @@ export class ExportImportCollectionModule implements CollectionModule {
     // Export/Import 모듈은 기본적으로 모든 설정을 지원
     return {
       isValid: true,
-      errors: []
+      errors: [],
     }
   }
 
@@ -90,8 +88,7 @@ export class ExportImportCollectionModule implements CollectionModule {
       if (collectedCount >= maxItems) break
 
       // 파일 패턴 및 제외 패턴 확인
-      if (!this.matchesFilePatterns(filePath, rule.filePaths) ||
-          this.shouldExclude(filePath, rule.excludePatterns)) {
+      if (!this.matchesFilePatterns(filePath, rule.filePaths) || this.shouldExclude(filePath, rule.excludePatterns)) {
         continue
       }
 
@@ -99,8 +96,7 @@ export class ExportImportCollectionModule implements CollectionModule {
         if (collectedCount >= maxItems) break
 
         // 키워드 필터링 (있는 경우)
-        if (rule.keywords.length > 0 &&
-            !rule.keywords.some(k => this.matchesKeyword(exportMethod.name, k))) {
+        if (rule.keywords.length > 0 && !rule.keywords.some((k) => this.matchesKeyword(exportMethod.name, k))) {
           continue
         }
 
@@ -118,8 +114,8 @@ export class ExportImportCollectionModule implements CollectionModule {
             returnType: exportMethod.returnType,
             visibility: exportMethod.visibility,
             isAsync: exportMethod.isAsync,
-            isStatic: exportMethod.isStatic
-          }
+            isStatic: exportMethod.isStatic,
+          },
         })
         collectedCount++
       }
@@ -143,8 +139,7 @@ export class ExportImportCollectionModule implements CollectionModule {
       if (collectedCount >= maxItems) break
 
       // 파일 패턴 및 제외 패턴 확인
-      if (!this.matchesFilePatterns(filePath, rule.filePaths) ||
-          this.shouldExclude(filePath, rule.excludePatterns)) {
+      if (!this.matchesFilePatterns(filePath, rule.filePaths) || this.shouldExclude(filePath, rule.excludePatterns)) {
         continue
       }
 
@@ -152,8 +147,7 @@ export class ExportImportCollectionModule implements CollectionModule {
         if (collectedCount >= maxItems) break
 
         // 키워드 필터링 (있는 경우)
-        if (rule.keywords.length > 0 &&
-            !rule.keywords.some(k => this.matchesKeyword(importDecl.importPath, k))) {
+        if (rule.keywords.length > 0 && !rule.keywords.some((k) => this.matchesKeyword(importDecl.importPath, k))) {
           continue
         }
 
@@ -166,8 +160,8 @@ export class ExportImportCollectionModule implements CollectionModule {
             resolvedPath: importDecl.resolvedPath,
             importedMembers: importDecl.importedMembers,
             importType: importDecl.importType,
-            line: importDecl.line
-          }
+            line: importDecl.line,
+          },
         })
         collectedCount++
       }
@@ -204,7 +198,7 @@ export class ExportImportCollectionModule implements CollectionModule {
   private matchesFilePatterns(filePath: string, patterns: string[]): boolean {
     if (patterns.length === 0) return true
 
-    return patterns.some(pattern => this.matchesGlobPattern(filePath, pattern))
+    return patterns.some((pattern) => this.matchesGlobPattern(filePath, pattern))
   }
 
   /**
@@ -244,6 +238,6 @@ export class ExportImportCollectionModule implements CollectionModule {
    * 제외 패턴 확인
    */
   private shouldExclude(value: string, excludePatterns: string[]): boolean {
-    return excludePatterns.some(pattern => this.matchesGlobPattern(value, pattern))
+    return excludePatterns.some((pattern) => this.matchesGlobPattern(value, pattern))
   }
 }

@@ -36,7 +36,7 @@ export const createCommandRegistry = () => {
     /**
      * 등록된 모듈 목록을 반환합니다
      */
-    getModules: (): Array<CommandModule> => [...modules]
+    getModules: (): Array<CommandModule> => [...modules],
   }
 }
 
@@ -44,9 +44,7 @@ export const createCommandRegistry = () => {
  * 공통 옵션들을 추가하는 함수
  */
 export const addCommonOptions = (command: Command): Command => {
-  return command
-    .option('-v, --verbose', 'Show detailed information')
-    .option('--format <format>', 'Output format')
+  return command.option('-v, --verbose', 'Show detailed information').option('--format <format>', 'Output format')
 }
 
 /**

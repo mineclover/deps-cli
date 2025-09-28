@@ -15,17 +15,18 @@ export const registerNamespaceCommands = (program: Command): void => {
  * List namespaces command
  */
 const registerListNamespaces = (program: Command): void => {
-    program
-      .command('list-namespaces')
-      .description(
-        '📋 Display all available configuration namespaces with their settings. Useful for environment management and configuration overview.'
-      )
-      .option(
-        '--config <file>',
-        'Path to configuration file (defaults to deps-cli.config.json in current directory)',
-        'deps-cli.config.json'
-      )
-      .action(wrapAction(async (options) => {
+  program
+    .command('list-namespaces')
+    .description(
+      '📋 Display all available configuration namespaces with their settings. Useful for environment management and configuration overview.'
+    )
+    .option(
+      '--config <file>',
+      'Path to configuration file (defaults to deps-cli.config.json in current directory)',
+      'deps-cli.config.json'
+    )
+    .action(
+      wrapAction(async (options) => {
         const namespaces = await globalConfig.listNamespaces(options.config)
 
         console.log('📋 Available Configuration Namespaces')
@@ -47,23 +48,25 @@ const registerListNamespaces = (program: Command): void => {
             console.log(`  ${i + 1}. ${ns}${isDefault}`)
           })
         }
-      }))
-  }
+      })
+    )
+}
 
 /**
  * Create namespace command
  */
 const registerCreateNamespace = (program: Command): void => {
-    program
-      .command('create-namespace')
-      .description(
-        '🆕 Create a new configuration namespace for environment-specific analysis settings (development, production, staging, etc.)'
-      )
-      .argument('<name>', 'Namespace name (e.g., development, production, staging, testing)')
-      .option('--config <file>', 'Configuration file path (creates if not exists)', 'deps-cli.config.json')
-      .option('--copy-from <namespace>', 'Copy settings from existing namespace as template')
-      .option('--set-default', 'Set this namespace as the default for future operations')
-      .action(wrapAction(async (name, options) => {
+  program
+    .command('create-namespace')
+    .description(
+      '🆕 Create a new configuration namespace for environment-specific analysis settings (development, production, staging, etc.)'
+    )
+    .argument('<name>', 'Namespace name (e.g., development, production, staging, testing)')
+    .option('--config <file>', 'Configuration file path (creates if not exists)', 'deps-cli.config.json')
+    .option('--copy-from <namespace>', 'Copy settings from existing namespace as template')
+    .option('--set-default', 'Set this namespace as the default for future operations')
+    .action(
+      wrapAction(async (name, options) => {
         let config = {}
 
         // 기존 namespace에서 복사
@@ -92,20 +95,22 @@ const registerCreateNamespace = (program: Command): void => {
         if (options.setDefault) {
           console.log(`🎯 Set '${name}' as default namespace`)
         }
-      }))
-  }
+      })
+    )
+}
 
 /**
  * Delete namespace command
  */
 const registerDeleteNamespace = (program: Command): void => {
-    program
-      .command('delete-namespace')
-      .description('🗑️ Permanently remove a configuration namespace and all its settings. Use with caution!')
-      .argument('<name>', 'Namespace name to delete (cannot be undone)')
-      .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
-      .option('--force', 'Force deletion without confirmation prompt (dangerous!)')
-      .action(wrapAction(async (name, options) => {
+  program
+    .command('delete-namespace')
+    .description('🗑️ Permanently remove a configuration namespace and all its settings. Use with caution!')
+    .argument('<name>', 'Namespace name to delete (cannot be undone)')
+    .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+    .option('--force', 'Force deletion without confirmation prompt (dangerous!)')
+    .action(
+      wrapAction(async (name, options) => {
         if (!options.force) {
           console.log(`⚠️ This will permanently delete namespace '${name}'`)
           console.log('💡 Use --force to skip this confirmation')
@@ -114,5 +119,6 @@ const registerDeleteNamespace = (program: Command): void => {
 
         await globalConfig.deleteNamespace(name, options.config)
         console.log(`✅ Namespace '${name}' deleted successfully`)
-      }))
-  }
+      })
+    )
+}
