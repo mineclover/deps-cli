@@ -1,0 +1,17 @@
+{
+  "namespaces": {
+    "test-patterns": {
+      "filePatterns": {
+        "include": ["src/**/*.ts", "src/**/*.js"],
+        "exclude": ["**/*.test.*", "**/*.spec.*", "**/*test*", "src/bin.ts"]
+      }
+    },
+    "library-structure": {
+      "filePatterns": {
+        "include": ["src/**/*.ts"],
+        "exclude": ["**/*.test.*", "**/*.spec.*", "src/bin.ts", "src/commands/**"]
+      }
+    }
+  },
+  "default": "test-patterns"
+}
