@@ -31,6 +31,8 @@ async function main() {
     keywords: json.keywords
   }
 
+  // Ensure dist directory exists
+  await fs.mkdir("dist", { recursive: true })
   await fs.writeFile(path.join("dist", "package.json"), JSON.stringify(pkg, null, 2))
   console.log("timestamp=" + new Date().toISOString() + " level=INFO fiber=#1 message=\"[Build] Build completed.\"")
 }
