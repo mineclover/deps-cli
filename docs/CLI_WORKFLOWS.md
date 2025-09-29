@@ -1,6 +1,7 @@
 # CLI Workflows Guide
 
-deps-cli의 명령어들을 워크플로우별로 정리한 가이드입니다.
+deps-cli의 핵심 명령어들을 워크플로우별로 정리한 가이드입니다.
+모든 명령어는 namespace 기반 설정을 통해 일관된 파일 영역 분석을 제공합니다.
 
 ## 🔧 Configuration Management (설정 관리)
 
@@ -101,60 +102,6 @@ deps-cli list-modules
 deps-cli collect-modular --namespace <namespace>
 ```
 
-## 🪞 File Mirroring & Documentation (파일 미러링 및 문서화)
-
-### 미러링 시스템
-```bash
-# 파일 미러링
-deps-cli mirror --namespace <namespace>
-
-# 미러링 분석
-deps-cli mirror-analyze --namespace <namespace>
-
-# 미러링 동기화
-deps-cli mirror-sync --namespace <namespace>
-
-# 미러링 정리
-deps-cli mirror-cleanup --namespace <namespace>
-```
-
-### 마크다운 생성
-```bash
-# 마크다운 유틸리티
-deps-cli markdown --namespace <namespace>
-
-# 문서 네비게이션
-deps-cli docs --namespace <namespace>
-```
-
-## 🎭 Specialized Tools (전문 도구들)
-
-### 역할 분류 및 ID 관리
-```bash
-# 역할 분류
-deps-cli classify --namespace <namespace>
-
-# ID 시스템 관리
-deps-cli id --namespace <namespace>
-```
-
-### 매핑 및 연구 도구
-```bash
-# 매핑 검증
-deps-cli mapping --namespace <namespace>
-
-# 연구 도구
-deps-cli research --namespace <namespace>
-
-# 프로토타입 생성
-deps-cli prototype --namespace <namespace>
-```
-
-### 실험적 기능
-```bash
-# 실험적 기능 테스트
-deps-cli experimental --namespace <namespace>
-```
 
 ## 📋 Common Workflow Examples
 
