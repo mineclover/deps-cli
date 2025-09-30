@@ -170,7 +170,7 @@ const registerGitHook = (program: Command): void => {
     .command('git-hook')
     .description('🪝 Git hook: Categorize files by namespace (for post-commit hooks)')
     .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
-    .option('--output-dir <dir>', 'Output directory', '.git/hooks/commit-logs')
+    .option('--output-dir <dir>', 'Output directory', 'logs/commits')
     .option('--files <files...>', 'Files to categorize (if not provided, reads from stdin)')
     .action(
       wrapAction(async (options) => {

@@ -170,7 +170,7 @@ deps-cli git-hook
 deps-cli git-hook --files src/index.ts src/utils.ts
 
 # Custom output directory
-deps-cli git-hook --output-dir ./commit-logs
+deps-cli git-hook --output-dir ./my-logs
 
 # Custom config
 deps-cli git-hook --config ./custom-config.json
@@ -183,7 +183,7 @@ deps-cli git-hook --config ./custom-config.json
 ✅ config: 1 file(s) -> config-2025-09-30_05-39-39.txt
 
 📊 Total files categorized: 3
-📁 Output directory: .git/hooks/commit-logs
+📁 Output directory: logs/commits
 ```
 
 **Generated File Content:**
@@ -221,7 +221,7 @@ chmod +x .git/hooks/post-commit
 git commit -m "your commit message"
 ```
 
-The hook will automatically run and create namespace-categorized file lists in `.git/hooks/commit-logs/`.
+The hook will automatically run and create namespace-categorized file lists in `logs/commits/`.
 
 **Note**: For local development, make sure to run `npm run build` after making changes to ensure the hook uses the latest code.
 

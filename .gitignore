@@ -5,6 +5,9 @@ node_modules/
 dist/
 *.tsbuildinfo
 
+# Git hook logs
+logs/
+
 # Misc
 .DS_Store
 .env
