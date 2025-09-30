@@ -1,0 +1,20 @@
+{
+  "namespaces": {
+    "source": {
+      "filePatterns": ["src/**/*.ts"],
+      "excludePatterns": ["**/*.d.ts"]
+    },
+    "tests": {
+      "filePatterns": ["test/**/*.ts"],
+      "excludePatterns": []
+    },
+    "docs": {
+      "filePatterns": ["*.md", "docs/**/*.md"],
+      "excludePatterns": []
+    },
+    "config": {
+      "filePatterns": ["*.json", "*.config.*"],
+      "excludePatterns": ["package-lock.json"]
+    }
+  }
+}

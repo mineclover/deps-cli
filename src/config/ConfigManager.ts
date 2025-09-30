@@ -88,6 +88,61 @@ class ConfigManager {
       fileCount: files.length
     }
   }
+
+  async filterFilesByNamespace(files: string[], namespace: string, configPath: string) {
+    const config = await this.loadNamespacedConfig(configPath, namespace)
+
+    if (!config.filePatterns || config.filePatterns.length === 0) {
+      return []
+    }
+
+    const matched: string[] = []
+
+    for (const file of files) {
+      // Check if file matches any include pattern
+      let isMatch = false
+      for (const pattern of config.filePatterns) {
+        const globResult = await glob(pattern, { nodir: true, dot: false })
+        if (globResult.includes(file)) {
+          isMatch = true
+          break
+        }
+      }
+
+      if (!isMatch) continue
+
+      // Check if file matches any exclude pattern
+      if (config.excludePatterns && config.excludePatterns.length > 0) {
+        let isExcluded = false
+        for (const pattern of config.excludePatterns) {
+          const globResult = await glob(pattern, { nodir: true, dot: false })
+          if (globResult.includes(file)) {
+            isExcluded = true
+            break
+          }
+        }
+        if (isExcluded) continue
+      }
+
+      matched.push(file)
+    }
+
+    return matched.sort()
+  }
+
+  async categorizeFilesByNamespaces(files: string[], configPath: string) {
+    const config = await this.loadConfig(configPath)
+    const result: Record<string, string[]> = {}
+
+    for (const namespace of Object.keys(config.namespaces)) {
+      const matched = await this.filterFilesByNamespace(files, namespace, configPath)
+      if (matched.length > 0) {
+        result[namespace] = matched
+      }
+    }
+
+    return result
+  }
 }
 
 export const globalConfig = new ConfigManager()

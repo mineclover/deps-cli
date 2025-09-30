@@ -11,6 +11,7 @@ export const registerNamespaceCommands = (program: Command): void => {
   registerDeleteNamespace(program)
   registerListFiles(program)
   registerDemo(program)
+  registerGitHook(program)
 }
 
 /**
@@ -157,6 +158,101 @@ const registerDemo = (program: Command): void => {
             })
           }
         }
+      })
+    )
+}
+
+/**
+ * Git hook command - categorize files by namespace and save to files
+ */
+const registerGitHook = (program: Command): void => {
+  program
+    .command('git-hook')
+    .description('🪝 Git hook: Categorize files by namespace (for post-commit hooks)')
+    .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+    .option('--output-dir <dir>', 'Output directory', '.git/hooks/commit-logs')
+    .option('--files <files...>', 'Files to categorize (if not provided, reads from stdin)')
+    .action(
+      wrapAction(async (options) => {
+        const { execSync } = await import('node:child_process')
+        const { writeFileSync, mkdirSync, existsSync } = await import('node:fs')
+        const { join } = await import('node:path')
+
+        // Get files from stdin or git diff-tree
+        let files: string[] = []
+
+        if (options.files) {
+          files = options.files
+        } else {
+          // Try to get files from git
+          try {
+            const output = execSync('git diff-tree --no-commit-id --name-only -r HEAD', {
+              encoding: 'utf-8',
+            })
+            files = output.trim().split('\n').filter(Boolean)
+          } catch (error) {
+            console.error('❌ Failed to get git files. Use --files option or ensure this is run in a git repository after a commit.')
+            process.exit(1)
+          }
+        }
+
+        if (files.length === 0) {
+          console.log('ℹ️  No files to categorize')
+          return
+        }
+
+        console.log(`📝 Processing ${files.length} file(s)...`)
+
+        // Categorize files by namespaces
+        const categorized = await globalConfig.categorizeFilesByNamespaces(files, options.config)
+
+        if (Object.keys(categorized).length === 0) {
+          console.log('ℹ️  No files matched any namespace patterns')
+          return
+        }
+
+        // Create output directory
+        if (!existsSync(options.outputDir)) {
+          mkdirSync(options.outputDir, { recursive: true })
+        }
+
+        // Get datetime for filename
+        const datetime = new Date()
+          .toISOString()
+          .replace(/:/g, '-')
+          .replace(/\..+/, '')
+          .replace('T', '_')
+
+        // Get commit hash if available
+        let commitHash = 'unknown'
+        try {
+          commitHash = execSync('git rev-parse HEAD', { encoding: 'utf-8' }).trim()
+        } catch {
+          // Ignore if not in git repo
+        }
+
+        // Save each namespace to a file
+        let totalFiles = 0
+        for (const [namespace, namespaceFiles] of Object.entries(categorized)) {
+          const filename = `${namespace}-${datetime}.txt`
+          const filepath = join(options.outputDir, filename)
+
+          const content = [
+            `# Commit Files - Namespace: ${namespace}`,
+            `# Date: ${new Date().toISOString()}`,
+            `# Commit: ${commitHash}`,
+            `# Files: ${namespaceFiles.length}`,
+            '',
+            ...namespaceFiles,
+          ].join('\n')
+
+          writeFileSync(filepath, content, 'utf-8')
+          console.log(`✅ ${namespace}: ${namespaceFiles.length} file(s) -> ${filename}`)
+          totalFiles += namespaceFiles.length
+        }
+
+        console.log(`\n📊 Total files categorized: ${totalFiles}`)
+        console.log(`📁 Output directory: ${options.outputDir}`)
       })
     )
 }
