@@ -158,6 +158,73 @@ deps-cli list-files dev --config ./custom-config.json
 deps-cli list-files dev --cwd /path/to/project
 ```
 
+#### `git-hook`
+
+**Git hook command**: Categorize committed files by namespace and save to `{namespace}-{datetime}.txt` files. Perfect for post-commit hooks.
+
+```bash
+# Run automatically (reads from git diff-tree)
+deps-cli git-hook
+
+# Manually specify files
+deps-cli git-hook --files src/index.ts src/utils.ts
+
+# Custom output directory
+deps-cli git-hook --output-dir ./commit-logs
+
+# Custom config
+deps-cli git-hook --config ./custom-config.json
+```
+
+**Output Example:**
+```
+📝 Processing 5 file(s)...
+✅ source: 2 file(s) -> source-2025-09-30_05-39-39.txt
+✅ config: 1 file(s) -> config-2025-09-30_05-39-39.txt
+
+📊 Total files categorized: 3
+📁 Output directory: .git/hooks/commit-logs
+```
+
+**Generated File Content:**
+```
+# Commit Files - Namespace: source
+# Date: 2025-09-30T05:39:39.713Z
+# Commit: 6761b3fce6b4b723cfc22cf2b0e9affba3308972
+# Files: 2
+
+src/commands/NamespaceCommands.ts
+src/config/ConfigManager.ts
+```
+
+### Git Hook Integration
+
+Set up a post-commit hook to automatically categorize committed files:
+
+**1. Create `.git/hooks/post-commit`:**
+```bash
+#!/bin/bash
+# For installed package
+npx deps-cli git-hook
+
+# Or for local development
+node dist/bin.js git-hook
+```
+
+**2. Make it executable:**
+```bash
+chmod +x .git/hooks/post-commit
+```
+
+**3. Commit as usual:**
+```bash
+git commit -m "your commit message"
+```
+
+The hook will automatically run and create namespace-categorized file lists in `.git/hooks/commit-logs/`.
+
+**Note**: For local development, make sure to run `npm run build` after making changes to ensure the hook uses the latest code.
+
 ## Configuration
 
 The configuration file (`deps-cli.config.json`) uses the following structure:
