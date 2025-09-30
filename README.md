@@ -77,6 +77,23 @@ Files (15):
   ...
 ```
 
+### 4. (Optional) Set up Git Hook
+
+Automatically categorize committed files by namespace:
+
+```bash
+# Create post-commit hook
+cat > .git/hooks/post-commit << 'EOF'
+#!/bin/bash
+node dist/bin.js git-hook
+EOF
+
+# Make it executable
+chmod +x .git/hooks/post-commit
+```
+
+Now every commit will generate logs in `logs/commits/` directory!
+
 ## Commands
 
 ### Namespace Management
@@ -223,7 +240,22 @@ git commit -m "your commit message"
 
 The hook will automatically run and create namespace-categorized file lists in `logs/commits/`.
 
-**Note**: For local development, make sure to run `npm run build` after making changes to ensure the hook uses the latest code.
+**Log Files Location:**
+```
+logs/
+└── commits/
+    ├── source-2025-09-30_05-42-34.txt
+    ├── docs-2025-09-30_05-42-34.txt
+    └── config-2025-09-30_05-42-34.txt
+```
+
+Each log file contains:
+- Commit metadata (date, hash, file count)
+- List of files that matched the namespace pattern
+
+**Notes**:
+- The `logs/` directory is automatically added to `.gitignore`
+- For local development, run `npm run build` after code changes to update the hook
 
 ## Configuration
 

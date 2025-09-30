@@ -54,6 +54,10 @@ deps-cli/
 - `list-files <namespace>` - namespace 패턴에 매칭되는 파일 목록
 - `demo <namespace>` - **메타데이터와 파일 목록을 함께 출력 (데모 기능)**
   - `--json` - JSON 형식으로 출력 (파이프라인 통합 용이)
+- `git-hook` - **Git 훅 통합: 커밋된 파일을 namespace별로 분류하여 저장**
+  - `--output-dir` - 출력 디렉토리 (기본값: `logs/commits`)
+  - `--files` - 수동으로 파일 지정
+  - Post-commit 훅에서 사용하기 적합
 
 ## Key Concepts
 
@@ -98,3 +102,58 @@ result.files.forEach(file => {
   processFile(file, result.metadata)
 })
 ```
+
+## Git Hook Integration
+
+### Post-Commit Hook 설정
+
+`.git/hooks/post-commit` 파일을 생성하여 커밋 후 자동으로 파일을 분류할 수 있습니다:
+
+```bash
+#!/bin/bash
+# For installed package
+npx deps-cli git-hook
+
+# Or for local development
+node dist/bin.js git-hook
+```
+
+### 동작 방식
+
+1. 커밋이 완료되면 post-commit 훅이 실행됨
+2. `git diff-tree`로 커밋된 파일 목록 가져옴
+3. 각 namespace의 패턴과 매칭
+4. `logs/commits/{namespace}-{datetime}.txt` 형식으로 저장
+
+### 출력 예시
+
+```
+📝 Processing 3 file(s)...
+✅ source: 1 file(s) -> source-2025-09-30_05-42-34.txt
+✅ docs: 1 file(s) -> docs-2025-09-30_05-42-34.txt
+
+📊 Total files categorized: 2
+📁 Output directory: logs/commits
+```
+
+### 생성되는 로그 파일
+
+```
+logs/
+└── commits/
+    ├── source-2025-09-30_05-42-34.txt
+    ├── docs-2025-09-30_05-42-34.txt
+    └── config-2025-09-30_05-42-34.txt
+```
+
+각 파일 내용:
+```
+# Commit Files - Namespace: source
+# Date: 2025-09-30T05:42:34.336Z
+# Commit: 97341ff343693e41b347cdd48e1813a40bdba9d7
+# Files: 1
+
+src/commands/NamespaceCommands.ts
+```
+
+**Note**: `logs/` 디렉토리는 `.gitignore`에 포함되어 있어 git에 커밋되지 않습니다.
