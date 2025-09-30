@@ -4,66 +4,43 @@
   "type": "module",
   "packageManager": "npm@10.0.0",
   "license": "MIT",
-  "description": "🚀 Enhanced dependency analysis CLI tool with 99%+ accuracy - AST-based TypeScript/JavaScript analyzer with Biome integration and namespace configuration management",
+  "description": "🎯 Headless CLI template for namespace-based file pattern management and listing",
   "keywords": [
-    "dependency",
-    "analysis",
-    "typescript",
-    "javascript",
-    "ast",
     "cli",
-    "unused",
-    "imports",
-    "exports",
-    "biome",
     "namespace",
     "configuration",
-    "linting"
+    "file-patterns",
+    "glob",
+    "headless",
+    "template"
   ],
   "bin": {
-    "deps-cli": "./dist/bin.js",
-    "ctx-deps": "./dist/bin.js"
+    "deps-cli": "./dist/bin.js"
   },
   "main": "./dist/bin.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/username/deps-cli"
   },
-  "publishConfig": {
-    "access": "public",
-    "directory": "dist"
-  },
   "scripts": {
     "dev": "tsx src/bin.ts",
     "start": "node dist/bin.js",
-    "build": "tsc && npm run copy-package-json",
-    "build:ts": "tsc",
-    "build:prod": "NODE_ENV=production tsc && npm run copy-package-json",
+    "build": "tsc",
     "clean": "rimraf dist/*",
     "check": "tsc --noEmit",
-    "lint": "biome check src test",
-    "lint-fix": "biome check --write src test",
-    "format": "biome format --write src test",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "copy-package-json": "tsx scripts/copy-package-json.ts || cp package.json dist/",
-    "prepublishOnly": "npm run build && npm test"
+    "test:watch": "vitest"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.4",
     "@types/node": "^20.0.0",
-    "@vitest/coverage-v8": "^1.0.0",
     "rimraf": "^5.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
     "vitest": "^1.0.0"
   },
   "dependencies": {
-    "@context-action/dependency-linker": "^2.4.1",
     "commander": "^11.0.0",
-    "glob": "^10.0.0",
-    "typescript": "^5.0.0"
+    "glob": "^10.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -9,6 +9,8 @@ export const registerNamespaceCommands = (program: Command): void => {
   registerListNamespaces(program)
   registerCreateNamespace(program)
   registerDeleteNamespace(program)
+  registerListFiles(program)
+  registerDemo(program)
 }
 
 /**
@@ -17,35 +19,20 @@ export const registerNamespaceCommands = (program: Command): void => {
 const registerListNamespaces = (program: Command): void => {
   program
     .command('list-namespaces')
-    .description(
-      '📋 Display all available configuration namespaces with their settings. Useful for environment management and configuration overview.'
-    )
-    .option(
-      '--config <file>',
-      'Path to configuration file (defaults to deps-cli.config.json in current directory)',
-      'deps-cli.config.json'
-    )
+    .description('📋 Display all available configuration namespaces')
+    .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
     .action(
       wrapAction(async (options) => {
         const namespaces = await globalConfig.listNamespaces(options.config)
 
-        console.log('📋 Available Configuration Namespaces')
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+        console.log('📋 Available Namespaces')
+        console.log('━━━━━━━━━━━━━━━━━━━━')
 
         if (namespaces.namespaces.length === 0) {
-          console.log('❌ No namespaces found in configuration file')
-          console.log('💡 Use "create-namespace" command to create your first namespace')
+          console.log('No namespaces found')
         } else {
-          console.log(`📁 Total namespaces: ${namespaces.namespaces.length}`)
-
-          if (namespaces.default) {
-            console.log(`🎯 Default namespace: ${namespaces.default}`)
-          }
-
-          console.log('\n📋 Available namespaces:')
           namespaces.namespaces.forEach((ns, i) => {
-            const isDefault = ns === namespaces.default ? ' (default)' : ''
-            console.log(`  ${i + 1}. ${ns}${isDefault}`)
+            console.log(`  ${i + 1}. ${ns}`)
           })
         }
       })
@@ -58,30 +45,19 @@ const registerListNamespaces = (program: Command): void => {
 const registerCreateNamespace = (program: Command): void => {
   program
     .command('create-namespace')
-    .description(
-      '🆕 Create a new configuration namespace for environment-specific analysis settings (development, production, staging, etc.)'
-    )
-    .argument('<name>', 'Namespace name (e.g., development, production, staging, testing)')
-    .option('--config <file>', 'Configuration file path (creates if not exists)', 'deps-cli.config.json')
-    .option('--copy-from <namespace>', 'Copy settings from existing namespace as template')
-    .option('--set-default', 'Set this namespace as the default for future operations')
+    .description('🆕 Create a new configuration namespace')
+    .argument('<name>', 'Namespace name')
+    .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+    .option('--copy-from <namespace>', 'Copy settings from existing namespace')
     .action(
       wrapAction(async (name, options) => {
         let config = {}
 
-        // 기존 namespace에서 복사
         if (options.copyFrom) {
           const existingConfig = await globalConfig.loadNamespacedConfig(options.config, options.copyFrom)
           config = { ...existingConfig }
-          delete (config as any)._metadata // 메타데이터는 제외
         } else {
-          // 기본 설정 사용
-          config = {
-            analysis: { maxConcurrency: 4, timeout: 30000 },
-            logging: { level: 'info', format: 'text', enabled: true },
-            output: { defaultFormat: 'summary', compression: false },
-            development: { verbose: false, debugMode: false, mockApiCalls: false },
-          }
+          config = { filePatterns: [], excludePatterns: [] }
         }
 
         await globalConfig.setNamespaceConfig(name, config, options.config)
@@ -89,11 +65,6 @@ const registerCreateNamespace = (program: Command): void => {
         console.log(`✅ Namespace '${name}' created successfully`)
         if (options.copyFrom) {
           console.log(`📋 Settings copied from namespace '${options.copyFrom}'`)
-        }
-
-        // default로 설정
-        if (options.setDefault) {
-          console.log(`🎯 Set '${name}' as default namespace`)
         }
       })
     )
@@ -105,20 +76,87 @@ const registerCreateNamespace = (program: Command): void => {
 const registerDeleteNamespace = (program: Command): void => {
   program
     .command('delete-namespace')
-    .description('🗑️ Permanently remove a configuration namespace and all its settings. Use with caution!')
-    .argument('<name>', 'Namespace name to delete (cannot be undone)')
+    .description('🗑️ Delete a configuration namespace')
+    .argument('<name>', 'Namespace name to delete')
     .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
-    .option('--force', 'Force deletion without confirmation prompt (dangerous!)')
     .action(
       wrapAction(async (name, options) => {
-        if (!options.force) {
-          console.log(`⚠️ This will permanently delete namespace '${name}'`)
-          console.log('💡 Use --force to skip this confirmation')
-          process.exit(1)
-        }
-
         await globalConfig.deleteNamespace(name, options.config)
-        console.log(`✅ Namespace '${name}' deleted successfully`)
+        console.log(`✅ Namespace '${name}' deleted`)
+      })
+    )
+}
+
+/**
+ * List files matching namespace patterns command
+ */
+const registerListFiles = (program: Command): void => {
+  program
+    .command('list-files')
+    .description('📁 List files matching namespace patterns')
+    .argument('<namespace>', 'Namespace name')
+    .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+    .option('--cwd <path>', 'Working directory', process.cwd())
+    .action(
+      wrapAction(async (namespace, options) => {
+        const files = await globalConfig.listFiles(namespace, options.config, options.cwd)
+
+        console.log(`📁 Files in namespace '${namespace}'`)
+        console.log('━━━━━━━━━━━━━━━━━━━━')
+
+        if (files.length === 0) {
+          console.log('No files found matching the patterns')
+        } else {
+          console.log(`Found ${files.length} file(s):\n`)
+          files.forEach((file) => {
+            console.log(`  ${file}`)
+          })
+        }
+      })
+    )
+}
+
+/**
+ * Demo command - outputs namespace metadata and files
+ */
+const registerDemo = (program: Command): void => {
+  program
+    .command('demo')
+    .description('🎯 Demo: Output namespace metadata and file list')
+    .argument('<namespace>', 'Namespace name')
+    .option('--config <file>', 'Configuration file path', 'deps-cli.config.json')
+    .option('--cwd <path>', 'Working directory', process.cwd())
+    .option('--json', 'Output as JSON')
+    .action(
+      wrapAction(async (namespace, options) => {
+        const result = await globalConfig.getNamespaceWithFiles(namespace, options.config, options.cwd)
+
+        if (options.json) {
+          console.log(JSON.stringify(result, null, 2))
+        } else {
+          console.log('🎯 Namespace Demo Output')
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+          console.log(`Namespace: ${result.namespace}`)
+          console.log(`\nMetadata:`)
+          console.log(`  File Patterns:`)
+          result.metadata.filePatterns?.forEach((pattern) => {
+            console.log(`    - ${pattern}`)
+          })
+          if (result.metadata.excludePatterns && result.metadata.excludePatterns.length > 0) {
+            console.log(`  Exclude Patterns:`)
+            result.metadata.excludePatterns.forEach((pattern) => {
+              console.log(`    - ${pattern}`)
+            })
+          }
+          console.log(`\nFiles (${result.fileCount}):`)
+          if (result.files.length === 0) {
+            console.log('  (No files found)')
+          } else {
+            result.files.forEach((file) => {
+              console.log(`  - ${file}`)
+            })
+          }
+        }
       })
     )
 }

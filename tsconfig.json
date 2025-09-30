@@ -1,8 +1,20 @@
 {
-  "extends": "./tsconfig.base.json",
-  "references": [
-    { "path": "tsconfig.src.json" },
-    { "path": "tsconfig.test.json" },
-    { "path": "tsconfig.scripts.json" }
-  ]
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "Node16",
+    "lib": ["ES2022"],
+    "moduleResolution": "Node16",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
